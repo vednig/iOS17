@@ -15,7 +15,7 @@ class InsettableFrameLayout(private val mContext: Context, attrs: AttributeSet?)
         val deviceProfile = BlissLauncher.getApplication(mContext).deviceProfile
         setPadding(
             paddingLeft, paddingTop,
-            paddingRight, paddingBottom + insets.systemWindowInsetBottom
+            paddingRight, insets.systemWindowInsetBottom
         )
     }
 }
