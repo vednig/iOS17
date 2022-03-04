@@ -35,6 +35,10 @@
             android:visibility="gone" />
     </RelativeLayout>
 
+    <include
+        android:id="@+id/used_apps_layout"
+        layout="@layout/layout_used_apps" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/suggestionRecyclerView"
         android:layout_width="match_parent"
@@ -43,8 +47,5 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp" />
 
-    <include
-        android:id="@+id/used_apps_layout"
-        layout="@layout/layout_used_apps" />
 
 </LinearLayout>
