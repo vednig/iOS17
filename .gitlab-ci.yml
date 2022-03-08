@@ -1,4 +1,4 @@
-image: "registry.gitlab.e.foundation:5000/e/apps/docker-android-apps-cicd:latest"
+image: "registry.gitlab.e.foundation/e/os/docker-android-apps-cicd:latest"
 
 stages:
 - build
