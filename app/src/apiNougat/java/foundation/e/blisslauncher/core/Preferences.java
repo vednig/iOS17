@@ -52,6 +52,9 @@ public class Preferences {
 
     private static final String CURRENT_MIGRATION_VERSION = "current_migration_version";
 
+    private static final String ADDED_ECLOUD_WIDGET = "added_ecloud_widget";
+    private static final String ADDED_PRIVACY_WIDGET = "added_privacy_widget";
+
     private Preferences() {
     }
 
@@ -359,5 +362,21 @@ public class Preferences {
     public static boolean getEnableLocation(
             Context context) {
         return getPrefs(context).getBoolean(ENABLE_LOCATION, false);
+    }
+
+    public static void setAddedEcloudWidget(Context context) {
+        getPrefs(context).edit().putBoolean(ADDED_ECLOUD_WIDGET, true).apply();
+    }
+
+    public static boolean getAddedEcloudWidget(Context context) {
+        return getPrefs(context).getBoolean(ADDED_ECLOUD_WIDGET, false);
+    }
+
+    public static void setAddedPrivacyWidget(Context context) {
+        getPrefs(context).edit().putBoolean(ADDED_PRIVACY_WIDGET, true).apply();
+    }
+
+    public static boolean getAddedPrivacyWidget(Context context) {
+        return getPrefs(context).getBoolean(ADDED_PRIVACY_WIDGET, false);
     }
 }
