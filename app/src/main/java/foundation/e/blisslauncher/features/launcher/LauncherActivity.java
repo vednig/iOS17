@@ -314,6 +314,7 @@ public class LauncherActivity extends AppCompatActivity implements
         startService(notificationServiceIntent);
 
         createOrUpdateIconGrid();
+        addDefaultWidgets();
     }
 
     private void setupViews() {
@@ -388,6 +389,31 @@ public class LauncherActivity extends AppCompatActivity implements
                             }
                         })
         );
+    }
+
+    private void addDefaultWidgets() {
+        if (!Preferences.getAddedEcloudWidget(this)) {
+            ComponentName provider = new ComponentName("foundation.e.drive", "foundation.e.drive.widgets.EDriveWidget");
+            if (allocateAndBindWidget(provider)) {
+                Preferences.setAddedEcloudWidget(this);
+            }
+        }
+
+        if (!Preferences.getAddedPrivacyWidget(this)) {
+            ComponentName provider = new ComponentName("foundation.e.privacycentralapp.e", "foundation.e.privacycentralapp.Widget");
+            if (allocateAndBindWidget(provider)) {
+                Preferences.setAddedPrivacyWidget(this);
+            }
+        }
+    }
+
+    private boolean allocateAndBindWidget(ComponentName provider) {
+        int appWidgetId = mAppWidgetHost.allocateAppWidgetId();
+        if (!mAppWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, provider)) {
+            mAppWidgetHost.deleteAppWidgetId(appWidgetId);
+            return false;
+        }
+        return true;
     }
 
     private void prepareBroadcastReceivers() {
