@@ -171,7 +171,8 @@
             android:value="true" />
 
         <receiver android:name="foundation.e.blisslauncher.features.weather.WeatherAppWidgetProvider"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/weather">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
