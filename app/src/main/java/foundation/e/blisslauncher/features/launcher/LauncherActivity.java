@@ -382,13 +382,6 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void addDefaultWidgets() {
-        if (!Preferences.getAddedWeatherWidget(this)) {
-            ComponentName provider = new ComponentName(this, WeatherAppWidgetProvider.class);
-            if (allocateAndBindWidget(provider)) {
-                Preferences.setAddedWeatherWidget(this);
-            }
-        }
-
         if (!Preferences.getAddedEcloudWidget(this)) {
             ComponentName provider = new ComponentName("foundation.e.drive", "foundation.e.drive.widgets.EDriveWidget");
             if (allocateAndBindWidget(provider)) {
@@ -400,6 +393,13 @@ public class LauncherActivity extends AppCompatActivity implements
             ComponentName provider = new ComponentName("foundation.e.privacycentralapp.e", "foundation.e.privacycentralapp.Widget");
             if (allocateAndBindWidget(provider)) {
                 Preferences.setAddedPrivacyWidget(this);
+            }
+        }
+
+        if (!Preferences.getAddedWeatherWidget(this)) {
+            ComponentName provider = new ComponentName(this, WeatherAppWidgetProvider.class);
+            if (allocateAndBindWidget(provider)) {
+                Preferences.setAddedWeatherWidget(this);
             }
         }
     }
