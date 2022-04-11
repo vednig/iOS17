@@ -137,6 +137,7 @@ import foundation.e.blisslauncher.features.suggestions.SuggestionsResult;
 import foundation.e.blisslauncher.features.usagestats.AppUsageStats;
 import foundation.e.blisslauncher.features.weather.DeviceStatusService;
 import foundation.e.blisslauncher.features.weather.ForecastBuilder;
+import foundation.e.blisslauncher.features.weather.WeatherAppWidgetProvider;
 import foundation.e.blisslauncher.features.weather.WeatherPreferences;
 import foundation.e.blisslauncher.features.weather.WeatherSourceListenerService;
 import foundation.e.blisslauncher.features.weather.WeatherUpdateService;
@@ -384,6 +385,13 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void addDefaultWidgets() {
+        if (!Preferences.getAddedWeatherWidget(this)) {
+            ComponentName provider = new ComponentName(this, WeatherAppWidgetProvider.class);
+            if (allocateAndBindWidget(provider)) {
+                Preferences.setAddedWeatherWidget(this);
+            }
+        }
+
         if (!Preferences.getAddedEcloudWidget(this)) {
             ComponentName provider = new ComponentName("foundation.e.drive", "foundation.e.drive.widgets.EDriveWidget");
             if (allocateAndBindWidget(provider)) {
