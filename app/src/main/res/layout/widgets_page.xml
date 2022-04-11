@@ -23,10 +23,6 @@
 
             <include layout="@layout/layout_search_suggestion" />
 
-            <include
-                android:id="@+id/weather_info_layout"
-                layout="@layout/layout_weather_info" />
-
             <FrameLayout
                 android:id="@+id/drag_layer"
                 android:layout_width="match_parent"
