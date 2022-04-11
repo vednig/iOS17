@@ -13,9 +13,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.features.launcher.LauncherActivity;
-import foundation.e.blisslauncher.features.weather.ForecastBuilder;
-import foundation.e.blisslauncher.features.weather.WeatherPreferences;
-import foundation.e.blisslauncher.features.weather.WeatherUpdateService;
 
 public class WeatherInfoView extends LinearLayout {
 
