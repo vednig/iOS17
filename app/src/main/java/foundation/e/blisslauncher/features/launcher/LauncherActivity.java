@@ -75,7 +75,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
