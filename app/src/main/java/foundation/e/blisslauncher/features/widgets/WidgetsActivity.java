@@ -14,13 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
 import foundation.e.blisslauncher.core.customviews.WidgetHost;
+import foundation.e.blisslauncher.core.database.DatabaseManager;
+import foundation.e.blisslauncher.core.database.model.WidgetItem;
+import foundation.e.blisslauncher.core.executors.AppExecutors;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnActionClickListener {
 
@@ -28,6 +33,8 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
 
     private AppWidgetManager mAppWidgetManager;
     private WidgetHost mAppWidgetHost;
+
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     private static final int REQUEST_PICK_APPWIDGET = 455;
     private static final int REQUEST_CREATE_APPWIDGET = 189;
@@ -60,20 +67,30 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.dispose();
+    }
+
     private void refreshRecyclerView() {
-        List<Widget> widgets = new ArrayList<>();
         int[] widgetIds = mAppWidgetHost.getAppWidgetIds();
-        Arrays.sort(widgetIds);
-        for (int id : widgetIds) {
-            AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(id);
-            if (appWidgetInfo != null) {
-                Widget widget = new Widget();
-                widget.id = id;
-                widget.info = appWidgetInfo;
-                widgets.add(widget);
-            }
-        }
-        mAddedWidgetsAdapter.setAppWidgetProviderInfos(widgets);
+        mCompositeDisposable.add(DatabaseManager.getManager(this).getWidgets(widgetIds)
+                .subscribeOn(Schedulers.from(AppExecutors.getInstance().diskIO()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(widgetItems -> {
+                    List<Widget> widgets = new ArrayList<>();
+                    for (WidgetItem item : widgetItems) {
+                        AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(item.id);
+                        if (appWidgetInfo != null) {
+                            Widget widget = new Widget();
+                            widget.id = item.id;
+                            widget.info = appWidgetInfo;
+                            widgets.add(widget);
+                        }
+                    }
+                    mAddedWidgetsAdapter.setAppWidgetProviderInfos(widgets);
+                }));
     }
 
     @Override
