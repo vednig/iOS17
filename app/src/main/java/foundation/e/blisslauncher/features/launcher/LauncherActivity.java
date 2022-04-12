@@ -397,7 +397,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         if (!Preferences.getAddedWeatherWidget(this)) {
-            ComponentName provider = new ComponentName(this, WeatherAppWidgetProvider.class);
+            final ComponentName provider = new ComponentName(this, WeatherAppWidgetProvider.class);
             if (allocateAndBindWidget(provider)) {
                 Preferences.setAddedWeatherWidget(this);
             }
@@ -454,7 +454,7 @@ public class LauncherActivity extends AppCompatActivity implements
             refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
         }
 
-        Intent resumeIntent = new Intent(ACTION_LAUNCHER_RESUME);
+        final Intent resumeIntent = new Intent(ACTION_LAUNCHER_RESUME);
         LocalBroadcastManager.getInstance(this).sendBroadcast(resumeIntent);
 
         if (widgetContainer != null) {

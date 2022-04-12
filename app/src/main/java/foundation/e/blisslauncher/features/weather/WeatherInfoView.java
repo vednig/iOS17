@@ -57,7 +57,7 @@ public class WeatherInfoView extends LinearLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
+        final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
         broadcastManager.registerReceiver(mWeatherReceiver, new IntentFilter(
                 WeatherUpdateService.ACTION_UPDATE_FINISHED));
         broadcastManager.registerReceiver(mResumeReceiver, new IntentFilter(
@@ -68,7 +68,7 @@ public class WeatherInfoView extends LinearLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
+        final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
         broadcastManager.unregisterReceiver(mWeatherReceiver);
         broadcastManager.unregisterReceiver(mResumeReceiver);
     }
@@ -87,7 +87,7 @@ public class WeatherInfoView extends LinearLayout {
     }
 
     private void startWeatherPreferences() {
-        Intent intent = new Intent(getContext(), WeatherPreferences.class)
+        final Intent intent = new Intent(getContext(), WeatherPreferences.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getContext().startActivity(intent);
     }
