@@ -78,19 +78,21 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
         mCompositeDisposable.add(DatabaseManager.getManager(this).getWidgets(widgetIds)
                 .subscribeOn(Schedulers.from(AppExecutors.getInstance().diskIO()))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(widgetItems -> {
-                    List<Widget> widgets = new ArrayList<>();
-                    for (WidgetItem item : widgetItems) {
-                        AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(item.id);
-                        if (appWidgetInfo != null) {
-                            Widget widget = new Widget();
-                            widget.id = item.id;
-                            widget.info = appWidgetInfo;
-                            widgets.add(widget);
-                        }
-                    }
-                    mAddedWidgetsAdapter.setAppWidgetProviderInfos(widgets);
-                }));
+                .subscribe(this::setWidgetItems));
+    }
+
+    private void setWidgetItems(List<WidgetItem> widgetItems) {
+        List<Widget> widgets = new ArrayList<>();
+        for (WidgetItem item : widgetItems) {
+            AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(item.id);
+            if (appWidgetInfo != null) {
+                Widget widget = new Widget();
+                widget.id = item.id;
+                widget.info = appWidgetInfo;
+                widgets.add(widget);
+            }
+        }
+        mAddedWidgetsAdapter.setAppWidgetProviderInfos(widgets);
     }
 
     @Override
