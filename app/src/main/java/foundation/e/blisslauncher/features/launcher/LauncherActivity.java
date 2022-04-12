@@ -397,8 +397,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         if (!Preferences.getAddedWeatherWidget(this)) {
-            final ComponentName provider = new ComponentName(this, WeatherAppWidgetProvider.class);
-            if (allocateAndBindWidget(provider)) {
+            if (allocateAndBindWidget(WeatherAppWidgetProvider.COMPONENT_NAME)) {
                 Preferences.setAddedWeatherWidget(this);
             }
         }
