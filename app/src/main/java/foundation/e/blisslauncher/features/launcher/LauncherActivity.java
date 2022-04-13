@@ -75,7 +75,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -115,6 +114,7 @@ import foundation.e.blisslauncher.core.database.model.CalendarIcon;
 import foundation.e.blisslauncher.core.database.model.FolderItem;
 import foundation.e.blisslauncher.core.database.model.LauncherItem;
 import foundation.e.blisslauncher.core.database.model.ShortcutItem;
+import foundation.e.blisslauncher.core.database.model.WidgetItem;
 import foundation.e.blisslauncher.core.events.AppAddEvent;
 import foundation.e.blisslauncher.core.events.AppChangeEvent;
 import foundation.e.blisslauncher.core.events.AppRemoveEvent;
@@ -413,6 +413,9 @@ public class LauncherActivity extends AppCompatActivity implements
             mAppWidgetHost.deleteAppWidgetId(appWidgetId);
             return false;
         }
+        WidgetItem widgetItem = new WidgetItem(appWidgetId);
+        widgetItem.order = 0;
+        DatabaseManager.getManager(this).insertWidget(widgetItem);
         return true;
     }
 
@@ -482,6 +485,7 @@ public class LauncherActivity extends AppCompatActivity implements
             while (widgetView != null) {
                 widgetView = WidgetViewBuilder.create(this, widgetView);
                 addWidgetToContainer(widgetView);
+                DatabaseManager.getManager(this).insertWidget(new WidgetItem(widgetView.getAppWidgetId()));
                 widgetView = widgetManager.dequeAddWidgetView();
             }
         }
@@ -1471,29 +1475,31 @@ public class LauncherActivity extends AppCompatActivity implements
         // [[END]]
 
         int[] widgetIds = mAppWidgetHost.getAppWidgetIds();
-        Arrays.sort(widgetIds);
-        for (int id : widgetIds) {
-            AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(id);
-            if (appWidgetInfo != null) {
-                RoundedWidgetView hostView = (RoundedWidgetView) mAppWidgetHost.createView(
-                        getApplicationContext(), id,
-                        appWidgetInfo);
-                hostView.setAppWidget(id, appWidgetInfo);
-                getCompositeDisposable().add(DatabaseManager.getManager(this).getHeightOfWidget(id)
-                        .subscribeOn(Schedulers.from(AppExecutors.getInstance().diskIO()))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(height -> {
-                            RoundedWidgetView widgetView = WidgetViewBuilder.create(this, hostView);
-                            if (height != 0) {
-                                int minHeight = hostView.getAppWidgetInfo().minResizeHeight;
-                                int maxHeight = mDeviceProfile.availableHeightPx * 3 / 4;
-                                int normalisedDifference = (maxHeight - minHeight) / 100;
-                                int newHeight = minHeight + (normalisedDifference * height);
-                                widgetView.getLayoutParams().height = newHeight;
-                            }
-                            addWidgetToContainer(widgetView);
-                        }, Throwable::printStackTrace));
+        getCompositeDisposable().add(DatabaseManager.getManager(this).getWidgets(widgetIds)
+                .subscribeOn(Schedulers.from(AppExecutors.getInstance().diskIO()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::bindWidgets));
+    }
+
+    private void bindWidgets(List<WidgetItem> widgets) {
+        for (WidgetItem widget : widgets) {
+            AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(widget.id);
+            if (appWidgetInfo == null) continue;
+
+            RoundedWidgetView hostView = (RoundedWidgetView) mAppWidgetHost.createView(
+                    getApplicationContext(), widget.id,
+                    appWidgetInfo);
+            hostView.setAppWidget(widget.id, appWidgetInfo);
+
+            RoundedWidgetView widgetView = WidgetViewBuilder.create(this, hostView);
+            if (widgetView == null) continue;
+            if (widget.height != 0) {
+                int minHeight = hostView.getAppWidgetInfo().minResizeHeight;
+                int maxHeight = mDeviceProfile.availableHeightPx * 3 / 4;
+                int normalisedDifference = (maxHeight - minHeight) / 100;
+                widgetView.getLayoutParams().height = minHeight + (normalisedDifference * widget.height);
             }
+            addWidgetToContainer(widgetView);
         }
     }
 
@@ -3343,7 +3349,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                DatabaseManager.getManager(LauncherActivity.this).saveWidget(
+                DatabaseManager.getManager(LauncherActivity.this).saveWidgetHeight(
                         activeRoundedWidgetView.getAppWidgetId(), seekBar.getProgress());
             }
         });

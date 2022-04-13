@@ -4,9 +4,13 @@ import android.content.Context;
 import android.widget.GridLayout;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import foundation.e.blisslauncher.core.customviews.BlissFrameLayout;
+import foundation.e.blisslauncher.core.database.daos.WidgetDao;
 import foundation.e.blisslauncher.core.database.model.FolderItem;
 import foundation.e.blisslauncher.core.database.model.LauncherItem;
 import foundation.e.blisslauncher.core.database.model.WidgetItem;
@@ -117,17 +121,38 @@ public class DatabaseManager {
                 new_component_name);
     }
 
-    public Single<Integer> getHeightOfWidget(int id) {
-        return Single.defer(() -> Single.just(LauncherDB.getDatabase(mContext).widgetDao().getHeight(id)));
-    }
-
-    public void saveWidget(int id, int height) {
-        WidgetItem widgetItem = new WidgetItem(id, height);
+    public void insertWidget(WidgetItem widgetItem) {
         mAppExecutors.diskIO().execute(
                 () -> LauncherDB.getDatabase(mContext).widgetDao().insert(widgetItem));
     }
 
+    public void saveWidgetHeight(int id, int height) {
+        mAppExecutors.diskIO().execute(
+                () -> LauncherDB.getDatabase(mContext).widgetDao().updateHeight(id, height));
+    }
+
     public void removeWidget(int id) {
         mAppExecutors.diskIO().execute(() -> LauncherDB.getDatabase(mContext).widgetDao().delete(id));
+    }
+
+    public Single<List<WidgetItem>> getWidgets(int[] widgetIds) {
+        return Single.defer(() -> {
+            Set<Integer> missingIds = new HashSet<>();
+            for (int widgetId : widgetIds) {
+                missingIds.add(widgetId);
+            }
+            WidgetDao widgetDao = LauncherDB.getDatabase(mContext).widgetDao();
+            List<WidgetItem> widgets = widgetDao.getAll();
+            for (WidgetItem widget : widgets) {
+                missingIds.remove(widget.id);
+            }
+            for (int id : missingIds) {
+                WidgetItem item = new WidgetItem(id);
+                widgets.add(item);
+                widgetDao.insert(item);
+            }
+            widgets.sort(Comparator.<WidgetItem>comparingInt(widget -> widget.order).thenComparingInt(widget -> widget.id));
+            return Single.just(widgets);
+        });
     }
 }

@@ -15,8 +15,14 @@ public interface WidgetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(WidgetItem widgetItem);
 
+    @Query("UPDATE widget_items SET height = :height WHERE id = :id")
+    void updateHeight(int id, int height);
+
     @Query("SELECT height FROM widget_items WHERE id = :id")
     int getHeight(int id);
+
+    @Query("SELECT * FROM widget_items")
+    List<WidgetItem> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<WidgetItem> widgetItems);
