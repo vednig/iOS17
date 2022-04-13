@@ -169,5 +169,15 @@
         <meta-data
             android:name="android.nfc.disable_beam_default"
             android:value="true" />
+
+        <receiver android:name="foundation.e.blisslauncher.features.weather.WeatherAppWidgetProvider"
+            android:exported="false"
+            android:label="@string/weather">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/weather_appwidget_info" />
+        </receiver>
     </application>
 </manifest>

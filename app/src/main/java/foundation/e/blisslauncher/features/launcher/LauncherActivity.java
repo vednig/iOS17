@@ -13,13 +13,11 @@ import android.app.WallpaperManager;
 import android.app.usage.UsageStats;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -136,7 +134,7 @@ import foundation.e.blisslauncher.features.suggestions.SuggestionProvider;
 import foundation.e.blisslauncher.features.suggestions.SuggestionsResult;
 import foundation.e.blisslauncher.features.usagestats.AppUsageStats;
 import foundation.e.blisslauncher.features.weather.DeviceStatusService;
-import foundation.e.blisslauncher.features.weather.ForecastBuilder;
+import foundation.e.blisslauncher.features.weather.WeatherAppWidgetProvider;
 import foundation.e.blisslauncher.features.weather.WeatherPreferences;
 import foundation.e.blisslauncher.features.weather.WeatherSourceListenerService;
 import foundation.e.blisslauncher.features.weather.WeatherUpdateService;
@@ -166,6 +164,8 @@ public class LauncherActivity extends AppCompatActivity implements
     private static final int REQUEST_PERMISSION_CALL_PHONE = 14;
     private static final int REQUEST_LOCATION_SOURCE_SETTING = 267;
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 586;
+    public static final String ACTION_LAUNCHER_RESUME = "foundation.e.blisslauncher.LauncherActivity.LAUNCHER_RESUME";
+
     public static boolean longPressed;
     private final Alarm mReorderAlarm = new Alarm();
     private final Alarm mDockReorderAlarm = new Alarm();
@@ -202,8 +202,6 @@ public class LauncherActivity extends AppCompatActivity implements
     private boolean mLongClickStartsDrag = true;
     private boolean isDragging;
     private BlissDragShadowBuilder dragShadowBuilder;
-    private View mWeatherPanel;
-    private View mWeatherSetupTextView;
     private boolean allAppsDisplayed;
     private boolean forceRefreshSuggestedApps = false;
 
@@ -213,14 +211,6 @@ public class LauncherActivity extends AppCompatActivity implements
     private InsettableRelativeLayout workspace;
     private View blurLayer; // Blur layer for folders and search container.
 
-    private BroadcastReceiver mWeatherReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!intent.getBooleanExtra(WeatherUpdateService.EXTRA_UPDATE_CANCELLED, false)) {
-                updateWeatherPanel();
-            }
-        }
-    };
     private FolderItem activeFolder;
     private BlissFrameLayout activeFolderView;
     private int activeDot;
@@ -405,6 +395,12 @@ public class LauncherActivity extends AppCompatActivity implements
                 Preferences.setAddedPrivacyWidget(this);
             }
         }
+
+        if (!Preferences.getAddedWeatherWidget(this)) {
+            if (allocateAndBindWidget(WeatherAppWidgetProvider.COMPONENT_NAME)) {
+                Preferences.setAddedWeatherWidget(this);
+            }
+        }
     }
 
     private boolean allocateAndBindWidget(ComponentName provider) {
@@ -455,13 +451,13 @@ public class LauncherActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (mWeatherPanel != null) {
-            updateWeatherPanel();
-        }
 
         if (widgetsPage != null) {
             refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
         }
+
+        final Intent resumeIntent = new Intent(ACTION_LAUNCHER_RESUME);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(resumeIntent);
 
         if (widgetContainer != null) {
             WidgetManager widgetManager = WidgetManager.getInstance();
@@ -515,7 +511,6 @@ public class LauncherActivity extends AppCompatActivity implements
         // Unregister active receivers
         TimeChangeBroadcastReceiver.unregister(this, timeChangedReceiver);
         ManagedProfileBroadcastReceiver.unregister(this, managedProfileReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mWeatherReceiver);
 
         // Dispose CompositeDisposable
         getCompositeDisposable().dispose();
@@ -1426,31 +1421,12 @@ public class LauncherActivity extends AppCompatActivity implements
         findViewById(R.id.edit_widgets_button).setOnClickListener(
                 view -> startActivity(new Intent(this, WidgetsActivity.class)));
 
-        // Prepare weather widget view
-        // [[BEGIN]]
-        findViewById(R.id.weather_setting_imageview).setOnClickListener(
-                v -> startActivity(new Intent(this, WeatherPreferences.class)));
-
-        mWeatherSetupTextView = findViewById(R.id.weather_setup_textview);
-        mWeatherPanel = findViewById(R.id.weather_panel);
-        mWeatherPanel.setOnClickListener(v -> {
-            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(
-                    "foundation.e.weather");
-            if (launchIntent != null) {
-                launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(launchIntent);
-            }
-        });
-        updateWeatherPanel();
-
         if (WeatherUtils.isWeatherServiceAvailable(
                 this)) {
             startService(new Intent(this, WeatherSourceListenerService.class));
             startService(new Intent(this, DeviceStatusService.class));
         }
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mWeatherReceiver, new IntentFilter(
-                WeatherUpdateService.ACTION_UPDATE_FINISHED));
 
         if (!Preferences.useCustomWeatherLocation(this)) {
             if (!WeatherPreferences.hasLocationPermission(this)) {
@@ -1526,21 +1502,6 @@ public class LauncherActivity extends AppCompatActivity implements
                 BlurWallpaperProvider.Companion.getInstance(getApplicationContext()).updateAsync();
             }
         }
-    }
-
-    private void updateWeatherPanel() {
-        if (Preferences.getCachedWeatherInfo(this) == null) {
-            mWeatherSetupTextView.setVisibility(VISIBLE);
-            mWeatherPanel.setVisibility(GONE);
-            mWeatherSetupTextView.setOnClickListener(
-                    v -> startActivity(
-                            new Intent(LauncherActivity.this, WeatherPreferences.class)));
-            return;
-        }
-        mWeatherSetupTextView.setVisibility(GONE);
-        mWeatherPanel.setVisibility(VISIBLE);
-        ForecastBuilder.buildLargePanel(this, mWeatherPanel,
-                Preferences.getCachedWeatherInfo(this));
     }
 
     private void showLocationEnableDialog() {
