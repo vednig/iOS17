@@ -4,11 +4,9 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
@@ -16,8 +14,10 @@ import foundation.e.blisslauncher.features.launcher.LauncherActivity;
 
 public class WidgetViewBuilder {
 
+    private static final String TAG = "WidgetViewBuilder";
+
     public static RoundedWidgetView create(LauncherActivity launcherActivity,
-            @NonNull RoundedWidgetView roundedWidgetView) {
+                                           @NonNull RoundedWidgetView roundedWidgetView) {
         if (BlissLauncher.getApplication(launcherActivity).getAppWidgetHost() == null) return null;
         roundedWidgetView.post(() -> updateWidgetOption(launcherActivity, roundedWidgetView,
                 roundedWidgetView.getAppWidgetInfo()));
@@ -35,8 +35,7 @@ public class WidgetViewBuilder {
                     == AppWidgetProviderInfo.RESIZE_VERTICAL) {
                 launcherActivity.showWidgetResizeContainer(roundedWidgetView);
             } else {
-                Toast.makeText(launcherActivity, "Widget is not resizable",
-                        Toast.LENGTH_SHORT).show();
+                Log.i(TAG, launcherActivity.getString(R.string.widget_is_not_resizable));
             }
             return true;
         });

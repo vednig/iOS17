@@ -176,4 +176,5 @@
     <string name="widgets">Widgets</string>
     <string name="uninstall_shortcut_dialog">Do you want to uninstall this shortcut?</string>
     <string name="ok">ok</string>
+    <string name="widget_is_not_resizable">Widget is not resizable</string>
 </resources>
