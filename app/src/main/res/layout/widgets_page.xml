@@ -40,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="60dp"
                 android:background="@drawable/btn_rounded_corner"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/edit" />
