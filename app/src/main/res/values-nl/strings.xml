@@ -133,4 +133,5 @@
     <string name="weather_show_when_minimized_title">Toon wanneer geminimaliseerd</string>
     <string name="weather_15">Sneeuwstorm</string>
     <string name="icon_badging_service_title">Toon meldingspunten</string>
+    <string name="widget_is_not_resizable">Widget grootte kan niet gewijzigd worden</string>
 </resources>
