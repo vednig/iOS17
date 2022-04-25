@@ -67,3 +67,4 @@ lint/tmp/
 #ktlint
 ktlint
 
+keystore/platform.jks

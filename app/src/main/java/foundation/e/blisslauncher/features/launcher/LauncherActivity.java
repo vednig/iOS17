@@ -1,5 +1,10 @@
 package foundation.e.blisslauncher.features.launcher;
 
+import static android.content.pm.ActivityInfo.CONFIG_ORIENTATION;
+import static android.content.pm.ActivityInfo.CONFIG_SCREEN_SIZE;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -55,6 +60,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +70,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -100,7 +105,6 @@ import foundation.e.blisslauncher.core.customviews.DockGridLayout;
 import foundation.e.blisslauncher.core.customviews.HorizontalPager;
 import foundation.e.blisslauncher.core.customviews.InsettableFrameLayout;
 import foundation.e.blisslauncher.core.customviews.InsettableRelativeLayout;
-import foundation.e.blisslauncher.core.customviews.InsettableScrollLayout;
 import foundation.e.blisslauncher.core.customviews.PageIndicatorLinearLayout;
 import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
 import foundation.e.blisslauncher.core.customviews.SquareFrameLayout;
@@ -121,9 +125,12 @@ import foundation.e.blisslauncher.core.events.ShortcutAddEvent;
 import foundation.e.blisslauncher.core.executors.AppExecutors;
 import foundation.e.blisslauncher.core.utils.AppUtils;
 import foundation.e.blisslauncher.core.utils.Constants;
+import foundation.e.blisslauncher.core.utils.DepthManager;
 import foundation.e.blisslauncher.core.utils.GraphicsUtil;
 import foundation.e.blisslauncher.core.utils.ListUtil;
+import foundation.e.blisslauncher.core.utils.ThemesKt;
 import foundation.e.blisslauncher.core.utils.UserHandle;
+import foundation.e.blisslauncher.core.wallpaper.WallpaperManagerCompat;
 import foundation.e.blisslauncher.features.notification.NotificationRepository;
 import foundation.e.blisslauncher.features.notification.NotificationService;
 import foundation.e.blisslauncher.features.shortcuts.DeepShortcutManager;
@@ -139,6 +146,7 @@ import foundation.e.blisslauncher.features.weather.WeatherPreferences;
 import foundation.e.blisslauncher.features.weather.WeatherSourceListenerService;
 import foundation.e.blisslauncher.features.weather.WeatherUpdateService;
 import foundation.e.blisslauncher.features.weather.WeatherUtils;
+import foundation.e.blisslauncher.features.widgets.DefaultWidgets;
 import foundation.e.blisslauncher.features.widgets.WidgetManager;
 import foundation.e.blisslauncher.features.widgets.WidgetViewBuilder;
 import foundation.e.blisslauncher.features.widgets.WidgetsActivity;
@@ -150,14 +158,9 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import me.relex.circleindicator.CircleIndicator;
 
-import static android.content.pm.ActivityInfo.CONFIG_ORIENTATION;
-import static android.content.pm.ActivityInfo.CONFIG_SCREEN_SIZE;
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
 public class LauncherActivity extends AppCompatActivity implements
         AutoCompleteAdapter.OnSuggestionClickListener,
-        OnSwipeDownListener {
+        OnSwipeDownListener, WallpaperManagerCompat.OnColorsChangedListener {
 
     public static final int REORDER_TIMEOUT = 350;
     private final static int EMPTY_LOCATION_DRAG = -999;
@@ -239,6 +242,11 @@ public class LauncherActivity extends AppCompatActivity implements
     private GestureDetectorCompat mDetector;
     private AlertDialog enableLocationDialog;
 
+    private DepthManager mDepthManager;
+
+    private int mThemeRes = R.style.HomeScreenTheme;
+    private LayoutInflater mLightLayoutInflater;
+
     public static LauncherActivity getLauncher(Context context) {
         if (context instanceof LauncherActivity) {
             return (LauncherActivity) context;
@@ -251,6 +259,13 @@ public class LauncherActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prepareBroadcastReceivers();
+
+        WallpaperManagerCompat.Companion.getInstance(this).addOnChangeListener(this);
+        int themeRes = ThemesKt.getActivityThemeRes(this);
+        if (themeRes != mThemeRes) {
+            mThemeRes = themeRes;
+            setTheme(themeRes);
+        }
 
         oldConfig = new Configuration(getResources().getConfiguration());
         mDeviceProfile = BlissLauncher.getApplication(this).getDeviceProfile();
@@ -305,6 +320,23 @@ public class LauncherActivity extends AppCompatActivity implements
 
         createOrUpdateIconGrid();
         addDefaultWidgets();
+
+        if (Utilities.ATLEAST_R) {
+            mDepthManager = new DepthManager(this);
+        }
+
+        if (ThemesKt.isWorkspaceDarkText(this)) {
+            int flags = mLauncherView.getSystemUiVisibility();
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            mLauncherView.setSystemUiVisibility(flags);
+        }
+        final ContextThemeWrapper lightContext = new ContextThemeWrapper(this, R.style.HomeScreenTheme);
+        mLightLayoutInflater = getLayoutInflater().cloneInContext(lightContext);
+    }
+
+    public View getRootView() {
+        return mLauncherView;
     }
 
     private void setupViews() {
@@ -383,14 +415,14 @@ public class LauncherActivity extends AppCompatActivity implements
 
     private void addDefaultWidgets() {
         if (!Preferences.getAddedEcloudWidget(this)) {
-            ComponentName provider = new ComponentName("foundation.e.drive", "foundation.e.drive.widgets.EDriveWidget");
+            ComponentName provider = DefaultWidgets.INSTANCE.getEcloudWidget();
             if (allocateAndBindWidget(provider)) {
                 Preferences.setAddedEcloudWidget(this);
             }
         }
 
         if (!Preferences.getAddedPrivacyWidget(this)) {
-            ComponentName provider = new ComponentName("foundation.e.privacycentralapp.e", "foundation.e.privacycentralapp.Widget");
+            ComponentName provider = DefaultWidgets.INSTANCE.getPrivacyWidget();
             if (allocateAndBindWidget(provider)) {
                 Preferences.setAddedPrivacyWidget(this);
             }
@@ -451,6 +483,10 @@ public class LauncherActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (mDepthManager != null) {
+            mDepthManager.updateDepth();
+        }
 
         if (widgetsPage != null) {
             refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
@@ -526,6 +562,8 @@ public class LauncherActivity extends AppCompatActivity implements
 
         // Clear AppProvider
         BlissLauncher.getApplication(this).getAppProvider().clear();
+
+        WallpaperManagerCompat.Companion.getInstance(this).removeOnChangeListener(this);
 
         // Handover to android system.
         super.onDestroy();
@@ -1163,6 +1201,14 @@ public class LauncherActivity extends AppCompatActivity implements
 
             @Override
             public void onScroll(int scrollX) {
+                float progress = (float) scrollX / mDeviceProfile.availableWidthPx;
+                if (progress >= 0.999) progress = 1;
+                if (progress <= 0.001) progress = 0;
+                int dockHeight = mDock.getHeight() + mIndicator.getHeight();
+                float dockTranslationY = (1 - progress) * dockHeight;
+                mDock.setTranslationY(dockTranslationY);
+                mIndicator.setTranslationY(dockTranslationY);
+
                 if (scrollX >= 0 && scrollX < mDeviceProfile.availableWidthPx) {
                     float fraction = (float) (mDeviceProfile.availableWidthPx - scrollX)
                             / mDeviceProfile.availableWidthPx;
@@ -1182,15 +1228,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
                 if (currentPageNumber != page) {
                     currentPageNumber = page;
-                    // Remove mIndicator and mDock from widgets page, and make them
-                    // reappear when user swipes to the first apps page
                     if (currentPageNumber == 0) {
-                        mDock.animate().translationYBy(
-                                Utilities.pxFromDp(105, LauncherActivity.this)).setDuration(
-                                100).withEndAction(() -> mDock.setVisibility(GONE));
-
-                        mIndicator.animate().alpha(0).setDuration(100).withEndAction(
-                                () -> mIndicator.setVisibility(GONE));
                         refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
                         if (Preferences.weatherRefreshIntervalInMs(LauncherActivity.this) == 0) {
                             Intent intent = new Intent(LauncherActivity.this,
@@ -1198,11 +1236,6 @@ public class LauncherActivity extends AppCompatActivity implements
                             intent.setAction(WeatherUpdateService.ACTION_FORCE_UPDATE);
                             startService(intent);
                         }
-                    } else {
-                        mIndicator.setVisibility(View.VISIBLE);
-                        mDock.setVisibility(View.VISIBLE);
-                        mIndicator.animate().alpha(1).setDuration(100);
-                        mDock.animate().translationY(0).setDuration(100);
                     }
 
                     dragDropEnabled = true;
@@ -1318,7 +1351,7 @@ public class LauncherActivity extends AppCompatActivity implements
                 0, 0);*/
         mHorizontalPager.addView(widgetsPage, 0);
         widgetsPage.setOnDragListener(null);
-        InsettableScrollLayout scrollView = widgetsPage.findViewById(R.id.widgets_scroll_container);
+        ScrollView scrollView = widgetsPage.findViewById(R.id.widgets_scroll_container);
         scrollView.setOnTouchListener((v, event) -> {
             if (widgetsPage.findViewById(R.id.widget_resizer_container).getVisibility()
                     == VISIBLE) {
@@ -1378,9 +1411,6 @@ public class LauncherActivity extends AppCompatActivity implements
         suggestionRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         suggestionRecyclerView.setAdapter(suggestionAdapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL);
-        suggestionRecyclerView.addItemDecoration(dividerItemDecoration);
         getCompositeDisposable().add(RxTextView.textChanges(mSearchInput)
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .map(CharSequence::toString)
@@ -2989,7 +3019,7 @@ public class LauncherActivity extends AppCompatActivity implements
             mDock.setAlpha(1f);
             mIndicator.setVisibility(VISIBLE);
             mIndicator.setAlpha(1f);
-            mHorizontalPager.setCurrentPage(1);
+            mHorizontalPager.snapToPage(1);
         }
     }
 
@@ -3099,11 +3129,6 @@ public class LauncherActivity extends AppCompatActivity implements
         suggestionRecyclerView.setAdapter(networkSuggestionAdapter);
         suggestionRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL);
-        if (suggestionRecyclerView.getItemDecorationCount() == 0) {
-            suggestionRecyclerView.addItemDecoration(dividerItemDecoration);
-        }
 
         searchEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -3360,6 +3385,17 @@ public class LauncherActivity extends AppCompatActivity implements
     public void forceReload() {
         allAppsDisplayed = false;
         BlissLauncher.getApplication(this).getAppProvider().getAppsRepository().updateAppsRelay(Collections.emptyList());
+    }
+
+    @Override
+    public void onColorsChanged() {
+        updateTheme();
+    }
+
+    private void updateTheme() {
+        if (mThemeRes != ThemesKt.getActivityThemeRes(this)) {
+            recreate();
+        }
     }
 
     /**

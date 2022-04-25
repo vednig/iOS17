@@ -11,6 +11,17 @@ def versionMajor = 1
 def versionMinor = 3
 def versionPatch = 2
 
+Properties localProps = new Properties()
+File localPropsFile = project.rootProject.file('local.properties')
+if (localPropsFile.exists()) {
+    localProps.load(localPropsFile.newDataInputStream())
+}
+def appendDebugSuffix = (localProps.getProperty('appendDebugSuffix') ?: "true").toBoolean()
+def keyStorePath = localProps.getProperty('keyStorePath') ?: "/keystore/debug.keystore"
+def keyStorePassword = localProps.getProperty('keyStorePassword') ?: "android"
+def signingKeyAlias = localProps.getProperty('keyAlias') ?: "androiddebugkey"
+def signingKeyPassword = localProps.getProperty('keyPassword') ?: "android"
+
 android {
     compileSdkVersion Versions.compile_sdk
     defaultConfig {
@@ -28,9 +39,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
         debug {
-            applicationIdSuffix '.debug'
+            if (appendDebugSuffix) {
+                applicationIdSuffix '.debug'
+            }
             signingConfig signingConfigs.debug
         }
 
@@ -46,10 +60,10 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file(getRootDir().path + "/keystore/debug.keystore")
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file(getRootDir().path + keyStorePath)
+            storePassword keyStorePassword
+            keyAlias signingKeyAlias
+            keyPassword signingKeyPassword
         }
     }
 

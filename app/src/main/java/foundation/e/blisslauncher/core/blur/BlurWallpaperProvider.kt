@@ -29,10 +29,11 @@ class BlurWallpaperProvider(val context: Context) {
     private val listeners = ArrayList<Listener>()
     private val displayMetrics = DisplayMetrics()
 
-    var wallpaper: Bitmap? = null
+    var wallpapers: Pair<Bitmap, Bitmap>? = null
         private set(value) {
             if (field != value) {
-                field?.recycle()
+                field?.first?.recycle()
+                field?.second?.recycle()
                 field = value
             }
         }
@@ -49,7 +50,7 @@ class BlurWallpaperProvider(val context: Context) {
     private val mUpdateRunnable = Runnable { updateWallpaper() }
 
     private val wallpaperFilter = BlurWallpaperFilter(context)
-    private var applyTask: WallpaperFilter.ApplyTask? = null
+    private var applyTask: WallpaperFilter.ApplyTask<Pair<Bitmap, Bitmap>>? = null
 
     private var updatePending = false
 
@@ -99,7 +100,7 @@ class BlurWallpaperProvider(val context: Context) {
         }
 
         if (!isEnabled) {
-            wallpaper = null
+            wallpapers = null
             return
         }
 
@@ -117,7 +118,7 @@ class BlurWallpaperProvider(val context: Context) {
         wallpaper = applyVibrancy(wallpaper)
         applyTask = wallpaperFilter.apply(wallpaper).setCallback { result, error ->
             if (error == null) {
-                this@BlurWallpaperProvider.wallpaper = result
+                this@BlurWallpaperProvider.wallpapers = result
                 runOnMainThread(::notifyWallpaperChanged)
                 wallpaper.recycle()
             } else {
@@ -211,6 +212,10 @@ class BlurWallpaperProvider(val context: Context) {
 
     fun createDrawable(): ShaderBlurDrawable {
         return ShaderBlurDrawable(this)
+    }
+
+    fun createBlurDrawable(): BlurDrawable {
+        return BlurDrawable(this)
     }
 
     interface Listener {

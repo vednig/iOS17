@@ -15,7 +15,7 @@
         android:drawableBottom="@android:drawable/divider_horizontal_dark"
         android:gravity="center_horizontal|fill_horizontal"
         android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:textColor="@color/transparent_white" />
+        android:textColor="?widgetSecondaryTextColor" />
 
     <ImageView
         android:id="@+id/weather_image"
@@ -34,6 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:textColor="@color/white" />
+        android:textColor="?widgetPrimaryTextColor" />
 
 </LinearLayout>

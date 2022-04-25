@@ -3,31 +3,43 @@ package foundation.e.blisslauncher.core.blur
 import android.content.Context
 import android.graphics.Bitmap
 import com.hoko.blur.HokoBlur
-import com.hoko.blur.task.AsyncBlurTask
 
-class BlurWallpaperFilter(private val context: Context) : WallpaperFilter {
+typealias BitmapPair = Pair<Bitmap, Bitmap>
 
-    private var blurRadius = 8
+class BlurWallpaperFilter(private val context: Context) : WallpaperFilter<BitmapPair> {
 
-    override fun apply(wallpaper: Bitmap): WallpaperFilter.ApplyTask {
+    private var blurRadiusSmall = 8
+    private var blurRadiusLarge = 25
+
+    override fun apply(wallpaper: Bitmap): WallpaperFilter.ApplyTask<BitmapPair> {
         return WallpaperFilter.ApplyTask.create { emitter ->
-            HokoBlur.with(context)
-                .scheme(HokoBlur.SCHEME_NATIVE)
-                .mode(HokoBlur.MODE_STACK)
-                .radius(blurRadius)
-                .sampleFactor(8f)
-                .forceCopy(false)
-                .needUpscale(true)
-                .processor()
-                .asyncBlur(wallpaper, object : AsyncBlurTask.Callback {
-                    override fun onBlurSuccess(bitmap: Bitmap) {
-                        emitter.onSuccess(bitmap)
-                    }
-
-                    override fun onBlurFailed(error: Throwable?) {
-                        emitter.onError(error!!)
-                    }
-                })
+            var wallpaperSmallBlur: Bitmap? = null
+            var wallpaperLargeBlur: Bitmap? = null
+            try {
+                wallpaperSmallBlur = HokoBlur.with(context)
+                    .scheme(HokoBlur.SCHEME_NATIVE)
+                    .mode(HokoBlur.MODE_STACK)
+                    .radius(blurRadiusSmall)
+                    .sampleFactor(8f)
+                    .forceCopy(false)
+                    .needUpscale(true)
+                    .processor()
+                    .blur(wallpaper)
+                wallpaperLargeBlur = HokoBlur.with(context)
+                    .scheme(HokoBlur.SCHEME_NATIVE)
+                    .mode(HokoBlur.MODE_STACK)
+                    .radius(blurRadiusLarge)
+                    .sampleFactor(16f)
+                    .forceCopy(false)
+                    .needUpscale(true)
+                    .processor()
+                    .blur(wallpaper)
+                emitter.onSuccess(Pair(wallpaperSmallBlur, wallpaperLargeBlur))
+            } catch (t: Throwable) {
+                wallpaperSmallBlur?.recycle()
+                wallpaperLargeBlur?.recycle()
+                emitter.onError(t)
+            }
         }
     }
 }

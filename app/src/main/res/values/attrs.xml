@@ -37,4 +37,17 @@
         <attr name="layout_ignoreInsets" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="BlurLayout">
+        <attr name="blurCornerRadius" format="dimension" />
+        <attr name="blurOverlayColor" format="color" />
+    </declare-styleable>
+
+    <attr name="isWorkspaceDarkText" format="boolean" />
+    <attr name="workspaceTextColor" format="color" />
+    <attr name="dotOnColor" format="color" />
+    <attr name="dotOffColor" format="color" />
+    <attr name="widgetPrimaryTextColor" format="color" />
+    <attr name="widgetSecondaryTextColor" format="color" />
+    <attr name="widgetSettingsIconColor" format="color" />
+
 </resources>

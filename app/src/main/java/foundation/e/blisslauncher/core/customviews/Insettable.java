@@ -1,7 +1,7 @@
 package foundation.e.blisslauncher.core.customviews;
 
+import android.graphics.Rect;
 import android.view.View;
-import android.view.WindowInsets;
 
 /**
  * Allows the implementing {@link View} to not draw underneath system bars.
@@ -9,5 +9,5 @@ import android.view.WindowInsets;
  */
 public interface Insettable {
 
-    void setInsets(WindowInsets insets);
+    void setInsets(Rect insets);
 }

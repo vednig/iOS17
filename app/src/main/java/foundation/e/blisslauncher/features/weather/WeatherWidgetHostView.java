@@ -10,7 +10,7 @@ import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
 public class WeatherWidgetHostView extends RoundedWidgetView {
 
     public WeatherWidgetHostView(Context context) {
-        super(context);
+        super(context, true);
         LayoutInflater.from(context).inflate(R.layout.layout_weather_info, this);
     }
 

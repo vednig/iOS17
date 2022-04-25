@@ -5,14 +5,12 @@ import android.graphics.BitmapShader
 import android.graphics.Canvas
 import android.graphics.ColorFilter
 import android.graphics.Paint
-import android.graphics.Path
 import android.graphics.PixelFormat
 import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
-import foundation.e.blisslauncher.core.DeviceProfile
 
-class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider: BlurWallpaperProvider) :
+class BlurDrawable internal constructor(private val blurWallpaperProvider: BlurWallpaperProvider) :
     Drawable(), BlurWallpaperProvider.Listener {
 
     private var blurAlpha = 255
@@ -27,55 +25,27 @@ class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider:
         }
 
     private val blurBounds = RectF()
-    private val blurPath = Path()
-    private var blurPathValid = false
-        set(value) {
-            if (field != value) {
-                field = value
-                if (!value) {
-                    invalidateSelf()
-                }
-            }
-        }
+    private var offsetX = 0f
+    private var offsetY = 0f
 
-    var noRadius = true
-
-    override fun draw(canvas: Canvas) = draw(canvas, noRadius)
-
-    fun draw(canvas: Canvas, noRadius: Boolean = false) {
+    override fun draw(canvas: Canvas) {
+        val width = blurBounds.right.toInt() - blurBounds.left.toInt()
+        val height = blurBounds.bottom.toInt() - blurBounds.top.toInt()
+        if (width <= 0 || height <= 0) return
         if (blurAlpha == 0) return
-        blurBitmap = blurWallpaperProvider.wallpapers?.first
+        blurBitmap = blurWallpaperProvider.wallpapers?.second
 
         if (blurBitmap == null) {
             blurBitmap = blurWallpaperProvider.placeholder
         }
-        blurBitmap =
-            if (blurBitmap!!.height >= blurBounds.bottom &&
-                blurBitmap!!.width >= blurBounds.right
-            ) {
-                Bitmap.createBitmap(
-                    blurBitmap!!,
-                    blurBounds.left.toInt(), blurBounds.top.toInt(),
-                    blurBounds.right.toInt() - blurBounds.left.toInt(),
-                    blurBounds.bottom.toInt() - blurBounds.top.toInt()
-                )
-            } else {
-                blurBitmap
-            }
 
-        //setupBlurPath()
-
-        //canvas.translate(0f, -1500f)
-        if (noRadius) {
-            canvas.drawRect(
-                0f, 0f,
-                blurBounds.right - blurBounds.left, blurBounds.bottom - blurBounds.top,
-                blurPaint
-            )
-        } else {
-            canvas.drawPath(DeviceProfile.path, blurPaint)
-        }
-        //canvas.translate(0f, 1500f)
+        val left = blurBounds.left + offsetX
+        val top = blurBounds.top + offsetY
+        val right = blurBounds.right + offsetX
+        val bottom = blurBounds.bottom + offsetY
+        canvas.translate(-left, -top)
+        canvas.drawRect(left, top, right, bottom, blurPaint)
+        canvas.translate(left, top)
     }
 
     override fun setAlpha(alpha: Int) {
@@ -85,19 +55,6 @@ class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider:
 
     override fun getAlpha(): Int {
         return blurAlpha
-    }
-
-    private fun setupBlurPath() {
-        if (blurPathValid) return
-
-        blurPath.reset()
-        blurPath.addRect(
-            0f,
-            0f,
-            blurBounds.right - blurBounds.left,
-            blurBounds.bottom - blurBounds.top,
-            Path.Direction.CW
-        )
     }
 
     override fun setBounds(left: Int, top: Int, right: Int, bottom: Int) =
@@ -110,8 +67,12 @@ class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider:
             blurBounds.bottom != bottom
         ) {
             blurBounds.set(left, top, right, bottom)
-            blurPathValid = false
         }
+    }
+
+    fun setOffsets(offsetX: Float, offsetY: Float) {
+        this.offsetX = offsetX
+        this.offsetY = offsetY
     }
 
     override fun getOpacity(): Int = PixelFormat.TRANSLUCENT

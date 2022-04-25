@@ -50,7 +50,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/app_label_color"
+            android:textColor="?workspaceTextColor"
             android:textSize="@dimen/labelSize" />
 
     </LinearLayout>

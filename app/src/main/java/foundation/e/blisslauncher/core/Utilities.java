@@ -38,6 +38,9 @@ public class Utilities {
     /**
      * Use hard coded values to compile with android source.
      */
+    public static final boolean ATLEAST_R =
+            Build.VERSION.SDK_INT >= 30;
+
     public static final boolean ATLEAST_OREO =
             Build.VERSION.SDK_INT >= 26;
 

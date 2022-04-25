@@ -29,19 +29,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import foundation.e.blisslauncher.BlissLauncher;
+import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.database.model.FolderItem;
 
 public class GraphicsUtil {
 
     private static final String TAG = "BLISS_GRAPHICS";
-    private Context mContext;
-    private int appIconWidth;
+    private final Context mContext;
+    private final int appIconWidth;
+    private final int mFolderPreviewBackgroundColor;
 
     public GraphicsUtil(Context context) {
         this.mContext = context;
         DeviceProfile deviceProfile = BlissLauncher.getApplication(context).getDeviceProfile();
         this.appIconWidth = deviceProfile.iconSizePx;
+        mFolderPreviewBackgroundColor = mContext.getColor(R.color.folder_preview_background_color);
     }
 
     /**
@@ -129,7 +132,7 @@ public class GraphicsUtil {
         Bitmap mergedBitmap = Bitmap.createBitmap(width, height, Bitmap
                 .Config.ARGB_8888);
         Canvas canvas = new Canvas(mergedBitmap);
-        canvas.drawColor(isFolder ? 0x88D3D3D3 : getDominantColor(bitmap));
+        canvas.drawColor(isFolder ? mFolderPreviewBackgroundColor : getDominantColor(bitmap));
 
         Paint paint = new Paint(
                 Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);

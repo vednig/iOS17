@@ -3,7 +3,7 @@
     <string name="search">Search</string>
     <string name="untitled">Untitled</string>
 
-    <string name="app_suggestion">APP SUGGESTIONS</string>
+    <string name="app_suggestion">Suggestions</string>
     <string name="explanation_access_to_appusage_is_not_enabled">Enable appusage access to display
         app suggestions.
     </string>
