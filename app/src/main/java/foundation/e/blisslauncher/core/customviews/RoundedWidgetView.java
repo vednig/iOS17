@@ -1,6 +1,7 @@
 package foundation.e.blisslauncher.core.customviews;
 
 import android.appwidget.AppWidgetHostView;
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
@@ -38,6 +39,12 @@ public class RoundedWidgetView extends AppWidgetHostView {
         this.mContext = context;
         this.cornerRadius = context.getResources().getDimensionPixelSize(R.dimen.corner_radius);
         mLongPressHelper = new CheckLongPressHelper(this);
+    }
+
+    @Override
+    public void setAppWidget(int appWidgetId, AppWidgetProviderInfo info) {
+        super.setAppWidget(appWidgetId, info);
+        setPadding(0, 0, 0, 0);
     }
 
     @Override

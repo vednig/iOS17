@@ -489,7 +489,6 @@ public class LauncherActivity extends AppCompatActivity implements
 
     private void addWidgetToContainer(
             RoundedWidgetView widgetView) {
-        widgetView.setPadding(0, 0, 0, 0);
         widgetContainer.addView(widgetView);
     }
 
