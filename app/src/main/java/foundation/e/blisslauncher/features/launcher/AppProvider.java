@@ -337,6 +337,8 @@ public class AppProvider {
                     if (index != null) {
                         FolderItem folderItem = (FolderItem) mLauncherItems.get(index);
                         folderItem.items.add(applicationItem);
+                    } else {
+                        Log.e("AppProvider", "folder not found for item: " + applicationItem.id);
                     }
                 }
             } else if (databaseItem.itemType == Constants.ITEM_TYPE_SHORTCUT) {
@@ -377,17 +379,22 @@ public class AppProvider {
             }
         }
 
-        if (foldersIndex.size() > 0) {
-            for (int i = 0; i < foldersIndex.size(); i++) {
-                FolderItem folderItem =
-                        (FolderItem) mLauncherItems.get(foldersIndex.get(foldersIndex.keyAt(i)));
-                if (folderItem.items == null || folderItem.items.size() == 0) {
-                    DatabaseManager.getManager(mContext).removeLauncherItem(folderItem.id);
-                    mLauncherItems.remove((int) foldersIndex.get(foldersIndex.keyAt(i)));
-                } else {
-                    folderItem.icon = new GraphicsUtil(mContext).generateFolderIcon(mContext,
-                            folderItem);
-                }
+        List<Integer> folderItemsIndex = new ArrayList<>();
+        for (int i = 0; i < foldersIndex.size(); i++) {
+            int itemIndex = foldersIndex.get(foldersIndex.keyAt(i));
+            folderItemsIndex.add(itemIndex);
+        }
+        Collections.sort(folderItemsIndex);
+        for (int i = folderItemsIndex.size() - 1; i >= 0; i--) {
+            int itemIndex = folderItemsIndex.get(i);
+            FolderItem folderItem =
+                    (FolderItem) mLauncherItems.get(itemIndex);
+            if (folderItem.items == null || folderItem.items.size() == 0) {
+                DatabaseManager.getManager(mContext).removeLauncherItem(folderItem.id);
+                mLauncherItems.remove(itemIndex);
+            } else {
+                folderItem.icon = new GraphicsUtil(mContext).generateFolderIcon(mContext,
+                        folderItem);
             }
         }
 

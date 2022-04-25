@@ -140,7 +140,7 @@ public class LauncherItem {
 
     @Override
     public String toString() {
-        return "[id: " + id + "item_type: " + itemType + ", container: " + container + ", screen: " + screenId
+        return "[id: " + id + ", item_type: " + itemType + ", container: " + container + ", screen: " + screenId
                 + ", cell: " + cell + "]";
     }
 
