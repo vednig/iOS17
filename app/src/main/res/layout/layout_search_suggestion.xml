@@ -2,50 +2,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <foundation.e.blisslauncher.core.customviews.BlurLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/search_widget"
-        android:focusableInTouchMode="true"
-        android:padding="8dp">
+        app:blurCornerRadius="100dp">
 
-        <foundation.e.blisslauncher.core.customviews.BlissInput
-            android:id="@+id/search_input"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/clearSuggestionImageView"
-            android:background="@android:color/transparent"
-            android:drawableStart="@drawable/ic_search_white_24dp"
-            android:drawablePadding="8dp"
-            android:hint="@string/search"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:maxLines="1" />
+            android:background="@drawable/search_widget"
+            android:focusableInTouchMode="true"
+            android:padding="8dp">
 
-        <ImageView
-            android:id="@+id/clearSuggestionImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_cancel_white_24dp"
-            android:visibility="gone" />
-    </RelativeLayout>
+            <foundation.e.blisslauncher.core.customviews.BlissInput
+                android:id="@+id/search_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/clearSuggestionImageView"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_search_black_24dp"
+                android:drawablePadding="8dp"
+                android:hint="@string/search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/on_surface_high_emphasis"
+                android:textColorHint="@color/search_hint_color" />
 
-    <include
-        android:id="@+id/used_apps_layout"
-        layout="@layout/layout_used_apps" />
+            <ImageView
+                android:id="@+id/clearSuggestionImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_cancel_white_24dp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </foundation.e.blisslauncher.core.customviews.BlurLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/suggestionRecyclerView"
+    <foundation.e.blisslauncher.core.customviews.BlurLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp" />
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        app:blurCornerRadius="12dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_widget_round_corner"
+            android:orientation="vertical">
 
+            <include
+                android:id="@+id/used_apps_layout"
+                layout="@layout/layout_used_apps" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/suggestionRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+    </foundation.e.blisslauncher.core.customviews.BlurLayout>
 </LinearLayout>

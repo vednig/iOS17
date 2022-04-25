@@ -2,24 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="4dp"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_widget_top_round_corner"
         android:padding="8dp"
         android:text="@string/app_suggestion"
-        android:textColor="#88FFFFFF"
-        android:textSize="16sp" />
+        style="@style/WidgetTitle" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_widget_bottom_round_corner"
         android:minHeight="96dp">
 
         <GridLayout
@@ -38,7 +33,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/tap_to_setup_usageaccess"
-            android:textColor="@color/transparent_white"
+            android:alpha="0.6"
+            android:textColor="?workspaceTextColor"
             android:textSize="16sp" />
     </FrameLayout>
 </LinearLayout>

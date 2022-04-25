@@ -8,11 +8,10 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ScrollView;
 
 import foundation.e.blisslauncher.R;
 
-public class InsettableScrollLayout extends ScrollView implements Insettable {
+public class InsettableFrameLayout extends FrameLayout implements Insettable {
 
     @ViewDebug.ExportedProperty(category = "launcher")
     protected Rect mInsets = new Rect();
@@ -21,7 +20,7 @@ public class InsettableScrollLayout extends ScrollView implements Insettable {
         return mInsets;
     }
 
-    public InsettableScrollLayout(Context context, AttributeSet attrs) {
+    public InsettableFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -51,7 +50,7 @@ public class InsettableScrollLayout extends ScrollView implements Insettable {
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new LayoutParams(getContext(), attrs);
+        return new InsettableFrameLayout.LayoutParams(getContext(), attrs);
     }
 
     @Override
@@ -98,5 +97,15 @@ public class InsettableScrollLayout extends ScrollView implements Insettable {
             return;
         }
         setFrameLayoutChildInsets(child, mInsets, new Rect());
+    }
+
+    public static void dispatchInsets(ViewGroup parent, Rect insets) {
+        final int n = parent.getChildCount();
+        for (int i = 0; i < n; i++) {
+            final View child = parent.getChildAt(i);
+            if (child instanceof Insettable) {
+                ((Insettable) child).setInsets(insets);
+            }
+        }
     }
 }

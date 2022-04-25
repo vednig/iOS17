@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/suggestionTextView"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/item_suggestion_background"
-    android:drawableStart="@drawable/ic_search_white_alpha_24dp"
-    android:drawablePadding="8dp"
-    android:ellipsize="marquee"
-    android:paddingLeft="8dp"
-    android:paddingTop="6dp"
-    android:paddingRight="8dp"
-    android:paddingBottom="6dp"
-    android:singleLine="true"
-    android:textColor="#CCFFFFFF"
-    android:textSize="16sp" />
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1affffff" />
+
+    <TextView
+        android:id="@+id/suggestionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_suggestion_background"
+        android:drawableStart="@drawable/ic_search_white_alpha_24dp"
+        android:drawablePadding="8dp"
+        android:ellipsize="marquee"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp"
+        android:singleLine="true"
+        android:textColor="?widgetPrimaryTextColor"
+        android:textSize="16sp" />
+</LinearLayout>

@@ -10,11 +10,14 @@ import androidx.annotation.NonNull;
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
+import foundation.e.blisslauncher.core.utils.ThemesKt;
 import foundation.e.blisslauncher.features.launcher.LauncherActivity;
 
 public class WidgetViewBuilder {
 
     private static final String TAG = "WidgetViewBuilder";
+
+    public static final String WIDGET_OPTION_DARK_TEXT = "foundation.e.blisslauncher.WIDGET_OPTION_DARK_TEXT";
 
     public static RoundedWidgetView create(LauncherActivity launcherActivity,
                                            @NonNull RoundedWidgetView roundedWidgetView) {
@@ -54,6 +57,7 @@ public class WidgetViewBuilder {
         newOps.putInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, info.minHeight);
         newOps.putInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, BlissLauncher.getApplication(
                 context).getDeviceProfile().getMaxWidgetHeight());
+        newOps.putBoolean(WIDGET_OPTION_DARK_TEXT, ThemesKt.isWorkspaceDarkText(context));
         roundedWidgetView.updateAppWidgetOptions(newOps);
     }
 }

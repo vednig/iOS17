@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <foundation.e.blisslauncher.core.customviews.InsettableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/workspace"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +18,6 @@
         android:id="@+id/pages_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/page_indicator"
         android:layout_alignParentTop="true" />
 
     <foundation.e.blisslauncher.core.customviews.PageIndicatorLinearLayout
@@ -38,7 +38,8 @@
         android:layout_centerHorizontal="true"
         android:animateLayoutChanges="false"
         android:columnCount="@integer/col_count"
-        android:rowCount="1" />
+        android:rowCount="1"
+        app:blurOverlayColor="@color/dock_background_color" />
 
     <RelativeLayout
         android:id="@+id/folder_window_container"
@@ -62,7 +63,7 @@
             android:text="@string/untitled"
             android:textAlignment="center"
             android:textCursorDrawable="@drawable/folder_title_text_cursor"
-            android:textColor="@android:color/white"
+            android:textColor="?workspaceTextColor"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -82,13 +83,15 @@
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
-                android:paddingBottom="4dp" />
+                android:paddingBottom="4dp"
+                app:ci_drawable="@drawable/dot_on"
+                app:ci_drawable_unselected="@drawable/dot_off" />
 
         </LinearLayout>
 
     </RelativeLayout>
 
-    <FrameLayout
+    <foundation.e.blisslauncher.core.customviews.SwipeSearchContainer
         android:id="@+id/swipe_search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,7 +102,7 @@
         android:visibility="gone">
 
         <include layout="@layout/layout_search_suggestion" />
-    </FrameLayout>
+    </foundation.e.blisslauncher.core.customviews.SwipeSearchContainer>
 
     <ProgressBar
         android:id="@+id/progressbar"

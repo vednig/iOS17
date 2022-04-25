@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.WindowInsets;
 import android.widget.Scroller;
 
 import androidx.core.view.GestureDetectorCompat;
@@ -64,7 +63,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     private Set<OnScrollListener> mListeners = new HashSet<>();
     private boolean mIsUiCreated;
     private GestureDetectorCompat gestureDetectorCompat;
-    private WindowInsets insets;
+    private Rect insets;
     private float mLastMotionRawY;
 
     public HorizontalPager(Context context, AttributeSet attrs) {
@@ -179,11 +178,19 @@ public class HorizontalPager extends ViewGroup implements Insettable {
 
         pageWidth = pageWidthSpec == SPEC_UNDEFINED ? getMeasuredWidth() : pageWidthSpec;
         pageWidth = Math.min(pageWidth, getMeasuredWidth());
+        int pageHeight = MeasureSpec.getSize(heightMeasureSpec);
 
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
-            getChildAt(i).measure(MeasureSpec.makeMeasureSpec(pageWidth, MeasureSpec.EXACTLY),
-                    heightMeasureSpec);
+            int childWidth = pageWidth;
+            int childHeight = pageHeight;
+            View child = getChildAt(i);
+            if (!(child instanceof Insettable)) {
+                childWidth -= insets.width();
+                childHeight -= insets.height();
+            }
+            child.measure(MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY));
         }
 
         if (firstLayout) {
@@ -200,9 +207,17 @@ public class HorizontalPager extends ViewGroup implements Insettable {
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             if (child.getVisibility() != View.GONE) {
-                final int childWidth = child.getMeasuredWidth();
-                child.layout(childLeft, 0, childLeft + childWidth, child.getMeasuredHeight());
+                int childWidth = child.getMeasuredWidth();
+                int childTop = 0;
+                if (!(child instanceof Insettable)) {
+                    childLeft += insets.left;
+                    childTop += insets.top;
+                }
+                child.layout(childLeft, childTop, childLeft + childWidth, child.getMeasuredHeight());
                 childLeft += childWidth;
+                if (!(child instanceof Insettable)) {
+                    childLeft += insets.right;
+                }
             }
         }
     }
@@ -542,11 +557,8 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     }
 
     @Override
-    public void setInsets(WindowInsets insets) {
-        if(insets == null) return;
-        InsettableRelativeLayout.LayoutParams lp = (InsettableRelativeLayout.LayoutParams) getLayoutParams();
-        lp.topMargin = insets.getSystemWindowInsetTop();
-        setLayoutParams(lp);
+    public void setInsets(Rect insets) {
+        if (insets == null) return;
         updateInsetsForChildren();
         this.insets = insets;
         postInvalidate();

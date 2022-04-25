@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 
 import foundation.e.blisslauncher.R;
+import foundation.e.blisslauncher.core.blur.BlurViewDelegate;
 import foundation.e.blisslauncher.features.widgets.CheckLongPressHelper;
 
 public class RoundedWidgetView extends AppWidgetHostView {
@@ -33,11 +34,20 @@ public class RoundedWidgetView extends AppWidgetHostView {
 
     private boolean activated = false;
 
-    public RoundedWidgetView(Context context) {
+    private BlurViewDelegate mBlurDelegate = null;
+
+    public RoundedWidgetView(Context context, boolean blurBackground) {
         super(context);
         this.mContext = context;
         this.cornerRadius = context.getResources().getDimensionPixelSize(R.dimen.corner_radius);
         mLongPressHelper = new CheckLongPressHelper(this);
+        if (blurBackground) {
+            mBlurDelegate = new BlurViewDelegate(this, null);
+            mBlurDelegate.setBlurCornerRadius(cornerRadius);
+            setWillNotDraw(false);
+            setOutlineProvider(mBlurDelegate.getOutlineProvider());
+            setClipToOutline(true);
+        }
     }
 
     @Override
@@ -57,6 +67,14 @@ public class RoundedWidgetView extends AppWidgetHostView {
         canvas.clipPath(stencilPath);
         super.dispatchDraw(canvas);
         canvas.restoreToCount(save);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (mBlurDelegate != null) {
+            mBlurDelegate.draw(canvas);
+        }
+        super.onDraw(canvas);
     }
 
     @Override

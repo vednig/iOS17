@@ -2,20 +2,20 @@ package foundation.e.blisslauncher.core.blur
 
 import android.graphics.Bitmap
 
-interface WallpaperFilter {
+interface WallpaperFilter<T> {
 
-    fun apply(wallpaper: Bitmap): ApplyTask
+    fun apply(wallpaper: Bitmap): ApplyTask<T>
 
-    class ApplyTask {
+    class ApplyTask<T> {
 
         val emitter = Emitter()
 
-        private var result: Bitmap? = null
+        private var result: T? = null
         private var error: Throwable? = null
 
-        private var callback: ((Bitmap?, Throwable?) -> Unit)? = null
+        private var callback: ((T?, Throwable?) -> Unit)? = null
 
-        fun setCallback(callback: (Bitmap?, Throwable?) -> Unit): ApplyTask {
+        fun setCallback(callback: (T?, Throwable?) -> Unit): ApplyTask<T> {
             result?.let {
                 callback(it, null)
                 return this
@@ -30,7 +30,7 @@ interface WallpaperFilter {
 
         inner class Emitter {
 
-            fun onSuccess(result: Bitmap) {
+            fun onSuccess(result: T) {
                 callback?.let {
                     it(result, null)
                     return
@@ -49,8 +49,8 @@ interface WallpaperFilter {
 
         companion object {
 
-            inline fun create(source: (Emitter) -> Unit): ApplyTask {
-                return ApplyTask().also { source(it.emitter) }
+            inline fun <T> create(source: (ApplyTask<T>.Emitter) -> Unit): ApplyTask<T> {
+                return ApplyTask<T>().also { source(it.emitter) }
             }
         }
     }

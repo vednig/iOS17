@@ -3,5 +3,5 @@
     android:shape="oval"
     android:innerRadius="0dp"
     android:thickness="6dp">
-    <solid android:color="@color/dot_off_color"/>
+    <solid android:color="?dotOffColor"/>
 </shape>

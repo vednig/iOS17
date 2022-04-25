@@ -7,14 +7,36 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="HomeScreenTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="BaseHomeScreenTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">#1affffff</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:enforceStatusBarContrast">false</item>
+    </style>
+
+    <style name="HomeScreenTheme" parent="BaseHomeScreenTheme">
+        <item name="isWorkspaceDarkText">false</item>
+        <item name="workspaceTextColor">@color/app_label_color</item>
+        <item name="dotOnColor">@color/dot_on_color</item>
+        <item name="dotOffColor">@color/dot_off_color</item>
+        <item name="widgetPrimaryTextColor">#DEFFFFFF</item>
+        <item name="widgetSecondaryTextColor">#99FFFFFF</item>
+        <item name="widgetSettingsIconColor">?widgetPrimaryTextColor</item>
+    </style>
+
+    <style name="HomeScreenTheme.DarkText" parent="BaseHomeScreenTheme">
+        <item name="isWorkspaceDarkText">true</item>
+        <item name="workspaceTextColor">@color/app_label_color_dark</item>
+        <item name="dotOnColor">@color/dot_on_color_dark</item>
+        <item name="dotOffColor">@color/dot_off_color_dark</item>
+        <item name="widgetPrimaryTextColor">#BD000000</item>
+        <item name="widgetSecondaryTextColor">#BD000000</item>
+        <item name="widgetSettingsIconColor">#61000000</item>
     </style>
 
     <style name="label_shadow">
@@ -31,5 +53,11 @@
         <item name="android:textColor">#000000</item>
         <item name="android:typeface">normal</item>
         <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="WidgetTitle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">?widgetPrimaryTextColor</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 </resources>

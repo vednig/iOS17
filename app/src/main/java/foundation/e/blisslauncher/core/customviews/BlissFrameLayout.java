@@ -156,6 +156,7 @@ public class BlissFrameLayout extends FrameLayout {
         final SquareFrameLayout icon = findViewById(R.id.app_icon);
         final SquareImageView squareImageView = findViewById(
                 R.id.icon_image_view);
+        icon.enableBlur();
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) icon.getLayoutParams();
         layoutParams.leftMargin = mDeviceProfile.iconDrawablePaddingPx / 2;
         layoutParams.rightMargin = mDeviceProfile.iconDrawablePaddingPx / 2;

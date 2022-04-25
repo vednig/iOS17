@@ -7,51 +7,62 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ScrollView;
+import android.widget.LinearLayout;
 
 import foundation.e.blisslauncher.R;
 
-public class InsettableScrollLayout extends ScrollView implements Insettable {
+public class InsettableLinearLayout extends LinearLayout implements Insettable {
 
     @ViewDebug.ExportedProperty(category = "launcher")
     protected Rect mInsets = new Rect();
+
+    private boolean mInsetsSet = false;
 
     public Rect getInsets() {
         return mInsets;
     }
 
-    public InsettableScrollLayout(Context context, AttributeSet attrs) {
+    public InsettableLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void setFrameLayoutChildInsets(View child, Rect newInsets, Rect oldInsets) {
+    public void setLinearLayoutChildInsets(View child, Rect newInsets, Rect oldInsets) {
         final LayoutParams lp = (LayoutParams) child.getLayoutParams();
 
+        int childIndex = indexOfChild(child);
+        int newTop = childIndex == 0 ? newInsets.top : 0;
+        int oldTop = childIndex == 0 ? oldInsets.top : 0;
+        int newBottom = childIndex == getChildCount() - 1 ? newInsets.bottom : 0;
+        int oldBottom = childIndex == getChildCount() - 1 ? oldInsets.bottom : 0;
+
         if (child instanceof Insettable) {
-            ((Insettable) child).setInsets(newInsets);
+            ((Insettable) child).setInsets(new Rect(newInsets.left, newTop, newInsets.right, newBottom));
         } else if (!lp.ignoreInsets) {
-            lp.topMargin += (newInsets.top - oldInsets.top);
+            lp.topMargin += (newTop - oldTop);
             lp.leftMargin += (newInsets.left - oldInsets.left);
             lp.rightMargin += (newInsets.right - oldInsets.right);
-            lp.bottomMargin += (newInsets.bottom - oldInsets.bottom);
+            lp.bottomMargin += (newBottom - oldBottom);
         }
         child.setLayoutParams(lp);
     }
 
     @Override
     public void setInsets(Rect insets) {
+        if (getOrientation() != VERTICAL) {
+            throw new IllegalStateException("Doesn't support horizontal orientation");
+        }
+        mInsetsSet = true;
         final int n = getChildCount();
         for (int i = 0; i < n; i++) {
             final View child = getChildAt(i);
-            setFrameLayoutChildInsets(child, insets, mInsets);
+            setLinearLayoutChildInsets(child, insets, mInsets);
         }
         mInsets.set(insets);
     }
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new LayoutParams(getContext(), attrs);
+        return new InsettableLinearLayout.LayoutParams(getContext(), attrs);
     }
 
     @Override
@@ -62,7 +73,7 @@ public class InsettableScrollLayout extends ScrollView implements Insettable {
     // Override to allow type-checking of LayoutParams.
     @Override
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
-        return p instanceof InsettableFrameLayout.LayoutParams;
+        return p instanceof InsettableLinearLayout.LayoutParams;
     }
 
     @Override
@@ -70,8 +81,8 @@ public class InsettableScrollLayout extends ScrollView implements Insettable {
         return new LayoutParams(p);
     }
 
-    public static class LayoutParams extends FrameLayout.LayoutParams {
-        public boolean ignoreInsets = false;
+    public static class LayoutParams extends LinearLayout.LayoutParams {
+        boolean ignoreInsets = false;
 
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
@@ -94,9 +105,16 @@ public class InsettableScrollLayout extends ScrollView implements Insettable {
     @Override
     public void onViewAdded(View child) {
         super.onViewAdded(child);
-        if (!isAttachedToWindow()) {
-            return;
+        if (mInsetsSet) {
+            throw new IllegalStateException("Cannot modify views after insets are set");
         }
-        setFrameLayoutChildInsets(child, mInsets, new Rect());
+    }
+
+    @Override
+    public void onViewRemoved(View child) {
+        super.onViewRemoved(child);
+        if (mInsetsSet) {
+            throw new IllegalStateException("Cannot modify views after insets are set");
+        }
     }
 }

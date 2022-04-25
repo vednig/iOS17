@@ -18,9 +18,7 @@
             android:layout_toStartOf="@+id/weather_setting_imageview"
             android:padding="8dp"
             android:text="@string/weather"
-            android:textAllCaps="true"
-            android:textColor="#88FFFFFF"
-            android:textSize="16sp" />
+            style="@style/WidgetTitle" />
 
         <ImageView
             android:id="@+id/weather_setting_imageview"
@@ -43,7 +41,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/weather_tap_to_setup"
-            android:textColor="@color/transparent_white"
+            android:alpha="0.6"
+            android:textColor="?workspaceTextColor"
             android:textSize="16sp"
             android:visibility="gone" />
 
@@ -90,7 +89,7 @@
                         android:ellipsize="end"
                         android:fontFamily="sans-serif-medium"
                         android:maxLines="2"
-                        android:textColor="@color/white"
+                        android:textColor="?widgetPrimaryTextColor"
                         android:textSize="18sp" />
 
                     <TextView
@@ -98,7 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/transparent_white"
+                        android:textColor="?widgetSecondaryTextColor"
                         android:textSize="16sp" />
 
                     <TextView
@@ -106,7 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/transparent_white"
+                        android:textColor="?widgetSecondaryTextColor"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -125,7 +124,7 @@
                         android:layout_gravity="end"
                         android:fontFamily="sans-serif-light"
                         android:gravity="end"
-                        android:textColor="@color/white"
+                        android:textColor="?widgetPrimaryTextColor"
                         android:textSize="32sp" />
 
                     <TextView
@@ -133,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/white" />
+                        android:textColor="?widgetPrimaryTextColor" />
                 </LinearLayout>
             </RelativeLayout>
 
