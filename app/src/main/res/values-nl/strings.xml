@@ -92,7 +92,7 @@
     <string name="weather_0">Tornado</string>
     <string name="cancel">Annuleren</string>
     <string name="unknown">Onbekend</string>
-    <string name="app_suggestion">APP SUGGESTIES</string>
+    <string name="app_suggestion">Suggesties</string>
     <string name="search">Zoeken</string>
     <string name="app_name">Bliss Launcher</string>
     <string name="explanation_access_to_appusage_is_not_enabled">Geef toegang tot app gebruik om app suggesties te tonen.</string>
