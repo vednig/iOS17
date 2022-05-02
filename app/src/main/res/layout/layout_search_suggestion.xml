@@ -31,7 +31,8 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@color/on_surface_high_emphasis"
-                android:textColorHint="@color/search_hint_color" />
+                android:textColorHint="@color/on_surface_medium_emphasis"
+                android:theme="?searchBarTheme" />
 
             <ImageView
                 android:id="@+id/clearSuggestionImageView"

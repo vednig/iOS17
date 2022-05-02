@@ -17,6 +17,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:enforceNavigationBarContrast">false</item>
         <item name="android:enforceStatusBarContrast">false</item>
+        <item name="searchBarTheme">@style/SearchBar</item>
     </style>
 
     <style name="HomeScreenTheme" parent="BaseHomeScreenTheme">
@@ -60,5 +61,10 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="SearchBar">
+        <item name="android:colorAccent">#000000</item>
+        <item name="android:colorControlActivated">#000000</item>
     </style>
 </resources>
