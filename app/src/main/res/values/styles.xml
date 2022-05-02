@@ -64,7 +64,7 @@
     </style>
 
     <style name="SearchBar">
-        <item name="android:colorAccent">#000000</item>
-        <item name="android:colorControlActivated">#000000</item>
+        <item name="android:colorAccent">#DE000000</item>
+        <item name="android:colorControlActivated">#DE000000</item>
     </style>
 </resources>
