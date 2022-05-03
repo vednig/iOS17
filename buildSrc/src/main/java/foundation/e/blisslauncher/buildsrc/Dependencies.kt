@@ -1,7 +1,7 @@
 package foundation.e.blisslauncher.buildsrc
 
 object Versions {
-    const val compile_sdk = 29
+    const val compile_sdk = 31
     const val min_sdk = 24
     const val target_sdk = 29
     const val android_gradle_plugin = "3.5.0"
@@ -49,7 +49,7 @@ object Libs {
     }
 
     object AndroidX {
-        const val appcompat = "androidx.appcompat:appcompat:1.1.0-rc01"
+        const val appcompat = "androidx.appcompat:appcompat:1.4.1"
         const val collection = "androidx.collection:collection-ktx:1.1.0"
         const val palette = "androidx.palette:palette:1.0.0"
         const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0-beta03"
