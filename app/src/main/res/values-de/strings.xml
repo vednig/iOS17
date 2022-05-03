@@ -133,4 +133,5 @@
     <string name="widgets">Widgets</string>
     <string name="uninstall_shortcut_dialog">Möchten Sie diese Verknüpfung entfernen\?</string>
     <string name="ok">Ok</string>
+    <string name="widget_is_not_resizable">Die Größe des Widgets ist nicht veränderbar</string>
 </resources>
