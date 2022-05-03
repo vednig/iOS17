@@ -69,6 +69,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GestureDetectorCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -247,6 +249,8 @@ public class LauncherActivity extends AppCompatActivity implements
     private int mThemeRes = R.style.HomeScreenTheme;
     private LayoutInflater mLightLayoutInflater;
 
+    private WindowInsetsControllerCompat mInsetsController;
+
     public static LauncherActivity getLauncher(Context context) {
         if (context instanceof LauncherActivity) {
             return (LauncherActivity) context;
@@ -333,6 +337,8 @@ public class LauncherActivity extends AppCompatActivity implements
         }
         final ContextThemeWrapper lightContext = new ContextThemeWrapper(this, R.style.HomeScreenTheme);
         mLightLayoutInflater = getLayoutInflater().cloneInContext(lightContext);
+
+        mInsetsController = new WindowInsetsControllerCompat(getWindow(), mLauncherView);
     }
 
     public View getRootView() {
@@ -1236,6 +1242,10 @@ public class LauncherActivity extends AppCompatActivity implements
                             intent.setAction(WeatherUpdateService.ACTION_FORCE_UPDATE);
                             startService(intent);
                         }
+
+                        mInsetsController.hide(WindowInsetsCompat.Type.statusBars());
+                    } else {
+                        mInsetsController.show(WindowInsetsCompat.Type.statusBars());
                     }
 
                     dragDropEnabled = true;

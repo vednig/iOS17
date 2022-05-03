@@ -72,24 +72,20 @@ android {
         apiNougat {
             dimension "api"
             minSdkVersion 24
-            compileSdkVersion 25
         }
         apiOreo {
             dimension "api"
             minSdkVersion 26
-            compileSdkVersion 28
             targetSdkVersion 28
         }
         apiQ {
             dimension "api"
             minSdkVersion 29
-            compileSdkVersion 29
             targetSdkVersion 29
         }
         apiR {
             dimension "api"
             minSdkVersion 29
-            compileSdkVersion 29
             targetSdkVersion 29
         }
     }
