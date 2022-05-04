@@ -123,10 +123,10 @@
     <string name="cancel">Abbrechen</string>
     <string name="unknown">Unbekannt</string>
     <string name="explanation_access_to_appusage_is_not_enabled">Aktiviere den Zugriff auf Apps, um App-Vorschläge anzuzeigen.</string>
-    <string name="app_suggestion">APP-VORSCHLÄGE</string>
-    <string name="untitled">ohne Namen</string>
+    <string name="app_suggestion">Vorschläge</string>
+    <string name="untitled">Kein Titel</string>
     <string name="search">Suche</string>
-    <string name="app_name">Bliss Starter</string>
+    <string name="app_name">Bliss Launcher</string>
     <string name="edit">Bearbeiten</string>
     <string name="choose_widget">Widget auswählen</string>
     <string name="add_widget">Widget hinzufügen</string>
