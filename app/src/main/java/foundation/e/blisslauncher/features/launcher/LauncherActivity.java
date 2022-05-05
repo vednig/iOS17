@@ -605,7 +605,7 @@ public class LauncherActivity extends AppCompatActivity implements
         moveTo = -1;
         updateOrAddShortcut(shortcutAddEvent.getShortcutItem());
         DatabaseManager.getManager(this).saveLayouts(pages, mDock);
-        Toast.makeText(this, "Shortcut has been added", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.toast_shortcut_added), Toast.LENGTH_SHORT).show();
         if (moveTo != -1) {
             mHorizontalPager.setCurrentPage(moveTo);
             moveTo = -1;
@@ -1069,7 +1069,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
                             @Override
                             public void onError(Throwable e) {
-                                Toast.makeText(LauncherActivity.this, "Recreating Launcher",
+                                Toast.makeText(LauncherActivity.this, getString(R.string.toast_recreating_launcher),
                                         Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                                 recreate();
@@ -1556,7 +1556,7 @@ public class LauncherActivity extends AppCompatActivity implements
         if (requestCode == REQUEST_LOCATION_SOURCE_SETTING) {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                Toast.makeText(this, "Set custom location in weather settings.",
+                Toast.makeText(this, getString(R.string.toast_custom_location),
                         Toast.LENGTH_SHORT).show();
             } else {
                 startService(new Intent(this, WeatherUpdateService.class)
@@ -1816,7 +1816,7 @@ public class LauncherActivity extends AppCompatActivity implements
         } else {
             ApplicationItem applicationItem = (ApplicationItem) launcherItem;
             if (applicationItem.isDisabled) {
-                Toast.makeText(this, "Package not available or disabled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_package_unavailable), Toast.LENGTH_SHORT).show();
             } else {
                 if (user == null || user.equals(Process.myUserHandle())) {
                     context.startActivity(intent);
@@ -1993,7 +1993,7 @@ public class LauncherActivity extends AppCompatActivity implements
                     // System applications cannot be installed. For now, show a toast explaining
                     // that.
                     // We may give them the option of disabling apps this way.
-                    Toast.makeText(this, "Can not uninstall this app", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.toast_cannot_uninstall), Toast.LENGTH_SHORT).show();
                 } else {
                     Uri packageUri = Uri.fromParts("package", componentName.getPackageName(),
                             componentName.getClassName());
@@ -2181,7 +2181,7 @@ public class LauncherActivity extends AppCompatActivity implements
                             if (movingApp.getParent() == null) {
                                 if (mDock.getChildCount() >= mDeviceProfile.numColumns) {
                                     Toast.makeText(LauncherActivity.this,
-                                            "Dock is already full",
+                                            getString(R.string.toast_dock_full),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     addAppToDock(movingApp, EMPTY_LOCATION_DRAG);
@@ -2477,7 +2477,7 @@ public class LauncherActivity extends AppCompatActivity implements
     private void removeAppFromFolder() {
         if (pages.get(getCurrentAppsPageNumber()).getChildCount()
                 >= mDeviceProfile.maxAppsPerPage) {
-            Toast.makeText(this, "No more room in page", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_no_room), Toast.LENGTH_SHORT).show();
             movingApp.setVisibility(View.VISIBLE);
             int currentItem = mFolderAppsViewPager.getCurrentItem();
             makeAppWobble(movingApp, true,

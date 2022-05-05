@@ -207,7 +207,7 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
             if (resultCode == RESULT_OK) {
                 setResultData(RESULT_OK, null);
             } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_permission_denied), Toast.LENGTH_SHORT).show();
                 setResultData(RESULT_CANCELED, null);
             }
 

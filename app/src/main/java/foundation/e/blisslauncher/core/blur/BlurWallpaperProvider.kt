@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import foundation.e.blisslauncher.R
 import foundation.e.blisslauncher.core.Utilities
 import foundation.e.blisslauncher.core.runOnMainThread
 import foundation.e.blisslauncher.core.safeForEach
@@ -124,7 +125,7 @@ class BlurWallpaperProvider(val context: Context) {
             } else {
                 if (error is OutOfMemoryError) {
                     runOnMainThread {
-                        Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, context.getString(R.string.toast_failed), Toast.LENGTH_LONG).show()
                         notifyWallpaperChanged()
                     }
                 }
