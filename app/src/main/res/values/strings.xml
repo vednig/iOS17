@@ -177,4 +177,14 @@
     <string name="uninstall_shortcut_dialog">Do you want to uninstall this shortcut?</string>
     <string name="ok">ok</string>
     <string name="widget_is_not_resizable">Widget is not resizable</string>
+
+    <string name="toast_permission_denied">Permission denied</string>
+    <string name="toast_custom_location">Set custom location in weather settings.</string>
+    <string name="toast_failed">Failed to set blur wallpaper</string>
+    <string name="toast_shortcut_added">Shortcut has been added</string>
+    <string name="toast_recreating_launcher">Recreating Launcher</string>
+    <string name="toast_package_unavailable">Package not available or disabled</string>
+    <string name="toast_cannot_uninstall">Can not uninstall this app</string>
+    <string name="toast_dock_full">Dock is already full</string>
+    <string name="toast_no_room">No more room in page</string>
 </resources>

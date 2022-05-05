@@ -250,7 +250,7 @@ public class WeatherPreferences extends PreferenceActivity implements
         if (requestCode == 203) {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                Toast.makeText(this, "Set custom location in weather wettings.",
+                Toast.makeText(this, getString(R.string.toast_custom_location),
                         Toast.LENGTH_SHORT).show();
             } else {
                 startService(new Intent(this, WeatherUpdateService.class)
