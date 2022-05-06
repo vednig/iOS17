@@ -134,4 +134,13 @@
     <string name="uninstall_shortcut_dialog">Möchten Sie diese Verknüpfung entfernen\?</string>
     <string name="ok">Ok</string>
     <string name="widget_is_not_resizable">Die Größe des Widgets ist nicht veränderbar</string>
+    <string name="toast_no_room">Kein Platz mehr auf dieser Seite</string>
+    <string name="toast_dock_full">Das Dock ist schon voll</string>
+    <string name="toast_cannot_uninstall">Diese App kann nicht deinstalliert werden</string>
+    <string name="toast_package_unavailable">Das Paket ist nicht verfügbar oder deaktiviert</string>
+    <string name="toast_recreating_launcher">Neuerstellen des Launchers</string>
+    <string name="toast_shortcut_added">Die Verknüpfung wurde hinzugefügt</string>
+    <string name="toast_failed">Fehler beim Anwenden von unscharfen Hintergrundbildern</string>
+    <string name="toast_custom_location">Benutzerdefinierten Standort in den Einstellungen von Wetter festlegen.</string>
+    <string name="toast_permission_denied">Berechtigung nicht erteilt</string>
 </resources>
