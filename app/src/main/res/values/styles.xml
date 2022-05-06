@@ -29,6 +29,7 @@
         <item name="widgetPrimaryTextColor">#DEFFFFFF</item>
         <item name="widgetSecondaryTextColor">#99FFFFFF</item>
         <item name="widgetSettingsIconColor">?widgetPrimaryTextColor</item>
+        <item name="widgetSearchIconColor">#DEFFFFFF</item>
     </style>
 
     <style name="HomeScreenTheme.DarkText" parent="BaseHomeScreenTheme">
@@ -36,9 +37,10 @@
         <item name="workspaceTextColor">@color/app_label_color_dark</item>
         <item name="dotOnColor">@color/dot_on_color_dark</item>
         <item name="dotOffColor">@color/dot_off_color_dark</item>
-        <item name="widgetPrimaryTextColor">#BD000000</item>
-        <item name="widgetSecondaryTextColor">#BD000000</item>
+        <item name="widgetPrimaryTextColor">#99000000</item>
+        <item name="widgetSecondaryTextColor">#61000000</item>
         <item name="widgetSettingsIconColor">#61000000</item>
+        <item name="widgetSearchIconColor">#BD000000</item>
     </style>
 
     <style name="label_shadow">
