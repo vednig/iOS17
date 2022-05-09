@@ -98,11 +98,11 @@ public class CustomLocationPreference extends EditTextPreference
 
     private CharSequence[] buildItemList(List<WeatherLocation> results) {
         boolean needCountry = false, needPostal = false;
-        String countryId = results.get(0).getCountryId();
+        String firstCountry = results.get(0).getCountry();
         HashSet<String> postalIds = new HashSet<>();
 
         for (WeatherLocation result : results) {
-            if (!TextUtils.equals(result.getCountryId(), countryId)) {
+            if (!TextUtils.equals(result.getCountry(), firstCountry)) {
                 needCountry = true;
             }
             String postalId = result.getCountryId() + "##" + result.getCity();
