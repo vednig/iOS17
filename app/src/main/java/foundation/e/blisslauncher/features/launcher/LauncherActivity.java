@@ -143,7 +143,6 @@ import foundation.e.blisslauncher.features.suggestions.SuggestionProvider;
 import foundation.e.blisslauncher.features.suggestions.SuggestionsResult;
 import foundation.e.blisslauncher.features.usagestats.AppUsageStats;
 import foundation.e.blisslauncher.features.weather.DeviceStatusService;
-import foundation.e.blisslauncher.features.weather.WeatherAppWidgetProvider;
 import foundation.e.blisslauncher.features.weather.WeatherPreferences;
 import foundation.e.blisslauncher.features.weather.WeatherSourceListenerService;
 import foundation.e.blisslauncher.features.weather.WeatherUpdateService;
