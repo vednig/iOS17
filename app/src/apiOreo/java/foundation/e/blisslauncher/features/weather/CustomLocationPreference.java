@@ -102,7 +102,6 @@ public class CustomLocationPreference extends EditTextPreference
         HashSet<String> postalIds = new HashSet<>();
 
         for (WeatherLocation result : results) {
-            Log.d(TAG, "found result: " + result.toString());
             if (!TextUtils.equals(result.getCountry(), firstCountry)) {
                 needCountry = true;
             }
