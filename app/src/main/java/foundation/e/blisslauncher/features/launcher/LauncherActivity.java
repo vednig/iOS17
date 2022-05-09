@@ -143,7 +143,6 @@ import foundation.e.blisslauncher.features.suggestions.SuggestionProvider;
 import foundation.e.blisslauncher.features.suggestions.SuggestionsResult;
 import foundation.e.blisslauncher.features.usagestats.AppUsageStats;
 import foundation.e.blisslauncher.features.weather.DeviceStatusService;
-import foundation.e.blisslauncher.features.weather.WeatherAppWidgetProvider;
 import foundation.e.blisslauncher.features.weather.WeatherPreferences;
 import foundation.e.blisslauncher.features.weather.WeatherSourceListenerService;
 import foundation.e.blisslauncher.features.weather.WeatherUpdateService;
@@ -420,22 +419,30 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void addDefaultWidgets() {
+        int[] widgetIds = mAppWidgetHost.getAppWidgetIds();
+        Set<ComponentName> existingProviders = new HashSet<>();
+        for (int widgetId : widgetIds) {
+            AppWidgetProviderInfo info = mAppWidgetManager.getAppWidgetInfo(widgetId);
+            existingProviders.add(info.provider);
+        }
+
         if (!Preferences.getAddedEcloudWidget(this)) {
             ComponentName provider = DefaultWidgets.INSTANCE.getEcloudWidget();
-            if (allocateAndBindWidget(provider)) {
+            if (existingProviders.contains(provider) || allocateAndBindWidget(provider)) {
                 Preferences.setAddedEcloudWidget(this);
             }
         }
 
         if (!Preferences.getAddedPrivacyWidget(this)) {
             ComponentName provider = DefaultWidgets.INSTANCE.getPrivacyWidget();
-            if (allocateAndBindWidget(provider)) {
+            if (existingProviders.contains(provider) || allocateAndBindWidget(provider)) {
                 Preferences.setAddedPrivacyWidget(this);
             }
         }
 
         if (!Preferences.getAddedWeatherWidget(this)) {
-            if (allocateAndBindWidget(WeatherAppWidgetProvider.COMPONENT_NAME)) {
+            ComponentName provider = DefaultWidgets.INSTANCE.getWeatherWidget();
+            if (existingProviders.contains(provider) || allocateAndBindWidget(provider)) {
                 Preferences.setAddedWeatherWidget(this);
             }
         }
