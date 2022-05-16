@@ -33,4 +33,5 @@
     <color name="folder_preview_background_color">#4dcbcbcb</color>
     <color name="dock_background_color">#26ffffff</color>
 
+    <color name="accent_color">#0086FF</color>
 </resources>
