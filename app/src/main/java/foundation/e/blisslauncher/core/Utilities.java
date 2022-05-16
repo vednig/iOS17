@@ -14,6 +14,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -216,5 +218,9 @@ public class Utilities {
      */
     public static int boundToRange(int value, int lowerBound, int upperBound) {
         return Math.max(lowerBound, Math.min(value, upperBound));
+    }
+
+    public static String stripCaseAndAccents(String input) {
+        return StringUtils.stripAccents(input.toLowerCase());
     }
 }

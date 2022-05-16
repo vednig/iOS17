@@ -159,6 +159,9 @@ dependencies {
     implementation Libs.AndroidX.Room.runtime
     kapt Libs.AndroidX.Room.compiler
 
+    // Apache Commons
+    implementation Libs.ApacheCommons.commonsLang
+
     // Unit test dependencies
     testImplementation Libs.junit
     testImplementation Libs.robolectric
