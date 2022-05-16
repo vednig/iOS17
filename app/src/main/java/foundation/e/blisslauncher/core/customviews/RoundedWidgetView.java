@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,38 +85,14 @@ public class RoundedWidgetView extends AppWidgetHostView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.d(TAG, "onInterceptTouchEvent() called with: ev = [" + ev.getAction() + "]");
+        mLongPressHelper.onTouchEvent(ev);
+        return mLongPressHelper.hasPerformedLongPress();
+    }
 
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            mLongPressHelper.cancelLongPress();
-        }
-
-        // Consume any touch events for ourselves after longpress is triggered
-        if (mLongPressHelper.hasPerformedLongPress()) {
-            mLongPressHelper.cancelLongPress();
-            return true;
-        }
-
-        // Watch for longpress events at this level to make sure
-        // users can always pick up this widget
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                mLongPressHelper.postCheckForLongPress();
-                break;
-            }
-
-            case MotionEvent.ACTION_UP:
-                mLongPressHelper.cancelLongPress();
-                break;
-
-            case MotionEvent.ACTION_CANCEL:
-                mLongPressHelper.cancelLongPress();
-                break;
-        }
-
-        // Otherwise continue letting touch events fall through to children
-        return false;
-
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mLongPressHelper.onTouchEvent(event);
+        return true;
     }
 
     @Override
