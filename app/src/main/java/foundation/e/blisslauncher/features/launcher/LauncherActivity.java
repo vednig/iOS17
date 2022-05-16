@@ -424,6 +424,7 @@ public class LauncherActivity extends AppCompatActivity implements
         Set<ComponentName> existingProviders = new HashSet<>();
         for (int widgetId : widgetIds) {
             AppWidgetProviderInfo info = mAppWidgetManager.getAppWidgetInfo(widgetId);
+            if (info == null) continue;
             existingProviders.add(info.provider);
         }
 
