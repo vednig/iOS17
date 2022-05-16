@@ -34,6 +34,10 @@ object Libs {
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     const val mockK = "io.mockk:mockk:${Versions.mockK}"
 
+    object ApacheCommons {
+        const val commonsLang = "org.apache.commons:commons-lang3:3.12.0"
+    }
+
     object Google {
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebase_core}"
         const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"

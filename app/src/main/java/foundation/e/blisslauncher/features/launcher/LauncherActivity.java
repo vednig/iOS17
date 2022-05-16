@@ -79,6 +79,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.jakewharton.rxbinding3.widget.RxTextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -1595,7 +1597,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
     private Observable<SuggestionsResult> searchForLauncherItems(
             CharSequence charSequence) {
-        String query = charSequence.toString().toLowerCase();
+        String query = Utilities.stripCaseAndAccents(charSequence.toString());
         SuggestionsResult suggestionsResult = new SuggestionsResult(
                 query);
         List<LauncherItem> launcherItems = new ArrayList<>();
@@ -1606,11 +1608,11 @@ public class LauncherActivity extends AppCompatActivity implements
                 if (launcherItem.itemType == Constants.ITEM_TYPE_FOLDER) {
                     FolderItem folderItem = (FolderItem) launcherItem;
                     for (LauncherItem item : folderItem.items) {
-                        if (item.title.toString().toLowerCase().contains(query)) {
+                        if (Utilities.stripCaseAndAccents(item.title.toString()).contains(query)) {
                             launcherItems.add(item);
                         }
                     }
-                } else if (launcherItem.title.toString().toLowerCase().contains(query)) {
+                } else if (Utilities.stripCaseAndAccents(launcherItem.title.toString()).contains(query)) {
                     launcherItems.add(launcherItem);
                 }
             }
@@ -1622,11 +1624,11 @@ public class LauncherActivity extends AppCompatActivity implements
             if (launcherItem.itemType == Constants.ITEM_TYPE_FOLDER) {
                 FolderItem folderItem = (FolderItem) launcherItem;
                 for (LauncherItem item : folderItem.items) {
-                    if (item.title.toString().toLowerCase().contains(query)) {
+                    if (Utilities.stripCaseAndAccents(item.title.toString()).contains(query)) {
                         launcherItems.add(item);
                     }
                 }
-            } else if (launcherItem.title.toString().toLowerCase().contains(query)) {
+            } else if (Utilities.stripCaseAndAccents(launcherItem.title.toString()).contains(query)) {
                 launcherItems.add(launcherItem);
             }
         }
