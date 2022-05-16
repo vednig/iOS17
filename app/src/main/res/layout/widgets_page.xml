@@ -94,7 +94,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/max_label"
-            android:layout_toEndOf="@id/min_label" />
+            android:layout_toEndOf="@id/min_label"
+            android:thumbTint="@color/accent_color"
+            android:progressTint="@color/accent_color" />
 
         <TextView
             android:id="@+id/max_label"
