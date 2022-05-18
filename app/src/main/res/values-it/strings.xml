@@ -22,7 +22,6 @@
     <string name="weather_source_not_selected">Sorgente del Tempo non selezionata</string>
     <string name="weather_cannot_reach_provider">Al momento, %s è irraggiungibile</string>
     <string name="weather_0">Tornado</string>
-    <string name="app_name">Bliss Launcher</string>
     <string name="weather_icons_monochrome">Bianche</string>
     <string name="weather_icons_standard">A colori</string>
     <string name="weather_icon_set_title">Raccolta Icone</string>

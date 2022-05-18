@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bliss Launcher</string>
+    <string name="app_name" translatable="false">BlissLauncher</string>
     <string name="search">Search</string>
     <string name="untitled">Untitled</string>
 
