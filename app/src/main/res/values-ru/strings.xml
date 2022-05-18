@@ -88,7 +88,6 @@
     <string name="app_suggestion">ЧАСТО ИСПОЛЬЗУЕМЫЕ ПРИЛОЖЕНИЯ</string>
     <string name="untitled">Без названия</string>
     <string name="search">Поиск</string>
-    <string name="app_name">Bliss Launcher</string>
     <string name="icon_badging_service_title">Показывать уведомляющие точки</string>
     <string name="tap_to_setup_usageaccess">Нажмите, чтобы настроить часто используемые приложения</string>
     <string name="weather_show_when_minimized_summary">Показывать сводную информацию о погоде, когда виджет свёрнут</string>
