@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import foundation.e.blisslauncher.BlissLauncher;
+import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.IconsHandler;
 import foundation.e.blisslauncher.core.database.model.ApplicationItem;
 import foundation.e.blisslauncher.features.launcher.AppProvider;
@@ -80,7 +81,7 @@ public class AppUtils {
                 applicationItem.title = activityInfo.getLabel().toString();
                 applicationItem.container = Constants.CONTAINER_DESKTOP;
                 if (appInfo.packageName.equalsIgnoreCase("com.generalmagic.magicearth")) {
-                    applicationItem.title = "Maps";
+                    applicationItem.title = context.getString(R.string.app_name_maps);
                 }
                 applicationItem.packageName = appInfo.packageName;
                 appArrayMap.put(applicationItem.id, applicationItem);
@@ -132,7 +133,7 @@ public class AppUtils {
             applicationItem.title = launcherActivityInfo.getLabel().toString();
             applicationItem.container = Constants.CONTAINER_DESKTOP;
             if (appInfo.packageName.equalsIgnoreCase("com.generalmagic.magicearth")) {
-                applicationItem.title = "Maps";
+                applicationItem.title = context.getString(R.string.app_name_maps);
             }
             applicationItem.packageName = appInfo.packageName;
             return applicationItem;

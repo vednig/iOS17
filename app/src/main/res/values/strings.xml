@@ -187,4 +187,6 @@
     <string name="toast_cannot_uninstall">Can not uninstall this app</string>
     <string name="toast_dock_full">Dock is already full</string>
     <string name="toast_no_room">No more room in page</string>
+
+    <string name="app_name_maps">Maps</string>
 </resources>
