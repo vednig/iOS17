@@ -19,7 +19,6 @@ buildscript {
         classpath Libs.Google.fabricPlugin
         classpath Libs.Google.gmsGoogleServices
 
-        classpath Libs.dexcountGradlePlugin
     }
 }
 

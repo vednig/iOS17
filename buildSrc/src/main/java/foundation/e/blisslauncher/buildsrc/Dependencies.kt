@@ -5,7 +5,6 @@ object Versions {
     const val min_sdk = 24
     const val target_sdk = 29
     const val android_gradle_plugin = "3.5.0"
-    const val dexcount_gradle_plugin = "0.8.6"
     const val kotlin = "1.3.41"
     const val timber = "4.7.1"
     const val junit = "4.12"
@@ -26,7 +25,6 @@ object Versions {
 
 object Libs {
     const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
-    const val dexcountGradlePlugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${Versions.dexcount_gradle_plugin}"
 
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
