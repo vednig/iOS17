@@ -50,7 +50,7 @@ android {
 
         applicationVariants.all { variant ->
                 variant.outputs.all { output ->
-                    outputFileName = "BlissLauncher-${variant.versionName}-${variant.getFlavorName()}.apk"
+                    outputFileName = "BlissLauncher-${variant.versionName}-${variant.getFlavorName()}-${variant.buildType.name}.apk"
                 }
         }
     }
@@ -172,5 +172,3 @@ dependencies {
     androidTestImplementation Libs.AndroidX.Test.rules
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 }
-
-apply plugin: 'com.getkeepsafe.dexcount'
