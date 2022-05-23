@@ -21,7 +21,7 @@ public class NotificationService extends NotificationListenerService {
 
     NotificationRepository mNotificationRepository;
 
-    private boolean mDotsEnabled;
+    private boolean mAreDotsEnabled;
     private SettingsCache mSettingsCache;
     private SettingsCache.OnChangeListener mNotificationSettingsChangedListener;
 
@@ -30,7 +30,6 @@ public class NotificationService extends NotificationListenerService {
         super.onCreate();
         mNotificationRepository = NotificationRepository.getNotificationRepository();
 
-        // Register an observer to rebind the notification listener when dots are re-enabled.
         mSettingsCache = SettingsCache.INSTANCE.get(this);
         mNotificationSettingsChangedListener = this::onNotificationSettingsChanged;
         mSettingsCache.register(NOTIFICATION_BADGING_URI,
@@ -46,7 +45,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private void onNotificationSettingsChanged(boolean areNotificationDotsEnabled) {
-        mDotsEnabled = areNotificationDotsEnabled;
+        mAreDotsEnabled = areNotificationDotsEnabled;
         if (!areNotificationDotsEnabled && sIsConnected) {
             requestUnbind();
             updateNotifications();
@@ -75,7 +74,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private void updateNotifications() {
-        if (!mDotsEnabled) {
+        if (!mAreDotsEnabled) {
             mNotificationRepository.updateNotification(Collections.emptyList());
             return;
         }
