@@ -17,7 +17,7 @@
     <string name="cancel">Annuler</string>
     <string name="unknown">Inconnu</string>
     <string name="explanation_access_to_appusage_is_not_enabled">Activer l\'accès aux données d\'utilisation pour pouvoir afficher les suggestions d\'applications.</string>
-    <string name="app_suggestion">SUGGESTIONS D\'APPLICATIONS</string>
+    <string name="app_suggestion">Suggestions</string>
     <string name="untitled">Sans titre</string>
     <string name="search">Rechercher</string>
     <string name="weather_14">Légères averses de neige</string>
@@ -132,4 +132,14 @@
     <string name="widgets">Widgets</string>
     <string name="uninstall_shortcut_dialog">Voulez-vous supprimer ce raccourci \?</string>
     <string name="ok">OK</string>
+    <string name="toast_no_room">Plus de place disponible sur la page</string>
+    <string name="toast_dock_full">Le dock est déjà complet</string>
+    <string name="toast_cannot_uninstall">Impossible de désinstaller cette application</string>
+    <string name="toast_package_unavailable">Application non disponible ou désactivée</string>
+    <string name="toast_recreating_launcher">Recréation du lanceur</string>
+    <string name="toast_shortcut_added">Le raccourci a été ajouté</string>
+    <string name="toast_custom_location">Définissez un emplacement personnalisé dans les paramètres météo.</string>
+    <string name="toast_permission_denied">Autorisation refusée</string>
+    <string name="widget_is_not_resizable">Le widget n\'est pas redimensionnable</string>
+    <string name="app_name_maps">Cartes</string>
 </resources>
