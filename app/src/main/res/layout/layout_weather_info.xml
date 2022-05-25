@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/weather_setting_imageview"
+            android:layout_toStartOf="@+id/weather_refresh_imageview"
             android:padding="8dp"
             android:text="@string/weather"
             style="@style/WidgetTitle" />
@@ -28,6 +28,14 @@
             android:contentDescription="@string/weather_setting"
             android:padding="8dp"
             android:src="@drawable/ic_settings_white_24dp" />
+
+        <ImageView
+            android:id="@+id/weather_refresh_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/weather_setting_imageview"
+            android:src="@drawable/ic_refresh_white_24dp"
+            android:padding="8dp" />
     </RelativeLayout>
 
     <FrameLayout
