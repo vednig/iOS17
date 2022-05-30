@@ -142,4 +142,5 @@
     <string name="toast_failed">Fehler beim Anwenden von unscharfen Hintergrundbildern</string>
     <string name="toast_custom_location">Benutzerdefinierten Standort in den Einstellungen von Wetter festlegen.</string>
     <string name="toast_permission_denied">Berechtigung nicht erteilt</string>
+    <string name="app_name_maps">Karten</string>
 </resources>
