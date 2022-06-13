@@ -1,15 +1,17 @@
 package foundation.e.blisslauncher.features.notification;
 
-import static foundation.e.blisslauncher.util.SettingsCache.NOTIFICATION_BADGING_URI;
+import static foundation.e.blisslauncher.BlissLauncher.NOTIFICATION_BADGING_URI;
 
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.os.Handler;
+import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import java.util.Collections;
 
 import foundation.e.blisslauncher.core.utils.ListUtil;
-import foundation.e.blisslauncher.util.SettingsCache;
 
 /**
  * Created by falcon on 14/3/18.
@@ -22,31 +24,34 @@ public class NotificationService extends NotificationListenerService {
     NotificationRepository mNotificationRepository;
 
     private boolean mAreDotsEnabled;
-    private SettingsCache mSettingsCache;
-    private SettingsCache.OnChangeListener mNotificationSettingsChangedListener;
+    private final ContentObserver mNotificationSettingsObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            onNotificationSettingsChanged();
+        }
+    };
 
     @Override
     public void onCreate() {
         super.onCreate();
         mNotificationRepository = NotificationRepository.getNotificationRepository();
 
-        mSettingsCache = SettingsCache.INSTANCE.get(this);
-        mNotificationSettingsChangedListener = this::onNotificationSettingsChanged;
-        mSettingsCache.register(NOTIFICATION_BADGING_URI,
-                mNotificationSettingsChangedListener);
-        onNotificationSettingsChanged(mSettingsCache.getValue(NOTIFICATION_BADGING_URI));
+        getContentResolver().registerContentObserver(
+                NOTIFICATION_BADGING_URI, false, mNotificationSettingsObserver);
+        onNotificationSettingsChanged();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSettingsCache.unregister(NOTIFICATION_BADGING_URI, mNotificationSettingsChangedListener);
+        getContentResolver().unregisterContentObserver(mNotificationSettingsObserver);
         mNotificationRepository.updateNotification(Collections.emptyList());
     }
 
-    private void onNotificationSettingsChanged(boolean areNotificationDotsEnabled) {
-        mAreDotsEnabled = areNotificationDotsEnabled;
-        if (!areNotificationDotsEnabled && sIsConnected) {
+    private void onNotificationSettingsChanged() {
+        mAreDotsEnabled = Settings.Secure.getInt(
+                getContentResolver(), NOTIFICATION_BADGING_URI.getLastPathSegment(), 1) == 1;
+        if (!mAreDotsEnabled && sIsConnected) {
             requestUnbind();
             updateNotifications();
         }
