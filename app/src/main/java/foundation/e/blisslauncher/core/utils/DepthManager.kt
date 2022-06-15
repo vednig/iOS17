@@ -24,6 +24,8 @@ class DepthManager(private val launcher: LauncherActivity) {
 
     fun updateDepth() {
         val windowToken = launcher.rootView.windowToken
-        setWallpaperZoomOut.invoke(wallpaperManager, windowToken, 1)
+        if (windowToken != null) {
+            setWallpaperZoomOut.invoke(wallpaperManager, windowToken, 1)
+        }
     }
 }
