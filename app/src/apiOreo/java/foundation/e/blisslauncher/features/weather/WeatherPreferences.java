@@ -201,7 +201,7 @@ public class WeatherPreferences extends PreferenceActivity implements
     }
 
     public static boolean hasLocationPermission(Context context) {
-        return context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        return context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -218,7 +218,7 @@ public class WeatherPreferences extends PreferenceActivity implements
             mCustomWeatherLoc.setSummary(location);
         } else {
             if (!hasLocationPermission(mContext)) {
-                String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION};
+                String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
                 requestPermissions(permissions, LOCATION_PERMISSION_REQUEST_CODE);
             }
             mCustomWeatherLoc.setSummary(R.string.weather_geolocated);
