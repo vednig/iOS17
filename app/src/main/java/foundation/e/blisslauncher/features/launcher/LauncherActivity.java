@@ -79,7 +79,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.jakewharton.rxbinding3.widget.RxTextView;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -87,8 +86,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.BuildConfig;
@@ -130,7 +131,6 @@ import foundation.e.blisslauncher.core.utils.AppUtils;
 import foundation.e.blisslauncher.core.utils.Constants;
 import foundation.e.blisslauncher.core.utils.DepthManager;
 import foundation.e.blisslauncher.core.utils.GraphicsUtil;
-import foundation.e.blisslauncher.core.utils.ListUtil;
 import foundation.e.blisslauncher.core.utils.ThemesKt;
 import foundation.e.blisslauncher.core.utils.UserHandle;
 import foundation.e.blisslauncher.core.wallpaper.WallpaperManagerCompat;
@@ -211,7 +211,7 @@ public class LauncherActivity extends AppCompatActivity implements
     private boolean forceRefreshSuggestedApps = false;
 
 
-    private List<UsageStats> mUsageStats;
+    private List<ApplicationItem> mSuggestedApps = new ArrayList<>();
     private FrameLayout swipeSearchContainer;
     private InsettableRelativeLayout workspace;
     private View blurLayer; // Blur layer for folders and search container.
@@ -1268,32 +1268,38 @@ public class LauncherActivity extends AppCompatActivity implements
         GridLayout suggestedAppsGridLayout = viewGroup.findViewById(R.id.suggestedAppGrid);
         AppUsageStats appUsageStats = new AppUsageStats(this);
         List<UsageStats> usageStats = appUsageStats.getUsageStats();
-        if (usageStats.size() > 0) {
-            openUsageAccessSettingsTv.setVisibility(GONE);
-            suggestedAppsGridLayout.setVisibility(VISIBLE);
 
-            // Check if usage stats have been changed or not to avoid unnecessary flickering
-            if (forceRefresh || mUsageStats == null || mUsageStats.size() != usageStats.size()
-                    || !ListUtil.areEqualLists(mUsageStats, usageStats)) {
-                mUsageStats = usageStats;
-                if (suggestedAppsGridLayout.getChildCount() > 0) {
-                    suggestedAppsGridLayout.removeAllViews();
-                }
-                int i = 0;
-                while (suggestedAppsGridLayout.getChildCount() < 4 && i < mUsageStats.size()) {
-                    ApplicationItem appItem = AppUtils.createAppItem(this,
-                            mUsageStats.get(i).getPackageName(), new UserHandle());
-                    if (appItem != null) {
-                        BlissFrameLayout view = prepareSuggestedApp(appItem);
-                        addAppToGrid(suggestedAppsGridLayout, view);
-                    }
-                    i++;
-                }
-            }
-        } else {
+        if (usageStats.size() == 0) {
+            // no usage stats, show setup prompt
             openUsageAccessSettingsTv.setVisibility(VISIBLE);
             suggestedAppsGridLayout.setVisibility(GONE);
+            mSuggestedApps = new ArrayList<>();
+            return;
         }
+
+        openUsageAccessSettingsTv.setVisibility(GONE);
+        suggestedAppsGridLayout.setVisibility(VISIBLE);
+
+        List<ApplicationItem> suggestedApps = usageStats.stream()
+                .map(UsageStats::getPackageName)
+                .map(packageName -> AppUtils.createAppItem(this, packageName, new UserHandle()))
+                .filter(Objects::nonNull)
+                .limit(4)
+                .collect(Collectors.toList());
+
+        if (!forceRefresh && suggestedApps.equals(mSuggestedApps)) {
+            // no changes, skip update
+            return;
+        }
+
+        suggestedAppsGridLayout.removeAllViews();
+        suggestedApps.stream()
+                .map(this::prepareSuggestedApp)
+                .forEach(view -> addAppToGrid(suggestedAppsGridLayout, view));
+        mSuggestedApps = suggestedApps;
+
+        // remove force flag
+        forceRefreshSuggestedApps = false;
     }
 
     /**
