@@ -23,7 +23,7 @@ public class NotificationService extends NotificationListenerService {
 
     NotificationRepository mNotificationRepository;
 
-    private boolean mAreDotsEnabled;
+    private boolean mAreDotsDisabled;
     private final ContentObserver mNotificationSettingsObserver = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfChange) {
@@ -49,9 +49,9 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private void onNotificationSettingsChanged() {
-        mAreDotsEnabled = Settings.Secure.getInt(
-                getContentResolver(), NOTIFICATION_BADGING_URI.getLastPathSegment(), 1) == 1;
-        if (!mAreDotsEnabled && sIsConnected) {
+        mAreDotsDisabled = Settings.Secure.getInt(
+                getContentResolver(), NOTIFICATION_BADGING_URI.getLastPathSegment(), 1) != 1;
+        if (mAreDotsDisabled && sIsConnected) {
             requestUnbind();
             updateNotifications();
         }
@@ -79,7 +79,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private void updateNotifications() {
-        if (!mAreDotsEnabled) {
+        if (mAreDotsDisabled) {
             mNotificationRepository.updateNotification(Collections.emptyList());
             return;
         }
