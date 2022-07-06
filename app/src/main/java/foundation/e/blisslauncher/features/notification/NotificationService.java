@@ -1,8 +1,15 @@
 package foundation.e.blisslauncher.features.notification;
 
+import static foundation.e.blisslauncher.BlissLauncher.NOTIFICATION_BADGING_URI;
+
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.os.Handler;
+import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+
+import java.util.Collections;
 
 import foundation.e.blisslauncher.core.utils.ListUtil;
 
@@ -12,31 +19,70 @@ import foundation.e.blisslauncher.core.utils.ListUtil;
 
 public class NotificationService extends NotificationListenerService {
 
+    private static boolean sIsConnected = false;
+
     NotificationRepository mNotificationRepository;
+
+    private boolean mAreDotsDisabled;
+    private final ContentObserver mNotificationSettingsObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            onNotificationSettingsChanged();
+        }
+    };
 
     @Override
     public void onCreate() {
         super.onCreate();
         mNotificationRepository = NotificationRepository.getNotificationRepository();
+
+        getContentResolver().registerContentObserver(
+                NOTIFICATION_BADGING_URI, false, mNotificationSettingsObserver);
+        onNotificationSettingsChanged();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        getContentResolver().unregisterContentObserver(mNotificationSettingsObserver);
+        mNotificationRepository.updateNotification(Collections.emptyList());
+    }
+
+    private void onNotificationSettingsChanged() {
+        mAreDotsDisabled = Settings.Secure.getInt(
+                getContentResolver(), NOTIFICATION_BADGING_URI.getLastPathSegment(), 1) != 1;
+        if (mAreDotsDisabled && sIsConnected) {
+            requestUnbind();
+            updateNotifications();
+        }
     }
 
     @Override
     public void onListenerConnected() {
-        mNotificationRepository.updateNotification(ListUtil.asSafeList(getActiveNotifications()));
+        sIsConnected = true;
+        updateNotifications();
+    }
+
+    @Override
+    public void onListenerDisconnected() {
+        sIsConnected = false;
     }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        mNotificationRepository.updateNotification(ListUtil.asSafeList(getActiveNotifications()));
+        updateNotifications();
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
+        updateNotifications();
+    }
+
+    private void updateNotifications() {
+        if (mAreDotsDisabled) {
+            mNotificationRepository.updateNotification(Collections.emptyList());
+            return;
+        }
         mNotificationRepository.updateNotification(ListUtil.asSafeList(getActiveNotifications()));
     }
 
