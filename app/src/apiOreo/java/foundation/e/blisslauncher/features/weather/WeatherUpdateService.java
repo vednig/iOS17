@@ -60,7 +60,7 @@ public class WeatherUpdateService extends Service {
     private static final long LOCATION_REQUEST_TIMEOUT = 5L * 60L * 1000L;
     // request for at most 5 minutes
     private static final long OUTDATED_LOCATION_THRESHOLD_MILLIS = 10L * 60L * 1000L; // 10 minutes
-    private static final float LOCATION_ACCURACY_THRESHOLD_METERS = 50000;
+    private static final float LOCATION_ACCURACY_THRESHOLD_METERS = 5000;
 
     private WorkerThread mWorkerThread;
     private Handler mHandler;
@@ -69,8 +69,7 @@ public class WeatherUpdateService extends Service {
 
     static {
         sLocationCriteria = new Criteria();
-        sLocationCriteria.setPowerRequirement(Criteria.POWER_LOW);
-        sLocationCriteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        sLocationCriteria.setAccuracy(Criteria.ACCURACY_FINE);
         sLocationCriteria.setCostAllowed(false);
     }
 
@@ -323,7 +322,7 @@ public class WeatherUpdateService extends Service {
             }catch (SecurityException e){
                 e.printStackTrace();
             }
-            if (D) Log.v(TAG, "Current location is " + location);
+            if (D) Log.v(TAG, "Current location is " + location + ", accuracy: " + location.getAccuracy());
 
             if (location != null && location.getAccuracy() > LOCATION_ACCURACY_THRESHOLD_METERS) {
                 if (D) Log.d(TAG, "Ignoring inaccurate location");
@@ -343,11 +342,6 @@ public class WeatherUpdateService extends Service {
                 String locationProvider = lm.getBestProvider(sLocationCriteria, true);
                 if (TextUtils.isEmpty(locationProvider)) {
                     Log.e(TAG, "No available location providers matching criteria.");
-                } else if (PackageManagerUtils.isAppInstalled(mContext, "com.google.android.gms")
-                        && locationProvider.equals(LocationManager.GPS_PROVIDER)) {
-                    // Since Google Play services is available,
-                    // let's conserve battery power and not depend on the device's GPS.
-                    Log.i(TAG, "Google Play Services available; Ignoring GPS provider.");
                 } else {
                     WeatherLocationListener.registerIfNeeded(mContext, locationProvider);
                 }
