@@ -34,7 +34,6 @@ import java.util.Date;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.core.utils.Constants;
-import foundation.e.blisslauncher.core.utils.PackageManagerUtils;
 import lineageos.weather.LineageWeatherManager;
 import lineageos.weather.WeatherInfo;
 import lineageos.weather.WeatherLocation;
