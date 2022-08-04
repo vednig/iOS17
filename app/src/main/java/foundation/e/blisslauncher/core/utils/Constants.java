@@ -15,12 +15,14 @@
  */
 package foundation.e.blisslauncher.core.utils;
 
+import foundation.e.blisslauncher.BuildConfig;
+
 /**
  * Created by falcon on 8/3/18.
  */
 
 public class Constants {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = BuildConfig.DEBUG;
     public static final String PREF_NAME = "foundation.e.blisslauncher.prefs";
 
     public static final String WEATHER_SOURCE = "weather_source";

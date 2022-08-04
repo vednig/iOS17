@@ -321,7 +321,7 @@ public class WeatherUpdateService extends Service {
             }catch (SecurityException e){
                 e.printStackTrace();
             }
-            if (D) Log.v(TAG, "Current location is " + location + ", accuracy: " + location.getAccuracy());
+            if (D && location != null) Log.v(TAG, "Current location is " + location + ", accuracy: " + location.getAccuracy());
 
             if (location != null && location.getAccuracy() > LOCATION_ACCURACY_THRESHOLD_METERS) {
                 if (D) Log.d(TAG, "Ignoring inaccurate location");
