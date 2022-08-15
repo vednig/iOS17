@@ -123,7 +123,7 @@
     <string name="cancel">Cancella</string>
     <string name="unknown">Sconosciuto</string>
     <string name="explanation_access_to_appusage_is_not_enabled">Consenti l\'accesso ad appusage per vedere le app suggerite.</string>
-    <string name="app_suggestion">APP SUGGERITE</string>
+    <string name="app_suggestion">PREFERITE</string>
     <string name="untitled">Senza titolo</string>
     <string name="search">Cerca</string>
     <string name="edit">Modifica</string>
@@ -132,4 +132,15 @@
     <string name="widgets">Widget</string>
     <string name="add_widget">Aggiungi widget</string>
     <string name="choose_widget">Scegli widget</string>
+    <string name="app_name_maps">Mappe</string>
+    <string name="toast_no_room">Non c\'è più spazio nella pagina</string>
+    <string name="toast_dock_full">Dock già pieno</string>
+    <string name="toast_cannot_uninstall">Non posso disinstallare questa app</string>
+    <string name="toast_package_unavailable">Pachetto non disponibile o disabilitato</string>
+    <string name="toast_recreating_launcher">Sto rigenerando il Launcher</string>
+    <string name="toast_shortcut_added">Collegamento aggiunto</string>
+    <string name="toast_failed">Impossibile impostare lo sfondo blur</string>
+    <string name="toast_custom_location">Imposta una posizione predefinita nelle impostazioni meteo.</string>
+    <string name="toast_permission_denied">Autorizzazione rifiutata</string>
+    <string name="widget_is_not_resizable">Il widget non è riscalabile</string>
 </resources>
