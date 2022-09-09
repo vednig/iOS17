@@ -85,6 +85,11 @@ android {
             minSdkVersion 29
             targetSdkVersion 29
         }
+        apiS {
+            dimension "api"
+            minSdkVersion 29
+            targetSdkVersion 29
+        }
     }
 
     // Always show the result of every unit test, even if it passes.
@@ -111,6 +116,10 @@ android {
             java.srcDirs = ['src/apiOreo/java/foundation/e']
             res.srcDirs = ['src/apiOreo/res']
         }
+        apiS {
+            java.srcDirs = ['src/apiOreo/java/foundation/e']
+            res.srcDirs = ['src/apiOreo/res']
+        }
     }
 }
 
@@ -121,6 +130,7 @@ dependencies {
     apiOreoImplementation files('libs/lineage-sdk-oreo.jar')
     apiQImplementation files('libs/lineage-sdk-q.jar')
     apiRImplementation files('libs/lineage-sdk-r.jar')
+    apiSImplementation files('libs/e-ui-sdk-s.jar')
 
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
