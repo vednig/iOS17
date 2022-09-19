@@ -1363,6 +1363,12 @@ public class LauncherActivity extends AppCompatActivity implements
         grid.setPadding(mDeviceProfile.iconDrawablePaddingPx / 2,
                 (int) (Utilities.pxFromDp(8, this)),
                 mDeviceProfile.iconDrawablePaddingPx / 2, 0);
+
+        // If a user taps outside (background / space) stop wobbling
+        grid.setOnClickListener(view -> {
+            handleWobbling(false);
+        });
+
         return grid;
     }
 
