@@ -61,7 +61,7 @@ public class HandsOverlay implements DialOverlay {
     }
 
     @Override
-    public void onDraw(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
+    public void onDraw(Canvas canvas, float cX, float cY, int w, int h, Calendar calendar,
             boolean sizeChanged) {
 
         updateHands(calendar);
@@ -89,38 +89,47 @@ public class HandsOverlay implements DialOverlay {
         canvas.restore();
     }
 
-    private void drawMinutes(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
+    private void drawMinutes(Canvas canvas, float cX, float cY, int w, int h, Calendar calendar,
             boolean sizeChanged) {
         canvas.rotate(mMinRot, cX, cY);
 
         if (sizeChanged) {
             w = (int) (mMinute.getIntrinsicWidth() * scale);
             h = (int) (mMinute.getIntrinsicHeight() * scale);
-            mMinute.setBounds(cX - (w / 2), cY - (h / 2), cX + (w / 2), cY + (h / 2));
+            mMinute.setBounds(Math.round(cX - (w / 2f)),
+                    Math.round(cY - (h / 2f)),
+                    Math.round(cX + (w / 2f)),
+                    Math.round(cY + (h / 2f)));
         }
         mMinute.draw(canvas);
     }
 
-    private void drawHours(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
+    private void drawHours(Canvas canvas, float cX, float cY, int w, int h, Calendar calendar,
             boolean sizeChanged) {
         canvas.rotate(mHourRot, cX, cY);
 
         if (sizeChanged) {
             w = (int) (mHour.getIntrinsicWidth()* scale);
             h = (int) (mHour.getIntrinsicHeight()* scale);
-            mHour.setBounds(cX - (w / 2), cY - (h / 2), cX + (w / 2), cY + (h / 2));
+            mHour.setBounds(Math.round(cX - (w / 2f)),
+                    Math.round(cY - (h / 2f)),
+                    Math.round(cX + (w / 2f)),
+                    Math.round(cY + (h / 2f)));
         }
         mHour.draw(canvas);
     }
 
-    private void drawSec(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
+    private void drawSec(Canvas canvas, float cX, float cY, int w, int h, Calendar calendar,
             boolean sizeChanged) {
         canvas.rotate(mSecRot, cX, cY);
 
         if (sizeChanged) {
             w = (int) (mSecond.getIntrinsicWidth() * scale);
             h = (int) (mSecond.getIntrinsicHeight() * scale);
-            mSecond.setBounds(cX - (w / 2), cY - (h / 2), cX + (w / 2), cY + (h / 2));
+            mSecond.setBounds(Math.round(cX - (w / 2f)),
+                    Math.round(cY - (h / 2f)),
+                    Math.round(cX + (w / 2f)),
+                    Math.round(cY + (h / 2f)));
         }
         mSecond.draw(canvas);
     }

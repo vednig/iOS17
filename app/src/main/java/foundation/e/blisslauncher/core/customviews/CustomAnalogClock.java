@@ -108,9 +108,9 @@ public class CustomAnalogClock extends View {
 
     public void setFace(Drawable face) {
         mFace = face;
-        mSizeChanged = true;
         mDialHeight = mFace.getIntrinsicHeight();
         mDialWidth = mFace.getIntrinsicWidth();
+        mSizeChanged = true;
         invalidate();
     }
 
@@ -155,7 +155,9 @@ public class CustomAnalogClock extends View {
         super.onDraw(canvas);
 
         final boolean sizeChanged = mSizeChanged;
-        mSizeChanged = false;
+        if (sizeChanged) {
+            mSizeChanged = false;
+        }
 
         final int availW = mRight - mLeft;
         final int availH = mBottom - mTop;
@@ -177,8 +179,11 @@ public class CustomAnalogClock extends View {
         }
 
         if (sizeChanged) {
-            mFace.setBounds(cX - (w / 2), cY - (h / 2), cX + (w / 2), cY
-                    + (h / 2));
+            // Extend bottom by 1 and top by -1 for proper bounds
+            mFace.setBounds(cX - (w / 2),
+                    cY - (h / 2) - 1,
+                    cX + (w / 2),
+                    cY + (h / 2) + 1);
         }
 
 
@@ -193,8 +198,26 @@ public class CustomAnalogClock extends View {
     // from AnalogClock.java
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int size = BlissLauncher.getApplication(mContext).getDeviceProfile().iconSizePx;
-        setMeasuredDimension(size, size);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        float hScale = 1.0f;
+        float vScale = 1.0f;
+
+        if (widthMode != MeasureSpec.UNSPECIFIED && widthSize < mDialWidth) {
+            hScale = (float) widthSize / (float) mDialWidth;
+        }
+
+        if (heightMode != MeasureSpec.UNSPECIFIED && heightSize < mDialHeight) {
+            vScale = (float) heightSize / (float) mDialHeight;
+        }
+
+        float scale = Math.min(hScale, vScale);
+
+        setMeasuredDimension(resolveSizeAndState((int) (mDialWidth * scale), widthMeasureSpec, 0),
+                resolveSizeAndState((int) (mDialHeight * scale), heightMeasureSpec, 0));
     }
 
     @Override

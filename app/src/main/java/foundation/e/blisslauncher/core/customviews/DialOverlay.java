@@ -20,7 +20,7 @@ public interface DialOverlay {
      * @param h        the height of the canvas
      * @param calendar the desired date/time
      */
-    void onDraw(Canvas canvas, int cX, int cY, int w, int h, Calendar calendar,
+    void onDraw(Canvas canvas, float cX, float cY, int w, int h, Calendar calendar,
             boolean sizeChanged);
 
 }
