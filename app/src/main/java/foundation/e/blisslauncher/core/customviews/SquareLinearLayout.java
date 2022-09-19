@@ -29,7 +29,7 @@ public class SquareLinearLayout extends LinearLayout {
 
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
-        int size = width < height ? width : height;
+        int size = Math.min(width, height);
         setMeasuredDimension(size, size);
     }
 }
