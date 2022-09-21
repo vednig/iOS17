@@ -1777,7 +1777,7 @@ public class LauncherActivity extends AppCompatActivity implements
                         dragShadowBuilder = new BlissDragShadowBuilder(
                                 icon, (event.getX() < 0 ? 0 : event.getX()),
                                 (event.getY() < 0 ? 0 : event.getY()));
-                        icon.startDrag(null, dragShadowBuilder, iconView, 0);
+                        icon.startDragAndDrop(null, dragShadowBuilder, iconView, 0);
                         if (iconView.getParent().getParent() instanceof HorizontalPager) {
                             parentPage = getCurrentAppsPageNumber();
                         } else {
