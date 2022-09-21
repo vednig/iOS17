@@ -65,10 +65,12 @@ public class BlissDragShadowBuilder extends View.DragShadowBuilder {
 
     @Override
     public void onDrawShadow(Canvas canvas) {
+        canvas.save();
         // Draws the ColorDrawable in the Canvas passed in from the system.
         canvas.scale(mScaleFactor.x / (float) getView().getWidth(),
                 mScaleFactor.y / (float) getView().getHeight());
         getView().draw(canvas);
+        canvas.restore();
     }
 
 }
