@@ -132,4 +132,5 @@
     <string name="weather_show_when_minimized_summary">Mostrar información meteorológica resumida cuando se minimiza el widget</string>
     <string name="weather_show_when_minimized_title">Mostrar al minimizar</string>
     <string name="weather_alternate_icons_summary">Seleccione esta opción para alternar entre los iconos estándar (Color) y los alternativos (Blanco)</string>
+    <string name="app_name_maps">Mapas</string>
 </resources>
