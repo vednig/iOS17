@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import foundation.e.blisslauncher.core.utils.OffsetParent
 
-class SwipeSearchContainer @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
-) : FrameLayout(context, attrs), OffsetParent {
+class SwipeSearchContainer
+@JvmOverloads
+constructor(context: Context, attrs: AttributeSet? = null) :
+    FrameLayout(context, attrs), OffsetParent {
 
     private val offsetParentDelegate = OffsetParent.OffsetParentDelegate()
 

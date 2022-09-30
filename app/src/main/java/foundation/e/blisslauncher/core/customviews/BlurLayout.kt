@@ -6,10 +6,8 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate
 
-open class BlurLayout @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
-) : FrameLayout(context, attrs) {
+open class BlurLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
+    FrameLayout(context, attrs) {
 
     private val delegate = BlurViewDelegate(this, attrs)
 

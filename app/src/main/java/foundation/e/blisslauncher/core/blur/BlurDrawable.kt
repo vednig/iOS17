@@ -61,10 +61,11 @@ class BlurDrawable internal constructor(private val blurWallpaperProvider: BlurW
         setBlurBounds(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
 
     fun setBlurBounds(left: Float, top: Float, right: Float, bottom: Float) {
-        if (blurBounds.left != left ||
-            blurBounds.top != top ||
-            blurBounds.right != right ||
-            blurBounds.bottom != bottom
+        if (
+            blurBounds.left != left ||
+                blurBounds.top != top ||
+                blurBounds.right != right ||
+                blurBounds.bottom != bottom
         ) {
             blurBounds.set(left, top, right, bottom)
         }
@@ -81,8 +82,7 @@ class BlurDrawable internal constructor(private val blurWallpaperProvider: BlurW
         invalidateSelf()
     }
 
-    override fun setColorFilter(colorFilter: ColorFilter?) {
-    }
+    override fun setColorFilter(colorFilter: ColorFilter?) {}
 
     fun startListening() = blurWallpaperProvider.addListener(this)
 

@@ -14,10 +14,8 @@ import foundation.e.blisslauncher.R
 import foundation.e.blisslauncher.core.customviews.HorizontalPager
 import foundation.e.blisslauncher.core.utils.OffsetParent
 
-class BlurViewDelegate(
-    private val view: View,
-    attrs: AttributeSet? = null
-) : View.OnAttachStateChangeListener, BlurWallpaperProvider.Listener {
+class BlurViewDelegate(private val view: View, attrs: AttributeSet? = null) :
+    View.OnAttachStateChangeListener, BlurWallpaperProvider.Listener {
 
     private val context = view.context
     private val blurWallpaperProvider by lazy { BlurWallpaperProvider.getInstance(context) }
@@ -27,15 +25,13 @@ class BlurViewDelegate(
 
     private val blurDrawableCallback by lazy {
         object : Drawable.Callback {
-            override fun unscheduleDrawable(who: Drawable, what: Runnable) {
-            }
+            override fun unscheduleDrawable(who: Drawable, what: Runnable) {}
 
             override fun invalidateDrawable(who: Drawable) {
                 view.post(view::invalidate)
             }
 
-            override fun scheduleDrawable(who: Drawable, what: Runnable, `when`: Long) {
-            }
+            override fun scheduleDrawable(who: Drawable, what: Runnable, `when`: Long) {}
         }
     }
 
@@ -53,31 +49,35 @@ class BlurViewDelegate(
     private var parentOffsetY = 0f
 
     private val onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener { updateBounds() }
-    private val onScrollChangedListener = ViewTreeObserver.OnScrollChangedListener {
-        isScrolling = true
-        view.invalidate()
-    }
-    private val onOffsetChangeListener = object : OffsetParent.OnOffsetChangeListener {
-        override fun onOffsetChange() {
-            computeParentOffset()
+    private val onScrollChangedListener =
+        ViewTreeObserver.OnScrollChangedListener {
+            isScrolling = true
+            view.invalidate()
         }
-    }
+    private val onOffsetChangeListener =
+        object : OffsetParent.OnOffsetChangeListener {
+            override fun onOffsetChange() {
+                computeParentOffset()
+            }
+        }
 
     var blurCornerRadius = 0f
-    val outlineProvider = object : ViewOutlineProvider() {
-        override fun getOutline(view: View, outline: Outline) {
-            outline.setRoundRect(0, 0, view.width, view.height, blurCornerRadius)
+    val outlineProvider =
+        object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                outline.setRoundRect(0, 0, view.width, view.height, blurCornerRadius)
+            }
         }
-    }
 
     var overlayColor: Int = 0
         set(value) {
             field = value
             overlayPaint.color = value
         }
-    private val overlayPaint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG).apply {
-        blendMode = BlendMode.OVERLAY
-    }
+    private val overlayPaint =
+        Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG).apply {
+            blendMode = BlendMode.OVERLAY
+        }
 
     init {
         createFullBlurDrawable()
@@ -85,14 +85,8 @@ class BlurViewDelegate(
 
         if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.BlurLayout)
-            blurCornerRadius = a.getDimension(
-                R.styleable.BlurLayout_blurCornerRadius,
-                0f
-            )
-            overlayColor = a.getColor(
-                R.styleable.BlurLayout_blurOverlayColor,
-                0
-            )
+            blurCornerRadius = a.getDimension(R.styleable.BlurLayout_blurCornerRadius, 0f)
+            overlayColor = a.getColor(R.styleable.BlurLayout_blurOverlayColor, 0)
             a.recycle()
         }
     }
@@ -125,8 +119,10 @@ class BlurViewDelegate(
         }
         if (overlayColor != 0) {
             canvas.drawRect(
-                view.left.toFloat(), view.top.toFloat(),
-                view.right.toFloat(), view.bottom.toFloat(),
+                view.left.toFloat(),
+                view.top.toFloat(),
+                view.right.toFloat(),
+                view.bottom.toFloat(),
                 overlayPaint
             )
         }
@@ -134,11 +130,12 @@ class BlurViewDelegate(
 
     private fun createFullBlurDrawable() {
         fullBlurDrawable?.let { if (view.isAttachedToWindow) it.stopListening() }
-        fullBlurDrawable = blurWallpaperProvider.createBlurDrawable().apply {
-            callback = blurDrawableCallback
-            setBounds(view.left, view.top, view.right, view.bottom)
-            if (view.isAttachedToWindow) startListening()
-        }
+        fullBlurDrawable =
+            blurWallpaperProvider.createBlurDrawable().apply {
+                callback = blurDrawableCallback
+                setBounds(view.left, view.top, view.right, view.bottom)
+                if (view.isAttachedToWindow) startListening()
+            }
     }
 
     override fun onEnabledChanged() {
@@ -163,7 +160,12 @@ class BlurViewDelegate(
         }
         val right = left + view.width
         val bottom = top + view.height
-        fullBlurDrawable?.setBlurBounds(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
+        fullBlurDrawable?.setBlurBounds(
+            left.toFloat(),
+            top.toFloat(),
+            right.toFloat(),
+            bottom.toFloat()
+        )
         view.invalidate()
         this.offsetParents = offsetParents
         computeScrollOffset()
@@ -199,6 +201,9 @@ class BlurViewDelegate(
     }
 
     private fun updateOffsets() {
-        fullBlurDrawable?.setOffsets(previousScrollX.toFloat() + parentOffsetX, previousScrollY.toFloat() + parentOffsetY)
+        fullBlurDrawable?.setOffsets(
+            previousScrollX.toFloat() + parentOffsetX,
+            previousScrollY.toFloat() + parentOffsetY
+        )
     }
 }

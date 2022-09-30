@@ -9,11 +9,10 @@ import foundation.e.blisslauncher.BlissLauncher
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate
 import foundation.e.blisslauncher.core.utils.OffsetParent
 
-class DockGridLayout @JvmOverloads constructor(
-    private val mContext: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : GridLayout(mContext, attrs, defStyleAttr), Insettable, OffsetParent {
+class DockGridLayout
+@JvmOverloads
+constructor(private val mContext: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    GridLayout(mContext, attrs, defStyleAttr), Insettable, OffsetParent {
 
     private val offsetParentDelegate = OffsetParent.OffsetParentDelegate()
 
@@ -35,12 +34,13 @@ class DockGridLayout @JvmOverloads constructor(
 
     override fun setInsets(insets: Rect) {
         val deviceProfile = BlissLauncher.getApplication(mContext).deviceProfile
-        val lp =
-            layoutParams as InsettableRelativeLayout.LayoutParams
+        val lp = layoutParams as InsettableRelativeLayout.LayoutParams
         lp.height = deviceProfile.hotseatCellHeightPx + insets.bottom
         setPadding(
-            deviceProfile.iconDrawablePaddingPx / 2, 0,
-            deviceProfile.iconDrawablePaddingPx / 2, insets.bottom
+            deviceProfile.iconDrawablePaddingPx / 2,
+            0,
+            deviceProfile.iconDrawablePaddingPx / 2,
+            insets.bottom
         )
         layoutParams = lp
     }

@@ -37,8 +37,10 @@ class WallpaperManagerCompat(val context: Context) {
     var wallpaperColors: WallpaperColorsCompat? = null
         private set
 
-    val colorHints get() = wallpaperColors?.colorHints ?: 0
-    val supportsDarkTheme get() = (colorHints and HINT_SUPPORTS_DARK_THEME) != 0
+    val colorHints
+        get() = wallpaperColors?.colorHints ?: 0
+    val supportsDarkTheme
+        get() = (colorHints and HINT_SUPPORTS_DARK_THEME) != 0
 
     private var wcColorHintsMethod: Method? = null
 
@@ -85,9 +87,7 @@ class WallpaperManagerCompat(val context: Context) {
     }
 
     private fun notifyChange() {
-        listeners.toTypedArray().forEach {
-            it.onColorsChanged()
-        }
+        listeners.toTypedArray().forEach { it.onColorsChanged() }
     }
 
     interface OnColorsChangedListener {
@@ -95,5 +95,7 @@ class WallpaperManagerCompat(val context: Context) {
     }
 
     companion object :
-        SingletonHolder<WallpaperManagerCompat, Context>(ensureOnMainThread(useApplicationContext(::WallpaperManagerCompat)))
+        SingletonHolder<WallpaperManagerCompat, Context>(
+            ensureOnMainThread(useApplicationContext(::WallpaperManagerCompat))
+        )
 }

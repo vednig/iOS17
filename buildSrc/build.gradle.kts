@@ -1,7 +1,3 @@
-repositories {
-    jcenter()
-}
+repositories { mavenCentral() }
 
-plugins {
-    `kotlin-dsl`
-}
+plugins { `kotlin-dsl` }

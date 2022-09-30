@@ -12,7 +12,8 @@ import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import foundation.e.blisslauncher.core.DeviceProfile
 
-class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider: BlurWallpaperProvider) :
+class ShaderBlurDrawable
+internal constructor(private val blurWallpaperProvider: BlurWallpaperProvider) :
     Drawable(), BlurWallpaperProvider.Listener {
 
     private var blurAlpha = 255
@@ -50,12 +51,13 @@ class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider:
             blurBitmap = blurWallpaperProvider.placeholder
         }
         blurBitmap =
-            if (blurBitmap!!.height >= blurBounds.bottom &&
-                blurBitmap!!.width >= blurBounds.right
+            if (
+                blurBitmap!!.height >= blurBounds.bottom && blurBitmap!!.width >= blurBounds.right
             ) {
                 Bitmap.createBitmap(
                     blurBitmap!!,
-                    blurBounds.left.toInt(), blurBounds.top.toInt(),
+                    blurBounds.left.toInt(),
+                    blurBounds.top.toInt(),
                     blurBounds.right.toInt() - blurBounds.left.toInt(),
                     blurBounds.bottom.toInt() - blurBounds.top.toInt()
                 )
@@ -63,19 +65,21 @@ class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider:
                 blurBitmap
             }
 
-        //setupBlurPath()
+        // setupBlurPath()
 
-        //canvas.translate(0f, -1500f)
+        // canvas.translate(0f, -1500f)
         if (noRadius) {
             canvas.drawRect(
-                0f, 0f,
-                blurBounds.right - blurBounds.left, blurBounds.bottom - blurBounds.top,
+                0f,
+                0f,
+                blurBounds.right - blurBounds.left,
+                blurBounds.bottom - blurBounds.top,
                 blurPaint
             )
         } else {
             canvas.drawPath(DeviceProfile.path, blurPaint)
         }
-        //canvas.translate(0f, 1500f)
+        // canvas.translate(0f, 1500f)
     }
 
     override fun setAlpha(alpha: Int) {
@@ -104,10 +108,11 @@ class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider:
         setBlurBounds(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
 
     fun setBlurBounds(left: Float, top: Float, right: Float, bottom: Float) {
-        if (blurBounds.left != left ||
-            blurBounds.top != top ||
-            blurBounds.right != right ||
-            blurBounds.bottom != bottom
+        if (
+            blurBounds.left != left ||
+                blurBounds.top != top ||
+                blurBounds.right != right ||
+                blurBounds.bottom != bottom
         ) {
             blurBounds.set(left, top, right, bottom)
             blurPathValid = false
@@ -120,8 +125,7 @@ class ShaderBlurDrawable internal constructor(private val blurWallpaperProvider:
         invalidateSelf()
     }
 
-    override fun setColorFilter(colorFilter: ColorFilter?) {
-    }
+    override fun setColorFilter(colorFilter: ColorFilter?) {}
 
     fun startListening() = blurWallpaperProvider.addListener(this)
 
