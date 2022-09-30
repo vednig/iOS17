@@ -36,16 +36,7 @@ build/
 
 # IntelliJ
 *iml
-.idea/workspace.xml
-.idea/libraries
-.idea/caches
-.idea/navEditor.xml
-.idea/tasks.xml
-.idea/modules.xml
-.idea/assetWizardSettings.xml
-.idea/markdown-navigator*
-.idea/compiler.xml
-.idea/jarRepositories.xml
+.idea/
 projectFilesBackup/
 
 gradle.xml

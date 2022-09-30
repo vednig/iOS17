@@ -1480,8 +1480,7 @@ public class LauncherActivity extends AppCompatActivity implements
         findViewById(R.id.edit_widgets_button).setOnClickListener(
                 view -> startActivity(new Intent(this, WidgetsActivity.class)));
 
-        if (WeatherUtils.isWeatherServiceAvailable(
-                this)) {
+        if (WeatherUtils.isWeatherServiceAvailable(this)) {
             startService(new Intent(this, WeatherSourceListenerService.class));
             startService(new Intent(this, DeviceStatusService.class));
         }

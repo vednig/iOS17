@@ -22,7 +22,8 @@ abstract class FlowableInteractor<in P, T> : Interactor<P>, Disposable {
     protected abstract fun buildObservable(params: P? = null): Flowable<T>
 
     operator fun invoke(params: P, onNext: (next: T) -> Unit = {}, onComplete: () -> Unit = {}) {
-        disposables += this.buildObservable(params)
+        disposables +=
+            this.buildObservable(params)
                 .subscribeOn(Schedulers.from(threadExecutor))
                 .observeOn(postExecutionThread.scheduler)
                 .subscribe(onNext, Timber::w, onComplete)
@@ -40,7 +41,8 @@ abstract class CompletableInteractor<in P> : Interactor<P>, Disposable {
     protected abstract fun buildObservable(params: P? = null): Completable
 
     operator fun invoke(params: P, onComplete: () -> Unit = {}) {
-        disposables += this.buildObservable(params)
+        disposables +=
+            this.buildObservable(params)
                 .subscribeOn(Schedulers.from(threadExecutor))
                 .observeOn(postExecutionThread.scheduler)
                 .subscribe(onComplete, Timber::w)

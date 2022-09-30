@@ -1,0 +1,76 @@
+[versions]
+agp = "7.3.0"
+axCore = "1.2.0-alpha03"
+axAppcompat = "1.4.1"
+axTest = "1.2.0"
+dagger = "2.24"
+kotlin = "1.7.10"
+okhttp = "4.1.0"
+refine = "3.1.1"
+retrofit = "2.6.1"
+room = "2.2.0-beta01"
+spotless = "6.11.0"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "axCore" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "axAppcompat" }
+androidx-recyclerview = "androidx.recyclerview:recyclerview:1.1.0-beta03"
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "axTest" }
+androidx-test-rules = { module = "androidx.test:rules", version.ref = "axTest" }
+androidx-localbroadcast = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
+apache-commons = "org.apache.commons:commons-lang3:3.12.0"
+
+build-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "dagger" }
+
+greenrobot-eventbus = "org.greenrobot:eventbus:3.1.1"
+hoko-blur = "com.hoko:hoko-blur:1.3.4"
+
+kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+
+refine-annotation = { module = "dev.rikka.tools.refine:annotation", version.ref = "refine" }
+refine-annotation-processor = { module = "dev.rikka.tools.refine:annotation-processor", version.ref = "refine" }
+refine-runtime = { module = "dev.rikka.tools.refine:runtime", version.ref = "refine" }
+
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-rxjava-adapter = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "retrofit" }
+retrofit-gson-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+
+rx-android = "io.reactivex.rxjava2:rxandroid:2.1.1"
+rx-binding = "com.jakewharton.rxbinding3:rxbinding:3.0.0"
+rx-java = "io.reactivex.rxjava2:rxjava:2.2.11"
+rx-kotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0"
+rx-relay = "com.jakewharton.rxrelay2:rxrelay:2.1.1"
+
+arch-core = "androidx.arch.core:core-testing:2.0.1"
+debug-db = "com.amitshekhar.android:debug-db:1.0.4"
+circleindicator = "me.relex:circleindicator:2.1.4"
+espresso-core = "androidx.test.espresso:espresso-core:3.2.0"
+junit = "junit:junit:4.12"
+mockk = "io.mockk:mockk:1.9.3"
+mockito-core = "org.mockito:mockito-core:2.19.0"
+robolectric = "org.robolectric:robolectric:4.3"
+tools-desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
+timber = "com.jakewharton.timber:timber:4.7.1"
+restriction-bypass = "com.github.ChickenHook:RestrictionBypass:2.2"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+benmanes-versions = "com.github.ben-manes.versions:0.25.0"
+google-services = "com.google.gms.google-services:4.3.0"
+refine = { id = "dev.rikka.tools.refine", version.ref = "refine" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+
+[bundles]
+testing-unit = ["arch-core", "junit", "robolectric", "mockito-core"]
+testing-android = ["junit", "espresso-core", "androidx-test-runner", "androidx-test-rules"]

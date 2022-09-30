@@ -20,8 +20,8 @@ import foundation.e.blisslauncher.R
 import kotlin.math.abs
 
 /**
- * [PageIndicator] which shows dots per page. The active page is shown with the current
- * accent color.
+ * [PageIndicator] which shows dots per page. The active page is shown with the current accent
+ * color.
  */
 class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
     View(context, attrs, defStyleAttr), PageIndicator {
@@ -33,13 +33,10 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
     private var mNumPages = 0
     private var mActivePage = 0
     /**
-     * The current position of the active dot including the animation progress.
-     * For ex:
-     * 0.0  => Active dot is at position 0
-     * 0.33 => Active dot is at position 0 and is moving towards 1
-     * 0.50 => Active dot is at position [0, 1]
-     * 0.77 => Active dot has left position 0 and is collapsing towards position 1
-     * 1.0  => Active dot is at position 1
+     * The current position of the active dot including the animation progress. For ex: 0.0 =>
+     * Active dot is at position 0 0.33 => Active dot is at position 0 and is moving towards 1 0.50
+     * => Active dot is at position [0, 1] 0.77 => Active dot has left position 0 and is collapsing
+     * towards position 1 1.0 => Active dot is at position 1
      */
     private var mCurrentPosition = 0f
     private var mFinalPosition = 0f
@@ -60,13 +57,17 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
             val pageToLeft = currentScroll / scrollPerPage
             val pageToLeftScroll = pageToLeft * scrollPerPage
             val pageToRightScroll = pageToLeftScroll + scrollPerPage
-            val scrollThreshold =
-                SHIFT_THRESHOLD * scrollPerPage
+            val scrollThreshold = SHIFT_THRESHOLD * scrollPerPage
             when {
-                currentScroll < pageToLeftScroll + scrollThreshold -> { // scroll is within the left page's threshold
+                currentScroll <
+                    pageToLeftScroll +
+                        scrollThreshold -> { // scroll is within the left page's threshold
                     animateToPosition(pageToLeft.toFloat())
                 }
-                currentScroll > pageToRightScroll - scrollThreshold -> { // scroll is far enough from left page to go to the right page
+                currentScroll >
+                    pageToRightScroll -
+                        scrollThreshold -> { // scroll is far enough from left page to go to the
+                    // right page
                     animateToPosition(pageToLeft + 1.toFloat())
                 }
                 else -> { // scroll is between left and right page
@@ -83,15 +84,13 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
         }
         if (mAnimator == null && mCurrentPosition.compareTo(mFinalPosition) != 0) {
             val positionForThisAnim =
-                if (mCurrentPosition > mFinalPosition) mCurrentPosition - SHIFT_PER_ANIMATION else mCurrentPosition + SHIFT_PER_ANIMATION
-            mAnimator = ObjectAnimator.ofFloat(
-                this,
-                CURRENT_POSITION,
-                positionForThisAnim
-            ).apply {
-                addListener(AnimationCycleListener())
-                duration = ANIMATION_DURATION
-            }
+                if (mCurrentPosition > mFinalPosition) mCurrentPosition - SHIFT_PER_ANIMATION
+                else mCurrentPosition + SHIFT_PER_ANIMATION
+            mAnimator =
+                ObjectAnimator.ofFloat(this, CURRENT_POSITION, positionForThisAnim).apply {
+                    addListener(AnimationCycleListener())
+                    duration = ANIMATION_DURATION
+                }
             mAnimator?.start()
         }
     }
@@ -106,8 +105,8 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
     }
 
     /**
-     * Sets up up the page indicator to play the entry animation.
-     * [.playEntryAnimation] must be called after this.
+     * Sets up up the page indicator to play the entry animation. [.playEntryAnimation] must be
+     * called after this.
      */
     fun prepareEntryAnimation() {
         mEntryAnimationRadiusFactors = FloatArray(mNumPages)
@@ -121,15 +120,12 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
             invalidate()
             return
         }
-        val interpolator: Interpolator =
-            OvershootInterpolator(ENTER_ANIMATION_OVERSHOOT_TENSION)
+        val interpolator: Interpolator = OvershootInterpolator(ENTER_ANIMATION_OVERSHOOT_TENSION)
         val animSet = AnimatorSet()
         for (i in 0 until count) {
-            val anim = ValueAnimator.ofFloat(0f, 1f)
-                .setDuration(ENTER_ANIMATION_DURATION.toLong())
+            val anim = ValueAnimator.ofFloat(0f, 1f).setDuration(ENTER_ANIMATION_DURATION.toLong())
             anim!!.addUpdateListener { animation ->
-                mEntryAnimationRadiusFactors!![i] =
-                    (animation!!.animatedValue as Float)
+                mEntryAnimationRadiusFactors!![i] = (animation!!.animatedValue as Float)
                 invalidate()
             }
             anim.interpolator = interpolator
@@ -137,13 +133,15 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
                 ENTER_ANIMATION_START_DELAY + ENTER_ANIMATION_STAGGERED_DELAY * i.toLong()
             animSet.play(anim)
         }
-        animSet.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                mEntryAnimationRadiusFactors = null
-                invalidateOutline()
-                invalidate()
+        animSet.addListener(
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    mEntryAnimationRadiusFactors = null
+                    invalidateOutline()
+                    invalidate()
+                }
             }
-        })
+        )
         animSet.start()
     }
 
@@ -163,13 +161,13 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
         heightMeasureSpec: Int
     ) { // Add extra spacing of mDotRadius on all sides so that entry animation could be run.
         val width =
-            if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY) MeasureSpec.getSize(
-                widthMeasureSpec
-            ) else ((mNumPages * 3 + 2) * mDotRadius).toInt()
+            if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY)
+                MeasureSpec.getSize(widthMeasureSpec)
+            else ((mNumPages * 3 + 2) * mDotRadius).toInt()
         val height =
-            if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) MeasureSpec.getSize(
-                heightMeasureSpec
-            ) else (4 * mDotRadius).toInt()
+            if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY)
+                MeasureSpec.getSize(heightMeasureSpec)
+            else (4 * mDotRadius).toInt()
         setMeasuredDimension(width, height)
     }
 
@@ -215,8 +213,7 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
             sTempRect!!.top = height * 0.5f - mDotRadius
             sTempRect.bottom = height * 0.5f + mDotRadius
             sTempRect.left = startX + startCircle * circleGap
-            sTempRect.right =
-                sTempRect.left + diameter
+            sTempRect.right = sTempRect.left + diameter
             if (delta < SHIFT_PER_ANIMATION) { // dot is capturing the right circle.
                 sTempRect.right += delta * circleGap * 2
             } else { // Dot is leaving the left circle.
@@ -226,10 +223,8 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
             }
             if (mIsRtl) {
                 val rectWidth = sTempRect.width()
-                sTempRect.right =
-                    width - sTempRect.left
-                sTempRect.left =
-                    sTempRect.right - rectWidth
+                sTempRect.right = width - sTempRect.left
+                sTempRect.left = sTempRect.right - rectWidth
             }
             return sTempRect
         }
@@ -249,9 +244,7 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
         }
     }
 
-    /**
-     * Listener for keep running the animation until the final state is reached.
-     */
+    /** Listener for keep running the animation until the final state is reached. */
     private inner class AnimationCycleListener : AnimatorListenerAdapter() {
         private var mCancelled = false
         override fun onAnimationCancel(animation: Animator?) {
@@ -277,9 +270,7 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
         private const val ENTER_ANIMATION_OVERSHOOT_TENSION = 4.9f
         private val sTempRect: RectF? = RectF()
         private val CURRENT_POSITION: Property<PageIndicatorDots, Float> =
-            object : Property<PageIndicatorDots, Float>(
-                Float::class.java, "current_position"
-            ) {
+            object : Property<PageIndicatorDots, Float>(Float::class.java, "current_position") {
                 override fun get(obj: PageIndicatorDots): Float {
                     return obj.mCurrentPosition
                 }
@@ -298,6 +289,6 @@ class PageIndicatorDots(context: Context?, attrs: AttributeSet?, defStyleAttr: I
         outlineProvider = MyOutlineProver()
         mActiveColor = resources.getColor(R.color.dot_on_color)
         mInActiveColor = resources.getColor(R.color.dot_on_color)
-        //mIsRtl = Utilities.isRtl(getResources())
+        // mIsRtl = Utilities.isRtl(getResources())
     }
 }

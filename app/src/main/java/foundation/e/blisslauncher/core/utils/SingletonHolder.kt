@@ -8,8 +8,7 @@ import java.util.concurrent.ExecutionException
 
 open class SingletonHolder<out T, in A>(creator: (A) -> T) {
     private var creator: ((A) -> T)? = creator
-    @Volatile
-    private var instance: T? = null
+    @Volatile private var instance: T? = null
 
     open fun getInstance(arg: A): T {
         val i = instance
@@ -48,6 +47,7 @@ fun <T, A> ensureOnMainThread(creator: (A) -> T): (A) -> T {
         }
     }
 }
+
 fun <T> useApplicationContext(creator: (Context) -> T): (Context) -> T {
     return { it -> creator(it.applicationContext) }
 }

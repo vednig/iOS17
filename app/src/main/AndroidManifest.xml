@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="foundation.e.blisslauncher">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <permission
         android:name="com.android.launcher.permission.INSTALL_SHORTCUT"
@@ -164,7 +163,7 @@
             </intent-filter>
         </receiver>-->
 
-        <receiver android:name="core.broadcast.PackageAddedRemovedHandler" />
+        <receiver android:name=".core.broadcast.PackageAddedRemovedHandler" />
 
         <meta-data
             android:name="android.nfc.disable_beam_default"

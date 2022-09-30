@@ -17,23 +17,15 @@ package foundation.e.blisslauncher.core.wallpaper
 
 import androidx.annotation.IntDef
 
-data class WallpaperColorsCompat(
-    val primaryColor: Int,
-    @ColorsHints val colorHints: Int
-) {
+data class WallpaperColorsCompat(val primaryColor: Int, @ColorsHints val colorHints: Int) {
 
     companion object {
 
         const val HINT_SUPPORTS_DARK_TEXT = 0x1
         const val HINT_SUPPORTS_DARK_THEME = 0x2
 
-        @IntDef(
-            value = [HINT_SUPPORTS_DARK_TEXT, HINT_SUPPORTS_DARK_THEME],
-            flag = true
-        )
-        @Retention(
-            AnnotationRetention.SOURCE
-        )
+        @IntDef(value = [HINT_SUPPORTS_DARK_TEXT, HINT_SUPPORTS_DARK_THEME], flag = true)
+        @Retention(AnnotationRetention.SOURCE)
         annotation class ColorsHints
     }
 }

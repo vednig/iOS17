@@ -73,8 +73,7 @@ class BlurWallpaperProvider(val context: Context) {
         }
 
         // Prepare a placeholder before hand so that it can be used in case wallpaper is null
-        val wm =
-            context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
         display.getRealMetrics(displayMetrics)
         val width = displayMetrics.widthPixels
@@ -83,7 +82,8 @@ class BlurWallpaperProvider(val context: Context) {
         val canvas = Canvas(placeholder!!)
         canvas.drawColor(0x44000000)
 
-        if (ActivityCompat.checkSelfPermission(
+        if (
+            ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
@@ -95,9 +95,7 @@ class BlurWallpaperProvider(val context: Context) {
         val enabled = getEnabledStatus()
         if (enabled != isEnabled) {
             isEnabled = enabled
-            runOnMainThread {
-                listeners.safeForEach(Listener::onEnabledChanged)
-            }
+            runOnMainThread { listeners.safeForEach(Listener::onEnabledChanged) }
         }
 
         if (!isEnabled) {
@@ -105,33 +103,40 @@ class BlurWallpaperProvider(val context: Context) {
             return
         }
 
-        var wallpaper = try {
-            Utilities.drawableToBitmap(wallpaperManager.drawable, true) as Bitmap
-        } catch (e: Exception) {
-            runOnMainThread {
-                val msg = "Failed: ${e.message}"
-                Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-                notifyWallpaperChanged()
+        var wallpaper =
+            try {
+                Utilities.drawableToBitmap(wallpaperManager.drawable, true) as Bitmap
+            } catch (e: Exception) {
+                runOnMainThread {
+                    val msg = "Failed: ${e.message}"
+                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+                    notifyWallpaperChanged()
+                }
+                return
             }
-            return
-        }
         wallpaper = scaleAndCropToScreenSize(wallpaper)
         wallpaper = applyVibrancy(wallpaper)
-        applyTask = wallpaperFilter.apply(wallpaper).setCallback { result, error ->
-            if (error == null) {
-                this@BlurWallpaperProvider.wallpapers = result
-                runOnMainThread(::notifyWallpaperChanged)
-                wallpaper.recycle()
-            } else {
-                if (error is OutOfMemoryError) {
-                    runOnMainThread {
-                        Toast.makeText(context, context.getString(R.string.toast_failed), Toast.LENGTH_LONG).show()
-                        notifyWallpaperChanged()
+        applyTask =
+            wallpaperFilter.apply(wallpaper).setCallback { result, error ->
+                if (error == null) {
+                    this@BlurWallpaperProvider.wallpapers = result
+                    runOnMainThread(::notifyWallpaperChanged)
+                    wallpaper.recycle()
+                } else {
+                    if (error is OutOfMemoryError) {
+                        runOnMainThread {
+                            Toast.makeText(
+                                    context,
+                                    context.getString(R.string.toast_failed),
+                                    Toast.LENGTH_LONG
+                                )
+                                .show()
+                            notifyWallpaperChanged()
+                        }
                     }
+                    wallpaper.recycle()
                 }
-                wallpaper.recycle()
             }
-        }
         applyTask = null
         if (updatePending) {
             updatePending = false
@@ -146,11 +151,7 @@ class BlurWallpaperProvider(val context: Context) {
     private fun applyVibrancy(wallpaper: Bitmap?): Bitmap {
         val width = wallpaper!!.width
         val height = wallpaper.height
-        val bitmap = Bitmap.createBitmap(
-            width,
-            height,
-            Bitmap.Config.ARGB_8888
-        )
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas()
         canvas.setBitmap(bitmap)
         val colorMatrix = ColorMatrix()
@@ -163,8 +164,7 @@ class BlurWallpaperProvider(val context: Context) {
     }
 
     private fun scaleAndCropToScreenSize(wallpaper: Bitmap): Bitmap {
-        val wm =
-            context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
         display.getRealMetrics(displayMetrics)
         val width = displayMetrics.widthPixels
@@ -175,12 +175,9 @@ class BlurWallpaperProvider(val context: Context) {
         if (upscaleFactor <= 0) {
             return wallpaper
         }
-        val scaledWidth =
-            max(width.toFloat(), wallpaper.width * upscaleFactor).toInt()
-        val scaledHeight =
-            max(height.toFloat(), wallpaper.height * upscaleFactor).toInt()
-        val scaledWallpaper =
-            Bitmap.createScaledBitmap(wallpaper, scaledWidth, scaledHeight, false)
+        val scaledWidth = max(width.toFloat(), wallpaper.width * upscaleFactor).toInt()
+        val scaledHeight = max(height.toFloat(), wallpaper.height * upscaleFactor).toInt()
+        val scaledWallpaper = Bitmap.createScaledBitmap(wallpaper, scaledWidth, scaledHeight, false)
         val navigationBarHeight = 0
         /*if (BlissLauncher.getApplication(context).getDeviceProfile().hasSoftNavigationBar(context)) {
 
@@ -190,17 +187,12 @@ class BlurWallpaperProvider(val context: Context) {
             }
         }*/
         val y: Int
-        y = if (scaledWallpaper.height > height) {
-            (scaledWallpaper.height - height) / 2
-        } else 0
+        y =
+            if (scaledWallpaper.height > height) {
+                (scaledWallpaper.height - height) / 2
+            } else 0
 
-        return Bitmap.createBitmap(
-            scaledWallpaper,
-            0,
-            y,
-            width,
-            height - navigationBarHeight
-        )
+        return Bitmap.createBitmap(scaledWallpaper, 0, y, width, height - navigationBarHeight)
     }
 
     fun addListener(listener: Listener) {
@@ -231,7 +223,9 @@ class BlurWallpaperProvider(val context: Context) {
     }*/
 
     companion object :
-        SingletonHolder<BlurWallpaperProvider, Context>(ensureOnMainThread(useApplicationContext(::BlurWallpaperProvider))) {
+        SingletonHolder<BlurWallpaperProvider, Context>(
+            ensureOnMainThread(useApplicationContext(::BlurWallpaperProvider))
+        ) {
 
         var isEnabled: Boolean = false
         private var sEnabledFlag: Int = 0
