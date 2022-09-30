@@ -1755,6 +1755,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         icon.setOnLongClickListener(view -> {
+            view.setHapticFeedbackEnabled(true);
             handleWobbling(true);
             longPressed = true;
             return true;
