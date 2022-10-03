@@ -39,8 +39,7 @@ public class SearchSuggestionUtil {
 
     private String defaultSearchEngine(Context context) {
         ContentResolver contentResolver = context.getContentResolver();
-        Uri uri = Uri.parse("content://foundation.e.browser.provider").buildUpon().appendPath(
-                "search_engine").build();
+        Uri uri = Uri.parse("content://foundation.e.browser.provider").buildUpon().appendPath("search_engine").build();
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             return cursor.getString(0);

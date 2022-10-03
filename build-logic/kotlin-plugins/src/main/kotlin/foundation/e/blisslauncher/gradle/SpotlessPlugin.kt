@@ -16,6 +16,9 @@ class SpotlessPlugin : Plugin<Project> {
             java {
                 target("**/*.java")
                 removeUnusedImports()
+                eclipse()
+                indentWithTabs(2)
+                indentWithSpaces(4)
             }
 
             kotlin {

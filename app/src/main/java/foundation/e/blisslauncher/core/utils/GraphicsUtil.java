@@ -24,14 +24,12 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.database.model.FolderItem;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GraphicsUtil {
 
@@ -48,8 +46,8 @@ public class GraphicsUtil {
     }
 
     /**
-     * Takes 1 or more drawables and merges them to form a single Drawable.
-     * However, if more than 4 drawables are provided, only the first 4 are used.
+     * Takes 1 or more drawables and merges them to form a single Drawable. However,
+     * if more than 4 drawables are provided, only the first 4 are used.
      */
     public Drawable generateFolderIcon(Context context, Drawable... sources) {
         int width = appIconWidth;
@@ -88,8 +86,8 @@ public class GraphicsUtil {
     }
 
     /**
-     * A utility method that simplifies calls to the generateFolderIcon() method that
-     * expects an array of Drawables.
+     * A utility method that simplifies calls to the generateFolderIcon() method
+     * that expects an array of Drawables.
      */
     public Drawable generateFolderIcon(Context context, FolderItem app) {
         Drawable[] drawables = new Drawable[app.items.size()];
@@ -99,9 +97,7 @@ public class GraphicsUtil {
         return generateFolderIcon(context, drawables);
     }
 
-    /**
-     * Scales icons to match the icon pack
-     */
+    /** Scales icons to match the icon pack */
     public Drawable scaleImage(Context context, Drawable image, float scaleFactor) {
         if ((image == null) || !(image instanceof BitmapDrawable)) {
             return image;
@@ -117,27 +113,22 @@ public class GraphicsUtil {
     public Bitmap addBackground(Bitmap bitmap, boolean isFolder) {
         if (!hasTransparency(bitmap)) {
             bitmap = Bitmap.createScaledBitmap(bitmap, appIconWidth,
-                    (appIconWidth * bitmap.getHeight() / bitmap.getWidth()),
-                    true);
+                    (appIconWidth * bitmap.getHeight() / bitmap.getWidth()), true);
             return bitmap;
         }
         if (bitmap.getWidth() >= appIconWidth) {
             bitmap = Bitmap.createScaledBitmap(bitmap, appIconWidth,
-                    (appIconWidth * bitmap.getHeight() / bitmap.getWidth()),
-                    true);
+                    (appIconWidth * bitmap.getHeight() / bitmap.getWidth()), true);
         }
 
         int width = appIconWidth;
         int height = width;
-        Bitmap mergedBitmap = Bitmap.createBitmap(width, height, Bitmap
-                .Config.ARGB_8888);
+        Bitmap mergedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(mergedBitmap);
         canvas.drawColor(isFolder ? mFolderPreviewBackgroundColor : getDominantColor(bitmap));
 
-        Paint paint = new Paint(
-                Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bitmap, (width - bitmap.getWidth()) / 2,
-                (height - bitmap.getHeight()) / 2, paint);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
+        canvas.drawBitmap(bitmap, (width - bitmap.getWidth()) / 2, (height - bitmap.getHeight()) / 2, paint);
         return mergedBitmap;
     }
 
@@ -146,8 +137,8 @@ public class GraphicsUtil {
         if (appIcon instanceof BitmapDrawable) {
             bitmap = ((BitmapDrawable) appIcon).getBitmap();
         } else {
-            bitmap = Bitmap.createBitmap(appIcon.getIntrinsicWidth(),
-                    appIcon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(appIcon.getIntrinsicWidth(), appIcon.getIntrinsicHeight(),
+                    Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             appIcon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             appIcon.draw(canvas);
@@ -156,8 +147,7 @@ public class GraphicsUtil {
     }
 
     public BitmapDrawable convertToRoundedCorner(Context context, Bitmap src) {
-        return new BitmapDrawable(context.getResources(),
-                BitmapUtils.getCroppedBitmap(src, DeviceProfile.path));
+        return new BitmapDrawable(context.getResources(), BitmapUtils.getCroppedBitmap(src, DeviceProfile.path));
     }
 
     public boolean hasTransparency(Bitmap bitmap) {
@@ -172,11 +162,11 @@ public class GraphicsUtil {
         return false;
     }
 
-
     /**
      * Finds the color with the most occurrences inside of a bitmap.
      *
-     * @param drawable to get the dominant color of
+     * @param drawable
+     *            to get the dominant color of
      * @return the dominant color
      */
     public int getDominantColor(Drawable drawable) {
@@ -186,7 +176,8 @@ public class GraphicsUtil {
     /**
      * Finds the color with the most occurrences inside of a bitmap.
      *
-     * @param bitmap the bitmap to get the dominant color of
+     * @param bitmap
+     *            the bitmap to get the dominant color of
      * @return the dominant color
      */
     private int getDominantColor(Bitmap bitmap) {
@@ -220,5 +211,4 @@ public class GraphicsUtil {
             return Color.WHITE;
         }
     }
-
 }

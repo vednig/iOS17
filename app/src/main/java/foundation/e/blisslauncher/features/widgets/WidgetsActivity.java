@@ -8,14 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
-
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
@@ -26,6 +21,8 @@ import foundation.e.blisslauncher.core.executors.AppExecutors;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnActionClickListener {
 
@@ -51,8 +48,7 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
         addedWidgets.setLayoutManager(new LinearLayoutManager(this));
         addedWidgets.setHasFixedSize(false);
         addedWidgets.setNestedScrollingEnabled(false);
-        addedWidgets.addItemDecoration(
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        addedWidgets.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -77,8 +73,7 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
         int[] widgetIds = mAppWidgetHost.getAppWidgetIds();
         mCompositeDisposable.add(DatabaseManager.getManager(this).getWidgets(widgetIds)
                 .subscribeOn(Schedulers.from(AppExecutors.getInstance().diskIO()))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setWidgetItems));
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(this::setWidgetItems));
     }
 
     private void setWidgetItems(List<WidgetItem> widgetItems) {
@@ -139,10 +134,12 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
         int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
         AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
         if (appWidgetInfo != null && appWidgetInfo.configure != null) {
-            /*Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
-            intent.setComponent(appWidgetInfo.configure);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            startActivityForResult(intent, REQUEST_CREATE_APPWIDGET);*/
+            /*
+             * Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
+             * intent.setComponent(appWidgetInfo.configure);
+             * intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+             * startActivityForResult(intent, REQUEST_CREATE_APPWIDGET);
+             */
             startAppWidgetConfigureActivitySafely(appWidgetId);
         } else {
             createWidget(data);
@@ -153,8 +150,7 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
         Bundle extras = data.getExtras();
         int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
         AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
-        RoundedWidgetView hostView = (RoundedWidgetView) mAppWidgetHost.createView(
-                getApplicationContext(), appWidgetId,
+        RoundedWidgetView hostView = (RoundedWidgetView) mAppWidgetHost.createView(getApplicationContext(), appWidgetId,
                 appWidgetInfo);
         hostView.setAppWidget(appWidgetId, appWidgetInfo);
         WidgetManager.getInstance().enqueueAddWidget(hostView);
@@ -163,11 +159,10 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
 
     void startAppWidgetConfigureActivitySafely(int appWidgetId) {
         try {
-            mAppWidgetHost.startAppWidgetConfigureActivityForResult(this, appWidgetId, 0,
-                    REQUEST_CREATE_APPWIDGET, null);
+            mAppWidgetHost.startAppWidgetConfigureActivityForResult(this, appWidgetId, 0, REQUEST_CREATE_APPWIDGET,
+                    null);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
         }
     }
-
 }

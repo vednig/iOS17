@@ -3,7 +3,6 @@ package foundation.e.blisslauncher.features.weather;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.RemoteViews;
-
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
 

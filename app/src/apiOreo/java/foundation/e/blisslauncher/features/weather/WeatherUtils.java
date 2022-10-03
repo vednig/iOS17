@@ -2,10 +2,8 @@ package foundation.e.blisslauncher.features.weather;
 
 import android.content.Context;
 import android.content.res.Resources;
-
-import java.text.DecimalFormat;
-
 import foundation.e.blisslauncher.R;
+import java.text.DecimalFormat;
 import lineageos.app.LineageContextConstants;
 import lineageos.providers.WeatherContract;
 import lineageos.providers.WeatherContract.WeatherColumns.WeatherCode;
@@ -29,8 +27,11 @@ public final class WeatherUtils {
 
     /**
      * Returns a localized string of the wind direction
-     * @param context Application context to access resources
-     * @param windDirection The wind direction in degrees
+     *
+     * @param context
+     *            Application context to access resources
+     * @param windDirection
+     *            The wind direction in degrees
      * @return The wind direction in string format
      */
     public static String resolveWindDirection(Context context, double windDirection) {
@@ -63,14 +64,18 @@ public final class WeatherUtils {
 
     /**
      * Returns the resource name associated to the supplied weather condition code
-     * @param context Application context to access resources
-     * @param conditionCode The weather condition code
-     * @return The resource name if a valid condition code is passed, empty string otherwise
+     *
+     * @param context
+     *            Application context to access resources
+     * @param conditionCode
+     *            The weather condition code
+     * @return The resource name if a valid condition code is passed, empty string
+     *         otherwise
      */
     public static String resolveWeatherCondition(Context context, int conditionCode) {
         final Resources res = context.getResources();
-        final int resId = res.getIdentifier("weather_"
-                        + WeatherUtils.addOffsetToConditionCodeFromWeatherContract(conditionCode), "string",
+        final int resId = res.getIdentifier(
+                "weather_" + WeatherUtils.addOffsetToConditionCodeFromWeatherContract(conditionCode), "string",
                 context.getPackageName());
         if (resId != 0) {
             return res.getString(resId);
@@ -90,10 +95,13 @@ public final class WeatherUtils {
     }
 
     /**
-     * Returns a string with the format xx% (where xx is the humidity value provided)
-     * @param humidity The humidity value
-     * @return The formatted string if a valid value is provided, "-" otherwise. Decimals are
-     * removed
+     * Returns a string with the format xx% (where xx is the humidity value
+     * provided)
+     *
+     * @param humidity
+     *            The humidity value
+     * @return The formatted string if a valid value is provided, "-" otherwise.
+     *         Decimals are removed
      */
     public static String formatHumidity(double humidity) {
         return getFormattedValue(humidity, "%");
@@ -101,12 +109,16 @@ public final class WeatherUtils {
 
     /**
      * Returns a localized string of the speed and speed unit
-     * @param context Application context to access resources
-     * @param windSpeed The wind speed
-     * @param windSpeedUnit The speed unit. See
-     *        {@link lineageos.providers.WeatherContract.WeatherColumns.WindSpeedUnit}
+     *
+     * @param context
+     *            Application context to access resources
+     * @param windSpeed
+     *            The wind speed
+     * @param windSpeedUnit
+     *            The speed unit. See
+     *            {@link lineageos.providers.WeatherContract.WeatherColumns.WindSpeedUnit}
      * @return The formatted string if a valid speed and speed unit a provided.
-     * {@link R.string#unknown} otherwise
+     *         {@link R.string#unknown} otherwise
      */
     public static String formatWindSpeed(Context context, double windSpeed, int windSpeedUnit) {
         if (windSpeed < 0) {
@@ -115,13 +127,13 @@ public final class WeatherUtils {
 
         String localizedSpeedUnit;
         switch (windSpeedUnit) {
-            case WeatherContract.WeatherColumns.WindSpeedUnit.MPH:
+            case WeatherContract.WeatherColumns.WindSpeedUnit.MPH :
                 localizedSpeedUnit = context.getString(R.string.weather_mph);
                 break;
-            case WeatherContract.WeatherColumns.WindSpeedUnit.KPH:
+            case WeatherContract.WeatherColumns.WindSpeedUnit.KPH :
                 localizedSpeedUnit = context.getString(R.string.weather_kph);
                 break;
-            default:
+            default :
                 return context.getString(R.string.unknown);
         }
         return getFormattedValue(windSpeed, localizedSpeedUnit);
@@ -129,7 +141,9 @@ public final class WeatherUtils {
 
     /**
      * Helper method to convert miles to kilometers
-     * @param miles The value in miles
+     *
+     * @param miles
+     *            The value in miles
      * @return The value in kilometers
      */
     public static double milesToKilometers(double miles) {
@@ -138,7 +152,9 @@ public final class WeatherUtils {
 
     /**
      * Helper method to convert kilometers to miles
-     * @param km The value in kilometers
+     *
+     * @param km
+     *            The value in kilometers
      * @return The value in miles
      */
     public static double kilometersToMiles(double km) {
@@ -146,8 +162,11 @@ public final class WeatherUtils {
     }
 
     /**
-     * Adds an offset to the condition code reported by the active weather service provider.
-     * @param conditionCode The condition code from the Weather API
+     * Adds an offset to the condition code reported by the active weather service
+     * provider.
+     *
+     * @param conditionCode
+     *            The condition code from the Weather API
      * @return A condition code that correctly maps to our resource IDs
      */
     public static int addOffsetToConditionCodeFromWeatherContract(int conditionCode) {
@@ -166,7 +185,9 @@ public final class WeatherUtils {
 
     /**
      * Checks if the Lineage Weather service is available in this device
-     * @param context Context to be used
+     *
+     * @param context
+     *            Context to be used
      * @return true if service is available, false otherwise
      */
     public static boolean isWeatherServiceAvailable(Context context) {

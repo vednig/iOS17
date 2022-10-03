@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import foundation.e.blisslauncher.R;
 
 public class InsettableLinearLayout extends LinearLayout implements Insettable {
@@ -86,10 +85,8 @@ public class InsettableLinearLayout extends LinearLayout implements Insettable {
 
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
-            TypedArray a = c.obtainStyledAttributes(attrs,
-                    R.styleable.InsettableFrameLayout_Layout);
-            ignoreInsets = a.getBoolean(
-                    R.styleable.InsettableFrameLayout_Layout_layout_ignoreInsets, false);
+            TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.InsettableFrameLayout_Layout);
+            ignoreInsets = a.getBoolean(R.styleable.InsettableFrameLayout_Layout_layout_ignoreInsets, false);
             a.recycle();
         }
 

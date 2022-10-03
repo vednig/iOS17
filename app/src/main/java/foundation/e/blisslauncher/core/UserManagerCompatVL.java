@@ -6,13 +6,11 @@ import android.content.pm.PackageManager;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.util.ArrayMap;
-
+import foundation.e.blisslauncher.core.utils.Constants;
+import foundation.e.blisslauncher.core.utils.LongArrayMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import foundation.e.blisslauncher.core.utils.Constants;
-import foundation.e.blisslauncher.core.utils.LongArrayMap;
 
 public class UserManagerCompatVL extends UserManagerCompat {
 
@@ -21,7 +19,8 @@ public class UserManagerCompatVL extends UserManagerCompat {
     private final Context mContext;
 
     protected LongArrayMap<UserHandle> mUsers;
-    // Create a separate reverse map as LongArrayMap.indexOfValue checks if objects are same
+    // Create a separate reverse map as LongArrayMap.indexOfValue checks if objects
+    // are same
     // and not {@link Object#equals}
     protected ArrayMap<UserHandle, Long> mUserToSerialMap;
 
@@ -108,7 +107,7 @@ public class UserManagerCompatVL extends UserManagerCompat {
         SharedPreferences prefs = Preferences.getPrefs(mContext);
         String key = Constants.USER_CREATION_TIME_KEY + getSerialNumberForUser(user);
         if (!prefs.contains(key)) {
-           Preferences.setUserCreationTime(mContext, key);
+            Preferences.setUserCreationTime(mContext, key);
         }
         return prefs.getLong(key, 0);
     }

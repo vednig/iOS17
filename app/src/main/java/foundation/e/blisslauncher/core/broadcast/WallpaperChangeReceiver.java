@@ -1,5 +1,7 @@
 package foundation.e.blisslauncher.core.broadcast;
 
+import static android.content.Context.WALLPAPER_SERVICE;
+
 import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,10 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.view.View;
-
 import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider;
-
-import static android.content.Context.WALLPAPER_SERVICE;
 
 public class WallpaperChangeReceiver extends BroadcastReceiver {
     private final Context mContext;
@@ -18,7 +17,7 @@ public class WallpaperChangeReceiver extends BroadcastReceiver {
     private boolean mRegistered;
     private View mWorkspace;
 
-    public  WallpaperChangeReceiver(View workspace){
+    public WallpaperChangeReceiver(View workspace) {
         this.mWorkspace = workspace;
         this.mContext = mWorkspace.getContext();
     }
@@ -35,8 +34,7 @@ public class WallpaperChangeReceiver extends BroadcastReceiver {
             mWorkspace.getContext().unregisterReceiver(this);
             mRegistered = false;
         } else if (mWindowToken != null && !mRegistered) {
-            mWorkspace.getContext()
-                    .registerReceiver(this, new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED));
+            mWorkspace.getContext().registerReceiver(this, new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED));
             onReceive(mWorkspace.getContext(), null);
             mRegistered = true;
         }

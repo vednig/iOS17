@@ -1,9 +1,6 @@
 package foundation.e.blisslauncher.features.launcher;
 
 import android.util.Log;
-
-import java.util.Calendar;
-
 import foundation.e.blisslauncher.core.events.AppAddEvent;
 import foundation.e.blisslauncher.core.events.AppChangeEvent;
 import foundation.e.blisslauncher.core.events.AppRemoveEvent;
@@ -12,6 +9,7 @@ import foundation.e.blisslauncher.core.events.EventRelay;
 import foundation.e.blisslauncher.core.events.ForceReloadEvent;
 import foundation.e.blisslauncher.core.events.ShortcutAddEvent;
 import foundation.e.blisslauncher.core.events.TimeChangedEvent;
+import java.util.Calendar;
 
 public class EventsObserverImpl implements EventRelay.EventsObserver<Event> {
 
@@ -25,24 +23,24 @@ public class EventsObserverImpl implements EventRelay.EventsObserver<Event> {
 
     @Override
     public void accept(Event event) {
-        Log.i(TAG, "accept: "+event.getEventType());
+        Log.i(TAG, "accept: " + event.getEventType());
         switch (event.getEventType()) {
-            case AppAddEvent.TYPE:
+            case AppAddEvent.TYPE :
                 launcherActivity.onAppAddEvent((AppAddEvent) event);
                 break;
-            case AppChangeEvent.TYPE:
+            case AppChangeEvent.TYPE :
                 launcherActivity.onAppChangeEvent((AppChangeEvent) event);
                 break;
-            case AppRemoveEvent.TYPE:
+            case AppRemoveEvent.TYPE :
                 launcherActivity.onAppRemoveEvent((AppRemoveEvent) event);
                 break;
-            case ShortcutAddEvent.TYPE:
+            case ShortcutAddEvent.TYPE :
                 launcherActivity.onShortcutAddEvent((ShortcutAddEvent) event);
                 break;
-            case TimeChangedEvent.TYPE:
+            case TimeChangedEvent.TYPE :
                 launcherActivity.updateAllCalendarIcons(Calendar.getInstance());
                 break;
-            case ForceReloadEvent.TYPE:
+            case ForceReloadEvent.TYPE :
                 launcherActivity.forceReload();
                 break;
         }
@@ -50,7 +48,7 @@ public class EventsObserverImpl implements EventRelay.EventsObserver<Event> {
 
     @Override
     public void complete() {
-        //BlissLauncher.getApplication(launcherActivity).getAppProvider().reload();
+        // BlissLauncher.getApplication(launcherActivity).getAppProvider().reload();
     }
 
     @Override

@@ -59,5 +59,4 @@ public class DetectSwipeGestureListener extends GestureDetector.SimpleOnGestureL
     public boolean onDoubleTap(MotionEvent e) {
         return false;
     }
-
 }

@@ -26,6 +26,6 @@ enableFeaturePreview("VERSION_CATALOGS")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include(":app", ":data", ":domain")
+include(":app")
 
 rootProject.name = "blisslauncher"

@@ -80,7 +80,7 @@ public class DeviceProfile {
     public int dateTextBottomPadding;
     public int dateTextTopPadding;
 
-    //Uninstall icon
+    // Uninstall icon
     public int uninstallIconSizePx;
     public int uninstallIconPadding;
 
@@ -88,7 +88,7 @@ public class DeviceProfile {
     public int cellHeightPx;
     public int workspaceCellPaddingXPx;
 
-    //Widget
+    // Widget
     public int maxWidgetWidth;
     public int maxWidgetHeight;
 
@@ -172,8 +172,7 @@ public class DeviceProfile {
             statusBarHeight = res.getDimensionPixelSize(resourceId);
         }
 
-        ComponentName cn = new ComponentName(context.getPackageName(),
-                this.getClass().getName());
+        ComponentName cn = new ComponentName(context.getPackageName(), this.getClass().getName());
 
         pageIndicatorSizePx = Utilities.pxFromDp(8, dm);
         pageIndicatorTopPaddingPx = Utilities.pxFromDp(8, dm);
@@ -187,32 +186,32 @@ public class DeviceProfile {
         // Calculate all of the remaining variables.
         updateAvailableDimensions(dm, res);
 
-       /* // Now that we have all of the variables calculated, we can tune certain sizes.
-        float aspectRatio = ((float) Math.max(widthPx, heightPx)) / Math.min(widthPx, heightPx);
-        boolean isTallDevice = Float.compare(aspectRatio, TALL_DEVICE_ASPECT_RATIO_THRESHOLD) >= 0;
-        if (isTallDevice) {
-            // We increase the hotseat size when there is extra space.
-            // ie. For a display with a large aspect ratio, we can keep the icons on the workspace
-            // in portrait mode closer together by adding more height to the hotseat.
-            // Note: This calculation was created after noticing a pattern in the design spec.
-            int extraSpace = getCellSize().y - iconSizePx - iconDrawablePaddingPx;
-            hotseatBarSizePx += extraSpace - pageIndicatorSizePx;
-
-            // Recalculate the available dimensions using the new hotseat size.
-            updateAvailableDimensions(dm, res);
-        }*/
+        /*
+         * // Now that we have all of the variables calculated, we can tune certain
+         * sizes. float aspectRatio = ((float) Math.max(widthPx, heightPx)) /
+         * Math.min(widthPx, heightPx); boolean isTallDevice =
+         * Float.compare(aspectRatio, TALL_DEVICE_ASPECT_RATIO_THRESHOLD) >= 0; if
+         * (isTallDevice) { // We increase the hotseat size when there is extra space.
+         * // ie. For a display with a large aspect ratio, we can keep the icons on the
+         * workspace // in portrait mode closer together by adding more height to the
+         * hotseat. // Note: This calculation was created after noticing a pattern in
+         * the design spec. int extraSpace = getCellSize().y - iconSizePx -
+         * iconDrawablePaddingPx; hotseatBarSizePx += extraSpace - pageIndicatorSizePx;
+         * 
+         * // Recalculate the available dimensions using the new hotseat size.
+         * updateAvailableDimensions(dm, res); }
+         */
     }
-
 
     private void updateAvailableDimensions(DisplayMetrics dm, Resources res) {
         updateIconSize(1f, res, dm);
 
-        // Check to see if the icons fit within the available height.  If not, then scale down.
+        // Check to see if the icons fit within the available height. If not, then scale
+        // down.
         int usedHeight = (cellHeightPx * numRows);
 
-        int remainHeight =
-                (availableHeightPx - usedHeight - hotseatCellHeightPx - pageIndicatorSizePx
-                        - pageIndicatorTopPaddingPx - pageIndicatorBottomPaddingPx);
+        int remainHeight = (availableHeightPx - usedHeight - hotseatCellHeightPx - pageIndicatorSizePx
+                - pageIndicatorTopPaddingPx - pageIndicatorBottomPaddingPx);
         int incrementHeight = remainHeight / (numRows + 1);
         cellHeightPx = cellHeightPx + incrementHeight;
         hotseatCellHeightPx = hotseatCellHeightPx + incrementHeight;
@@ -221,17 +220,12 @@ public class DeviceProfile {
 
     private void updateIconSize(float scale, Resources res, DisplayMetrics dm) {
         // Workspace
-        /*if (availableWidthPx < 640) {
-            iconSizePx = 95;
-        } else if (availableWidthPx < 960) {
-            iconSizePx = 126;
-        } else if (availableWidthPx < 1100) {
-            iconSizePx = 160;
-        } else if (availableWidthPx < 1200) {
-            iconSizePx = 190;
-        } else {
-            iconSizePx = 213;
-        }*/
+        /*
+         * if (availableWidthPx < 640) { iconSizePx = 95; } else if (availableWidthPx <
+         * 960) { iconSizePx = 126; } else if (availableWidthPx < 1100) { iconSizePx =
+         * 160; } else if (availableWidthPx < 1200) { iconSizePx = 190; } else {
+         * iconSizePx = 213; }
+         */
 
         float a = 1.578f;
         float b = 1.23f;
@@ -241,9 +235,9 @@ public class DeviceProfile {
         iconDrawablePaddingPx = (availableWidthPx - iconSizePx * 4) / 5;
 
         int tempUninstallIconSize = iconSizePx * 72 / 192;
-        uninstallIconSizePx =
-                (tempUninstallIconSize > iconDrawablePaddingPx) ? iconDrawablePaddingPx
-                        : tempUninstallIconSize;
+        uninstallIconSizePx = (tempUninstallIconSize > iconDrawablePaddingPx)
+                ? iconDrawablePaddingPx
+                : tempUninstallIconSize;
         uninstallIconPadding = iconSizePx * 10 / 192;
 
         calendarIconWidth = iconSizePx;
@@ -252,10 +246,10 @@ public class DeviceProfile {
         dateTextviewHeight = iconSizePx * 152 / 192;
         dateTextSize = iconSizePx * 154 / 192;
 
-        dateTextTopPadding = (dateTextviewHeight - (int) (1.14 * Utilities.calculateTextHeight(
-                (float) dateTextSize / 2))) / 2;
-        dateTextBottomPadding = (dateTextviewHeight - (int) (0.86 * Utilities.calculateTextHeight(
-                (float) dateTextSize / 2))) / 2;
+        dateTextTopPadding = (dateTextviewHeight
+                - (int) (1.14 * Utilities.calculateTextHeight((float) dateTextSize / 2))) / 2;
+        dateTextBottomPadding = (dateTextviewHeight
+                - (int) (0.86 * Utilities.calculateTextHeight((float) dateTextSize / 2))) / 2;
 
         cellHeightWithoutPaddingPx = iconSizePx + Utilities.pxFromDp(4, dm)
                 + Utilities.calculateTextHeight(iconTextSizePx);
@@ -268,8 +262,7 @@ public class DeviceProfile {
         hotseatCellHeightPx = hotseatCellHeightWithoutPaddingPx + iconDrawablePaddingPx;
 
         numRows = (availableHeightPx - Utilities.pxFromDp(8, dm) - pageIndicatorTopPaddingPx
-                - pageIndicatorBottomPaddingPx
-                - pageIndicatorSizePx - hotseatCellHeightPx) / cellHeightPx;
+                - pageIndicatorBottomPaddingPx - pageIndicatorSizePx - hotseatCellHeightPx) / cellHeightPx;
 
         maxAppsPerPage = numColumns * numRows;
 
@@ -281,7 +274,6 @@ public class DeviceProfile {
         maxWidgetWidth = availableWidthPx - (2 * Utilities.pxFromDp(8, dm));
         maxWidgetHeight = getWorkspaceHeight();
     }
-
 
     public static int calculateCellWidth(int width, int countX) {
         return width / countX;
@@ -321,13 +313,13 @@ public class DeviceProfile {
 
     public int getCellHeight(int containerType) {
         switch (containerType) {
-            case TYPE_WORKSPACE:
+            case TYPE_WORKSPACE :
                 return cellHeightPx;
-            case TYPE_FOLDER:
+            case TYPE_FOLDER :
                 return folderCellHeightPx;
-            case TYPE_HOTSEAT:
+            case TYPE_HOTSEAT :
                 return hotseatCellHeightPx;
-            default:
+            default :
                 // ??
                 return 0;
         }
@@ -341,8 +333,7 @@ public class DeviceProfile {
     }
 
     public Path getRoundedCornerPath(int iconSize) {
-        return resizePath(PathParser.createPathFromPathData(AdaptiveIconUtils.getMaskPath()),
-                iconSize, iconSize);
+        return resizePath(PathParser.createPathFromPathData(AdaptiveIconUtils.getMaskPath()), iconSize, iconSize);
     }
 
     private Path resizePath(Path path, int width, int height) {
@@ -388,20 +379,13 @@ public class DeviceProfile {
 
     private int getLauncherIconDensity(int requiredSize) {
         // Densities typically defined by an app.
-        int[] densityBuckets = new int[]{
-                DisplayMetrics.DENSITY_LOW,
-                DisplayMetrics.DENSITY_MEDIUM,
-                DisplayMetrics.DENSITY_TV,
-                DisplayMetrics.DENSITY_HIGH,
-                DisplayMetrics.DENSITY_XHIGH,
-                DisplayMetrics.DENSITY_XXHIGH,
-                DisplayMetrics.DENSITY_XXXHIGH
-        };
+        int[] densityBuckets = new int[]{DisplayMetrics.DENSITY_LOW, DisplayMetrics.DENSITY_MEDIUM,
+                DisplayMetrics.DENSITY_TV, DisplayMetrics.DENSITY_HIGH, DisplayMetrics.DENSITY_XHIGH,
+                DisplayMetrics.DENSITY_XXHIGH, DisplayMetrics.DENSITY_XXXHIGH};
 
         int density = DisplayMetrics.DENSITY_XXXHIGH;
         for (int i = densityBuckets.length - 1; i >= 0; i--) {
-            float expectedSize = ICON_SIZE_DEFINED_IN_APP_DP * densityBuckets[i]
-                    / DisplayMetrics.DENSITY_DEFAULT;
+            float expectedSize = ICON_SIZE_DEFINED_IN_APP_DP * densityBuckets[i] / DisplayMetrics.DENSITY_DEFAULT;
             if (expectedSize >= requiredSize) {
                 density = densityBuckets[i];
             }

@@ -9,7 +9,8 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
-
+import foundation.e.blisslauncher.R;
+import foundation.e.blisslauncher.core.Preferences;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -17,9 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import foundation.e.blisslauncher.R;
-import foundation.e.blisslauncher.core.Preferences;
 
 public class AppUsageStats {
 
@@ -30,8 +28,7 @@ public class AppUsageStats {
 
     public AppUsageStats(Context context) {
         this.mContext = context;
-        mUsageStatsManager = (UsageStatsManager) context.getSystemService(
-                Context.USAGE_STATS_SERVICE);
+        mUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
     }
 
     public List<UsageStats> getUsageStats() {
@@ -39,8 +36,8 @@ public class AppUsageStats {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, -1);
 
-        List<UsageStats> stats = mUsageStatsManager.queryUsageStats(INTERVAL_BEST,
-                cal.getTimeInMillis(), System.currentTimeMillis());
+        List<UsageStats> stats = mUsageStatsManager.queryUsageStats(INTERVAL_BEST, cal.getTimeInMillis(),
+                System.currentTimeMillis());
         Map<String, UsageStats> aggregatedStats = new HashMap<>();
         final int statCount = stats.size();
         for (int i = 0; i < statCount; i++) {
@@ -55,17 +52,15 @@ public class AppUsageStats {
 
         if (aggregatedStats.size() == 0 && Preferences.shouldOpenUsageAccess(mContext)) {
             Log.i(TAG, "The user may not allow the access to apps usage. ");
-            Toast.makeText(mContext,
-                    mContext.getString(R.string.explanation_access_to_appusage_is_not_enabled),
+            Toast.makeText(mContext, mContext.getString(R.string.explanation_access_to_appusage_is_not_enabled),
                     Toast.LENGTH_LONG).show();
             mContext.startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
             Preferences.setNotOpenUsageAccess(mContext);
         } else {
             Set<Map.Entry<String, UsageStats>> set = aggregatedStats.entrySet();
             List<Map.Entry<String, UsageStats>> list = new ArrayList<>(set);
-            Collections.sort(list,
-                    (o1, o2) -> Long.compare(o2.getValue().getTotalTimeInForeground(),
-                            o1.getValue().getTotalTimeInForeground()));
+            Collections.sort(list, (o1, o2) -> Long.compare(o2.getValue().getTotalTimeInForeground(),
+                    o1.getValue().getTotalTimeInForeground()));
             for (Map.Entry<String, UsageStats> stringUsageStatsEntry : list) {
                 usageStats.add(stringUsageStatsEntry.getValue());
             }

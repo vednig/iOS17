@@ -36,7 +36,8 @@ import foundation.e.blisslauncher.core.utils.GraphicsUtil;
 import foundation.e.blisslauncher.core.utils.UserHandle;
 
 /**
- * Inspired from http://stackoverflow.com/questions/31490630/how-to-load-icon-from-icon-pack
+ * Inspired from
+ * http://stackoverflow.com/questions/31490630/how-to-load-icon-from-icon-pack
  */
 public class IconsHandler {
 
@@ -70,26 +71,24 @@ public class IconsHandler {
         loadIconsPack("foundation.e.blissiconpack");
     }
 
-
     private boolean iconPackExists(PackageManager packageManager) {
         try {
-            packageManager.getPackageInfo("foundation.e.blissiconpack",
-                    PackageManager.GET_META_DATA);
+            packageManager.getPackageInfo("foundation.e.blissiconpack", PackageManager.GET_META_DATA);
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
         return true;
     }
 
-
     /**
      * Parse icons pack metadata
      *
-     * @param packageName Android package ID of the package to parse
+     * @param packageName
+     *            Android package ID of the package to parse
      */
     public void loadIconsPack(String packageName) {
 
-        //clear icons pack
+        // clear icons pack
         if (iconPackExists(pm)) {
             iconsPackPackageName = packageName;
         } else {
@@ -114,10 +113,8 @@ public class IconsHandler {
             NodeList items = doc.getElementsByTagName("item");
             for (int i = 0; i < items.getLength(); i++) {
                 Node item = items.item(i);
-                String componentName = item.getAttributes().getNamedItem(
-                        "component").getTextContent();
-                String drawableName = item.getAttributes().getNamedItem(
-                        "drawable").getTextContent();
+                String componentName = item.getAttributes().getNamedItem("component").getTextContent();
+                String drawableName = item.getAttributes().getNamedItem("drawable").getTextContent();
 
                 if (!packagesDrawables.containsKey(componentName)) {
                     packagesDrawables.put(componentName, drawableName);
@@ -131,37 +128,34 @@ public class IconsHandler {
 
     }
 
-
     private Drawable getDefaultAppDrawable(LauncherActivityInfo activityInfo, UserHandle userHandle) {
         return activityInfo.getIcon(0);
     }
 
     public boolean isClock(String componentName) {
-        return packagesDrawables.get(componentName) != null &&
-                packagesDrawables.get(componentName).equals("clock");
+        return packagesDrawables.get(componentName) != null && packagesDrawables.get(componentName).equals("clock");
     }
 
     public boolean isCalendar(String componentName) {
-        return packagesDrawables.get(componentName) != null &&
-                packagesDrawables.get(componentName).equals("calendar");
+        return packagesDrawables.get(componentName) != null && packagesDrawables.get(componentName).equals("calendar");
     }
-
 
     /**
      * Get or generate icon for an app
      */
     public Drawable getDrawableIconForPackage(LauncherActivityInfo activityInfo, UserHandle userHandle) {
-       /* // system icons, nothing to do
-        if (iconsPackPackageName.equalsIgnoreCase("default")) {
-            return this.getDefaultAppDrawable(componentName, userHandle);
-        }*/
+        /*
+         * // system icons, nothing to do if
+         * (iconsPackPackageName.equalsIgnoreCase("default")) { return
+         * this.getDefaultAppDrawable(componentName, userHandle); }
+         */
 
         ComponentName componentName = activityInfo.getComponentName();
         String drawable = packagesDrawables.get(activityInfo.getComponentName().toString());
-        if (drawable != null) { //there is a custom icon
+        if (drawable != null) { // there is a custom icon
             int id = iconPackres.getIdentifier(drawable, "drawable", iconsPackPackageName);
             if (id > 0) {
-                //noinspection deprecation: Resources.getDrawable(int, Theme) requires SDK 21+
+                // noinspection deprecation: Resources.getDrawable(int, Theme) requires SDK 21+
                 try {
                     return getBadgedIcon(iconPackres.getDrawable(id), activityInfo.getUser());
                 } catch (Resources.NotFoundException e) {
@@ -181,19 +175,19 @@ public class IconsHandler {
 
         systemIcon = this.getDefaultAppDrawable(activityInfo, userHandle);
         if (Utilities.ATLEAST_OREO && systemIcon instanceof AdaptiveIconDrawable) {
-            systemIcon = new AdaptiveIconDrawableCompat(
-                    ((AdaptiveIconDrawable) systemIcon).getBackground(),
+            systemIcon = new AdaptiveIconDrawableCompat(((AdaptiveIconDrawable) systemIcon).getBackground(),
                     ((AdaptiveIconDrawable) systemIcon).getForeground());
             return systemIcon;
         } else {
             // Icon is not adaptive, try to load using reflection.
-            Drawable adaptiveIcon = new AdaptiveIconProvider().load(ctx,
-                    componentName.getPackageName());
+            Drawable adaptiveIcon = new AdaptiveIconProvider().load(ctx, componentName.getPackageName());
             if (adaptiveIcon != null) {
                 systemIcon = adaptiveIcon;
             } else {
-                // Failed to load adaptive icon, Generate an adaptive icon from app default icon.
-                systemIcon = new AdaptiveIconGenerator(ctx, getDefaultAppDrawable(activityInfo, userHandle)).getResult();
+                // Failed to load adaptive icon, Generate an adaptive icon from app default
+                // icon.
+                systemIcon = new AdaptiveIconGenerator(ctx, getDefaultAppDrawable(activityInfo, userHandle))
+                        .getResult();
             }
         }
 
@@ -202,30 +196,28 @@ public class IconsHandler {
         return badgedIcon;
     }
 
-
     public void resetIconDrawableForPackage(ComponentName componentName, UserHandle userHandle) {
         if (!packagesDrawables.containsKey(componentName.toString())) {
             LauncherApps launcherApps = (LauncherApps) ctx.getSystemService(Context.LAUNCHER_APPS_SERVICE);
-            for (LauncherActivityInfo launcherActivityInfo : launcherApps.getActivityList(componentName.getPackageName(), userHandle.getRealHandle())) {
+            for (LauncherActivityInfo launcherActivityInfo : launcherApps
+                    .getActivityList(componentName.getPackageName(), userHandle.getRealHandle())) {
                 if (launcherActivityInfo.getComponentName().flattenToString().equals(componentName.flattenToString())) {
                     Drawable icon = this.getDefaultAppDrawable(launcherActivityInfo, userHandle);
                     if (Utilities.ATLEAST_OREO && icon instanceof AdaptiveIconDrawable) {
-                        icon = new AdaptiveIconDrawableCompat(
-                                ((AdaptiveIconDrawable) icon).getBackground(),
+                        icon = new AdaptiveIconDrawableCompat(((AdaptiveIconDrawable) icon).getBackground(),
                                 ((AdaptiveIconDrawable) icon).getForeground());
                     } else {
-                        Drawable adaptiveIcon = new AdaptiveIconProvider().load(ctx,
-                                componentName.getPackageName());
+                        Drawable adaptiveIcon = new AdaptiveIconProvider().load(ctx, componentName.getPackageName());
                         if (adaptiveIcon != null) {
                             icon = adaptiveIcon;
                         } else {
-                            icon = graphicsUtil.convertToRoundedCorner(ctx,
-                                    graphicsUtil.addBackground(icon, false));
+                            icon = graphicsUtil.convertToRoundedCorner(ctx, graphicsUtil.addBackground(icon, false));
                         }
                     }
 
                     Drawable badgedIcon = getBadgedIcon(icon, launcherActivityInfo.getUser());
-                    cacheStoreDrawable(userHandle.addUserSuffixToString(componentName.flattenToString(), '/'), badgedIcon);
+                    cacheStoreDrawable(userHandle.addUserSuffixToString(componentName.flattenToString(), '/'),
+                            badgedIcon);
                 }
             }
         }
@@ -255,8 +247,8 @@ public class IconsHandler {
     }
 
     private Bitmap getBitmapFromDrawable(Drawable drawable) {
-        final Bitmap bmp = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        final Bitmap bmp = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bmp);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
@@ -272,8 +264,7 @@ public class IconsHandler {
         FileInputStream fis;
         try {
             fis = new FileInputStream(cacheGetFileName(key));
-            BitmapDrawable drawable =
-                    new BitmapDrawable(this.ctx.getResources(), BitmapFactory.decodeStream(fis));
+            BitmapDrawable drawable = new BitmapDrawable(this.ctx.getResources(), BitmapFactory.decodeStream(fis));
             fis.close();
             return drawable;
         } catch (Exception e) {
@@ -290,7 +281,6 @@ public class IconsHandler {
     private File cacheGetFileName(String key) {
         return new File(getIconsCacheDir() + File.separator + iconsPackPackageName + "_" + key.hashCode() + ".png");
     }
-
 
     /**
      * returns icons cache directory.
@@ -323,19 +313,17 @@ public class IconsHandler {
     }
 
     /**
-     * Returns a drawable suitable for the all apps view. If the package or the resource do not
-     * exist, it returns null.
+     * Returns a drawable suitable for the all apps view. If the package or the
+     * resource do not exist, it returns null.
      */
-    public static Drawable createIconDrawable(Intent.ShortcutIconResource iconRes,
-                                              Context context) {
+    public static Drawable createIconDrawable(Intent.ShortcutIconResource iconRes, Context context) {
         PackageManager packageManager = context.getPackageManager();
         // the resource
         try {
             Resources resources = packageManager.getResourcesForApplication(iconRes.packageName);
             if (resources != null) {
                 final int id = resources.getIdentifier(iconRes.resourceName, null, null);
-                return resources.getDrawableForDensity(
-                        id,
+                return resources.getDrawableForDensity(id,
                         BlissLauncher.getApplication(context).getDeviceProfile().fillResIconDpi);
             }
         } catch (Exception e) {
@@ -345,15 +333,16 @@ public class IconsHandler {
     }
 
     /**
-     * Returns a drawable which is of the appropriate size to be displayed as an icon
+     * Returns a drawable which is of the appropriate size to be displayed as an
+     * icon
      */
     public static Drawable createIconDrawable(Bitmap icon, Context context) {
         return new BitmapDrawable(icon);
     }
 
     public Drawable getFullResDefaultActivityIcon() {
-        return getFullResIcon(Resources.getSystem(), Utilities.ATLEAST_OREO ?
-                android.R.drawable.sym_def_app_icon : android.R.mipmap.sym_def_app_icon);
+        return getFullResIcon(Resources.getSystem(),
+                Utilities.ATLEAST_OREO ? android.R.drawable.sym_def_app_icon : android.R.mipmap.sym_def_app_icon);
     }
 
     private Drawable getFullResIcon(Resources resources, int iconId) {

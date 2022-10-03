@@ -7,6 +7,7 @@ public class QwantItem {
     @SerializedName("value")
     @Expose
     private String value;
+
     @SerializedName("suggestType")
     @Expose
     private Integer suggestType;

@@ -12,17 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import foundation.e.blisslauncher.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import foundation.e.blisslauncher.R;
-
-public class WidgetPickerAdapter extends
-        RecyclerView.Adapter<WidgetPickerAdapter.WidgetsViewHolder> {
+public class WidgetPickerAdapter extends RecyclerView.Adapter<WidgetPickerAdapter.WidgetsViewHolder> {
 
     private Context mContext;
     private List<Item> mItems = new ArrayList<>();
@@ -38,12 +34,11 @@ public class WidgetPickerAdapter extends
     @NonNull
     @Override
     public WidgetsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_all_widget, viewGroup,
-                false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_all_widget, viewGroup, false);
         WidgetsViewHolder widgetsViewHolder = new WidgetsViewHolder(view);
         widgetsViewHolder.itemView.setOnClickListener(v -> {
             int position = widgetsViewHolder.getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION){
+            if (position != RecyclerView.NO_POSITION) {
                 mOnClickListener.onClick(mItems.get(position));
             }
         });
@@ -77,7 +72,6 @@ public class WidgetPickerAdapter extends
             icon = itemView.findViewById(R.id.widget_icon);
             label = itemView.findViewById(R.id.widget_label);
         }
-
     }
 
     public static class Item {
@@ -88,9 +82,7 @@ public class WidgetPickerAdapter extends
         String className;
         Bundle extras;
 
-        /**
-         * Create a list item from given label and icon.
-         */
+        /** Create a list item from given label and icon. */
         Item(CharSequence label, Drawable icon) {
             this.label = label;
             this.icon = icon;
@@ -112,8 +104,8 @@ public class WidgetPickerAdapter extends
         }
 
         /**
-         * Build the {@link Intent} described by this item. If this item
-         * can't create a valid {@link android.content.ComponentName}, it will return
+         * Build the {@link Intent} described by this item. If this item can't create a
+         * valid {@link android.content.ComponentName}, it will return
          * {@link Intent#ACTION_CREATE_SHORTCUT} filled with the item label.
          */
         Intent getIntent(Intent baseIntent) {

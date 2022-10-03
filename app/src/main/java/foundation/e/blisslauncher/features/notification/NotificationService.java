@@ -8,15 +8,10 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-
+import foundation.e.blisslauncher.core.utils.ListUtil;
 import java.util.Collections;
 
-import foundation.e.blisslauncher.core.utils.ListUtil;
-
-/**
- * Created by falcon on 14/3/18.
- */
-
+/** Created by falcon on 14/3/18. */
 public class NotificationService extends NotificationListenerService {
 
     private static boolean sIsConnected = false;
@@ -36,8 +31,7 @@ public class NotificationService extends NotificationListenerService {
         super.onCreate();
         mNotificationRepository = NotificationRepository.getNotificationRepository();
 
-        getContentResolver().registerContentObserver(
-                NOTIFICATION_BADGING_URI, false, mNotificationSettingsObserver);
+        getContentResolver().registerContentObserver(NOTIFICATION_BADGING_URI, false, mNotificationSettingsObserver);
         onNotificationSettingsChanged();
     }
 
@@ -49,8 +43,8 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private void onNotificationSettingsChanged() {
-        mAreDotsDisabled = Settings.Secure.getInt(
-                getContentResolver(), NOTIFICATION_BADGING_URI.getLastPathSegment(), 1) != 1;
+        mAreDotsDisabled = Settings.Secure.getInt(getContentResolver(), NOTIFICATION_BADGING_URI.getLastPathSegment(),
+                1) != 1;
         if (mAreDotsDisabled && sIsConnected) {
             requestUnbind();
             updateNotifications();

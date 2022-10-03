@@ -16,5 +16,4 @@
 package foundation.e.blisslauncher.core.utils;
 
 public class LauncherConstants {
-
 }

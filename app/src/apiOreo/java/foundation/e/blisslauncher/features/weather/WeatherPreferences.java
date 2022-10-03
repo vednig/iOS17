@@ -19,18 +19,16 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.core.utils.Constants;
 import lineageos.weather.LineageWeatherManager;
 
-
-public class WeatherPreferences extends PreferenceActivity implements
-        SharedPreferences.OnSharedPreferenceChangeListener,
-        LineageWeatherManager.WeatherServiceProviderChangeListener {
+public class WeatherPreferences extends PreferenceActivity
+        implements
+            SharedPreferences.OnSharedPreferenceChangeListener,
+            LineageWeatherManager.WeatherServiceProviderChangeListener {
     private static final String TAG = "WeatherPreferences";
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
@@ -52,12 +50,10 @@ public class WeatherPreferences extends PreferenceActivity implements
 
         // Load networkItems that need custom summaries etc.
         mUseCustomLoc = (SwitchPreference) findPreference(Constants.WEATHER_USE_CUSTOM_LOCATION);
-        mCustomWeatherLoc = (EditTextPreference) findPreference(
-                Constants.WEATHER_CUSTOM_LOCATION_CITY);
+        mCustomWeatherLoc = (EditTextPreference) findPreference(Constants.WEATHER_CUSTOM_LOCATION_CITY);
         mIconSet = (IconSelectionPreference) findPreference(Constants.WEATHER_ICONS);
         mUseMetric = (SwitchPreference) findPreference(Constants.WEATHER_USE_METRIC);
-        mUseCustomlocation = (SwitchPreference) findPreference(
-                Constants.WEATHER_USE_CUSTOM_LOCATION);
+        mUseCustomlocation = (SwitchPreference) findPreference(Constants.WEATHER_USE_CUSTOM_LOCATION);
         mWeatherSource = (PreferenceScreen) findPreference(Constants.WEATHER_SOURCE);
         mWeatherSource.setOnPreferenceChangeListener((preference, o) -> {
             if (Preferences.getWeatherSource(mContext) != null) {
@@ -91,8 +87,7 @@ public class WeatherPreferences extends PreferenceActivity implements
     public void onResume() {
         super.onResume();
 
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(
-                this);
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
         if (mPostResumeRunnable != null) {
             mPostResumeRunnable.run();
@@ -112,8 +107,7 @@ public class WeatherPreferences extends PreferenceActivity implements
     @Override
     public void onPause() {
         super.onPause();
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(
-                this);
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         final LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(mContext);
         weatherManager.unregisterWeatherServiceProviderChangeListener(this);
     }
@@ -121,10 +115,10 @@ public class WeatherPreferences extends PreferenceActivity implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mUseCustomlocation.isChecked()
-                && Preferences.getCustomWeatherLocationCity(mContext) == null) {
-            //The user decided to toggle the custom location switch, but forgot to set a custom
-            //location, we need to go back to geo location
+        if (mUseCustomlocation.isChecked() && Preferences.getCustomWeatherLocationCity(mContext) == null) {
+            // The user decided to toggle the custom location switch, but forgot to set a
+            // custom
+            // location, we need to go back to geo location
             Preferences.setUseCustomWeatherLocation(mContext, false);
         }
     }
@@ -155,8 +149,10 @@ public class WeatherPreferences extends PreferenceActivity implements
         }
 
         if (TextUtils.equals(key, Constants.WEATHER_SOURCE)) {
-            // The weather source changed, invalidate the custom location settings and change
-            // back to GeoLocation to force the user to specify a new custom location if needed
+            // The weather source changed, invalidate the custom location settings and
+            // change
+            // back to GeoLocation to force the user to specify a new custom location if
+            // needed
             Preferences.setCustomWeatherLocationCity(mContext, null);
             Preferences.setCustomWeatherLocation(mContext, null);
             Preferences.setUseCustomWeatherLocation(mContext, false);
@@ -165,8 +161,8 @@ public class WeatherPreferences extends PreferenceActivity implements
         }
 
         if (key.equals(Constants.WEATHER_USE_CUSTOM_LOCATION)) {
-            if (!mUseCustomLoc.isChecked() || (mUseCustomLoc.isChecked() &&
-                    Preferences.getCustomWeatherLocation(mContext) != null)) {
+            if (!mUseCustomLoc.isChecked()
+                    || (mUseCustomLoc.isChecked() && Preferences.getCustomWeatherLocation(mContext) != null)) {
                 forceWeatherUpdate = true;
             }
         }
@@ -187,8 +183,8 @@ public class WeatherPreferences extends PreferenceActivity implements
         }
 
         if (Constants.DEBUG) {
-            Log.v(TAG, "Preference " + key + " changed, need update " +
-                    needWeatherUpdate + " force update " + forceWeatherUpdate);
+            Log.v(TAG, "Preference " + key + " changed, need update " + needWeatherUpdate + " force update "
+                    + forceWeatherUpdate);
         }
 
         if ((needWeatherUpdate || forceWeatherUpdate)) {
@@ -201,13 +197,13 @@ public class WeatherPreferences extends PreferenceActivity implements
     }
 
     public static boolean hasLocationPermission(Context context) {
-        return context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
+        return context
+                .checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
-    //===============================================================================================
+    // ===============================================================================================
     // Utility classes and supporting methods
-    //===============================================================================================
+    // ===============================================================================================
 
     private void updateLocationSummary() {
         if (mUseCustomLoc.isChecked()) {
@@ -233,13 +229,11 @@ public class WeatherPreferences extends PreferenceActivity implements
         builder.setTitle(R.string.weather_retrieve_location_dialog_title);
         builder.setMessage(R.string.weather_retrieve_location_dialog_message);
         builder.setCancelable(false);
-        builder.setPositiveButton(R.string.weather_retrieve_location_dialog_enable_button,
-                (dialog1, whichButton) -> {
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    intent.setFlags(
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivityForResult(intent, 203);
-                });
+        builder.setPositiveButton(R.string.weather_retrieve_location_dialog_enable_button, (dialog1, whichButton) -> {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivityForResult(intent, 203);
+        });
         builder.setNegativeButton(R.string.cancel, null);
         dialog = builder.create();
         dialog.show();
@@ -250,8 +244,7 @@ public class WeatherPreferences extends PreferenceActivity implements
         if (requestCode == 203) {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                Toast.makeText(this, getString(R.string.toast_custom_location),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_custom_location), Toast.LENGTH_SHORT).show();
             } else {
                 startService(new Intent(this, WeatherUpdateService.class)
                         .putExtra(WeatherUpdateService.ACTION_FORCE_UPDATE, true));
@@ -271,8 +264,7 @@ public class WeatherPreferences extends PreferenceActivity implements
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
             @NonNull int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We only get here if user tried to enable the preference,
                 // hence safe to turn it on after permission is granted
                 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

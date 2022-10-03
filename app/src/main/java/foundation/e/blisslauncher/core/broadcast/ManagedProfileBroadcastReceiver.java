@@ -13,29 +13,31 @@ import foundation.e.blisslauncher.core.events.ForceReloadEvent;
 public class ManagedProfileBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("PROFILE", "onReceive: "+intent.getAction());
+        Log.i("PROFILE", "onReceive: " + intent.getAction());
         final String action = intent.getAction();
         if (Intent.ACTION_MANAGED_PROFILE_ADDED.equals(action)
                 || Intent.ACTION_MANAGED_PROFILE_REMOVED.equals(action)) {
             EventRelay.getInstance().push(new ForceReloadEvent());
-        } else if (Intent.ACTION_MANAGED_PROFILE_AVAILABLE.equals(action) ||
-                Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action) ||
-                Intent.ACTION_MANAGED_PROFILE_UNLOCKED.equals(action)) {
+        } else if (Intent.ACTION_MANAGED_PROFILE_AVAILABLE.equals(action)
+                || Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action)
+                || Intent.ACTION_MANAGED_PROFILE_UNLOCKED.equals(action)) {
             UserHandle user = intent.getParcelableExtra(Intent.EXTRA_USER);
             if (user != null) {
-                /*if (Intent.ACTION_MANAGED_PROFILE_AVAILABLE.equals(action) ||
-                        Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action)) {
-                    //enqueueModelUpdateTask(new PackageUpdatedTask(PackageUpdatedTask.OP_USER_AVAILABILITY_CHANGE, user));
-                }
+                /*
+                 * if (Intent.ACTION_MANAGED_PROFILE_AVAILABLE.equals(action) ||
+                 * Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action)) {
+                 * //enqueueModelUpdateTask(new
+                 * PackageUpdatedTask(PackageUpdatedTask.OP_USER_AVAILABILITY_CHANGE, user)); }
+                 * 
+                 * // ACTION_MANAGED_PROFILE_UNAVAILABLE sends the profile back to locked mode,
+                 * so // we need to run the state change task again. if
+                 * (Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action) ||
+                 * Intent.ACTION_MANAGED_PROFILE_UNLOCKED.equals(action)) {
+                 * //enqueueModelUpdateTask(new UserLockStateChangedTask(user)); }
+                 */
 
-                // ACTION_MANAGED_PROFILE_UNAVAILABLE sends the profile back to locked mode, so
-                // we need to run the state change task again.
-                if (Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action) ||
-                        Intent.ACTION_MANAGED_PROFILE_UNLOCKED.equals(action)) {
-                    //enqueueModelUpdateTask(new UserLockStateChangedTask(user));
-                }*/
-
-                // TODO: Need to handle it more gracefully. Currently it just recreate the launcher.
+                // TODO: Need to handle it more gracefully. Currently it just recreate the
+                // launcher.
                 EventRelay.getInstance().push(new ForceReloadEvent());
             }
         }

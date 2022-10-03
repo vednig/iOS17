@@ -1,18 +1,17 @@
 package foundation.e.blisslauncher.core.events;
 
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("unchecked")
@@ -65,7 +64,8 @@ public class EventRelayTest {
         eventRelay.push(appAddEvent);
         eventRelay.push(appAddEvent);
 
-        // Now subscribe to the relay to confirm if all previously pushed events are being relayed.
+        // Now subscribe to the relay to confirm if all previously pushed events are
+        // being relayed.
         eventRelay.subscribe(eventsObserver);
         verify(eventsObserver, times(2)).accept(appAddEvent);
         verify(eventsObserver).complete(); // Check if complete() gets called.
@@ -82,15 +82,13 @@ public class EventRelayTest {
     public void testPushingAfterSubscribe() {
         // Subscribe first
         eventRelay.subscribe(eventsObserver);
-        //Push the event
+        // Push the event
         eventRelay.push(shortcutAddEvent);
         verify(eventsObserver, times(1)).accept(shortcutAddEvent);
         verify(eventsObserver, times(1)).complete();
     }
 
-    /**
-     * This test is done separately to confirm that complete() is not called.
-     */
+    /** This test is done separately to confirm that complete() is not called. */
     @Test
     public void testTimeChangeEventPush() {
         eventRelay.subscribe(eventsObserver);

@@ -19,7 +19,6 @@ public class WidgetItem {
     public int order = DEFAULT_ORDER;
 
     public WidgetItem() {
-
     }
 
     public WidgetItem(int id) {

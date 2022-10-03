@@ -17,15 +17,6 @@ import android.os.UserManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.LongSparseArray;
-
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Utilities;
@@ -46,30 +37,28 @@ import foundation.e.blisslauncher.features.launcher.tasks.LoadDatabaseTask;
 import foundation.e.blisslauncher.features.launcher.tasks.LoadShortcutTask;
 import foundation.e.blisslauncher.features.shortcuts.DeepShortcutManager;
 import foundation.e.blisslauncher.features.shortcuts.ShortcutInfoCompat;
-
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 // TODO: Find better solution instead of excessively using volatile and synchronized.
 //  - and use RxJava instead of bad async tasks.
 public class AppProvider {
 
-    /**
-     * Represents all applications that is to be shown in Launcher
-     */
+    /** Represents all applications that is to be shown in Launcher */
     List<LauncherItem> mLauncherItems;
 
-    /**
-     * Represents networkItems stored in database.
-     */
+    /** Represents networkItems stored in database. */
     private List<LauncherItem> mDatabaseItems;
 
-    /**
-     * Represents all applications installed in device.
-     */
+    /** Represents all applications installed in device. */
     private Map<String, ApplicationItem> mApplicationItems;
 
-    /**
-     * Represents all shortcuts which user has created.
-     */
+    /** Represents all shortcuts which user has created. */
     private Map<String, ShortcutInfoCompat> mShortcutInfoCompats;
 
     private boolean appsLoaded = false;
@@ -118,84 +107,69 @@ public class AppProvider {
         final UserManager manager = (UserManager) mContext.getSystemService(Context.USER_SERVICE);
         assert manager != null;
 
-        final LauncherApps launcher = (LauncherApps) mContext.getSystemService(
-                Context.LAUNCHER_APPS_SERVICE);
+        final LauncherApps launcher = (LauncherApps) mContext.getSystemService(Context.LAUNCHER_APPS_SERVICE);
         assert launcher != null;
 
         launcher.registerCallback(new LauncherApps.Callback() {
             @Override
             public void onPackageRemoved(String packageName, android.os.UserHandle user) {
-                if (packageName.equalsIgnoreCase(MICROG_PACKAGE) || packageName.equalsIgnoreCase(
-                        MUPDF_PACKAGE)) {
+                if (packageName.equalsIgnoreCase(MICROG_PACKAGE) || packageName.equalsIgnoreCase(MUPDF_PACKAGE)) {
                     return;
                 }
 
-                PackageAddedRemovedHandler.handleEvent(mContext,
-                        "android.intent.action.PACKAGE_REMOVED",
-                        packageName, new UserHandle(manager.getSerialNumberForUser(user), user),
-                        false
-                );
+                PackageAddedRemovedHandler.handleEvent(mContext, "android.intent.action.PACKAGE_REMOVED", packageName,
+                        new UserHandle(manager.getSerialNumberForUser(user), user), false);
             }
 
             @Override
             public void onPackageAdded(String packageName, android.os.UserHandle user) {
-                if (packageName.equalsIgnoreCase(MICROG_PACKAGE) || packageName.equalsIgnoreCase(
-                        MUPDF_PACKAGE)) {
+                if (packageName.equalsIgnoreCase(MICROG_PACKAGE) || packageName.equalsIgnoreCase(MUPDF_PACKAGE)) {
                     return;
                 }
 
-                PackageAddedRemovedHandler.handleEvent(mContext,
-                        "android.intent.action.PACKAGE_ADDED",
-                        packageName, new UserHandle(manager.getSerialNumberForUser(user), user),
-                        false
-                );
+                PackageAddedRemovedHandler.handleEvent(mContext, "android.intent.action.PACKAGE_ADDED", packageName,
+                        new UserHandle(manager.getSerialNumberForUser(user), user), false);
             }
 
             @Override
             public void onPackageChanged(String packageName, android.os.UserHandle user) {
-                if (packageName.equalsIgnoreCase(MICROG_PACKAGE) || packageName.equalsIgnoreCase(
-                        MUPDF_PACKAGE)) {
+                if (packageName.equalsIgnoreCase(MICROG_PACKAGE) || packageName.equalsIgnoreCase(MUPDF_PACKAGE)) {
                     return;
                 }
 
-                PackageAddedRemovedHandler.handleEvent(mContext,
-                        "android.intent.action.PACKAGE_CHANGED",
-                        packageName, new UserHandle(manager.getSerialNumberForUser(user), user),
-                        true
-                );
+                PackageAddedRemovedHandler.handleEvent(mContext, "android.intent.action.PACKAGE_CHANGED", packageName,
+                        new UserHandle(manager.getSerialNumberForUser(user), user), true);
             }
 
             @Override
-            public void onPackagesAvailable(String[] packageNames, android.os.UserHandle user,
-                                            boolean replacing) {
-                Log.d(TAG, "onPackagesAvailable() called with: packageNames = [" + packageNames + "], user = [" + user + "], replacing = [" + replacing + "]");
+            public void onPackagesAvailable(String[] packageNames, android.os.UserHandle user, boolean replacing) {
+                Log.d(TAG, "onPackagesAvailable() called with: packageNames = [" + packageNames + "], user = [" + user
+                        + "], replacing = [" + replacing + "]");
                 for (String packageName : packageNames) {
-                    PackageAddedRemovedHandler.handleEvent(mContext,
-                            "android.intent.action.MEDIA_MOUNTED",
-                            packageName, new UserHandle(manager.getSerialNumberForUser(user), user), false
-                    );
+                    PackageAddedRemovedHandler.handleEvent(mContext, "android.intent.action.MEDIA_MOUNTED", packageName,
+                            new UserHandle(manager.getSerialNumberForUser(user), user), false);
                 }
             }
 
             @Override
-            public void onPackagesUnavailable(String[] packageNames, android.os.UserHandle user,
-                                              boolean replacing) {
-                Log.d(TAG, "onPackagesUnavailable() called with: packageNames = [" + packageNames + "], user = [" + user + "], replacing = [" + replacing + "]");
-                PackageAddedRemovedHandler.handleEvent(mContext,
-                        "android.intent.action.MEDIA_UNMOUNTED",
-                        null, new UserHandle(manager.getSerialNumberForUser(user), user), false
-                );
+            public void onPackagesUnavailable(String[] packageNames, android.os.UserHandle user, boolean replacing) {
+                Log.d(TAG, "onPackagesUnavailable() called with: packageNames = [" + packageNames + "], user = [" + user
+                        + "], replacing = [" + replacing + "]");
+                PackageAddedRemovedHandler.handleEvent(mContext, "android.intent.action.MEDIA_UNMOUNTED", null,
+                        new UserHandle(manager.getSerialNumberForUser(user), user), false);
             }
 
             @Override
             public void onPackagesSuspended(String[] packageNames, android.os.UserHandle user) {
-                Log.d(TAG, "onPackagesSuspended() called with: packageNames = [" + packageNames + "], user = [" + user + "]");
+                Log.d(TAG, "onPackagesSuspended() called with: packageNames = [" + packageNames + "], user = [" + user
+                        + "]");
             }
 
             @Override
             public void onPackagesUnsuspended(String[] packageNames, android.os.UserHandle user) {
                 super.onPackagesUnsuspended(packageNames, user);
-                Log.d(TAG, "onPackagesUnsuspended() called with: packageNames = [" + packageNames + "], user = [" + user + "]");
+                Log.d(TAG, "onPackagesUnsuspended() called with: packageNames = [" + packageNames + "], user = [" + user
+                        + "]");
             }
         });
 
@@ -272,7 +246,8 @@ public class AppProvider {
     }
 
     public synchronized void loadDatabaseOver(List<LauncherItem> databaseItems) {
-        Log.d(TAG, "loadDatabaseOver() called with: databaseItems = [" + Thread.currentThread().getName() + "]" + mStopped);
+        Log.d(TAG, "loadDatabaseOver() called with: databaseItems = [" + Thread.currentThread().getName() + "]"
+                + mStopped);
         this.mDatabaseItems = databaseItems;
         databaseLoaded = true;
         handleAllProviderLoaded();
@@ -292,9 +267,7 @@ public class AppProvider {
     private List<LauncherItem> prepareLauncherItems() {
         Log.d(TAG, "prepareLauncherItems() called");
 
-        /**
-         * Indices of folder in {@link #mLauncherItems}.
-         */
+        /** Indices of folder in {@link #mLauncherItems}. */
         LongSparseArray<Integer> foldersIndex = new LongSparseArray<>();
         List<LauncherItem> mLauncherItems = new ArrayList<>();
         Collection<ApplicationItem> applicationItems = mApplicationItems.values();
@@ -306,8 +279,8 @@ public class AppProvider {
                 ApplicationItem applicationItem = mApplicationItems.get(databaseItem.id);
                 if (applicationItem == null) {
                     UserHandle userHandle = new UserHandle();
-                    if ((isAppOnSdcard(databaseItem.packageName, userHandle) || !isSdCardReady
-                    ) && !DISABLED_PACKAGES.contains(databaseItem.packageName)) {
+                    if ((isAppOnSdcard(databaseItem.packageName, userHandle) || !isSdCardReady)
+                            && !DISABLED_PACKAGES.contains(databaseItem.packageName)) {
                         Log.d(TAG, "Missing package: " + databaseItem.packageName);
                         Log.d(TAG, "Is App on Sdcard " + isAppOnSdcard(databaseItem.packageName, userHandle));
                         Log.d(TAG, "Is Sdcard ready " + isSdCardReady);
@@ -360,9 +333,7 @@ public class AppProvider {
                         || shortcutItem.container == Constants.CONTAINER_HOTSEAT) {
                     mLauncherItems.add(shortcutItem);
                 } else {
-                    FolderItem folderItem =
-                            (FolderItem) mLauncherItems.get(
-                                    foldersIndex.get(shortcutItem.container));
+                    FolderItem folderItem = (FolderItem) mLauncherItems.get(foldersIndex.get(shortcutItem.container));
                     if (folderItem.items == null) {
                         folderItem.items = new ArrayList<>();
                     }
@@ -389,14 +360,12 @@ public class AppProvider {
         Collections.sort(folderItemsIndex);
         for (int i = folderItemsIndex.size() - 1; i >= 0; i--) {
             int itemIndex = folderItemsIndex.get(i);
-            FolderItem folderItem =
-                    (FolderItem) mLauncherItems.get(itemIndex);
+            FolderItem folderItem = (FolderItem) mLauncherItems.get(itemIndex);
             if (folderItem.items == null || folderItem.items.size() == 0) {
                 DatabaseManager.getManager(mContext).removeLauncherItem(folderItem.id);
                 mLauncherItems.remove(itemIndex);
             } else {
-                folderItem.icon = new GraphicsUtil(mContext).generateFolderIcon(mContext,
-                        folderItem);
+                folderItem.icon = new GraphicsUtil(mContext).generateFolderIcon(mContext, folderItem);
             }
         }
 
@@ -414,13 +383,12 @@ public class AppProvider {
         ApplicationInfo info = null;
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                info = ((LauncherApps) mContext.getSystemService(
-                        Context.LAUNCHER_APPS_SERVICE)).getApplicationInfo(
+                info = ((LauncherApps) mContext.getSystemService(Context.LAUNCHER_APPS_SERVICE)).getApplicationInfo(
                         packageName, PackageManager.MATCH_UNINSTALLED_PACKAGES, userHandle.getRealHandle());
                 return info != null && (info.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0;
             } else {
-                info = getContext().getPackageManager()
-                        .getApplicationInfo(packageName, PackageManager.MATCH_UNINSTALLED_PACKAGES);
+                info = getContext().getPackageManager().getApplicationInfo(packageName,
+                        PackageManager.MATCH_UNINSTALLED_PACKAGES);
                 return info != null && info.enabled;
             }
         } catch (PackageManager.NameNotFoundException e) {
@@ -435,8 +403,7 @@ public class AppProvider {
         shortcutItem.packageName = databaseItem.packageName;
         shortcutItem.title = databaseItem.title.toString();
         shortcutItem.icon_blob = databaseItem.icon_blob;
-        Bitmap bitmap = BitmapFactory.decodeByteArray(databaseItem.icon_blob, 0,
-                databaseItem.icon_blob.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(databaseItem.icon_blob, 0, databaseItem.icon_blob.length);
         shortcutItem.icon = new BitmapDrawable(mContext.getResources(), bitmap);
         shortcutItem.launchIntent = databaseItem.getIntent();
         shortcutItem.launchIntentUri = databaseItem.launchIntentUri;
@@ -450,8 +417,7 @@ public class AppProvider {
     private ShortcutItem prepareShortcutForOreo(LauncherItem databaseItem) {
         ShortcutInfoCompat info = mShortcutInfoCompats.get(databaseItem.id);
         if (info == null) {
-            Log.d(TAG,
-                    "prepareShortcutForOreo() called with: databaseItem = [" + databaseItem + "]");
+            Log.d(TAG, "prepareShortcutForOreo() called with: databaseItem = [" + databaseItem + "]");
             return null;
         }
 
@@ -461,8 +427,7 @@ public class AppProvider {
         shortcutItem.title = info.getShortLabel().toString();
         Drawable icon = DeepShortcutManager.getInstance(mContext).getShortcutIconDrawable(info,
                 mContext.getResources().getDisplayMetrics().densityDpi);
-        shortcutItem.icon = BlissLauncher.getApplication(
-                mContext).getIconsHandler().convertIcon(icon);
+        shortcutItem.icon = BlissLauncher.getApplication(mContext).getIconsHandler().convertIcon(icon);
         shortcutItem.launchIntent = info.makeIntent();
         shortcutItem.container = databaseItem.container;
         shortcutItem.screenId = databaseItem.screenId;
@@ -475,21 +440,15 @@ public class AppProvider {
         List<LauncherItem> mLauncherItems = new ArrayList<>();
         List<LauncherItem> pinnedItems = new ArrayList<>();
         PackageManager pm = mContext.getPackageManager();
-        Intent[] intents = {
-                new Intent(Intent.ACTION_DIAL),
-                new Intent(Intent.ACTION_VIEW, Uri.parse("sms:")),
-                new Intent(Intent.ACTION_VIEW, Uri.parse("http:")),
-                new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        };
+        Intent[] intents = {new Intent(Intent.ACTION_DIAL), new Intent(Intent.ACTION_VIEW, Uri.parse("sms:")),
+                new Intent(Intent.ACTION_VIEW, Uri.parse("http:")), new Intent(MediaStore.ACTION_IMAGE_CAPTURE)};
         for (int i = 0; i < intents.length; i++) {
             String packageName = AppUtils.getPackageNameForIntent(intents[i], pm);
-            LauncherApps launcherApps = (LauncherApps) mContext.getSystemService(
-                    Context.LAUNCHER_APPS_SERVICE);
-            List<LauncherActivityInfo> list = launcherApps.getActivityList(packageName,
-                    Process.myUserHandle());
+            LauncherApps launcherApps = (LauncherApps) mContext.getSystemService(Context.LAUNCHER_APPS_SERVICE);
+            List<LauncherActivityInfo> list = launcherApps.getActivityList(packageName, Process.myUserHandle());
             for (LauncherActivityInfo launcherActivityInfo : list) {
-                ApplicationItem applicationItem = mApplicationItems.get(
-                        launcherActivityInfo.getComponentName().flattenToString());
+                ApplicationItem applicationItem = mApplicationItems
+                        .get(launcherActivityInfo.getComponentName().flattenToString());
                 if (applicationItem != null) {
                     applicationItem.container = Constants.CONTAINER_HOTSEAT;
                     applicationItem.cell = i;
@@ -499,8 +458,7 @@ public class AppProvider {
             }
         }
 
-        for (Map.Entry<String, ApplicationItem> stringApplicationItemEntry : mApplicationItems
-                .entrySet()) {
+        for (Map.Entry<String, ApplicationItem> stringApplicationItemEntry : mApplicationItems.entrySet()) {
             if (!pinnedItems.contains(stringApplicationItemEntry.getValue())) {
                 mLauncherItems.add(stringApplicationItemEntry.getValue());
             }

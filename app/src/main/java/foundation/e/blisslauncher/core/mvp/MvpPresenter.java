@@ -1,6 +1,6 @@
 package foundation.e.blisslauncher.core.mvp;
 
-public class MvpPresenter<V extends MvpContract.View> implements MvpContract.Presenter<V>{
+public class MvpPresenter<V extends MvpContract.View> implements MvpContract.Presenter<V> {
 
     private V mView;
     private boolean isPaused;
@@ -29,18 +29,18 @@ public class MvpPresenter<V extends MvpContract.View> implements MvpContract.Pre
         return mView;
     }
 
-    public boolean isViewAttached(){
+    public boolean isViewAttached() {
         return this.mView != null;
     }
 
     public void checkViewAttached() {
-        if (!isViewAttached()) throw new ViewNotAttachedException();
+        if (!isViewAttached())
+            throw new ViewNotAttachedException();
     }
 
     public static class ViewNotAttachedException extends RuntimeException {
         public ViewNotAttachedException() {
-            super("Call Presenter.attachView(BaseView)before" +
-                    " requesting data to the Presenter");
+            super("Call Presenter.attachView(BaseView)before" + " requesting data to the Presenter");
         }
     }
 }

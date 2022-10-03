@@ -13,7 +13,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
-
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.utils.Constants;
 
@@ -27,9 +26,9 @@ public class WeatherIconUtils {
         }
 
         final Resources res = context.getResources();
-        final int resId = res.getIdentifier("weather_" + iconSet + "_"
-                        + WeatherUtils.addOffsetToConditionCodeFromWeatherContract(conditionCode), "drawable",
-                context.getPackageName());
+        final int resId = res.getIdentifier(
+                "weather_" + iconSet + "_" + WeatherUtils.addOffsetToConditionCodeFromWeatherContract(conditionCode),
+                "drawable", context.getPackageName());
 
         if (resId != 0) {
             return resId;
@@ -39,13 +38,12 @@ public class WeatherIconUtils {
         return R.drawable.weather_color_na;
     }
 
-    public static Bitmap getWeatherIconBitmap(Context context, String iconSet,
-            int color, int conditionCode) {
+    public static Bitmap getWeatherIconBitmap(Context context, String iconSet, int color, int conditionCode) {
         return getWeatherIconBitmap(context, iconSet, color, conditionCode, 0);
     }
 
-    public static Bitmap getWeatherIconBitmap(Context context, String iconSet,
-            int color, int conditionCode, int density) {
+    public static Bitmap getWeatherIconBitmap(Context context, String iconSet, int color, int conditionCode,
+            int density) {
         boolean isMonoSet = Constants.MONOCHROME.equals(iconSet);
         Resources res = null;
         int resId = 0;
@@ -63,8 +61,8 @@ public class WeatherIconUtils {
         }
         if (resId == 0) {
             String identifier = isMonoSet
-                    ? "weather_" + fixedConditionCode : "weather_"
-                    + iconSet + "_" + fixedConditionCode;
+                    ? "weather_" + fixedConditionCode
+                    : "weather_" + iconSet + "_" + fixedConditionCode;
             res = context.getResources();
             resId = res.getIdentifier(identifier, "drawable", context.getPackageName());
         }
@@ -86,8 +84,7 @@ public class WeatherIconUtils {
             return src;
         }
 
-        final Bitmap dest = Bitmap.createBitmap(src.getWidth(), src.getHeight(),
-                Bitmap.Config.ARGB_8888);
+        final Bitmap dest = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(dest);
         final Paint paint = new Paint();
 
@@ -99,19 +96,20 @@ public class WeatherIconUtils {
 
     public static Bitmap getBitmapFromResource(Resources res, int resId, int density) {
         if (density == 0) {
-            if (D) Log.d(TAG, "Decoding resource id = " + resId + " for default density");
+            if (D)
+                Log.d(TAG, "Decoding resource id = " + resId + " for default density");
             return BitmapFactory.decodeResource(res, resId);
         }
 
-        if (D) Log.d(TAG, "Decoding resource id = " + resId + " for density = " + density);
+        if (D)
+            Log.d(TAG, "Decoding resource id = " + resId + " for density = " + density);
         Drawable d = res.getDrawableForDensity(resId, density);
         if (d instanceof BitmapDrawable) {
             BitmapDrawable bd = (BitmapDrawable) d;
             return bd.getBitmap();
         }
 
-        Bitmap result = Bitmap.createBitmap(d.getIntrinsicWidth(),
-                d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap result = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
         d.setBounds(0, 0, result.getWidth(), result.getHeight());
         d.draw(canvas);

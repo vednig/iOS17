@@ -24,7 +24,7 @@ import android.graphics.PorterDuffXfermode;
 
 public class BitmapUtils {
 
-    public static Bitmap getCroppedBitmap(Bitmap src, Path path){
+    public static Bitmap getCroppedBitmap(Bitmap src, Path path) {
         Bitmap output = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 

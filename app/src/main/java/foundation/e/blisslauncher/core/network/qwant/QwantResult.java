@@ -7,6 +7,7 @@ public class QwantResult {
     @SerializedName("status")
     @Expose
     private String status;
+
     @SerializedName("data")
     @Expose
     private QwantData data;

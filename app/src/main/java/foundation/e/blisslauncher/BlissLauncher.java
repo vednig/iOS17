@@ -8,7 +8,6 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
-
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.IconsHandler;
 import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider;
@@ -17,8 +16,7 @@ import foundation.e.blisslauncher.features.launcher.AppProvider;
 import foundation.e.blisslauncher.features.notification.NotificationService;
 
 public class BlissLauncher extends Application {
-    public static final Uri NOTIFICATION_BADGING_URI =
-            Settings.Secure.getUriFor("notification_badging");
+    public static final Uri NOTIFICATION_BADGING_URI = Settings.Secure.getUriFor("notification_badging");
 
     private IconsHandler iconsPackHandler;
     private DeviceProfile deviceProfile;
@@ -32,8 +30,7 @@ public class BlissLauncher extends Application {
     public void onCreate() {
         super.onCreate();
         sAppWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-        sAppWidgetHost = new WidgetHost(getApplicationContext(),
-                R.id.APPWIDGET_HOST_ID);
+        sAppWidgetHost = new WidgetHost(getApplicationContext(), R.id.APPWIDGET_HOST_ID);
         sAppWidgetHost.startListening();
 
         connectAppProvider();
@@ -45,16 +42,14 @@ public class BlissLauncher extends Application {
                 onNotificationSettingsChanged();
             }
         };
-        getContentResolver().registerContentObserver(
-                NOTIFICATION_BADGING_URI, false, notificationSettingsObserver);
+        getContentResolver().registerContentObserver(NOTIFICATION_BADGING_URI, false, notificationSettingsObserver);
     }
 
     private void onNotificationSettingsChanged() {
-        boolean areNotificationDotsEnabled = Settings.Secure.getInt(
-                getContentResolver(), NOTIFICATION_BADGING_URI.getLastPathSegment(), 1) == 1;
+        boolean areNotificationDotsEnabled = Settings.Secure.getInt(getContentResolver(),
+                NOTIFICATION_BADGING_URI.getLastPathSegment(), 1) == 1;
         if (areNotificationDotsEnabled) {
-            NotificationService.requestRebind(new ComponentName(
-                    this, NotificationService.class));
+            NotificationService.requestRebind(new ComponentName(this, NotificationService.class));
         }
     }
 

@@ -1,8 +1,7 @@
 package foundation.e.blisslauncher.features.suggestions;
 
-import java.util.List;
-
 import foundation.e.blisslauncher.core.database.model.LauncherItem;
+import java.util.List;
 
 public class SuggestionsResult {
 
@@ -14,7 +13,6 @@ public class SuggestionsResult {
     public String queryText;
     public int type = -1;
 
-
     public SuggestionsResult(String queryText) {
         this.queryText = queryText;
     }
@@ -23,8 +21,7 @@ public class SuggestionsResult {
         return networkItems;
     }
 
-    public void setNetworkItems(
-            List<String> networkItems) {
+    public void setNetworkItems(List<String> networkItems) {
         this.networkItems = networkItems;
         this.type = TYPE_NETWORK_ITEM;
     }
@@ -33,8 +30,7 @@ public class SuggestionsResult {
         return launcherItems;
     }
 
-    public void setLauncherItems(
-            List<LauncherItem> launcherItems) {
+    public void setLauncherItems(List<LauncherItem> launcherItems) {
         this.launcherItems = launcherItems;
         this.type = TYPE_LAUNCHER_ITEM;
     }

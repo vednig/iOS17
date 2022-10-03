@@ -74,8 +74,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HorizontalPager);
-        pageWidthSpec = a.getDimensionPixelSize(R.styleable.HorizontalPager_pageWidth,
-                SPEC_UNDEFINED);
+        pageWidthSpec = a.getDimensionPixelSize(R.styleable.HorizontalPager_pageWidth, SPEC_UNDEFINED);
         a.recycle();
 
         init();
@@ -124,9 +123,9 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     }
 
     /**
-     * Gets the value that getScrollX() should return if the specified page is the current page (and
-     * no other scrolling is occurring).
-     * Use this to pass a value to scrollTo(), for example.
+     * Gets the value that getScrollX() should return if the specified page is the
+     * current page (and no other scrolling is occurring). Use this to pass a value
+     * to scrollTo(), for example.
      */
     private int getScrollXForPage(int whichPage) {
         return (whichPage * pageWidth) - pageWidthPadding();
@@ -271,18 +270,17 @@ public class HorizontalPager extends ViewGroup implements Insettable {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        //Log.d(TAG, "onInterceptTouchEvent::action=" + ev.getAction());
+        // Log.d(TAG, "onInterceptTouchEvent::action=" + ev.getAction());
 
         /*
-         * This method JUST determines whether we want to intercept the motion.
-         * If we return true, onTouchEvent will be called and we do the actual
-         * scrolling there.
+         * This method JUST determines whether we want to intercept the motion. If we
+         * return true, onTouchEvent will be called and we do the actual scrolling
+         * there.
          */
 
         /*
-         * Shortcut the most recurring case: the user is in the dragging
-         * state and he is moving his finger.  We want to intercept this
-         * motion.
+         * Shortcut the most recurring case: the user is in the dragging state and he is
+         * moving his finger. We want to intercept this motion.
          */
         final int action = ev.getAction();
         if ((action == MotionEvent.ACTION_MOVE) && (mTouchState != TOUCH_STATE_REST)) {
@@ -295,9 +293,8 @@ public class HorizontalPager extends ViewGroup implements Insettable {
 
         mLastMotionRawY = ev.getRawY();
 
-
         switch (action) {
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE :
                 /*
                  * mIsBeingDragged == false, otherwise the shortcut would have caught it. Check
                  * whether the user has moved far enough from his original down touch.
@@ -308,38 +305,36 @@ public class HorizontalPager extends ViewGroup implements Insettable {
 
                 break;
 
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_DOWN :
                 // Remember location of down touch
                 mLastMotionX = x;
                 mLastMotionY = y;
                 mAllowLongPress = true;
 
                 /*
-                 * If being flinged and user touches the screen, initiate drag;
-                 * otherwise don't.  mScroller.isFinished should be false when
-                 * being flinged.
+                 * If being flinged and user touches the screen, initiate drag; otherwise don't.
+                 * mScroller.isFinished should be false when being flinged.
                  */
-                mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
-                        : TOUCH_STATE_HORIZONTAL_SCROLLING;
+                mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST : TOUCH_STATE_HORIZONTAL_SCROLLING;
                 break;
 
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL :
+            case MotionEvent.ACTION_UP :
                 mTouchState = TOUCH_STATE_REST;
                 break;
         }
 
         /*
-         * The only time we want to intercept motion events is if we are in the
-         * drag mode.
+         * The only time we want to intercept motion events is if we are in the drag
+         * mode.
          */
         return mTouchState != TOUCH_STATE_REST;
     }
 
     private void checkStartScroll(float x, float y) {
         /*
-         * Locally do absolute value. mLastMotionX is set to the y value
-         * of the down event.
+         * Locally do absolute value. mLastMotionX is set to the y value of the down
+         * event.
          */
         final int xDiff = (int) Math.abs(x - mLastMotionX);
         final int yDiff = (int) Math.abs(y - mLastMotionY);
@@ -372,7 +367,8 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     }
 
     private boolean inThresholdRegion() {
-        return (mLastMotionRawY / BlissLauncher.getApplication(getContext()).getDeviceProfile().availableHeightPx) > (float) 1 / 5;
+        return (mLastMotionRawY
+                / BlissLauncher.getApplication(getContext()).getDeviceProfile().availableHeightPx) > (float) 1 / 5;
     }
 
     void enableChildrenCache() {
@@ -386,11 +382,11 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        /*if (gestureDetectorCompat.onTouchEvent(ev)) {
-            return true;
-        } else {
-
-        }*/
+        /*
+         * if (gestureDetectorCompat.onTouchEvent(ev)) { return true; } else {
+         * 
+         * }
+         */
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain();
         }
@@ -401,10 +397,10 @@ public class HorizontalPager extends ViewGroup implements Insettable {
         final float y = ev.getY();
         if (mIsUiCreated) {
             switch (action) {
-                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_DOWN :
                     /*
-                     * If being flinged and user touches, stop the fling. isFinished
-                     * will be false if being flinged.
+                     * If being flinged and user touches, stop the fling. isFinished will be false
+                     * if being flinged.
                      */
                     if (!mScroller.isFinished()) {
                         mScroller.abortAnimation();
@@ -414,7 +410,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
                     mLastMotionX = x;
                     mLastMotionY = y;
                     break;
-                case MotionEvent.ACTION_MOVE:
+                case MotionEvent.ACTION_MOVE :
                     if (mTouchState == TOUCH_STATE_REST) {
                         checkStartScroll(x, y);
                     } else if (mTouchState == TOUCH_STATE_VERTICAL_SCROLLING) {
@@ -426,20 +422,19 @@ public class HorizontalPager extends ViewGroup implements Insettable {
                         mLastMotionX = x;
 
                         // Apply friction to scrolling past boundaries.
-                        if (getScrollX() < 0 || getScrollX() > getChildAt(
-                                getChildCount() - 1).getLeft()) {
+                        if (getScrollX() < 0 || getScrollX() > getChildAt(getChildCount() - 1).getLeft()) {
                             deltaX /= 2;
                         }
 
                         scrollBy(deltaX, 0);
-                        /*if ((currentPage == 0 && deltaX > 0) || (currentPage == 1 && deltaX <
-                        0)) {
-                            Log.i(TAG, "onTouchEvent: "+getChildAt(currentPage).getLeft());
-                            mDock.setTranslationX(getChildAt(currentPage).getLeft());
-                        }*/
+                        /*
+                         * if ((currentPage == 0 && deltaX > 0) || (currentPage == 1 && deltaX < 0)) {
+                         * Log.i(TAG, "onTouchEvent: "+getChildAt(currentPage).getLeft());
+                         * mDock.setTranslationX(getChildAt(currentPage).getLeft()); }
+                         */
                     }
                     break;
-                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_UP :
                     if (mTouchState == TOUCH_STATE_VERTICAL_SCROLLING) {
                         ((OnSwipeDownListener) getContext()).onSwipeFinish();
                     }
@@ -451,8 +446,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
                         if (velocityX > SNAP_VELOCITY && currentPage > 0) {
                             // Fling hard enough to move left
                             snapToPage(currentPage - 1);
-                        } else if (velocityX < -SNAP_VELOCITY
-                                && currentPage < getChildCount() - 1) {
+                        } else if (velocityX < -SNAP_VELOCITY && currentPage < getChildCount() - 1) {
                             // Fling hard enough to move right
                             snapToPage(currentPage + 1);
                         } else {
@@ -466,7 +460,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
                     }
                     mTouchState = TOUCH_STATE_REST;
                     break;
-                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_CANCEL :
                     mTouchState = TOUCH_STATE_REST;
             }
         }
@@ -529,8 +523,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     }
 
     public void scrollRight(int duration) {
-        if (currentPage < getChildCount() - 1
-                && mScroller.isFinished()) {
+        if (currentPage < getChildCount() - 1 && mScroller.isFinished()) {
             snapToPage(currentPage + 1, duration);
         }
     }
@@ -558,7 +551,8 @@ public class HorizontalPager extends ViewGroup implements Insettable {
 
     @Override
     public void setInsets(Rect insets) {
-        if (insets == null) return;
+        if (insets == null)
+            return;
         updateInsetsForChildren();
         this.insets = insets;
         postInvalidate();
@@ -603,16 +597,15 @@ public class HorizontalPager extends ViewGroup implements Insettable {
             out.writeInt(currentScreen);
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
-                    public SavedState createFromParcel(Parcel in) {
-                        return new SavedState(in);
-                    }
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
 
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
-                    }
-                };
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 
     public void addOnScrollListener(OnScrollListener listener) {
@@ -628,20 +621,21 @@ public class HorizontalPager extends ViewGroup implements Insettable {
      */
     public interface OnScrollListener {
         /**
-         * Receives the current scroll X value.  This value will be adjusted to assume the left edge
-         * of the first
-         * page has a scroll position of 0.  Note that values less than 0 and greater than the right
-         * edge of the
-         * last page are possible due to touch events scrolling beyond the edges.
+         * Receives the current scroll X value. This value will be adjusted to assume
+         * the left edge of the first page has a scroll position of 0. Note that values
+         * less than 0 and greater than the right edge of the last page are possible due
+         * to touch events scrolling beyond the edges.
          *
-         * @param scrollX Scroll X value
+         * @param scrollX
+         *            Scroll X value
          */
         void onScroll(int scrollX);
 
         /**
          * Invoked when scrolling is finished (settled on a page, centered).
          *
-         * @param currentPage The current page
+         * @param currentPage
+         *            The current page
          */
         void onViewScrollFinished(int currentPage);
     }

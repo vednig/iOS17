@@ -19,11 +19,11 @@ package foundation.e.blisslauncher.features.widgets;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-
 import foundation.e.blisslauncher.core.Utilities;
 
 /**
- * Utility class to handle tripper long press on a view with custom timeout and stylus event
+ * Utility class to handle tripper long press on a view with custom timeout and
+ * stylus event
  */
 public class CheckLongPressHelper {
 
@@ -56,7 +56,7 @@ public class CheckLongPressHelper {
      */
     public void onTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
+            case MotionEvent.ACTION_DOWN : {
                 // Just in case the previous long press hasn't been cleared, we make sure to
                 // start fresh on touch down.
                 cancelLongPress();
@@ -67,11 +67,11 @@ public class CheckLongPressHelper {
                 }
                 break;
             }
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL :
+            case MotionEvent.ACTION_UP :
                 cancelLongPress();
                 break;
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE :
                 if (!Utilities.pointInView(mView, ev.getX(), ev.getY(), mSlop)) {
                     cancelLongPress();
                 } else if (mPendingCheckForLongPress != null && isStylusButtonPressed(ev)) {
@@ -82,9 +82,7 @@ public class CheckLongPressHelper {
         }
     }
 
-    /**
-     * Overrides the default long press timeout.
-     */
+    /** Overrides the default long press timeout. */
     public void setLongPressTimeoutFactor(float longPressTimeoutFactor) {
         mLongPressTimeoutFactor = longPressTimeoutFactor;
     }
@@ -99,9 +97,7 @@ public class CheckLongPressHelper {
                 (long) (ViewConfiguration.getLongPressTimeout() * mLongPressTimeoutFactor));
     }
 
-    /**
-     * Cancels any pending long press
-     */
+    /** Cancels any pending long press */
     public void cancelLongPress() {
         mHasPerformedLongPress = false;
         clearCallbacks();
@@ -115,9 +111,7 @@ public class CheckLongPressHelper {
     }
 
     private void triggerLongPress() {
-        if ((mView.getParent() != null)
-                && mView.hasWindowFocus()
-                && (!mView.isPressed() || mListener != null)
+        if ((mView.getParent() != null) && mView.hasWindowFocus() && (!mView.isPressed() || mListener != null)
                 && !mHasPerformedLongPress) {
             boolean handled;
             if (mListener != null) {
@@ -140,12 +134,12 @@ public class CheckLongPressHelper {
         }
     }
 
-
     /**
-     * Identifies if the provided {@link MotionEvent} is a stylus with the primary stylus button
-     * pressed.
+     * Identifies if the provided {@link MotionEvent} is a stylus with the primary
+     * stylus button pressed.
      *
-     * @param event The event to check.
+     * @param event
+     *            The event to check.
      * @return Whether a stylus button press occurred.
      */
     private static boolean isStylusButtonPressed(MotionEvent event) {

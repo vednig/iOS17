@@ -10,20 +10,15 @@ public class RetrofitService {
     private static OkHttpClient sOkHttpClient;
     private static GsonConverterFactory sGsonConverterFactory = GsonConverterFactory.create();
     private static RxJava2CallAdapterFactory sRxJava2CallAdapterFactory = RxJava2CallAdapterFactory.create();
+
     static {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        sOkHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build();
+        sOkHttpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
     }
 
     public static Retrofit getInstance(String url) {
-        return new Retrofit.Builder()
-                .baseUrl(url)
-                .client(sOkHttpClient)
-                .addCallAdapterFactory(sRxJava2CallAdapterFactory)
-                .addConverterFactory(sGsonConverterFactory).build();
-
+        return new Retrofit.Builder().baseUrl(url).client(sOkHttpClient)
+                .addCallAdapterFactory(sRxJava2CallAdapterFactory).addConverterFactory(sGsonConverterFactory).build();
     }
 }

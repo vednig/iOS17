@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.LauncherApps;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 @TargetApi(Build.VERSION_CODES.O)
@@ -25,12 +24,11 @@ public class AddItemActivity extends AppCompatActivity {
             }
 
             if (request.getRequestType() == LauncherApps.PinItemRequest.REQUEST_TYPE_SHORTCUT) {
-                InstallShortcutReceiver.queueShortcut(
-                        new ShortcutInfoCompat(request.getShortcutInfo()), this.getApplicationContext());
+                InstallShortcutReceiver.queueShortcut(new ShortcutInfoCompat(request.getShortcutInfo()),
+                        this.getApplicationContext());
                 request.accept();
                 finish();
             }
         }
-
     }
 }

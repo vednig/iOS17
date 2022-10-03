@@ -1,10 +1,8 @@
 package foundation.e.blisslauncher.features.launcher;
 
 import com.jakewharton.rxrelay2.BehaviorRelay;
-
-import java.util.List;
-
 import foundation.e.blisslauncher.core.database.model.LauncherItem;
+import java.util.List;
 
 public class AppsRepository {
 
@@ -24,7 +22,7 @@ public class AppsRepository {
         return sAppsRepository;
     }
 
-    public void clearAll(){
+    public void clearAll() {
         appsRelay = BehaviorRelay.create();
     }
 

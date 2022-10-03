@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.LauncherActivityInfo;
-
 import foundation.e.blisslauncher.core.utils.Constants;
 import foundation.e.blisslauncher.core.utils.UserHandle;
 
@@ -16,9 +15,7 @@ public class ApplicationItem extends LauncherItem {
 
     public ComponentName componentName;
 
-    /**
-     * Indicates if the app is a system app or not.
-     */
+    /** Indicates if the app is a system app or not. */
     public int isSystemApp;
 
     public static final int TYPE_CLOCK = 745;
@@ -28,17 +25,16 @@ public class ApplicationItem extends LauncherItem {
     public boolean isDisabled = false;
 
     /**
-     * Indicates the type of app item ie. Clock or Calendar (in case of none, It will be )
+     * Indicates the type of app item ie. Clock or Calendar (in case of none, It
+     * will be )
      */
     public int appType;
 
-    public ApplicationItem(){
+    public ApplicationItem() {
         itemType = Constants.ITEM_TYPE_APPLICATION;
     }
 
-    /**
-     * Must not hold the Context.
-     */
+    /** Must not hold the Context. */
     public ApplicationItem(LauncherActivityInfo info, UserHandle user) {
         itemType = Constants.ITEM_TYPE_APPLICATION;
         this.componentName = info.getComponentName();
@@ -49,7 +45,8 @@ public class ApplicationItem extends LauncherItem {
         launchIntent = makeLaunchIntent(info);
 
         isSystemApp = (info.getApplicationInfo().flags & ApplicationInfo.FLAG_SYSTEM) == 0
-                ? FLAG_SYSTEM_NO : FLAG_SYSTEM_YES;
+                ? FLAG_SYSTEM_NO
+                : FLAG_SYSTEM_YES;
     }
 
     public static Intent makeLaunchIntent(LauncherActivityInfo info) {
@@ -57,9 +54,7 @@ public class ApplicationItem extends LauncherItem {
     }
 
     public static Intent makeLaunchIntent(ComponentName cn) {
-        return new Intent(Intent.ACTION_MAIN)
-                .addCategory(Intent.CATEGORY_LAUNCHER)
-                .setComponent(cn)
+        return new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(cn)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
     }
 }

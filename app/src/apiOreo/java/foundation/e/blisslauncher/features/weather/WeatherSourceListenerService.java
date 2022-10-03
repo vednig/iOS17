@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.core.utils.Constants;
 import lineageos.weather.LineageWeatherManager;
 
 public class WeatherSourceListenerService extends Service
-        implements LineageWeatherManager.WeatherServiceProviderChangeListener {
+        implements
+            LineageWeatherManager.WeatherServiceProviderChangeListener {
 
     private static final String TAG = WeatherSourceListenerService.class.getSimpleName();
     private static final boolean D = Constants.DEBUG;
@@ -20,16 +20,20 @@ public class WeatherSourceListenerService extends Service
 
     @Override
     public void onWeatherServiceProviderChanged(String providerLabel) {
-        if (D) Log.d(TAG, "Weather Source changed " + providerLabel);
+        if (D)
+            Log.d(TAG, "Weather Source changed " + providerLabel);
         Preferences.setWeatherSource(mContext, providerLabel);
         Preferences.setCachedWeatherInfo(mContext, 0, null);
-        //The data contained in WeatherLocation is tightly coupled to the weather provider
-        //that generated that data, so we need to clear the cached weather location and let the new
-        //weather provider regenerate the data if the user decides to use custom location again
+        // The data contained in WeatherLocation is tightly coupled to the weather
+        // provider
+        // that generated that data, so we need to clear the cached weather location and
+        // let the new
+        // weather provider regenerate the data if the user decides to use custom
+        // location again
         Preferences.setCustomWeatherLocationCity(mContext, null);
         Preferences.setCustomWeatherLocation(mContext, null);
         Preferences.setUseCustomWeatherLocation(mContext, false);
-        
+
         if (providerLabel != null) {
             mContext.startService(new Intent(mContext, WeatherUpdateService.class)
                     .putExtra(WeatherUpdateService.ACTION_FORCE_UPDATE, true));
@@ -39,11 +43,11 @@ public class WeatherSourceListenerService extends Service
     @Override
     public void onCreate() {
         mContext = getApplicationContext();
-        final LineageWeatherManager weatherManager
-                = LineageWeatherManager.getInstance(mContext);
+        final LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(mContext);
         weatherManager.registerWeatherServiceProviderChangeListener(this);
         mRegistered = true;
-        if (D) Log.d(TAG, "Listener registered");
+        if (D)
+            Log.d(TAG, "Listener registered");
     }
 
     @Override

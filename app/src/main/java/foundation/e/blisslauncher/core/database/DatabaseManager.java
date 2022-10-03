@@ -2,13 +2,6 @@ package foundation.e.blisslauncher.core.database;
 
 import android.content.Context;
 import android.widget.GridLayout;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import foundation.e.blisslauncher.core.customviews.BlissFrameLayout;
 import foundation.e.blisslauncher.core.database.daos.WidgetDao;
 import foundation.e.blisslauncher.core.database.model.FolderItem;
@@ -17,6 +10,11 @@ import foundation.e.blisslauncher.core.database.model.WidgetItem;
 import foundation.e.blisslauncher.core.executors.AppExecutors;
 import foundation.e.blisslauncher.core.utils.Constants;
 import io.reactivex.Single;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class DatabaseManager {
 
@@ -44,8 +42,7 @@ public class DatabaseManager {
     }
 
     public void removeLauncherItem(String itemId) {
-        mAppExecutors.diskIO().execute(
-                () -> LauncherDB.getDatabase(mContext).launcherDao().delete(itemId));
+        mAppExecutors.diskIO().execute(() -> LauncherDB.getDatabase(mContext).launcherDao().delete(itemId));
     }
 
     public void saveLayouts(List<GridLayout> pages, GridLayout dock) {
@@ -83,8 +80,7 @@ public class DatabaseManager {
         for (int i = 0; i < pages.size(); i++) {
             GridLayout gridLayout = pages.get(i);
             for (int j = 0; j < gridLayout.getChildCount(); j++) {
-                LauncherItem launcherItem = ((BlissFrameLayout) gridLayout.getChildAt(
-                        j)).getLauncherItem();
+                LauncherItem launcherItem = ((BlissFrameLayout) gridLayout.getChildAt(j)).getLauncherItem();
                 if (launcherItem.itemType == Constants.ITEM_TYPE_FOLDER) {
                     FolderItem folderItem = (FolderItem) launcherItem;
                     folderItem.screenId = i;
@@ -110,25 +106,22 @@ public class DatabaseManager {
     }
 
     public void removeShortcut(String name) {
-        mAppExecutors.diskIO().execute(
-                () -> LauncherDB.getDatabase(mContext).launcherDao().deleteShortcut(name));
+        mAppExecutors.diskIO().execute(() -> LauncherDB.getDatabase(mContext).launcherDao().deleteShortcut(name));
     }
 
-    // Already invoked in a disk io thread, so no need to execute in separate thread here.
+    // Already invoked in a disk io thread, so no need to execute in separate thread
+    // here.
     public void migrateComponent(String old_component_name, String new_component_name) {
         LauncherDB.getDatabase(mContext).launcherDao().delete(new_component_name);
-        LauncherDB.getDatabase(mContext).launcherDao().updateComponent(old_component_name,
-                new_component_name);
+        LauncherDB.getDatabase(mContext).launcherDao().updateComponent(old_component_name, new_component_name);
     }
 
     public void insertWidget(WidgetItem widgetItem) {
-        mAppExecutors.diskIO().execute(
-                () -> LauncherDB.getDatabase(mContext).widgetDao().insert(widgetItem));
+        mAppExecutors.diskIO().execute(() -> LauncherDB.getDatabase(mContext).widgetDao().insert(widgetItem));
     }
 
     public void saveWidgetHeight(int id, int height) {
-        mAppExecutors.diskIO().execute(
-                () -> LauncherDB.getDatabase(mContext).widgetDao().updateHeight(id, height));
+        mAppExecutors.diskIO().execute(() -> LauncherDB.getDatabase(mContext).widgetDao().updateHeight(id, height));
     }
 
     public void removeWidget(int id) {
@@ -151,7 +144,8 @@ public class DatabaseManager {
                 widgets.add(item);
                 widgetDao.insert(item);
             }
-            widgets.sort(Comparator.<WidgetItem>comparingInt(widget -> widget.order).thenComparingInt(widget -> widget.id));
+            widgets.sort(
+                    Comparator.<WidgetItem>comparingInt(widget -> widget.order).thenComparingInt(widget -> widget.id));
             return Single.just(widgets);
         });
     }

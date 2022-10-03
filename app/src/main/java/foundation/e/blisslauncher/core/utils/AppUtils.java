@@ -26,35 +26,29 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.UserManager;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.IconsHandler;
 import foundation.e.blisslauncher.core.database.model.ApplicationItem;
 import foundation.e.blisslauncher.features.launcher.AppProvider;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AppUtils {
 
     private static final String TAG = "AppUtils";
     private static volatile LauncherApps sLauncherApps;
 
-    /**
-     * Uses the PackageManager to find all launchable apps.
-     */
+    /** Uses the PackageManager to find all launchable apps. */
     @SuppressLint("CheckResult")
     public static Map<String, ApplicationItem> loadAll(Context context) {
 
         UserManager manager = (UserManager) context.getSystemService(Context.USER_SERVICE);
 
         if (sLauncherApps == null) {
-            sLauncherApps = (LauncherApps) context.getSystemService(
-                    Context.LAUNCHER_APPS_SERVICE);
+            sLauncherApps = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
         }
         IconsHandler iconsHandler = BlissLauncher.getApplication(context).getIconsHandler();
         Map<String, ApplicationItem> appArrayMap = new LinkedHashMap<>();
@@ -62,22 +56,21 @@ public class AppUtils {
         // Handle multi-profile support introduced in Android 5 (#542)
         for (android.os.UserHandle profile : manager.getUserProfiles()) {
             UserHandle user = new UserHandle(manager.getSerialNumberForUser(profile), profile);
-            Log.i(TAG, "totalAppsBefore: "+sLauncherApps.getActivityList(null, profile).size());
+            Log.i(TAG, "totalAppsBefore: " + sLauncherApps.getActivityList(null, profile).size());
             List<LauncherActivityInfo> infos = sLauncherApps.getActivityList(null, profile);
             for (LauncherActivityInfo activityInfo : infos) {
                 ApplicationInfo appInfo = activityInfo.getApplicationInfo();
-                if(AppProvider.DISABLED_PACKAGES.contains(appInfo.packageName)){
+                if (AppProvider.DISABLED_PACKAGES.contains(appInfo.packageName)) {
                     continue;
                 }
-                ApplicationItem applicationItem = new ApplicationItem(activityInfo,
-                        user);
-                applicationItem.icon = iconsHandler.getDrawableIconForPackage(
-                        activityInfo, user);
+                ApplicationItem applicationItem = new ApplicationItem(activityInfo, user);
+                applicationItem.icon = iconsHandler.getDrawableIconForPackage(activityInfo, user);
                 String componentName = activityInfo.getComponentName().toString();
                 applicationItem.appType = iconsHandler.isClock(componentName)
-                        ? ApplicationItem.TYPE_CLOCK : (iconsHandler.isCalendar(
-                        componentName)
-                        ? ApplicationItem.TYPE_CALENDAR : ApplicationItem.TYPE_DEFAULT);
+                        ? ApplicationItem.TYPE_CLOCK
+                        : (iconsHandler.isCalendar(componentName)
+                                ? ApplicationItem.TYPE_CALENDAR
+                                : ApplicationItem.TYPE_DEFAULT);
                 applicationItem.title = activityInfo.getLabel().toString();
                 applicationItem.container = Constants.CONTAINER_DESKTOP;
                 if (appInfo.packageName.equalsIgnoreCase("com.generalmagic.magicearth")) {
@@ -87,15 +80,15 @@ public class AppUtils {
                 appArrayMap.put(applicationItem.id, applicationItem);
             }
         }
-        Log.i(TAG, "Total Apps Loaded: "+appArrayMap.size());
+        Log.i(TAG, "Total Apps Loaded: " + appArrayMap.size());
         return appArrayMap;
     }
 
     @Nullable
     public static String getPackageNameForIntent(Intent intent, PackageManager pm) {
-        List<ResolveInfo> activities = pm.queryIntentActivities(intent,
-                0);
-        if (activities.size() == 0) return null;
+        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+        if (activities.size() == 0)
+            return null;
         ActivityInfo activity = activities.get(0).activityInfo;
         return activity.applicationInfo.packageName;
     }
@@ -105,14 +98,12 @@ public class AppUtils {
             return null;
         }
         if (sLauncherApps == null) {
-            sLauncherApps = (LauncherApps) context.getSystemService(
-                    Context.LAUNCHER_APPS_SERVICE);
+            sLauncherApps = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
         }
 
         IconsHandler iconsHandler = BlissLauncher.getApplication(context).getIconsHandler();
 
-        List<LauncherActivityInfo> launcherActivityInfos = sLauncherApps.getActivityList(
-                packageName,
+        List<LauncherActivityInfo> launcherActivityInfos = sLauncherApps.getActivityList(packageName,
                 userHandle.getRealHandle());
         if (launcherActivityInfos == null || launcherActivityInfos.size() == 0) {
             return null;
@@ -120,16 +111,15 @@ public class AppUtils {
 
         LauncherActivityInfo launcherActivityInfo = launcherActivityInfos.get(0);
         if (launcherActivityInfo != null) {
-            ApplicationItem applicationItem = new ApplicationItem(launcherActivityInfo,
-                    userHandle);
+            ApplicationItem applicationItem = new ApplicationItem(launcherActivityInfo, userHandle);
             ApplicationInfo appInfo = launcherActivityInfo.getApplicationInfo();
-            applicationItem.icon = iconsHandler.getDrawableIconForPackage(
-                    launcherActivityInfo, userHandle);
+            applicationItem.icon = iconsHandler.getDrawableIconForPackage(launcherActivityInfo, userHandle);
             String componentName = launcherActivityInfo.getComponentName().toString();
             applicationItem.appType = iconsHandler.isClock(componentName)
-                    ? ApplicationItem.TYPE_CLOCK : (iconsHandler.isCalendar(
-                    componentName)
-                    ? ApplicationItem.TYPE_CALENDAR : ApplicationItem.TYPE_DEFAULT);
+                    ? ApplicationItem.TYPE_CLOCK
+                    : (iconsHandler.isCalendar(componentName)
+                            ? ApplicationItem.TYPE_CALENDAR
+                            : ApplicationItem.TYPE_DEFAULT);
             applicationItem.title = launcherActivityInfo.getLabel().toString();
             applicationItem.container = Constants.CONTAINER_DESKTOP;
             if (appInfo.packageName.equalsIgnoreCase("com.generalmagic.magicearth")) {

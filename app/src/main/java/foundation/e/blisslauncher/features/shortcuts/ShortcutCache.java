@@ -20,12 +20,11 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.util.ArrayMap;
 import android.util.LruCache;
-
 import java.util.List;
 
 /**
- * Loads {@link ShortcutInfoCompat}s on demand (e.g. when launcher
- * loads for pinned shortcuts and on long-press for dynamic shortcuts), and caches them
+ * Loads {@link ShortcutInfoCompat}s on demand (e.g. when launcher loads for
+ * pinned shortcuts and on long-press for dynamic shortcuts), and caches them
  * for handful of apps in an LruCache while launcher lives.
  */
 @TargetApi(Build.VERSION_CODES.N)
@@ -44,9 +43,11 @@ public class ShortcutCache {
     /**
      * Removes shortcuts from the cache when shortcuts change for a given package.
      *
+     * <p>
      * Returns a map of ids to their evicted shortcuts.
      *
-     * @see android.content.pm.LauncherApps.Callback#onShortcutsChanged(String, List, UserHandle).
+     * @see android.content.pm.LauncherApps.Callback#onShortcutsChanged(String,
+     *      List, UserHandle).
      */
     public void removeShortcuts(List<ShortcutInfoCompat> shortcuts) {
         for (ShortcutInfoCompat shortcut : shortcuts) {

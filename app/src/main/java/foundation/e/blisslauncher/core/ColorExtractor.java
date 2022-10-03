@@ -1,6 +1,5 @@
 package foundation.e.blisslauncher.core;
 
-
 /*
  * Copyright (C) 2017 The Android Open Source Project
  *
@@ -22,15 +21,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.SparseArray;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import kotlin.collections.ArraysKt;
 
-/**
- * Utility class for extracting colors from a bitmap.
- */
+/** Utility class for extracting colors from a bitmap. */
 public class ColorExtractor {
 
     private static final String TAG = "ColorExtractor";
@@ -40,10 +35,13 @@ public class ColorExtractor {
     }
 
     /**
-     * This picks a dominant color, looking for high-saturation, high-value, repeated hues.
+     * This picks a dominant color, looking for high-saturation, high-value,
+     * repeated hues.
      *
-     * @param bitmap The bitmap to scan
-     * @param samples The approximate max number of samples to use.
+     * @param bitmap
+     *            The bitmap to scan
+     * @param samples
+     *            The approximate max number of samples to use.
      */
     public static int findDominantColorByHue(Bitmap bitmap, int samples) {
         final int height = bitmap.getHeight();
@@ -57,7 +55,8 @@ public class ColorExtractor {
         float[] hsv = new float[3];
 
         // First get the best hue, by creating a histogram over 360 hue buckets,
-        // where each pixel contributes a score weighted by saturation, value, and alpha.
+        // where each pixel contributes a score weighted by saturation, value, and
+        // alpha.
         float[] hueScoreHistogram = new float[360];
         float highScore = -1;
         int bestHue = -1;
@@ -124,7 +123,8 @@ public class ColorExtractor {
     }
 
     public static boolean isSingleColor(Drawable drawable, int color) {
-        if (drawable == null) return true;
+        if (drawable == null)
+            return true;
         final int testColor = posterize(color);
         if (drawable instanceof ColorDrawable) {
             return posterize(((ColorDrawable) drawable).getColor()) == testColor;
@@ -154,8 +154,10 @@ public class ColorExtractor {
 
     /*
      * References:
-     * https://www.cs.umb.edu/~jreyes/csit114-fall-2007/project4/filters.html#posterize
-     * https://github.com/gitgraghu/image-processing/blob/master/src/Effects/Posterize.java
+     * https://www.cs.umb.edu/~jreyes/csit114-fall-2007/project4/filters.html#
+     * posterize
+     * https://github.com/gitgraghu/image-processing/blob/master/src/Effects/
+     * Posterize.java
      */
     public static int posterize(int rgb) {
         int red = (0xff & (rgb >> 16));

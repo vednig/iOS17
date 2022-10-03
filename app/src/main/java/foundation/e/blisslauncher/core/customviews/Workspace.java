@@ -5,11 +5,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
 import foundation.e.blisslauncher.core.customviews.pageindicators.PageIndicatorDots;
 import foundation.e.blisslauncher.features.launcher.LauncherActivity;
 
-public class Workspace extends PagedView<PageIndicatorDots> implements View.OnTouchListener{
+public class Workspace extends PagedView<PageIndicatorDots> implements View.OnTouchListener {
 
     private static final String TAG = "Workspace";
     private static final int DEFAULT_PAGE = 0;
@@ -40,7 +39,7 @@ public class Workspace extends PagedView<PageIndicatorDots> implements View.OnTo
         setClipToPadding(false);
         setupLayoutTransition();
 
-        //setWallpaperDimension();
+        // setWallpaperDimension();
     }
 
     private void setupLayoutTransition() {
@@ -56,6 +55,7 @@ public class Workspace extends PagedView<PageIndicatorDots> implements View.OnTo
     void enableLayoutTransitions() {
         setLayoutTransition(mLayoutTransition);
     }
+
     void disableLayoutTransitions() {
         setLayoutTransition(null);
     }

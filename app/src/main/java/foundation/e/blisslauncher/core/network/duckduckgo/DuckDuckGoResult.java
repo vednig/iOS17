@@ -4,7 +4,7 @@ public class DuckDuckGoResult {
 
     private String phrase;
 
-    public DuckDuckGoResult(String phrase){
+    public DuckDuckGoResult(String phrase) {
         this.phrase = phrase;
     }
 

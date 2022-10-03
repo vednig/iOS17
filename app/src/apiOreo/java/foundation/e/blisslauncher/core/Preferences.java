@@ -3,24 +3,20 @@ package foundation.e.blisslauncher.core;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-
+import foundation.e.blisslauncher.core.utils.Constants;
+import java.util.ArrayList;
+import java.util.Locale;
+import lineageos.weather.WeatherInfo;
+import lineageos.weather.WeatherLocation;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
-import foundation.e.blisslauncher.core.utils.Constants;
-import lineageos.weather.WeatherInfo;
-import lineageos.weather.WeatherLocation;
-
 public class Preferences {
 
-    /**
-     * Weather related keys and constants.
-     */
+    /** Weather related keys and constants. */
     private static final String WEATHER_LOCATION_CITY_ID = "city_id";
+
     private static final String WEATHER_LOCATION_CITY_NAME = "city_name";
     private static final String WEATHER_LOCATION_STATE = "state";
     private static final String WEATHER_LOCATION_POSTAL_CODE = "postal_code";
@@ -64,8 +60,8 @@ public class Preferences {
     }
 
     public static int weatherFontColor(Context context) {
-        int color = Color.parseColor(getPrefs(context).getString(Constants.WEATHER_FONT_COLOR,
-                Constants.DEFAULT_LIGHT_COLOR));
+        int color = Color
+                .parseColor(getPrefs(context).getString(Constants.WEATHER_FONT_COLOR, Constants.DEFAULT_LIGHT_COLOR));
         return color;
     }
 
@@ -75,8 +71,7 @@ public class Preferences {
 
     public static boolean useMetricUnits(Context context) {
         Locale locale = context.getResources().getConfiguration().locale;
-        boolean defValue = !(locale.equals(Locale.US)
-                || locale.toString().equals("ms_MY") // Malaysia
+        boolean defValue = !(locale.equals(Locale.US) || locale.toString().equals("ms_MY") // Malaysia
                 || locale.toString().equals("si_LK") // Sri Lanka
         );
         return getPrefs(context).getBoolean(Constants.WEATHER_USE_METRIC, defValue);
@@ -107,17 +102,14 @@ public class Preferences {
         getPrefs(context).edit().putString(Constants.WEATHER_CUSTOM_LOCATION_CITY, city).apply();
     }
 
-    public static boolean setCustomWeatherLocation(Context context,
-            WeatherLocation weatherLocation) {
+    public static boolean setCustomWeatherLocation(Context context, WeatherLocation weatherLocation) {
         if (weatherLocation == null) {
-            getPrefs(context).edit()
-                    .remove(Constants.WEATHER_CUSTOM_LOCATION).apply();
+            getPrefs(context).edit().remove(Constants.WEATHER_CUSTOM_LOCATION).apply();
             return true;
         }
         try {
             JSONObject jsonObject = weatherLocationToJSON(weatherLocation);
-            getPrefs(context).edit()
-                    .putString(Constants.WEATHER_CUSTOM_LOCATION, jsonObject.toString()).apply();
+            getPrefs(context).edit().putString(Constants.WEATHER_CUSTOM_LOCATION, jsonObject.toString()).apply();
             return true;
         } catch (JSONException e) {
             // We're here because weatherLocationToJSON() or jsonObject.toString() failed.
@@ -127,8 +119,7 @@ public class Preferences {
     }
 
     public static WeatherLocation getCustomWeatherLocation(Context context) {
-        String weatherLocation = getPrefs(context)
-                .getString(Constants.WEATHER_CUSTOM_LOCATION, null);
+        String weatherLocation = getPrefs(context).getString(Constants.WEATHER_CUSTOM_LOCATION, null);
 
         if (weatherLocation == null) {
             return null;
@@ -142,8 +133,7 @@ public class Preferences {
         }
     }
 
-    private static WeatherLocation JSONToWeatherLocation(JSONObject jsonObject)
-            throws JSONException {
+    private static WeatherLocation JSONToWeatherLocation(JSONObject jsonObject) throws JSONException {
         String cityId;
         String cityName;
         String state;
@@ -158,25 +148,27 @@ public class Preferences {
         countryId = jsonObject.getString(WEATHER_LOCATION_COUNTRY_ID);
         countryName = jsonObject.getString(WEATHER_LOCATION_COUNTRY_NAME);
 
-        //We need at least city id and city name to build a WeatherLocation
+        // We need at least city id and city name to build a WeatherLocation
         if (cityId == null && cityName == null) {
             return null;
         }
 
         WeatherLocation.Builder location = new WeatherLocation.Builder(cityId, cityName);
-        if (countryId != null) location.setCountryId(countryId);
-        if (countryName != null) location.setCountry(countryName);
-        if (state != null) location.setState(state);
-        if (postalCode != null) location.setPostalCode(postalCode);
+        if (countryId != null)
+            location.setCountryId(countryId);
+        if (countryName != null)
+            location.setCountry(countryName);
+        if (state != null)
+            location.setState(state);
+        if (postalCode != null)
+            location.setPostalCode(postalCode);
 
         return location.build();
     }
 
     private static JSONObject weatherLocationToJSON(WeatherLocation location) throws JSONException {
-        return new JSONObject()
-                .put(WEATHER_LOCATION_CITY_ID, location.getCityId())
-                .put(WEATHER_LOCATION_CITY_NAME, location.getCity())
-                .put(WEATHER_LOCATION_STATE, location.getState())
+        return new JSONObject().put(WEATHER_LOCATION_CITY_ID, location.getCityId())
+                .put(WEATHER_LOCATION_CITY_NAME, location.getCity()).put(WEATHER_LOCATION_STATE, location.getState())
                 .put(WEATHER_LOCATION_POSTAL_CODE, location.getPostalCode())
                 .put(WEATHER_LOCATION_COUNTRY_ID, location.getCountryId())
                 .put(WEATHER_LOCATION_COUNTRY_NAME, location.getCountry());
@@ -190,9 +182,8 @@ public class Preferences {
             JSONObject jsonObject = new JSONObject();
             boolean serialized = false;
             try {
-                //These members always return a value that can be parsed
-                jsonObject
-                        .put(WEATHER_INFO_CITY, info.getCity())
+                // These members always return a value that can be parsed
+                jsonObject.put(WEATHER_INFO_CITY, info.getCity())
                         .put(WEATHER_INFO_CONDITION_CODE, info.getConditionCode())
                         .put(WEATHER_INFO_TEMPERATURE, info.getTemperature())
                         .put(WEATHER_INFO_TEMPERATURE_UNIT, info.getTemperatureUnit())
@@ -205,24 +196,21 @@ public class Preferences {
                 jsonObject.put(WEATHER_INFO_HUMIDITY, Double.isNaN(humidity) ? "NaN" : humidity);
 
                 double todaysHigh = info.getTodaysHigh();
-                jsonObject.put(WEATHER_INFO_TODAYS_HIGH, Double.isNaN(todaysHigh)
-                        ? "NaN" : todaysHigh);
+                jsonObject.put(WEATHER_INFO_TODAYS_HIGH, Double.isNaN(todaysHigh) ? "NaN" : todaysHigh);
 
                 double todaysLow = info.getTodaysLow();
-                jsonObject.put(WEATHER_INFO_TODAYS_LOW, Double.isNaN(todaysLow)
-                        ? "NaN" : todaysLow);
+                jsonObject.put(WEATHER_INFO_TODAYS_LOW, Double.isNaN(todaysLow) ? "NaN" : todaysLow);
 
                 double windSpeed = info.getWindSpeed();
                 double windDirection = info.getWindDirection();
                 jsonObject.put(WEATHER_INFO_WIND_SPEED, Double.isNaN(windSpeed) ? "NaN" : windSpeed)
                         .put(WEATHER_INFO_WIND_SPEED_UNIT, info.getWindSpeedUnit())
-                        .put(WEATHER_INFO_WIND_SPEED_DIRECTION, Double.isNaN(windDirection)
-                                ? "NaN" : windDirection);
+                        .put(WEATHER_INFO_WIND_SPEED_DIRECTION, Double.isNaN(windDirection) ? "NaN" : windDirection);
 
                 JSONArray forecastArray = new JSONArray();
                 for (WeatherInfo.DayForecast forecast : info.getForecasts()) {
-                    JSONObject jsonForecast = new JSONObject()
-                            .put(DAY_FORECAST_CONDITION_CODE, forecast.getConditionCode());
+                    JSONObject jsonForecast = new JSONObject().put(DAY_FORECAST_CONDITION_CODE,
+                            forecast.getConditionCode());
 
                     double low = forecast.getLow();
                     jsonForecast.put(DAY_FORECAST_LOW, Double.isNaN(low) ? "NaN" : low);
@@ -257,7 +245,8 @@ public class Preferences {
     public static WeatherInfo getCachedWeatherInfo(Context context) {
         final String cachedInfo = getPrefs(context).getString(Constants.WEATHER_DATA, null);
 
-        if (cachedInfo == null) return null;
+        if (cachedInfo == null)
+            return null;
 
         String city;
         int conditionCode;
@@ -295,21 +284,26 @@ public class Preferences {
                 high = forecast.getDouble(DAY_FORECAST_HIGH);
                 code = forecast.getInt(DAY_FORECAST_CONDITION_CODE);
                 WeatherInfo.DayForecast.Builder f = new WeatherInfo.DayForecast.Builder(code);
-                if (!Double.isNaN(low)) f.setLow(low);
-                if (!Double.isNaN(high)) f.setHigh(high);
+                if (!Double.isNaN(low))
+                    f.setLow(low);
+                if (!Double.isNaN(high))
+                    f.setHigh(high);
                 forecastList.add(f.build());
             }
             WeatherInfo.Builder weatherInfo = new WeatherInfo.Builder(city, temperature, tempUnit)
-                    .setWeatherCondition(conditionCode)
-                    .setTimestamp(timestamp);
+                    .setWeatherCondition(conditionCode).setTimestamp(timestamp);
 
-            if (!Double.isNaN(humidity)) weatherInfo.setHumidity(humidity);
+            if (!Double.isNaN(humidity))
+                weatherInfo.setHumidity(humidity);
             if (!Double.isNaN(windSpeed) && !Double.isNaN(windDirection)) {
                 weatherInfo.setWind(windSpeed, windDirection, windSpeedUnit);
             }
-            if (forecastList.size() > 0) weatherInfo.setForecast(forecastList);
-            if (!Double.isNaN(todaysHigh)) weatherInfo.setTodaysHigh(todaysHigh);
-            if (!Double.isNaN(todaysLow)) weatherInfo.setTodaysLow(todaysLow);
+            if (forecastList.size() > 0)
+                weatherInfo.setForecast(forecastList);
+            if (!Double.isNaN(todaysHigh))
+                weatherInfo.setTodaysHigh(todaysHigh);
+            if (!Double.isNaN(todaysLow))
+                weatherInfo.setTodaysLow(todaysLow);
             return weatherInfo.build();
         } catch (JSONException e) {
         }
@@ -344,11 +338,11 @@ public class Preferences {
         getPrefs(context).edit().putBoolean(NOTIFICATION_ACCESS, false).apply();
     }
 
-    public static int getCurrentMigrationVersion(Context context){
+    public static int getCurrentMigrationVersion(Context context) {
         return getPrefs(context).getInt(CURRENT_MIGRATION_VERSION, 0);
     }
 
-    public static void setCurrentMigrationVersion(Context context, int version){
+    public static void setCurrentMigrationVersion(Context context, int version) {
         getPrefs(context).edit().putInt(CURRENT_MIGRATION_VERSION, version).apply();
     }
 
@@ -360,8 +354,7 @@ public class Preferences {
         getPrefs(context).edit().putBoolean(ENABLE_LOCATION, true).apply();
     }
 
-    public static boolean getEnableLocation(
-            Context context) {
+    public static boolean getEnableLocation(Context context) {
         return getPrefs(context).getBoolean(ENABLE_LOCATION, false);
     }
 

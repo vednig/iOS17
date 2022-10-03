@@ -9,10 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.os.UserManager;
 import android.util.Log;
-
-
-import java.io.ByteArrayOutputStream;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.core.IconsHandler;
 import foundation.e.blisslauncher.core.Utilities;
@@ -21,12 +17,12 @@ import foundation.e.blisslauncher.core.events.EventRelay;
 import foundation.e.blisslauncher.core.events.ShortcutAddEvent;
 import foundation.e.blisslauncher.core.utils.Constants;
 import foundation.e.blisslauncher.core.utils.UserHandle;
+import java.io.ByteArrayOutputStream;
 
 public class InstallShortcutReceiver extends BroadcastReceiver {
     private static final String TAG = "InstallShortcutReceiver";
 
-    private static final String ACTION_INSTALL_SHORTCUT =
-            "com.android.launcher.action.INSTALL_SHORTCUT";
+    private static final String ACTION_INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
     private static final String LAUNCH_INTENT_KEY = "intent.launch";
     private static final String DEEPSHORTCUT_TYPE_KEY = "isDeepShortcut";
@@ -52,10 +48,11 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         }
         ShortcutItem shortcutItem = createShortcutItem(data, context);
         EventRelay.getInstance().push(new ShortcutAddEvent(shortcutItem));
-        /*context.startActivity(new Intent(Intent.ACTION_MAIN)
-                .addCategory(Intent.CATEGORY_HOME)
-                .setPackage(context.getPackageName())
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));*/
+        /*
+         * context.startActivity(new Intent(Intent.ACTION_MAIN)
+         * .addCategory(Intent.CATEGORY_HOME) .setPackage(context.getPackageName())
+         * .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+         */
     }
 
     public static void queueShortcut(ShortcutInfoCompat info, Context context) {
@@ -63,7 +60,7 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         UserManager userManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
         ShortcutItem shortcutItem = new ShortcutItem();
         shortcutItem.id = info.getId();
-        Log.i(TAG, "queueShortcut: "+ shortcutItem.id);
+        Log.i(TAG, "queueShortcut: " + shortcutItem.id);
         shortcutItem.user = new UserHandle(userManager.getSerialNumberForUser(info.getUserHandle()),
                 info.getUserHandle());
         shortcutItem.packageName = info.getPackage();
@@ -71,14 +68,14 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         shortcutItem.container = Constants.CONTAINER_DESKTOP;
         Drawable icon = DeepShortcutManager.getInstance(context).getShortcutIconDrawable(info,
                 context.getResources().getDisplayMetrics().densityDpi);
-        shortcutItem.icon = BlissLauncher.getApplication(context).getIconsHandler().convertIcon(
-                icon);
+        shortcutItem.icon = BlissLauncher.getApplication(context).getIconsHandler().convertIcon(icon);
         shortcutItem.launchIntent = info.makeIntent();
         EventRelay.getInstance().push(new ShortcutAddEvent(shortcutItem));
-        /*context.startActivity(new Intent(Intent.ACTION_MAIN)
-                .addCategory(Intent.CATEGORY_HOME)
-                .setPackage(context.getPackageName())
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));*/
+        /*
+         * context.startActivity(new Intent(Intent.ACTION_MAIN)
+         * .addCategory(Intent.CATEGORY_HOME) .setPackage(context.getPackageName())
+         * .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+         */
     }
 
     private static ShortcutItem createShortcutItem(Intent data, Context context) {
@@ -87,7 +84,8 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         Parcelable bitmap = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON);
 
         if (intent == null) {
-            // If the intent is null, we can't construct a valid ShortcutInfo, so we return null
+            // If the intent is null, we can't construct a valid ShortcutInfo, so we return
+            // null
             Log.e(TAG, "Can't construct ShortcutInfo with null intent");
             return null;
         }
@@ -104,13 +102,11 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         } else {
             Parcelable extra = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE);
             if (extra instanceof Intent.ShortcutIconResource) {
-                icon = IconsHandler.createIconDrawable(
-                        (Intent.ShortcutIconResource) extra, context);
+                icon = IconsHandler.createIconDrawable((Intent.ShortcutIconResource) extra, context);
             }
         }
         if (icon == null) {
-            icon = BlissLauncher.getApplication(
-                    context).getIconsHandler().getFullResDefaultActivityIcon();
+            icon = BlissLauncher.getApplication(context).getIconsHandler().getFullResDefaultActivityIcon();
         }
         item.packageName = intent.getPackage();
         item.container = Constants.CONTAINER_DESKTOP;
@@ -128,8 +124,8 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
     }
 
     private static Bitmap convertToBitmap(Drawable drawable) {
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         drawable.draw(canvas);

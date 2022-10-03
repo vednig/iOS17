@@ -16,14 +16,10 @@
 package foundation.e.blisslauncher.core.utils;
 
 import android.util.LongSparseArray;
-
 import androidx.annotation.NonNull;
-
 import java.util.Iterator;
 
-/**
- * Extension of {@link LongSparseArray} with some utility methods.
- */
+/** Extension of {@link LongSparseArray} with some utility methods. */
 public class LongArrayMap<E> extends LongSparseArray<E> implements Iterable<E> {
 
     public boolean containsKey(long key) {

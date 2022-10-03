@@ -3,27 +3,22 @@ package foundation.e.blisslauncher.core.utils;
 /**
  * Copyright (C) 2015 The Android Open Source Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * <p>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * <p>Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.Process;
 import android.os.UserHandle;
-
-import java.util.Arrays;
-
 import foundation.e.blisslauncher.core.UserManagerCompat;
+import java.util.Arrays;
 
 public class ComponentKey {
 
@@ -37,14 +32,13 @@ public class ComponentKey {
         Preconditions.assertNotNull(user);
         this.componentName = componentName;
         this.user = user;
-        mHashCode = Arrays.hashCode(new Object[] {componentName, user});
-
+        mHashCode = Arrays.hashCode(new Object[]{componentName, user});
     }
 
     /**
-     * Creates a new component key from an encoded component key string in the form of
-     * [flattenedComponentString#userId].  If the userId is not present, then it defaults
-     * to the current user.
+     * Creates a new component key from an encoded component key string in the form
+     * of [flattenedComponentString#userId]. If the userId is not present, then it
+     * defaults to the current user.
      */
     public ComponentKey(Context context, String componentKeyStr) {
         int userDelimiterIndex = componentKeyStr.indexOf("#");
@@ -52,8 +46,7 @@ public class ComponentKey {
             String componentStr = componentKeyStr.substring(0, userDelimiterIndex);
             Long componentUser = Long.valueOf(componentKeyStr.substring(userDelimiterIndex + 1));
             componentName = ComponentName.unflattenFromString(componentStr);
-            user = UserManagerCompat.getInstance(context)
-                    .getUserForSerialNumber(componentUser.longValue());
+            user = UserManagerCompat.getInstance(context).getUserForSerialNumber(componentUser.longValue());
         } else {
             // No user provided, default to the current user
             componentName = ComponentName.unflattenFromString(componentKeyStr);
@@ -61,7 +54,7 @@ public class ComponentKey {
         }
         Preconditions.assertNotNull(componentName);
         Preconditions.assertNotNull(user);
-        mHashCode = Arrays.hashCode(new Object[] {componentName, user});
+        mHashCode = Arrays.hashCode(new Object[]{componentName, user});
     }
 
     @Override
@@ -76,7 +69,8 @@ public class ComponentKey {
     }
 
     /**
-     * Encodes a component key as a string of the form [flattenedComponentString#userId].
+     * Encodes a component key as a string of the form
+     * [flattenedComponentString#userId].
      */
     @Override
     public String toString() {

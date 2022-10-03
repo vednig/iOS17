@@ -7,17 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import foundation.e.blisslauncher.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import foundation.e.blisslauncher.R;
-
-public class AddedWidgetsAdapter extends
-        RecyclerView.Adapter<AddedWidgetsAdapter.WidgetsViewHolder> {
+public class AddedWidgetsAdapter extends RecyclerView.Adapter<AddedWidgetsAdapter.WidgetsViewHolder> {
 
     private Context mContext;
     private int mDensity;
@@ -35,20 +31,18 @@ public class AddedWidgetsAdapter extends
     @NonNull
     @Override
     public WidgetsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_added_widget, viewGroup,
-                false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_added_widget, viewGroup, false);
         WidgetsViewHolder widgetsViewHolder = new WidgetsViewHolder(view);
         widgetsViewHolder.actionBtn.setImageResource(R.drawable.ic_remove_widget_red_24dp);
-        widgetsViewHolder.actionBtn.setOnClickListener(
-                v -> {
-                    int position = widgetsViewHolder.getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        Widget widget = mAppWidgetProviderInfos.get(position);
-                        mAppWidgetProviderInfos.remove(position);
-                        mOnActionClickListener.removeWidget(widget.id);
-                        notifyItemRemoved(position);
-                    }
-                });
+        widgetsViewHolder.actionBtn.setOnClickListener(v -> {
+            int position = widgetsViewHolder.getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Widget widget = mAppWidgetProviderInfos.get(position);
+                mAppWidgetProviderInfos.remove(position);
+                mOnActionClickListener.removeWidget(widget.id);
+                notifyItemRemoved(position);
+            }
+        });
         return widgetsViewHolder;
     }
 

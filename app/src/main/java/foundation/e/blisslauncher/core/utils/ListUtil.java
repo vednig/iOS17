@@ -16,18 +16,13 @@
 package foundation.e.blisslauncher.core.utils;
 
 import android.app.usage.UsageStats;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Amit Kumar
- * Email : mr.doc10jl96@gmail.com
- */
-
+/** Created by Amit Kumar Email : mr.doc10jl96@gmail.com */
 public class ListUtil {
     @SafeVarargs
     public static <T> List<T> asSafeList(T... tArr) {
@@ -35,7 +30,8 @@ public class ListUtil {
     }
 
     /**
-     * To compare if two lists of {@link android.app.usage.UsageStats} contain same packages or not.
+     * To compare if two lists of {@link android.app.usage.UsageStats} contain same
+     * packages or not.
      *
      * @return true if both the lists contain the same packages otherwise false.
      */

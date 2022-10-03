@@ -2,7 +2,7 @@ package foundation.e.blisslauncher.core.events;
 
 import foundation.e.blisslauncher.core.utils.UserHandle;
 
-public class AppAddEvent extends Event{
+public class AppAddEvent extends Event {
 
     private String packageName;
     private UserHandle userHandle;
@@ -25,9 +25,6 @@ public class AppAddEvent extends Event{
 
     @Override
     public String toString() {
-        return "AppAddEvent{" +
-                "packageName='" + packageName + '\'' +
-                ", userHandle=" + userHandle +
-                '}';
+        return "AppAddEvent{" + "packageName='" + packageName + '\'' + ", userHandle=" + userHandle + '}';
     }
 }

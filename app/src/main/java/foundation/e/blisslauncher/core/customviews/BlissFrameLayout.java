@@ -11,11 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.DeviceProfile;
@@ -27,11 +22,11 @@ import foundation.e.blisslauncher.core.database.model.LauncherItem;
 import foundation.e.blisslauncher.core.database.model.ShortcutItem;
 import foundation.e.blisslauncher.core.utils.Constants;
 import foundation.e.blisslauncher.features.notification.DotRenderer;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
-/**
- * Created by falcon on 20/3/18.
- */
-
+/** Created by falcon on 20/3/18. */
 public class BlissFrameLayout extends FrameLayout {
 
     private final Context mContext;
@@ -42,8 +37,8 @@ public class BlissFrameLayout extends FrameLayout {
 
     private float mBadgeScale;
 
-    private static final Property<BlissFrameLayout, Float> BADGE_SCALE_PROPERTY
-            = new Property<BlissFrameLayout, Float>(Float.TYPE, "badgeScale") {
+    private static final Property<BlissFrameLayout, Float> BADGE_SCALE_PROPERTY = new Property<BlissFrameLayout, Float>(
+            Float.TYPE, "badgeScale") {
         @Override
         public Float get(BlissFrameLayout bubbleTextView) {
             return bubbleTextView.mBadgeScale;
@@ -64,13 +59,11 @@ public class BlissFrameLayout extends FrameLayout {
         this(context, null, 0);
     }
 
-    public BlissFrameLayout(Context context,
-                            AttributeSet attrs) {
+    public BlissFrameLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BlissFrameLayout(Context context, AttributeSet attrs,
-                            int defStyleAttr) {
+    public BlissFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
         init();
@@ -154,17 +147,14 @@ public class BlissFrameLayout extends FrameLayout {
     private void bindFolderItem(FolderItem folderItem) {
         final TextView label = findViewById(R.id.app_label);
         final SquareFrameLayout icon = findViewById(R.id.app_icon);
-        final SquareImageView squareImageView = findViewById(
-                R.id.icon_image_view);
+        final SquareImageView squareImageView = findViewById(R.id.icon_image_view);
         icon.enableBlur();
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) icon.getLayoutParams();
         layoutParams.leftMargin = mDeviceProfile.iconDrawablePaddingPx / 2;
         layoutParams.rightMargin = mDeviceProfile.iconDrawablePaddingPx / 2;
 
-        label.setPadding((int) Utilities.pxFromDp(4, mContext),
-                (int) Utilities.pxFromDp(0, mContext),
-                (int) Utilities.pxFromDp(4, mContext),
-                (int) Utilities.pxFromDp(0, mContext));
+        label.setPadding((int) Utilities.pxFromDp(4, mContext), (int) Utilities.pxFromDp(0, mContext),
+                (int) Utilities.pxFromDp(4, mContext), (int) Utilities.pxFromDp(0, mContext));
         squareImageView.setImageDrawable(folderItem.icon);
         label.setText(folderItem.title.toString());
         label.setTextSize(12);
@@ -178,16 +168,13 @@ public class BlissFrameLayout extends FrameLayout {
     private void bindShortcutItem(ShortcutItem shortcutItem) {
         final TextView label = findViewById(R.id.app_label);
         final SquareFrameLayout icon = findViewById(R.id.app_icon);
-        final SquareImageView squareImageView = findViewById(
-                R.id.icon_image_view);
+        final SquareImageView squareImageView = findViewById(R.id.icon_image_view);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) icon.getLayoutParams();
         layoutParams.leftMargin = mDeviceProfile.iconDrawablePaddingPx / 2;
         layoutParams.rightMargin = mDeviceProfile.iconDrawablePaddingPx / 2;
 
-        label.setPadding((int) Utilities.pxFromDp(4, mContext),
-                (int) Utilities.pxFromDp(0, mContext),
-                (int) Utilities.pxFromDp(4, mContext),
-                (int) Utilities.pxFromDp(0, mContext));
+        label.setPadding((int) Utilities.pxFromDp(4, mContext), (int) Utilities.pxFromDp(0, mContext),
+                (int) Utilities.pxFromDp(4, mContext), (int) Utilities.pxFromDp(0, mContext));
         squareImageView.setImageDrawable(shortcutItem.icon);
         label.setText(shortcutItem.title.toString());
         label.setTextSize(12);
@@ -201,18 +188,14 @@ public class BlissFrameLayout extends FrameLayout {
     private void bindApplicationItem(ApplicationItem applicationItem) {
         final TextView label = findViewById(R.id.app_label);
         final SquareFrameLayout icon = findViewById(R.id.app_icon);
-        final SquareImageView squareImageView = findViewById(
-                R.id.icon_image_view);
+        final SquareImageView squareImageView = findViewById(R.id.icon_image_view);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) icon.getLayoutParams();
         layoutParams.leftMargin = mDeviceProfile.iconDrawablePaddingPx / 2;
         layoutParams.rightMargin = mDeviceProfile.iconDrawablePaddingPx / 2;
-        label.setPadding((int) Utilities.pxFromDp(4, mContext),
-                (int) Utilities.pxFromDp(0, mContext),
-                (int) Utilities.pxFromDp(4, mContext),
-                (int) Utilities.pxFromDp(0, mContext));
+        label.setPadding((int) Utilities.pxFromDp(4, mContext), (int) Utilities.pxFromDp(0, mContext),
+                (int) Utilities.pxFromDp(4, mContext), (int) Utilities.pxFromDp(0, mContext));
         if (applicationItem.appType == ApplicationItem.TYPE_CLOCK) {
-            final CustomAnalogClock analogClock = findViewById(
-                    R.id.icon_clock);
+            final CustomAnalogClock analogClock = findViewById(R.id.icon_clock);
             analogClock.setAutoUpdate(true);
             analogClock.setVisibility(View.VISIBLE);
             squareImageView.setVisibility(GONE);
@@ -228,8 +211,7 @@ public class BlissFrameLayout extends FrameLayout {
             dateTextView.getLayoutParams().height = mDeviceProfile.dateTextviewHeight;
             dateTextView.getLayoutParams().width = mDeviceProfile.calendarIconWidth;
             int datePx = mDeviceProfile.dateTextSize;
-            dateTextView.setPadding(0, mDeviceProfile.dateTextTopPadding, 0,
-                    mDeviceProfile.dateTextBottomPadding);
+            dateTextView.setPadding(0, mDeviceProfile.dateTextTopPadding, 0, mDeviceProfile.dateTextBottomPadding);
 
             dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, datePx / 2);
 
@@ -237,10 +219,8 @@ public class BlissFrameLayout extends FrameLayout {
             squareImageView.setVisibility(GONE);
 
             CalendarIcon calendarIcon = new CalendarIcon(monthTextView, dateTextView);
-            calendarIcon.monthTextView.setText(
-                    Utilities.convertMonthToString());
-            calendarIcon.dayTextView.setText(
-                    String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
+            calendarIcon.monthTextView.setText(Utilities.convertMonthToString());
+            calendarIcon.dayTextView.setText(String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
         } else {
             squareImageView.setImageDrawable(applicationItem.icon);
         }

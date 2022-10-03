@@ -4,17 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate;
 
-/**
- * Created by falcon on 9/3/18.
- */
-
+/** Created by falcon on 9/3/18. */
 public class SquareFrameLayout extends FrameLayout {
 
     private BlurViewDelegate mBlurDelegate = null;
@@ -23,13 +18,11 @@ public class SquareFrameLayout extends FrameLayout {
         this(context, null);
     }
 
-    public SquareFrameLayout(@NonNull Context context,
-            @Nullable AttributeSet attrs) {
+    public SquareFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SquareFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs,
-            int defStyleAttr) {
+    public SquareFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setWillNotDraw(false);
     }

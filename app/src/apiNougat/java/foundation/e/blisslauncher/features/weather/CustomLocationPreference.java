@@ -12,17 +12,14 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import java.util.HashSet;
-import java.util.List;
-
 import cyanogenmod.weather.CMWeatherManager;
 import cyanogenmod.weather.WeatherLocation;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
+import java.util.HashSet;
+import java.util.List;
 
-public class CustomLocationPreference extends EditTextPreference
-        implements CMWeatherManager.LookupCityRequestListener {
+public class CustomLocationPreference extends EditTextPreference implements CMWeatherManager.LookupCityRequestListener {
     public CustomLocationPreference(Context context) {
         super(context);
     }
@@ -49,15 +46,14 @@ public class CustomLocationPreference extends EditTextPreference
         okButton.setOnClickListener(v -> {
             CustomLocationPreference.this.onClick(d, DialogInterface.BUTTON_POSITIVE);
             final String customLocationToLookUp = getEditText().getText().toString();
-            if (TextUtils.equals(customLocationToLookUp, "")) return;
+            if (TextUtils.equals(customLocationToLookUp, ""))
+                return;
             final CMWeatherManager weatherManager = CMWeatherManager.getInstance(getContext());
             mProgressDialog = new ProgressDialog(getContext());
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgressDialog.setMessage(getContext().getString(R.string.weather_progress_title));
-            mProgressDialog.setOnCancelListener(
-                    dialog -> weatherManager.cancelRequest(mCustomLocationRequestId));
-            mCustomLocationRequestId = weatherManager.lookupCity(customLocationToLookUp,
-                    CustomLocationPreference.this);
+            mProgressDialog.setOnCancelListener(dialog -> weatherManager.cancelRequest(mCustomLocationRequestId));
+            mCustomLocationRequestId = weatherManager.lookupCity(customLocationToLookUp, CustomLocationPreference.this);
             mProgressDialog.show();
         });
     }
@@ -83,14 +79,10 @@ public class CustomLocationPreference extends EditTextPreference
 
     private void handleResultDisambiguation(final List<WeatherLocation> results) {
         CharSequence[] items = buildItemList(results);
-        new AlertDialog.Builder(getContext())
-                .setSingleChoiceItems(items, -1, (dialog, which) -> {
-                    applyLocation(results.get(which));
-                    dialog.dismiss();
-                })
-                .setNegativeButton(android.R.string.cancel, null)
-                .setTitle(R.string.weather_select_location)
-                .show();
+        new AlertDialog.Builder(getContext()).setSingleChoiceItems(items, -1, (dialog, which) -> {
+            applyLocation(results.get(which));
+            dialog.dismiss();
+        }).setNegativeButton(android.R.string.cancel, null).setTitle(R.string.weather_select_location).show();
     }
 
     private CharSequence[] buildItemList(List<WeatherLocation> results) {
@@ -122,8 +114,7 @@ public class CustomLocationPreference extends EditTextPreference
             }
             builder.append(result.getCity());
             if (needCountry) {
-                String country = result.getCountry() != null
-                        ? result.getCountry() : result.getCountryId();
+                String country = result.getCountry() != null ? result.getCountry() : result.getCountryId();
                 builder.append(" (").append(country).append(")");
             }
             items[i] = builder.toString();
@@ -147,10 +138,8 @@ public class CustomLocationPreference extends EditTextPreference
         mHandler.post(() -> {
             final Context context = getContext();
             if (locations == null || locations.isEmpty()) {
-                Toast.makeText(context,
-                        context.getString(R.string.weather_retrieve_location_dialog_title),
-                        Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(context, context.getString(R.string.weather_retrieve_location_dialog_title),
+                        Toast.LENGTH_SHORT).show();
             } else if (locations.size() > 1) {
                 handleResultDisambiguation(locations);
             } else {

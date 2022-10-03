@@ -7,7 +7,8 @@ public class EventRelay {
 
     private static volatile EventRelay sInstance;
 
-    // Queue to store actions if no observer is currently subscribed to listen for events.
+    // Queue to store actions if no observer is currently subscribed to listen for
+    // events.
     private Queue<Event> events;
     private EventsObserver<Event> observer;
 
@@ -48,7 +49,8 @@ public class EventRelay {
             event = events.poll();
         }
 
-        if (shouldInvokeComplete) this.observer.complete();
+        if (shouldInvokeComplete)
+            this.observer.complete();
     }
 
     public void unsubscribe() {

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.RelativeLayout;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 
@@ -16,7 +15,6 @@ public class InsettableRelativeLayout extends RelativeLayout {
 
     private final Context mContext;
     protected Rect mInsets = new Rect();
-
 
     public InsettableRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,9 +32,9 @@ public class InsettableRelativeLayout extends RelativeLayout {
 
     private void updateChildInsets() {
         int childCount = getChildCount();
-        for (int index = 0; index < childCount; ++index){
+        for (int index = 0; index < childCount; ++index) {
             View child = getChildAt(index);
-            if(child instanceof Insettable) {
+            if (child instanceof Insettable) {
                 ((Insettable) child).setInsets(mInsets);
             }
         }
@@ -68,10 +66,8 @@ public class InsettableRelativeLayout extends RelativeLayout {
 
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
-            TypedArray a = c.obtainStyledAttributes(attrs,
-                    R.styleable.InsettableFrameLayout_Layout);
-            ignoreInsets = a.getBoolean(
-                    R.styleable.InsettableFrameLayout_Layout_layout_ignoreInsets, false);
+            TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.InsettableFrameLayout_Layout);
+            ignoreInsets = a.getBoolean(R.styleable.InsettableFrameLayout_Layout_layout_ignoreInsets, false);
             a.recycle();
         }
 

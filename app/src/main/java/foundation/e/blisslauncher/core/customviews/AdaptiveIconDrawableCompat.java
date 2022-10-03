@@ -24,36 +24,36 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
+import foundation.e.blisslauncher.core.utils.AdaptiveIconUtils;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import foundation.e.blisslauncher.core.utils.AdaptiveIconUtils;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
 /**
- * <p>This class can also be created via XML inflation using <code>&lt;adaptive-icon></code> tag
- * in addition to dynamic creation.
+ * This class can also be created via XML inflation using
+ * <code>&lt;adaptive-icon></code> tag in addition to dynamic creation.
  *
- * <p>This drawable supports two drawable layers: foreground and background. The layers are clipped
- * when rendering using the mask defined in the device configuration.
+ * <p>
+ * This drawable supports two drawable layers: foreground and background. The
+ * layers are clipped when rendering using the mask defined in the device
+ * configuration.
  *
  * <ul>
- * <li>Both foreground and background layers should be sized at 108 x 108 dp.</li>
- * <li>The inner 72 x 72 dp  of the icon appears within the masked viewport.</li>
- * <li>The outer 18 dp on each of the 4 sides of the layers is reserved for use by the system UI
- * surfaces to create interesting visual effects, such as parallax or pulsing.</li>
+ * <li>Both foreground and background layers should be sized at 108 x 108 dp.
+ * <li>The inner 72 x 72 dp of the icon appears within the masked viewport.
+ * <li>The outer 18 dp on each of the 4 sides of the layers is reserved for use
+ * by the system UI surfaces to create interesting visual effects, such as
+ * parallax or pulsing.
  * </ul>
  *
- * Such motion effect is achieved by internally setting the bounds of the foreground and
- * background layer as following:
+ * Such motion effect is achieved by internally setting the bounds of the
+ * foreground and background layer as following:
+ *
  * <pre>
  * Rect(getBounds().left - getBounds().getWidth() * #getExtraInsetFraction(),
  *      getBounds().top - getBounds().getHeight() * #getExtraInsetFraction(),
@@ -64,36 +64,36 @@ import foundation.e.blisslauncher.core.utils.AdaptiveIconUtils;
 public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Callback {
 
     /**
-     * Mask path is defined inside device configuration in following dimension: [100 x 100]
+     * Mask path is defined inside device configuration in following dimension: [100
+     * x 100]
      */
     public static float MASK_SIZE = 180f;
 
-    /**
-     * Launcher icons design guideline
-     */
+    /** Launcher icons design guideline */
     private static final float SAFEZONE_SCALE = 66f / 72f;
 
     /**
      * All four sides of the layers are padded with extra inset so as to provide
-     * extra content to reveal within the clip path when performing affine transformations on the
-     * layers.
+     * extra content to reveal within the clip path when performing affine
+     * transformations on the layers.
      *
+     * <p>
      * Each layers will reserve 25% of it's width and height.
      *
-     * As a result, the view port of the layers is smaller than their intrinsic width and height.
+     * <p>
+     * As a result, the view port of the layers is smaller than their intrinsic
+     * width and height.
      */
     private static final float EXTRA_INSET_PERCENTAGE = 1 / 4f;
+
     private static final float DEFAULT_VIEW_PORT_SCALE = 1f / (1 + 2 * EXTRA_INSET_PERCENTAGE);
 
-    /**
-     * Clip path defined in R.string.config_icon_mask.
-     */
+    /** Clip path defined in R.string.config_icon_mask. */
     private static Path sMask;
 
-    /**
-     * Scaled mask based on the view bounds.
-     */
+    /** Scaled mask based on the view bounds. */
     private final Path mMask;
+
     private final Matrix mMaskMatrix;
     private final Region mTransparentRegion;
 
@@ -102,9 +102,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     private static final int BACKGROUND_ID = 0;
     private static final int FOREGROUND_ID = 1;
 
-    /**
-     * State variable that maintains the {@link ChildDrawable} array.
-     */
+    /** State variable that maintains the {@link ChildDrawable} array. */
     LayerState mLayerState;
 
     private Shader mLayersShader;
@@ -117,8 +115,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     private boolean mSuspendChildInvalidation;
     private boolean mChildRequestedInvalidation;
     private final Canvas mCanvas;
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG |
-            Paint.FILTER_BITMAP_FLAG);
+    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
 
     private Method methodCreatePathFromPathData;
     private Method methodExtractThemeAttrs;
@@ -127,9 +124,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
 
     private static final String TAG = "AdaptiveIconDrawable";
 
-    /**
-     * Constructor used for xml inflation.
-     */
+    /** Constructor used for xml inflation. */
     public AdaptiveIconDrawableCompat() {
         this((LayerState) null, null);
     }
@@ -147,7 +142,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
             sMask = PathParser.createPathFromPathData(getMaskPath());
         }
         mMask = PathParser.createPathFromPathData(getMaskPath());
-        //mMask = DeviceProfile.path;
+        // mMask = DeviceProfile.path;
         mMaskMatrix = new Matrix();
         mCanvas = new Canvas();
         mTransparentRegion = new Region();
@@ -157,8 +152,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     private void initReflections() {
         try {
             Class<?> pathParser = getClass().getClassLoader().loadClass("android.util.PathParser");
-            methodCreatePathFromPathData = pathParser.getDeclaredMethod("createPathFromPathData",
-                    String.class);
+            methodCreatePathFromPathData = pathParser.getDeclaredMethod("createPathFromPathData", String.class);
             methodExtractThemeAttrs = TypedArray.class.getDeclaredMethod("extractThemeAttrs");
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();
@@ -189,8 +183,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         final ChildDrawable layer = new ChildDrawable(mLayerState.mDensity);
         layer.mDrawable = drawable;
         layer.mDrawable.setCallback(this);
-        mLayerState.mChildrenChangingConfigurations |=
-                layer.mDrawable.getChangingConfigurations();
+        mLayerState.mChildrenChangingConfigurations |= layer.mDrawable.getChangingConfigurations();
         return layer;
     }
 
@@ -201,16 +194,17 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     /**
      * Constructor used to dynamically create this drawable.
      *
-     * @param backgroundDrawable drawable that should be rendered in the background
-     * @param foregroundDrawable drawable that should be rendered in the foreground
+     * @param backgroundDrawable
+     *            drawable that should be rendered in the background
+     * @param foregroundDrawable
+     *            drawable that should be rendered in the foreground
      */
-    public AdaptiveIconDrawableCompat(Drawable backgroundDrawable,
-            Drawable foregroundDrawable) {
+    public AdaptiveIconDrawableCompat(Drawable backgroundDrawable, Drawable foregroundDrawable) {
         this(backgroundDrawable, foregroundDrawable, true);
     }
 
-    public AdaptiveIconDrawableCompat(Drawable backgroundDrawable,
-            Drawable foregroundDrawable, boolean useMyUglyWorkaround) {
+    public AdaptiveIconDrawableCompat(Drawable backgroundDrawable, Drawable foregroundDrawable,
+            boolean useMyUglyWorkaround) {
         this((LayerState) null, null);
         if (backgroundDrawable != null) {
             addLayer(BACKGROUND_ID, createChildDrawable(backgroundDrawable));
@@ -224,8 +218,10 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     /**
      * Sets the layer to the {@param index} and invalidates cache.
      *
-     * @param index The index of the layer.
-     * @param layer The layer to add.
+     * @param index
+     *            The index of the layer.
+     * @param layer
+     *            The layer to add.
      */
     private void addLayer(int index, @NonNull ChildDrawable layer) {
         mLayerState.mChildren[index] = layer;
@@ -233,9 +229,8 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     }
 
     @Override
-    public void inflate(@NonNull Resources r, @NonNull XmlPullParser parser,
-            @NonNull AttributeSet attrs, @Nullable Theme theme)
-            throws XmlPullParserException, IOException {
+    public void inflate(@NonNull Resources r, @NonNull XmlPullParser parser, @NonNull AttributeSet attrs,
+            @Nullable Theme theme) throws XmlPullParserException, IOException {
         super.inflate(r, parser, attrs, theme);
 
         final LayerState state = mLayerState;
@@ -246,12 +241,12 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         // The density may have changed since the last update. This will
         // apply scaling to any existing constant state properties.
         final int deviceDensity = resolveDensity(r, 0);
-        //state.setDensity(deviceDensity);
+        // state.setDensity(deviceDensity);
 
         final ChildDrawable[] array = state.mChildren;
         for (int i = 0; i < state.mChildren.length; i++) {
             final ChildDrawable layer = array[i];
-            //layer.setDensity(deviceDensity);
+            // layer.setDensity(deviceDensity);
         }
 
         inflateLayers(r, parser, attrs, theme);
@@ -264,10 +259,11 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
 
     /**
      * All four sides of the layers are padded with extra inset so as to provide
-     * extra content to reveal within the clip path when performing affine transformations on the
-     * layers.
+     * extra content to reveal within the clip path when performing affine
+     * transformations on the layers.
      *
-     * @see #getForeground() and #getBackground() for more info on how this value is used
+     * @see #getForeground() and #getBackground() for more info on how this value is
+     *      used
      */
     public static float getExtraInsetFraction() {
         return EXTRA_INSET_PERCENTAGE;
@@ -279,8 +275,8 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
 
     /**
      * When called before the bound is set, the returned path is identical to
-     * R.string.config_icon_mask. After the bound is set, the
-     * returned path's computed bound is same as the #getBounds().
+     * R.string.config_icon_mask. After the bound is set, the returned path's
+     * computed bound is same as the #getBounds().
      *
      * @return the mask path object used to clip the drawable
      */
@@ -289,9 +285,10 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     }
 
     /**
-     * Returns the foreground drawable managed by this class. The bound of this drawable is
-     * extended by {@link #getExtraInsetFraction()} * getBounds().width on left/right sides and by
-     * {@link #getExtraInsetFraction()} * getBounds().height on top/bottom sides.
+     * Returns the foreground drawable managed by this class. The bound of this
+     * drawable is extended by {@link #getExtraInsetFraction()} * getBounds().width
+     * on left/right sides and by {@link #getExtraInsetFraction()} *
+     * getBounds().height on top/bottom sides.
      *
      * @return the foreground drawable managed by this drawable
      */
@@ -300,9 +297,10 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     }
 
     /**
-     * Returns the foreground drawable managed by this class. The bound of this drawable is
-     * extended by {@link #getExtraInsetFraction()} * getBounds().width on left/right sides and by
-     * {@link #getExtraInsetFraction()} * getBounds().height on top/bottom sides.
+     * Returns the foreground drawable managed by this class. The bound of this
+     * drawable is extended by {@link #getExtraInsetFraction()} * getBounds().width
+     * on left/right sides and by {@link #getExtraInsetFraction()} *
+     * getBounds().height on top/bottom sides.
      *
      * @return the background drawable managed by this drawable
      */
@@ -329,7 +327,8 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     }
 
     /**
-     * Set the child layer bounds bigger than the view port size by {@link #DEFAULT_VIEW_PORT_SCALE}
+     * Set the child layer bounds bigger than the view port size by
+     * {@link #DEFAULT_VIEW_PORT_SCALE}
      */
     private void updateLayerBoundsInternal(Rect bounds) {
         int cX = bounds.width() / 2;
@@ -358,8 +357,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         mMaskMatrix.setScale(b.width() / MASK_SIZE, b.height() / MASK_SIZE);
         sMask.transform(mMaskMatrix, mMask);
 
-        if (mMaskBitmap == null || mMaskBitmap.getWidth() != b.width() ||
-                mMaskBitmap.getHeight() != b.height()) {
+        if (mMaskBitmap == null || mMaskBitmap.getWidth() != b.width() || mMaskBitmap.getHeight() != b.height()) {
             mMaskBitmap = Bitmap.createBitmap(b.width(), b.height(), Bitmap.Config.ALPHA_8);
             mLayersBitmap = Bitmap.createBitmap(b.width(), b.height(), Bitmap.Config.ARGB_8888);
         }
@@ -385,7 +383,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         }
         if (mLayersShader == null) {
             mCanvas.setBitmap(mLayersBitmap);
-            //mCanvas.drawColor(Color.BLACK);
+            // mCanvas.drawColor(Color.BLACK);
             for (int i = 0; i < LayerState.N_CHILDREN; i++) {
                 if (mLayerState.mChildren[i] == null) {
                     continue;
@@ -400,9 +398,8 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         }
         if (mMaskBitmap != null) {
             Rect bounds = getBounds();
-            //mPaint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-            canvas.drawBitmap(mMaskBitmap, bounds.left,
-                    bounds.top, mPaint);
+            // mPaint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+            canvas.drawBitmap(mMaskBitmap, bounds.left, bounds.top, mPaint);
         }
     }
 
@@ -419,8 +416,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
 
     public Region getSafeZone() {
         mMaskMatrix.reset();
-        mMaskMatrix.setScale(SAFEZONE_SCALE, SAFEZONE_SCALE, getBounds().centerX(),
-                getBounds().centerY());
+        mMaskMatrix.setScale(SAFEZONE_SCALE, SAFEZONE_SCALE, getBounds().centerX(), getBounds().centerY());
         Path p = new Path();
         mMask.transform(mMaskMatrix, p);
         Region safezoneRegion = new Region(getBounds());
@@ -429,8 +425,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     }
 
     @Override
-    public @Nullable
-    Region getTransparentRegion() {
+    public @Nullable Region getTransparentRegion() {
         if (mTransparentRegion.isEmpty()) {
             mMask.toggleInverseFillType();
             mTransparentRegion.set(getBounds());
@@ -440,12 +435,9 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         return mTransparentRegion;
     }
 
-    /**
-     * Inflates child layers using the specified parser.
-     */
-    private void inflateLayers(@NonNull Resources r, @NonNull XmlPullParser parser,
-            @NonNull AttributeSet attrs, @Nullable Theme theme)
-            throws XmlPullParserException, IOException {
+    /** Inflates child layers using the specified parser. */
+    private void inflateLayers(@NonNull Resources r, @NonNull XmlPullParser parser, @NonNull AttributeSet attrs,
+            @Nullable Theme theme) throws XmlPullParserException, IOException {
         final LayerState state = mLayerState;
 
         final int innerDepth = parser.getDepth() + 1;
@@ -463,19 +455,18 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
             }
             String tagName = parser.getName();
             switch (tagName) {
-                case "background":
+                case "background" :
                     childIndex = BACKGROUND_ID;
                     break;
-                case "foreground":
+                case "foreground" :
                     childIndex = FOREGROUND_ID;
                     break;
-                default:
+                default :
                     continue;
             }
 
             final ChildDrawable layer = new ChildDrawable(state.mDensity);
-            final TypedArray a = obtainAttributes(r, theme, attrs,
-                    new int[]{android.R.attr.drawable});
+            final TypedArray a = obtainAttributes(r, theme, attrs, new int[]{android.R.attr.drawable});
             updateLayerFromTypedArray(layer, a);
             a.recycle();
 
@@ -487,16 +478,15 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
                 while ((type = parser.next()) == XmlPullParser.TEXT) {
                 }
                 if (type != XmlPullParser.START_TAG) {
-                    throw new XmlPullParserException(parser.getPositionDescription()
-                            + ": <foreground> or <background> tag requires a 'drawable'"
-                            + "attribute or child tag defining a drawable");
+                    throw new XmlPullParserException(
+                            parser.getPositionDescription() + ": <foreground> or <background> tag requires a 'drawable'"
+                                    + "attribute or child tag defining a drawable");
                 }
 
                 // We found a child drawable. Take ownership.
                 layer.mDrawable = Drawable.createFromXmlInner(r, parser, attrs, theme);
                 layer.mDrawable.setCallback(this);
-                state.mChildrenChangingConfigurations |=
-                        layer.mDrawable.getChangingConfigurations();
+                state.mChildrenChangingConfigurations |= layer.mDrawable.getChangingConfigurations();
             }
             addLayer(childIndex, layer);
         }
@@ -511,7 +501,8 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         // Extract the theme attributes, if any.
         layer.mThemeAttrs = invoke(methodExtractThemeAttrs, a);
 
-        @SuppressLint("ResourceType") Drawable dr = getDrawable(a, 0);
+        @SuppressLint("ResourceType")
+        Drawable dr = getDrawable(a, 0);
         if (dr != null) {
             if (layer.mDrawable != null) {
                 // It's possible that a drawable was already set, in which case
@@ -524,8 +515,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
             // Take ownership of the new drawable.
             layer.mDrawable = dr;
             layer.mDrawable.setCallback(this);
-            state.mChildrenChangingConfigurations |=
-                    layer.mDrawable.getChangingConfigurations();
+            state.mChildrenChangingConfigurations |= layer.mDrawable.getChangingConfigurations();
         }
     }
 
@@ -849,9 +839,8 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         return this;
     }
 
-    protected static @NonNull
-    TypedArray obtainAttributes(@NonNull Resources res,
-            @Nullable Theme theme, @NonNull AttributeSet set, @NonNull int[] attrs) {
+    protected static @NonNull TypedArray obtainAttributes(@NonNull Resources res, @Nullable Theme theme,
+            @NonNull AttributeSet set, @NonNull int[] attrs) {
         if (theme == null) {
             return res.obtainAttributes(set, attrs);
         }
@@ -867,8 +856,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
             mDensity = density;
         }
 
-        ChildDrawable(@NonNull ChildDrawable orig, @NonNull AdaptiveIconDrawableCompat owner,
-                @Nullable Resources res) {
+        ChildDrawable(@NonNull ChildDrawable orig, @NonNull AdaptiveIconDrawableCompat owner, @Nullable Resources res) {
 
             final Drawable dr = orig.mDrawable;
             final Drawable clone;
@@ -895,8 +883,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         }
 
         public boolean canApplyTheme() {
-            return mThemeAttrs != null
-                    || (mDrawable != null && mDrawable.canApplyTheme());
+            return mThemeAttrs != null || (mDrawable != null && mDrawable.canApplyTheme());
         }
 
         public final void setDensity(int targetDensity) {
@@ -909,13 +896,14 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
     static class LayerState extends ConstantState {
         private int[] mThemeAttrs;
 
-        final static int N_CHILDREN = 2;
+        static final int N_CHILDREN = 2;
         ChildDrawable[] mChildren;
 
         // The density at which to render the drawable and its children.
         int mDensity;
 
-        // The density to use when inflating/looking up the children drawables. A value of 0 means
+        // The density to use when inflating/looking up the children drawables. A value
+        // of 0 means
         // use the system's density.
         int mSrcDensityOverride = 0;
 
@@ -931,8 +919,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
         private boolean mIsStateful;
         private boolean mAutoMirrored = false;
 
-        LayerState(@Nullable LayerState orig, @NonNull AdaptiveIconDrawableCompat owner,
-                @Nullable Resources res) {
+        LayerState(@Nullable LayerState orig, @NonNull AdaptiveIconDrawableCompat owner, @Nullable Resources res) {
             mDensity = resolveDensity(res, orig != null ? orig.mDensity : 0);
             mChildren = new ChildDrawable[N_CHILDREN];
             if (orig != null) {
@@ -997,8 +984,7 @@ public class AdaptiveIconDrawableCompat extends Drawable implements Drawable.Cal
 
         @Override
         public int getChangingConfigurations() {
-            return mChangingConfigurations
-                    | mChildrenChangingConfigurations;
+            return mChangingConfigurations | mChildrenChangingConfigurations;
         }
 
         public final int getOpacity() {
