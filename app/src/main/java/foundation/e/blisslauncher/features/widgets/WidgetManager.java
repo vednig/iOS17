@@ -1,10 +1,9 @@
 package foundation.e.blisslauncher.features.widgets;
 
+import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
 
 public class WidgetManager {
     private static final WidgetManager ourInstance = new WidgetManager();
@@ -20,7 +19,8 @@ public class WidgetManager {
     }
 
     public void enqueueRemoveId(int id) {
-        // If the widget is not yet created but scheduled to be created we have to prevent the
+        // If the widget is not yet created but scheduled to be created we have to
+        // prevent the
         // creation, too.
         Iterator<RoundedWidgetView> it = addWidgetViews.iterator();
         while (it.hasNext()) {

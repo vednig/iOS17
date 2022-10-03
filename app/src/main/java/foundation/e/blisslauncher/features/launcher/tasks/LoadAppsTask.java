@@ -1,12 +1,10 @@
 package foundation.e.blisslauncher.features.launcher.tasks;
 
 import android.os.AsyncTask;
-
-import java.util.Map;
-
 import foundation.e.blisslauncher.core.database.model.ApplicationItem;
 import foundation.e.blisslauncher.core.utils.AppUtils;
 import foundation.e.blisslauncher.features.launcher.AppProvider;
+import java.util.Map;
 
 public class LoadAppsTask extends AsyncTask<Void, Void, Map<String, ApplicationItem>> {
 

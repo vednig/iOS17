@@ -43,7 +43,7 @@ android {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi = 28
         renderscriptSupportModeEnabled = true
-        setProperty("archivesBaseName", "BlissLauncher-v$versionName")
+        setProperty("archivesBaseName", "BlissLauncher-$versionName")
     }
 
     buildTypes {

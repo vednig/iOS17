@@ -21,11 +21,11 @@ public class AppExecutors {
         shortcutExecutor = Executors.newSingleThreadExecutor();
     }
 
-    public ExecutorService diskIO(){
+    public ExecutorService diskIO() {
         return diskExecutor;
     }
 
-    public ExecutorService appIO(){
+    public ExecutorService appIO() {
         return appExecutor;
     }
 

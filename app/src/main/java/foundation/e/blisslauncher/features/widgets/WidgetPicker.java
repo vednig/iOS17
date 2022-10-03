@@ -13,18 +13,15 @@ import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import foundation.e.blisslauncher.R;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import foundation.e.blisslauncher.R;
 
 public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClickListener {
 
@@ -60,10 +57,9 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
         Parcelable parcel = intent.getParcelableExtra(Intent.EXTRA_INTENT);
         if (parcel instanceof Intent) {
             mBaseIntent = (Intent) parcel;
-            mBaseIntent.setFlags(mBaseIntent.getFlags() & ~(Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                    | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION));
+            mBaseIntent.setFlags(mBaseIntent.getFlags()
+                    & ~(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION));
         } else {
             mBaseIntent = new Intent(Intent.ACTION_MAIN, null);
             mBaseIntent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -73,8 +69,7 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
         RecyclerView recyclerView = findViewById(R.id.all_widgets_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         WidgetPickerAdapter adapter = new WidgetPickerAdapter(this);
         recyclerView.setAdapter(adapter);
         List<WidgetPickerAdapter.Item> items = new ArrayList<>();
@@ -90,9 +85,9 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
     }
 
     private void putInstalledAppWidgets(List<WidgetPickerAdapter.Item> items) {
-        List<AppWidgetProviderInfo> installed =
-                mAppWidgetManager.getInstalledProviders();
-        if (installed == null) return;
+        List<AppWidgetProviderInfo> installed = mAppWidgetManager.getInstalledProviders();
+        if (installed == null)
+            return;
         final int size = installed.size();
         for (int i = 0; i < size; i++) {
             AppWidgetProviderInfo info = installed.get(i);
@@ -109,36 +104,35 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
                 final int density = res.getDisplayMetrics().densityDpi;
                 int iconDensity;
                 switch (density) {
-                    case DisplayMetrics.DENSITY_MEDIUM:
+                    case DisplayMetrics.DENSITY_MEDIUM :
                         iconDensity = DisplayMetrics.DENSITY_LOW;
                         break;
-                    case DisplayMetrics.DENSITY_TV:
+                    case DisplayMetrics.DENSITY_TV :
                         iconDensity = DisplayMetrics.DENSITY_MEDIUM;
                         break;
-                    case DisplayMetrics.DENSITY_HIGH:
+                    case DisplayMetrics.DENSITY_HIGH :
                         iconDensity = DisplayMetrics.DENSITY_MEDIUM;
                         break;
-                    case DisplayMetrics.DENSITY_XHIGH:
+                    case DisplayMetrics.DENSITY_XHIGH :
                         iconDensity = DisplayMetrics.DENSITY_HIGH;
                         break;
-                    case DisplayMetrics.DENSITY_XXHIGH:
+                    case DisplayMetrics.DENSITY_XXHIGH :
                         iconDensity = DisplayMetrics.DENSITY_XHIGH;
                         break;
-                    default:
-                        // The density is some abnormal value.  Return some other
+                    default :
+                        // The density is some abnormal value. Return some other
                         // abnormal value that is a reasonable scaling of it.
                         iconDensity = (int) ((density * 0.75f) + .5f);
                 }
-                Resources packageResources = mPackageManager.
-                        getResourcesForApplication(info.provider.getPackageName());
+                Resources packageResources = mPackageManager.getResourcesForApplication(info.provider.getPackageName());
                 icon = packageResources.getDrawableForDensity(info.icon, iconDensity);
             } catch (PackageManager.NameNotFoundException e) {
-                Log.w(TAG, "Can't load icon drawable 0x" + Integer.toHexString(info.icon)
-                        + " for provider: " + info.provider);
+                Log.w(TAG, "Can't load icon drawable 0x" + Integer.toHexString(info.icon) + " for provider: "
+                        + info.provider);
             }
             if (icon == null) {
-                Log.w(TAG, "Can't load icon drawable 0x" + Integer.toHexString(info.icon)
-                        + " for provider: " + info.provider);
+                Log.w(TAG, "Can't load icon drawable 0x" + Integer.toHexString(info.icon) + " for provider: "
+                        + info.provider);
             }
         }
         WidgetPickerAdapter.Item item = new WidgetPickerAdapter.Item(label, icon);
@@ -158,12 +152,11 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
             try {
                 Bundle options = null;
                 if (intent.getExtras() != null) {
-                    options = intent.getExtras().getBundle(
-                            AppWidgetManager.EXTRA_APPWIDGET_OPTIONS);
+                    options = intent.getExtras().getBundle(AppWidgetManager.EXTRA_APPWIDGET_OPTIONS);
                 }
 
-                boolean success = mAppWidgetManager.bindAppWidgetIdIfAllowed(mAppWidgetId,
-                        intent.getComponent(), options);
+                boolean success = mAppWidgetManager.bindAppWidgetIdIfAllowed(mAppWidgetId, intent.getComponent(),
+                        options);
                 if (success) {
                     result = RESULT_OK;
                 } else {
@@ -171,8 +164,7 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
                     permissionIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                     permissionIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER,
                             new ComponentName(item.packageName, item.className));
-                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER_PROFILE,
-                            item.profile);
+                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER_PROFILE, item.profile);
                     // TODO: we need to make sure that this accounts for the options bundle.
                     // intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_OPTIONS, options);
                     startActivityForResult(permissionIntent, REQUEST_BIND_APPWIDGET);
@@ -188,8 +180,8 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
 
     /**
      * Convenience method for setting the result code and intent. This method
-     * correctly injects the {@link AppWidgetManager#EXTRA_APPWIDGET_ID} that
-     * most hosts expect returned.
+     * correctly injects the {@link AppWidgetManager#EXTRA_APPWIDGET_ID} that most
+     * hosts expect returned.
      */
     void setResultData(int code, Intent intent) {
         Intent result = intent != null ? intent : new Intent();
@@ -199,11 +191,10 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode
-                + "], resultCode = [" + resultCode + "], data = [" + data + "]");
+        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode
+                + "], data = [" + data + "]");
         if (requestCode == REQUEST_BIND_APPWIDGET) {
-            int appWidgetId = data != null ?
-                    data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1) : -1;
+            int appWidgetId = data != null ? data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1) : -1;
             if (resultCode == RESULT_OK) {
                 setResultData(RESULT_OK, null);
             } else {

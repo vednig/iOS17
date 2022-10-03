@@ -16,18 +16,16 @@
 
 package foundation.e.blisslauncher.core.utils;
 
-/**
- * Utility class to allow lazy initialization of objects.
- */
+/** Utility class to allow lazy initialization of objects. */
 public abstract class Provider<T> {
 
     /**
-     * Initializes and returns the object. This may contain expensive operations not suitable
-     * to UI thread.
+     * Initializes and returns the object. This may contain expensive operations not
+     * suitable to UI thread.
      */
     public abstract T get();
 
-    public static <T> Provider<T> of (final T value) {
+    public static <T> Provider<T> of(final T value) {
         return new Provider<T>() {
             @Override
             public T get() {

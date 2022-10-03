@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.view.ContextThemeWrapper;
-
 import foundation.e.blisslauncher.core.utils.ThemesKt;
 import foundation.e.blisslauncher.features.weather.WeatherAppWidgetProvider;
 import foundation.e.blisslauncher.features.weather.WeatherWidgetHostView;

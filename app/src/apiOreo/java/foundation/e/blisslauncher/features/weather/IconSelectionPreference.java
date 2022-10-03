@@ -25,17 +25,13 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
+import foundation.e.blisslauncher.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
-import foundation.e.blisslauncher.R;
-
-public class IconSelectionPreference extends DialogPreference implements
-        AdapterView.OnItemClickListener {
+public class IconSelectionPreference extends DialogPreference implements AdapterView.OnItemClickListener {
     private static final String INTENT_CATEGORY_ICONPACK = "com.dvtonder.chronus.ICON_PACK";
 
     private static final String SEARCH_URI = "https://market.android.com/search?q=%s&c=apps";
@@ -46,24 +42,26 @@ public class IconSelectionPreference extends DialogPreference implements
         int descriptionResId;
         Drawable previewDrawable;
         int previewResId;
-        IconSetDescriptor(String name, int descriptionResId,
-                int previewResId) {
+
+        IconSetDescriptor(String name, int descriptionResId, int previewResId) {
             this.name = name;
             this.descriptionResId = descriptionResId;
             this.previewResId = previewResId;
         }
-        IconSetDescriptor(String packageName, CharSequence description,
-                Drawable preview) {
+
+        IconSetDescriptor(String packageName, CharSequence description, Drawable preview) {
             this.name = "ext:" + packageName;
             this.description = description;
             this.previewDrawable = preview;
         }
+
         public CharSequence getDescription(Context context) {
             if (description != null) {
                 return description;
             }
             return context.getString(descriptionResId);
         }
+
         @Override
         public boolean equals(Object other) {
             if (other instanceof IconSetDescriptor) {
@@ -74,16 +72,13 @@ public class IconSelectionPreference extends DialogPreference implements
         }
     }
 
-    private static final IconSetDescriptor ICON_SETS[] = new IconSetDescriptor[] {
-        new IconSetDescriptor("color", R.string.weather_icons_standard,
-                R.drawable.weather_color_28),
-        new IconSetDescriptor("mono", R.string.weather_icons_monochrome,
-                R.drawable.weather_28),
-        new IconSetDescriptor("vclouds", R.string.weather_icons_vclouds,
-                R.drawable.weather_vclouds_28)
-    };
+    private static final IconSetDescriptor ICON_SETS[] = new IconSetDescriptor[]{
+            new IconSetDescriptor("color", R.string.weather_icons_standard, R.drawable.weather_color_28),
+            new IconSetDescriptor("mono", R.string.weather_icons_monochrome, R.drawable.weather_28),
+            new IconSetDescriptor("vclouds", R.string.weather_icons_vclouds, R.drawable.weather_vclouds_28)};
 
     private static final IntentFilter PACKAGE_CHANGE_FILTER = new IntentFilter();
+
     static {
         PACKAGE_CHANGE_FILTER.addAction(Intent.ACTION_PACKAGE_ADDED);
         PACKAGE_CHANGE_FILTER.addAction(Intent.ACTION_PACKAGE_REMOVED);
@@ -134,8 +129,7 @@ public class IconSelectionPreference extends DialogPreference implements
 
         AlertDialog d = (AlertDialog) getDialog();
         d.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener(view -> {
-            String uri = String.format(Locale.US, SEARCH_URI,
-                    getContext().getString(R.string.icon_set_store_filter));
+            String uri = String.format(Locale.US, SEARCH_URI, getContext().getString(R.string.icon_set_store_filter));
             viewUri(getContext(), uri);
         });
     }
@@ -219,7 +213,7 @@ public class IconSelectionPreference extends DialogPreference implements
 
         public IconSetAdapter(Context context) {
             super(context, R.layout.icon_item, 0, populateIconSets(context));
-            mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         public void reenumerateIconSets() {
@@ -246,8 +240,7 @@ public class IconSelectionPreference extends DialogPreference implements
         }
 
         private static ArrayList<IconSetDescriptor> populateIconSets(Context context) {
-            ArrayList<IconSetDescriptor> result = new ArrayList<>(
-                    Arrays.asList(ICON_SETS));
+            ArrayList<IconSetDescriptor> result = new ArrayList<>(Arrays.asList(ICON_SETS));
 
             PackageManager pm = context.getPackageManager();
             Intent i = new Intent(Intent.ACTION_MAIN);
@@ -259,8 +252,7 @@ public class IconSelectionPreference extends DialogPreference implements
                     Resources res = pm.getResourcesForApplication(appInfo);
                     int previewResId = res.getIdentifier("weather_28", "drawable", appInfo.packageName);
                     Drawable preview = previewResId != 0 ? res.getDrawable(previewResId) : null;
-                    result.add(new IconSetDescriptor(appInfo.packageName,
-                            appInfo.loadLabel(pm), preview));
+                    result.add(new IconSetDescriptor(appInfo.packageName, appInfo.loadLabel(pm), preview));
                 } catch (PackageManager.NameNotFoundException e) {
                     // shouldn't happen, ignore package
                 }

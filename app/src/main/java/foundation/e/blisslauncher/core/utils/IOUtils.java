@@ -22,9 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Supports various IO utility functions
- */
+/** Supports various IO utility functions */
 public class IOUtils {
 
     private static final int BUF_SIZE = 0x1000; // 4K

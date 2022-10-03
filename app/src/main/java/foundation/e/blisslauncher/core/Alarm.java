@@ -7,7 +7,8 @@ public class Alarm implements Runnable {
     // if we reach this time and the alarm hasn't been cancelled, call the listener
     private long mAlarmTriggerTime;
 
-    // if we've scheduled a call to run() (ie called mHandler.postDelayed), this variable is true.
+    // if we've scheduled a call to run() (ie called mHandler.postDelayed), this
+    // variable is true.
     // We use this to avoid having multiple pending callbacks
     private boolean mWaitingForCallback;
 
@@ -23,7 +24,8 @@ public class Alarm implements Runnable {
         mAlarmListener = alarmListener;
     }
 
-    // Sets the alarm to go off in a certain number of milliseconds. If the alarm is already set,
+    // Sets the alarm to go off in a certain number of milliseconds. If the alarm is
+    // already set,
     // it's overwritten and only the new alarm setting is used
     public void setAlarm(long millisecondsInFuture) {
         long currentTime = SystemClock.uptimeMillis();

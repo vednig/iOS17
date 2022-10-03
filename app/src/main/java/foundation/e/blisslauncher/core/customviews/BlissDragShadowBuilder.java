@@ -5,10 +5,7 @@ import android.graphics.Point;
 import android.util.Log;
 import android.view.View;
 
-/**
- * Created by falcon on 15/2/18.
- */
-
+/** Created by falcon on 15/2/18. */
 public class BlissDragShadowBuilder extends View.DragShadowBuilder {
 
     private final int mX;
@@ -26,20 +23,19 @@ public class BlissDragShadowBuilder extends View.DragShadowBuilder {
         // Stores the View parameter passed to DragShadowBuilder.
         super(v);
 
-
         mX = (int) x;
         mY = (int) y;
 
-        Log.i(TAG, "Touchpoint: "+mX+" "+mY);
+        Log.i(TAG, "Touchpoint: " + mX + " " + mY);
 
-        xOffset = mX - v.getWidth()/2;
-        yOffset = (mY - v.getHeight()/2);
+        xOffset = mX - v.getWidth() / 2;
+        yOffset = (mY - v.getHeight() / 2);
 
-        Log.i(TAG, "Offset: "+xOffset+" "+yOffset);
-
+        Log.i(TAG, "Offset: " + xOffset + " " + yOffset);
     }
 
-    // Defines a callback that sends the drag shadow dimensions and touch point back to the
+    // Defines a callback that sends the drag shadow dimensions and touch point back
+    // to the
     // system.
     @Override
     public void onProvideShadowMetrics(Point size, Point touch) {
@@ -53,7 +49,8 @@ public class BlissDragShadowBuilder extends View.DragShadowBuilder {
         // Sets the height of the shadow to half the height of the original View
         height = getView().getHeight();
 
-        // Sets the size parameter's width and height values. These get back to the system
+        // Sets the size parameter's width and height values. These get back to the
+        // system
         // through the size parameter.
         size.set(width, height);
         // Sets size parameter to member that will be used for scaling shadow image.
@@ -67,10 +64,8 @@ public class BlissDragShadowBuilder extends View.DragShadowBuilder {
     public void onDrawShadow(Canvas canvas) {
         canvas.save();
         // Draws the ColorDrawable in the Canvas passed in from the system.
-        canvas.scale(mScaleFactor.x / (float) getView().getWidth(),
-                mScaleFactor.y / (float) getView().getHeight());
+        canvas.scale(mScaleFactor.x / (float) getView().getWidth(), mScaleFactor.y / (float) getView().getHeight());
         getView().draw(canvas);
         canvas.restore();
     }
-
 }

@@ -6,9 +6,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
-
 import foundation.e.blisslauncher.R;
 
 public class AppWidgetResizeFrame extends FrameLayout {
@@ -59,7 +57,6 @@ public class AppWidgetResizeFrame extends FrameLayout {
 
     private static final String TAG = "AppWidgetResizeFrame";
 
-
     public AppWidgetResizeFrame(@NonNull Context context, RoundedWidgetView widgetView) {
         super(context);
         mRoundedWidgetView = widgetView;
@@ -67,12 +64,13 @@ public class AppWidgetResizeFrame extends FrameLayout {
 
         final AppWidgetProviderInfo info = widgetView.getAppWidgetInfo();
         Rect padding = AppWidgetHostView.getDefaultPaddingForWidget(context, info.provider, null);
-        // We want to account for the extra amount of padding that we are adding to the widget
+        // We want to account for the extra amount of padding that we are adding to the
+        // widget
         // to ensure that it gets the full amount of space that it has requested
         mMinHeight = info.minHeight + padding.top + padding.bottom;
 
         setBackgroundResource(R.drawable.widget_resize_frame);
         setPadding(0, 0, 0, 0);
-        //setLayoutParams(mRoundedWidgetView.getLayoutParams());
+        // setLayoutParams(mRoundedWidgetView.getLayoutParams());
     }
 }

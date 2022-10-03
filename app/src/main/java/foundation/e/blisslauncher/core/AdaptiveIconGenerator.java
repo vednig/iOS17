@@ -1,5 +1,9 @@
 package foundation.e.blisslauncher.core;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.Math.round;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,20 +12,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.SparseIntArray;
-
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
-
 import foundation.e.blisslauncher.FixedScaleDrawable;
 import foundation.e.blisslauncher.core.customviews.AdaptiveIconDrawableCompat;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-import static java.lang.Math.round;
-
 public class AdaptiveIconGenerator {
 
-    // Average number of derived colors (based on averages with ~100 icons and performance testing)
+    // Average number of derived colors (based on averages with ~100 icons and
+    // performance testing)
     private static final int NUMBER_OF_COLORS_GUESSTIMATE = 45;
 
     // Found after some experimenting, might be improved with some more testing
@@ -106,16 +105,9 @@ public class AdaptiveIconGenerator {
         bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
 
         /*
-         *   Calculate the number of padding pixels around the actual icon (i)
-         *   +----------------+
-         *   |      top       |
-         *   +---+--------+---+
-         *   |   |        |   |
-         *   | l |    i   | r |
-         *   |   |        |   |
-         *   +---+--------+---+
-         *   |     bottom     |
-         *   +----------------+
+         * Calculate the number of padding pixels around the actual icon (i)
+         * +----------------+ | top | +---+--------+---+ | | | | | l | i | r | | | | |
+         * +---+--------+---+ | bottom | +----------------+
          */
         float adjHeight = height - bounds.top - bounds.bottom;
         float l = bounds.left * width * adjHeight;
@@ -124,9 +116,12 @@ public class AdaptiveIconGenerator {
         float bottom = bounds.bottom * height * width;
         int addPixels = round(l + top + r + bottom);
 
-        // Any icon with less than 10% transparent pixels (padding excluded) is considered "full-bleed-ish"
+        // Any icon with less than 10% transparent pixels (padding excluded) is
+        // considered
+        // "full-bleed-ish"
         final int maxTransparent = (int) (round(size * .10) + addPixels);
-        // Any icon with less than 27% transparent pixels (padding excluded) doesn't need a color mix-in
+        // Any icon with less than 27% transparent pixels (padding excluded) doesn't
+        // need a color mix-in
         final int noMixinScore = (int) (round(size * .27) + addPixels);
 
         int highScore = 0;
@@ -159,15 +154,17 @@ public class AdaptiveIconGenerator {
         // add back the alpha channel
         bestRGB |= 0xff << 24;
 
-        // not yet checked = not set to false = has to be full bleed, isBackgroundWhite = true = is adaptive
+        // not yet checked = not set to false = has to be full bleed, isBackgroundWhite
+        // = true = is
+        // adaptive
         isFullBleed |= !fullBleedChecked && !isBackgroundWhite;
 
         // return early if a mix-in isnt needed
         noMixinNeeded = !isFullBleed && !isBackgroundWhite && almostSquarish && transparentScore <= noMixinScore;
 
         // Currently, it's set to true so a white background is used for all the icons.
-        if(useWhiteBackground) {
-            //backgroundColor = Color.WHITE;
+        if (useWhiteBackground) {
+            // backgroundColor = Color.WHITE;
             backgroundColor = Color.WHITE & 0x80FFFFFF;
             onExitLoop();
             return;
@@ -194,7 +191,8 @@ public class AdaptiveIconGenerator {
         // Apply light background to mostly dark icons
         boolean veryDark = lightness < .35 && singleColor;
 
-        // Adjust color to reach suitable contrast depending on the relationship between the colors
+        // Adjust color to reach suitable contrast depending on the relationship between
+        // the colors
         final int opaqueSize = size - transparentScore;
         final float pxPerColor = opaqueSize / (float) numColors;
         float mixRatio = min(max(pxPerColor / highScore, .15f), .7f);
@@ -211,10 +209,7 @@ public class AdaptiveIconGenerator {
     }
 
     private Drawable genResult() {
-        AdaptiveIconDrawableCompat tmp = new AdaptiveIconDrawableCompat(
-                new ColorDrawable(),
-                new FixedScaleDrawable()
-        );
+        AdaptiveIconDrawableCompat tmp = new AdaptiveIconDrawableCompat(new ColorDrawable(), new FixedScaleDrawable());
         ((FixedScaleDrawable) tmp.getForeground()).setDrawable(icon);
         if (isFullBleed || noMixinNeeded) {
             float scale;

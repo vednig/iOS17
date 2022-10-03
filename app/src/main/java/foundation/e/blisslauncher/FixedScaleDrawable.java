@@ -7,11 +7,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.DrawableWrapper;
 import android.os.Build;
 import android.util.AttributeSet;
-
 import org.xmlpull.v1.XmlPullParser;
 
 /**
- * Extension of {@link DrawableWrapper} which scales the child drawables by a fixed amount.
+ * Extension of {@link DrawableWrapper} which scales the child drawables by a
+ * fixed amount.
  */
 @TargetApi(Build.VERSION_CODES.N)
 public class FixedScaleDrawable extends DrawableWrapper {
@@ -29,17 +29,18 @@ public class FixedScaleDrawable extends DrawableWrapper {
     @Override
     public void draw(Canvas canvas) {
         int saveCount = canvas.save();
-        canvas.scale(mScaleX, mScaleY,
-                getBounds().exactCenterX(), getBounds().exactCenterY());
+        canvas.scale(mScaleX, mScaleY, getBounds().exactCenterX(), getBounds().exactCenterY());
         super.draw(canvas);
         canvas.restoreToCount(saveCount);
     }
 
     @Override
-    public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs) { }
+    public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs) {
+    }
 
     @Override
-    public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs, Resources.Theme theme) { }
+    public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs, Resources.Theme theme) {
+    }
 
     public void setScale(float scale) {
         float h = getIntrinsicHeight();

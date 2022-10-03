@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.IBinder;
 import android.util.Log;
-
 import foundation.e.blisslauncher.core.utils.Constants;
 
 public class DeviceStatusService extends Service {
@@ -21,12 +20,13 @@ public class DeviceStatusService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            // Network connection has changed, make sure the weather update service knows about it
+            // Network connection has changed, make sure the weather update service knows
+            // about it
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                boolean hasConnection = !intent.getBooleanExtra(
-                        ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+                boolean hasConnection = !intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
-                if (D) Log.d(TAG, "Got connectivity change, has connection: " + hasConnection);
+                if (D)
+                    Log.d(TAG, "Got connectivity change, has connection: " + hasConnection);
 
                 Intent i = new Intent(context, WeatherUpdateService.class);
                 if (hasConnection) {
@@ -35,10 +35,12 @@ public class DeviceStatusService extends Service {
                     context.stopService(i);
                 }
             } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
-                if (D) Log.d(TAG, "onDisplayOff: Cancel pending update");
+                if (D)
+                    Log.d(TAG, "onDisplayOff: Cancel pending update");
                 WeatherUpdateService.cancelUpdates(context);
             } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
-                if (D) Log.d(TAG, "onDisplayOn: Reschedule update");
+                if (D)
+                    Log.d(TAG, "onDisplayOn: Reschedule update");
                 WeatherUpdateService.scheduleNextUpdate(context, false);
             }
         }
@@ -55,13 +57,15 @@ public class DeviceStatusService extends Service {
 
     @Override
     public void onDestroy() {
-        if (D) Log.d(TAG, "Stopping service");
+        if (D)
+            Log.d(TAG, "Stopping service");
         unregisterReceiver(mDeviceStatusListenerReceiver);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (D) Log.d(TAG, "Starting service");
+        if (D)
+            Log.d(TAG, "Starting service");
         return START_STICKY;
     }
 

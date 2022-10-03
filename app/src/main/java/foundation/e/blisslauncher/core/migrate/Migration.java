@@ -3,19 +3,16 @@ package foundation.e.blisslauncher.core.migrate;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
-
 import com.google.gson.Gson;
-
+import foundation.e.blisslauncher.core.Preferences;
+import foundation.e.blisslauncher.core.database.DatabaseManager;
+import foundation.e.blisslauncher.core.database.LauncherDB;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import foundation.e.blisslauncher.core.Preferences;
-import foundation.e.blisslauncher.core.database.DatabaseManager;
-import foundation.e.blisslauncher.core.database.LauncherDB;
 
 public class Migration {
 
@@ -39,38 +36,32 @@ public class Migration {
             List<String> dialerComponentList = Arrays.asList(
                     "com.android.dialer/com.android.dialer.main.impl.MainActivity",
                     "com.android.dialer/com.android.dialer.app.DialtactsActivity",
-                    "com.android.dialer/com.android.dialer.DialtactsActivity"
-            );
+                    "com.android.dialer/com.android.dialer.DialtactsActivity");
 
             String currentComponent = dialerComponentList.get(0);
-            String dialerComponent = LauncherDB
-                    .getDatabase(context)
-                    .launcherDao()
+            String dialerComponent = LauncherDB.getDatabase(context).launcherDao()
                     .getComponentName("com.android.dialer");
 
-            if (dialerComponent != null && dialerComponentList.contains(dialerComponent) 
-                && !dialerComponent.equals(currentComponent)) {
+            if (dialerComponent != null && dialerComponentList.contains(dialerComponent)
+                    && !dialerComponent.equals(currentComponent)) {
                 Log.d(TAG, "migrateSafely: Migrating dialer component!");
-                DatabaseManager.getManager(context).migrateComponent(
-                        dialerComponent, currentComponent);
+                DatabaseManager.getManager(context).migrateComponent(dialerComponent, currentComponent);
             }
         }
 
         String migrationInfo = instance.readJSONFromAsset(context);
-        CurrentMigration currentMigration = new Gson().fromJson(migrationInfo,
-                CurrentMigration.class);
+        CurrentMigration currentMigration = new Gson().fromJson(migrationInfo, CurrentMigration.class);
         int oldVersion = Preferences.getCurrentMigrationVersion(context);
         if (oldVersion < currentMigration.currentVersion) {
-            List<MigrationInfo> infos = currentMigration.migrate_infos.parallelStream().filter(
-                    migrationInfo1 -> migrationInfo1.startVersion >= oldVersion).collect(
-                    Collectors.toList());
-            Log.i(TAG, "migrateSafely: "+infos.size());
+            List<MigrationInfo> infos = currentMigration.migrate_infos.parallelStream()
+                    .filter(migrationInfo1 -> migrationInfo1.startVersion >= oldVersion).collect(Collectors.toList());
+            Log.i(TAG, "migrateSafely: " + infos.size());
             Collections.sort(infos);
             for (MigrationInfo info : infos) {
                 List<MigrateComponentInfo> components = info.components;
                 for (MigrateComponentInfo component : components) {
-                    DatabaseManager.getManager(context).migrateComponent(
-                            component.old_component_name, component.new_component_name);
+                    DatabaseManager.getManager(context).migrateComponent(component.old_component_name,
+                            component.new_component_name);
                 }
             }
             Preferences.setCurrentMigrationVersion(context, currentMigration.currentVersion);

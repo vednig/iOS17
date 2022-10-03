@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import androidx.annotation.Nullable;
-
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate;
 import foundation.e.blisslauncher.features.widgets.CheckLongPressHelper;
@@ -64,7 +62,6 @@ public class RoundedWidgetView extends AppWidgetHostView {
         stencilPath.reset();
         stencilPath.addRoundRect(0, 0, w, h, cornerRadius, cornerRadius, Path.Direction.CW);
         stencilPath.close();
-
     }
 
     @Override
@@ -104,13 +101,11 @@ public class RoundedWidgetView extends AppWidgetHostView {
 
     @Override
     public int getDescendantFocusability() {
-        return mChildrenFocused ? ViewGroup.FOCUS_BEFORE_DESCENDANTS
-                : ViewGroup.FOCUS_BLOCK_DESCENDANTS;
+        return mChildrenFocused ? ViewGroup.FOCUS_BEFORE_DESCENDANTS : ViewGroup.FOCUS_BLOCK_DESCENDANTS;
     }
 
     @Override
-    protected void onFocusChanged(boolean gainFocus, int direction,
-            @Nullable Rect previouslyFocusedRect) {
+    protected void onFocusChanged(boolean gainFocus, int direction, @Nullable Rect previouslyFocusedRect) {
         if (gainFocus) {
             mChildrenFocused = false;
             dispatchChildFocus(false);
@@ -133,7 +128,8 @@ public class RoundedWidgetView extends AppWidgetHostView {
     }
 
     private void dispatchChildFocus(boolean childIsFocused) {
-        // The host view's background changes when selected, to indicate the focus is inside.
+        // The host view's background changes when selected, to indicate the focus is
+        // inside.
         setSelected(childIsFocused);
     }
 
@@ -143,8 +139,8 @@ public class RoundedWidgetView extends AppWidgetHostView {
         }
         resizeBorder = new ImageView(mContext);
         resizeBorder.setImageResource(R.drawable.widget_resize_frame);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
         resizeBorder.setLayoutParams(layoutParams);
         addView(resizeBorder);
         activated = true;

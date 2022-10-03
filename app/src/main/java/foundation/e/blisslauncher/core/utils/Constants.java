@@ -17,10 +17,7 @@ package foundation.e.blisslauncher.core.utils;
 
 import foundation.e.blisslauncher.BuildConfig;
 
-/**
- * Created by falcon on 8/3/18.
- */
-
+/** Created by falcon on 8/3/18. */
 public class Constants {
     public static final boolean DEBUG = BuildConfig.DEBUG;
     public static final String PREF_NAME = "foundation.e.blisslauncher.prefs";
@@ -49,17 +46,14 @@ public class Constants {
 
     public static final String USER_CREATION_TIME_KEY = "user_creation_time_";
 
-    /**
-     * Represents types of item displayed in Launcher.
-     */
+    /** Represents types of item displayed in Launcher. */
     public static final int ITEM_TYPE_APPLICATION = 0;
+
     public static final int ITEM_TYPE_SHORTCUT = 1;
     public static final int ITEM_TYPE_FOLDER = 2;
 
-    /**
-     * Represents types of container.
-     */
+    /** Represents types of container. */
     public static final int CONTAINER_DESKTOP = -100;
-    public static final int CONTAINER_HOTSEAT = -101;
 
+    public static final int CONTAINER_HOTSEAT = -101;
 }

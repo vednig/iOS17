@@ -2,7 +2,6 @@ package foundation.e.blisslauncher.core.network.qwant;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class QwantData {

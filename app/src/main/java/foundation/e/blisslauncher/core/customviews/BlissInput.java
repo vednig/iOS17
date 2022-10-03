@@ -3,7 +3,6 @@ package foundation.e.blisslauncher.core.customviews;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.DragEvent;
-
 import androidx.appcompat.widget.AppCompatEditText;
 
 public class BlissInput extends AppCompatEditText {

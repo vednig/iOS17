@@ -7,8 +7,11 @@ public interface MvpContract {
 
     interface Presenter<V extends View> {
         void attachView(V view);
+
         void resume();
+
         void pause();
+
         void detachView();
     }
 }

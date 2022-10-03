@@ -2,7 +2,7 @@ package foundation.e.blisslauncher.core.events;
 
 import foundation.e.blisslauncher.core.utils.UserHandle;
 
-public class AppChangeEvent extends Event{
+public class AppChangeEvent extends Event {
 
     private String packageName;
     private UserHandle userHandle;

@@ -14,17 +14,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import cyanogenmod.weather.WeatherInfo;
+import cyanogenmod.weather.util.WeatherUtils;
+import foundation.e.blisslauncher.R;
+import foundation.e.blisslauncher.core.Preferences;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import cyanogenmod.weather.WeatherInfo;
-import cyanogenmod.weather.util.WeatherUtils;
-import foundation.e.blisslauncher.R;
-import foundation.e.blisslauncher.core.Preferences;
 
 public class ForecastBuilder {
 
@@ -33,9 +31,12 @@ public class ForecastBuilder {
     /**
      * This method is used to build the forecast panel
      *
-     * @param context      Context to be used
-     * @param weatherPanel a view that will contain the forecast
-     * @param w            the Weather info object that contains the forecast data
+     * @param context
+     *            Context to be used
+     * @param weatherPanel
+     *            a view that will contain the forecast
+     * @param w
+     *            the Weather info object that contains the forecast data
      */
     @SuppressLint("InflateParams")
     public static void buildLargePanel(Context context, View weatherPanel, WeatherInfo w) {
@@ -67,9 +68,8 @@ public class ForecastBuilder {
         // Weather Image
         ImageView weatherImage = weatherPanel.findViewById(R.id.weather_image);
         String iconsSet = Preferences.getWeatherIconSet(context);
-        weatherImage.setImageBitmap(
-                WeatherIconUtils.getWeatherIconBitmap(context, iconsSet, color,
-                        w.getConditionCode(), WeatherIconUtils.getNextHigherDensity(context)));
+        weatherImage.setImageBitmap(WeatherIconUtils.getWeatherIconBitmap(context, iconsSet, color,
+                w.getConditionCode(), WeatherIconUtils.getNextHigherDensity(context)));
 
         // City
         TextView city = weatherPanel.findViewById(R.id.weather_city);
@@ -77,14 +77,11 @@ public class ForecastBuilder {
 
         // Weather Condition
         TextView weatherCondition = weatherPanel.findViewById(R.id.weather_condition);
-        weatherCondition.setText(
-                foundation.e.blisslauncher.features.weather.WeatherUtils.resolveWeatherCondition(
-                        context,
-                        w.getConditionCode()));
+        weatherCondition.setText(foundation.e.blisslauncher.features.weather.WeatherUtils
+                .resolveWeatherCondition(context, w.getConditionCode()));
 
         // Weather Temps
-        TextView weatherTemp = weatherPanel.findViewById(
-                R.id.weather_current_temperature);
+        TextView weatherTemp = weatherPanel.findViewById(R.id.weather_current_temperature);
         weatherTemp.setText(WeatherUtils.formatTemperature(temp, tempUnit));
 
         // Weather Temps Panel additional networkItems
@@ -97,26 +94,20 @@ public class ForecastBuilder {
         int windSpeedUnit = w.getWindSpeedUnit();
         if (windSpeedUnit == MPH && useMetric) {
             windSpeedUnit = KPH;
-            windSpeed = foundation.e.blisslauncher.features.weather.WeatherUtils.milesToKilometers(
-                    windSpeed);
+            windSpeed = foundation.e.blisslauncher.features.weather.WeatherUtils.milesToKilometers(windSpeed);
         } else if (windSpeedUnit == KPH && !useMetric) {
             windSpeedUnit = MPH;
-            windSpeed = foundation.e.blisslauncher.features.weather.WeatherUtils.kilometersToMiles(
-                    windSpeed);
+            windSpeed = foundation.e.blisslauncher.features.weather.WeatherUtils.kilometersToMiles(windSpeed);
         }
-
 
         // Humidity and Wind
         TextView weatherHumWind = weatherPanel.findViewById(R.id.weather_chance_rain);
-        weatherHumWind.setText(
-                String.format("%s, %s %s",
-                        foundation.e.blisslauncher.features.weather.WeatherUtils.formatHumidity(
-                                w.getHumidity()),
-                        foundation.e.blisslauncher.features.weather.WeatherUtils.formatWindSpeed(
-                                context, windSpeed, windSpeedUnit),
-                        foundation.e.blisslauncher.features.weather.WeatherUtils
-                                .resolveWindDirection(
-                                        context, w.getWindDirection())));
+        weatherHumWind.setText(String.format("%s, %s %s",
+                foundation.e.blisslauncher.features.weather.WeatherUtils.formatHumidity(w.getHumidity()),
+                foundation.e.blisslauncher.features.weather.WeatherUtils.formatWindSpeed(context, windSpeed,
+                        windSpeedUnit),
+                foundation.e.blisslauncher.features.weather.WeatherUtils.resolveWindDirection(context,
+                        w.getWindDirection())));
         LinearLayout forecastView = weatherPanel.findViewById(R.id.forecast_view);
         buildSmallPanel(context, forecastView, w);
     }
@@ -124,9 +115,12 @@ public class ForecastBuilder {
     /**
      * This method is used to build the small, horizontal forecasts panel
      *
-     * @param context    Context to be used
-     * @param smallPanel a horizontal {@link LinearLayout} that will contain the forecasts
-     * @param w          the Weather info object that contains the forecast data
+     * @param context
+     *            Context to be used
+     * @param smallPanel
+     *            a horizontal {@link LinearLayout} that will contain the forecasts
+     * @param w
+     *            the Weather info object that contains the forecast data
      */
     @SuppressLint("InflateParams")
     private static void buildSmallPanel(Context context, LinearLayout smallPanel, WeatherInfo w) {
@@ -136,8 +130,7 @@ public class ForecastBuilder {
         }
 
         // Get things ready
-        LayoutInflater inflater
-                = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int color = Preferences.weatherFontColor(context);
         final boolean useMetric = Preferences.useMetricUnits(context);
 
@@ -152,8 +145,7 @@ public class ForecastBuilder {
         Calendar calendar = new GregorianCalendar(MyTimezone);
         int weatherTempUnit = w.getTemperatureUnit();
         int numForecasts = forecasts.size();
-        int itemSidePadding = context.getResources().getDimensionPixelSize(
-                R.dimen.forecast_item_padding_side);
+        int itemSidePadding = context.getResources().getDimensionPixelSize(R.dimen.forecast_item_padding_side);
 
         // Iterate through the Forecasts
         for (int count = 0; count < numForecasts; count++) {
@@ -165,20 +157,18 @@ public class ForecastBuilder {
 
             // The day of the week
             TextView day = forecastItem.findViewById(R.id.forecast_day);
-            day.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT,
-                    Locale.getDefault()));
+            day.setText(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()));
             calendar.roll(Calendar.DAY_OF_WEEK, true);
 
             // Weather Image
             ImageView image = forecastItem.findViewById(R.id.weather_image);
             String iconsSet = Preferences.getWeatherIconSet(context);
-            final int resId = WeatherIconUtils.getWeatherIconResource(context, iconsSet,
-                    d.getConditionCode());
+            final int resId = WeatherIconUtils.getWeatherIconResource(context, iconsSet, d.getConditionCode());
             if (resId != 0) {
                 image.setImageResource(resId);
             } else {
-                image.setImageBitmap(WeatherIconUtils.getWeatherIconBitmap(context, iconsSet,
-                        color, d.getConditionCode()));
+                image.setImageBitmap(
+                        WeatherIconUtils.getWeatherIconBitmap(context, iconsSet, color, d.getConditionCode()));
             }
 
             // Temperatures
@@ -194,8 +184,7 @@ public class ForecastBuilder {
                 highTemp = cyanogenmod.weather.util.WeatherUtils.celsiusToFahrenheit(highTemp);
                 tempUnit = FAHRENHEIT;
             }
-            String dayLow = cyanogenmod.weather.util.WeatherUtils.formatTemperature(lowTemp,
-                    tempUnit);
+            String dayLow = cyanogenmod.weather.util.WeatherUtils.formatTemperature(lowTemp, tempUnit);
             String dayHigh = WeatherUtils.formatTemperature(highTemp, tempUnit);
             TextView temps = forecastItem.findViewById(R.id.weather_temps);
             temps.setText(String.format("%s\n%s", dayLow, dayHigh));
@@ -207,14 +196,14 @@ public class ForecastBuilder {
             // Add a divider to the right for all but the last view
             if (count < numForecasts - 1) {
                 View divider = new View(context);
-                smallPanel.addView(divider, new LinearLayout.LayoutParams(
-                        itemSidePadding, LinearLayout.LayoutParams.MATCH_PARENT));
+                smallPanel.addView(divider,
+                        new LinearLayout.LayoutParams(itemSidePadding, LinearLayout.LayoutParams.MATCH_PARENT));
             }
         }
 
         smallPanel.setOnClickListener(v -> {
             Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("foundation.e.weather");
-            if(launchIntent != null){
+            if (launchIntent != null) {
                 launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(launchIntent);
             }

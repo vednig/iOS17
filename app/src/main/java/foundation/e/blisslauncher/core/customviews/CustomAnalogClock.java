@@ -7,18 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
-
 import androidx.core.content.ContextCompat;
-
-import java.util.Calendar;
-
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
+import java.util.Calendar;
 
-/**
- * Created by falcon on 8/3/18.
- */
-
+/** Created by falcon on 8/3/18. */
 public class CustomAnalogClock extends View {
 
     public static boolean is24;
@@ -58,14 +52,15 @@ public class CustomAnalogClock extends View {
     }
 
     public void init(Context context) {
-        init(context, R.drawable.clock, R.drawable.hours,
-                R.drawable.minutes, R.drawable.seconds, 0, false, false);
+        init(context, R.drawable.clock, R.drawable.hours, R.drawable.minutes, R.drawable.seconds, 0, false, false);
     }
 
     /**
-     * Will set the scale of the view, for example 0.5f will draw the clock with half of its radius
+     * Will set the scale of the view, for example 0.5f will draw the clock with
+     * half of its radius
      *
-     * @param scale the scale to render the view in
+     * @param scale
+     *            the scale to render the view in
      */
     public void setScale(float scale) {
         if (scale <= 0) {
@@ -81,8 +76,7 @@ public class CustomAnalogClock extends View {
         setFace(r.getDrawable(drawableRes));
     }
 
-    public void init(Context context, int watchFace, int hourHand,
-            int minuteHand, int secHand, int alpha, boolean is24,
+    public void init(Context context, int watchFace, int hourHand, int minuteHand, int secHand, int alpha, boolean is24,
             boolean hourOnTop) {
         this.mContext = context;
         CustomAnalogClock.is24 = is24;
@@ -115,10 +109,10 @@ public class CustomAnalogClock extends View {
     }
 
     /**
-     * Sets the currently displayed time in {@link System#currentTimeMillis()}
-     * time.
+     * Sets the currently displayed time in {@link System#currentTimeMillis()} time.
      *
-     * @param time the time to display on the clock
+     * @param time
+     *            the time to display on the clock
      */
     public void setTime(long time) {
         mCalendar.setTimeInMillis(time);
@@ -128,7 +122,8 @@ public class CustomAnalogClock extends View {
     /**
      * Sets the currently displayed time.
      *
-     * @param calendar The time to display on the clock
+     * @param calendar
+     *            The time to display on the clock
      */
     public void setTime(Calendar calendar) {
         mCalendar = calendar;
@@ -172,20 +167,15 @@ public class CustomAnalogClock extends View {
 
         if (availW < w || availH < h) {
             scaled = true;
-            final float scale = Math.min((float) availW / (float) w,
-                    (float) availH / (float) h);
+            final float scale = Math.min((float) availW / (float) w, (float) availH / (float) h);
             canvas.save();
             canvas.scale(scale, scale, cX, cY);
         }
 
         if (sizeChanged) {
             // Extend bottom by 1 and top by -1 for proper bounds
-            mFace.setBounds(cX - (w / 2),
-                    cY - (h / 2) - 1,
-                    cX + (w / 2),
-                    cY + (h / 2) + 1);
+            mFace.setBounds(cX - (w / 2), cY - (h / 2) - 1, cX + (w / 2), cY + (h / 2) + 1);
         }
-
 
         mFace.draw(canvas);
         mHandsOverlay.onDraw(canvas, cX, cY, w, h, mCalendar, sizeChanged);
@@ -231,8 +221,7 @@ public class CustomAnalogClock extends View {
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right,
-            int bottom) {
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         mRight = right;
         mLeft = left;

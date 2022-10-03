@@ -29,10 +29,11 @@ public class Preconditions {
     }
 
     public static void assertWorkerThread() {
-        //TODO: Uncommnet after LauncherModel
-        /*if (!isSameLooper(LauncherModel.getWorkerLooper())) {
-            throw new IllegalStateException();
-        }*/
+        // TODO: Uncommnet after LauncherModel
+        /*
+         * if (!isSameLooper(LauncherModel.getWorkerLooper())) { throw new
+         * IllegalStateException(); }
+         */
     }
 
     public static void assertUIThread() {

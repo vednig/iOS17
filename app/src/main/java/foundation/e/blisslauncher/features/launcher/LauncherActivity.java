@@ -160,9 +160,11 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import me.relex.circleindicator.CircleIndicator;
 
-public class LauncherActivity extends AppCompatActivity implements
-        AutoCompleteAdapter.OnSuggestionClickListener,
-        OnSwipeDownListener, WallpaperManagerCompat.OnColorsChangedListener {
+public class LauncherActivity extends AppCompatActivity
+        implements
+            AutoCompleteAdapter.OnSuggestionClickListener,
+            OnSwipeDownListener,
+            WallpaperManagerCompat.OnColorsChangedListener {
 
     public static final int REORDER_TIMEOUT = 350;
     private final static int EMPTY_LOCATION_DRAG = -999;
@@ -210,7 +212,6 @@ public class LauncherActivity extends AppCompatActivity implements
     private boolean allAppsDisplayed;
     private boolean forceRefreshSuggestedApps = false;
 
-
     private List<ApplicationItem> mSuggestedApps = new ArrayList<>();
     private FrameLayout swipeSearchContainer;
     private InsettableRelativeLayout workspace;
@@ -234,7 +235,8 @@ public class LauncherActivity extends AppCompatActivity implements
     private boolean showSwipeSearch;
     private RoundedWidgetView activeRoundedWidgetView;
 
-    // EventRelay to handle pass events related to app addition, deletion or changed.
+    // EventRelay to handle pass events related to app addition, deletion or
+    // changed.
     private EventRelay events;
     private ManagedProfileBroadcastReceiver managedProfileReceiver;
 
@@ -277,10 +279,9 @@ public class LauncherActivity extends AppCompatActivity implements
         mAppWidgetManager = BlissLauncher.getApplication(this).getAppWidgetManager();
         mAppWidgetHost = BlissLauncher.getApplication(this).getAppWidgetHost();
 
-        mLauncherView = LayoutInflater.from(this).inflate(
-                foundation.e.blisslauncher.R.layout.activity_main, null);
+        mLauncherView = LayoutInflater.from(this).inflate(foundation.e.blisslauncher.R.layout.activity_main, null);
 
-        //BlissLauncher.getApplication(LauncherActivity.this).getAppProvider().reload();
+        // BlissLauncher.getApplication(LauncherActivity.this).getAppProvider().reload();
 
         setContentView(mLauncherView);
         setupViews();
@@ -296,8 +297,7 @@ public class LauncherActivity extends AppCompatActivity implements
             String permissionString = Settings.Secure.getString(cr, setting);
             if (permissionString == null || !permissionString.contains(getPackageName())) {
                 if (BuildConfig.DEBUG) {
-                    startActivity(
-                            new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
                 } else if (!Preferences.shouldAskForNotificationAccess(this)) {
                     ComponentName cn = new ComponentName(this, NotificationService.class);
                     if (permissionString == null) {
@@ -314,8 +314,10 @@ public class LauncherActivity extends AppCompatActivity implements
             }
         }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_REQUEST_CODE);
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    STORAGE_PERMISSION_REQUEST_CODE);
         }
 
         // Start NotificationService to add count badge to Icons
@@ -364,8 +366,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
         mDock = mLauncherView.findViewById(R.id.dock);
         mIndicator = mLauncherView.findViewById(R.id.page_indicator);
-        mFolderWindowContainer = mLauncherView.findViewById(
-                R.id.folder_window_container);
+        mFolderWindowContainer = mLauncherView.findViewById(R.id.folder_window_container);
         mFolderAppsViewPager = mLauncherView.findViewById(R.id.folder_apps);
         mFolderTitleInput = mLauncherView.findViewById(R.id.folder_title);
         mProgressBar = mLauncherView.findViewById(R.id.progressbar);
@@ -376,10 +377,8 @@ public class LauncherActivity extends AppCompatActivity implements
 
         wobbleAnimation = AnimationUtils.loadAnimation(this, R.anim.wobble);
         wobbleReverseAnimation = AnimationUtils.loadAnimation(this, R.anim.wobble_reverse);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         workspace.setOnClickListener(v -> {
             if (swipeSearchContainer.getVisibility() == VISIBLE) {
                 hideSwipeSearchContainer();
@@ -388,34 +387,28 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void createOrUpdateIconGrid() {
-        getCompositeDisposable().add(
-                BlissLauncher.getApplication(this)
-                        .getAppProvider()
-                        .getAppsRepository()
-                        .getAppsRelay()
-                        .distinctUntilChanged()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(new DisposableObserver<List<LauncherItem>>() {
-                            @Override
-                            public void onNext(List<LauncherItem> launcherItems) {
-                                if (launcherItems == null || launcherItems.size() <= 0) {
-                                    BlissLauncher.getApplication(LauncherActivity.this).getAppProvider().reload(true);
-                                } else if (!allAppsDisplayed) {
-                                    showApps(launcherItems);
-                                }
-                            }
+        getCompositeDisposable().add(BlissLauncher.getApplication(this).getAppProvider().getAppsRepository()
+                .getAppsRelay().distinctUntilChanged().observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<List<LauncherItem>>() {
+                    @Override
+                    public void onNext(List<LauncherItem> launcherItems) {
+                        if (launcherItems == null || launcherItems.size() <= 0) {
+                            BlissLauncher.getApplication(LauncherActivity.this).getAppProvider().reload(true);
+                        } else if (!allAppsDisplayed) {
+                            showApps(launcherItems);
+                        }
+                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
 
-                            @Override
-                            public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-                            }
-                        })
-        );
+                    }
+                }));
     }
 
     private void addDefaultWidgets() {
@@ -423,7 +416,8 @@ public class LauncherActivity extends AppCompatActivity implements
         Set<ComponentName> existingProviders = new HashSet<>();
         for (int widgetId : widgetIds) {
             AppWidgetProviderInfo info = mAppWidgetManager.getAppWidgetInfo(widgetId);
-            if (info == null) continue;
+            if (info == null)
+                continue;
             existingProviders.add(info.provider);
         }
 
@@ -475,18 +469,15 @@ public class LauncherActivity extends AppCompatActivity implements
 
     public void updateAllCalendarIcons(Calendar calendar) {
         for (BlissFrameLayout blissIcon : mCalendarIcons) {
-            CalendarIcon calendarIcon = new CalendarIcon(
-                    blissIcon.findViewById(R.id.calendar_month_textview),
+            CalendarIcon calendarIcon = new CalendarIcon(blissIcon.findViewById(R.id.calendar_month_textview),
                     blissIcon.findViewById(R.id.calendar_date_textview));
             updateCalendarIcon(calendarIcon, calendar);
         }
     }
 
     private void updateCalendarIcon(CalendarIcon calendarIcon, Calendar calendar) {
-        calendarIcon.monthTextView.setText(
-                Utilities.convertMonthToString());
-        calendarIcon.dayTextView.setText(
-                String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        calendarIcon.monthTextView.setText(Utilities.convertMonthToString());
+        calendarIcon.dayTextView.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
     }
 
     @Override
@@ -515,8 +506,7 @@ public class LauncherActivity extends AppCompatActivity implements
             while (id != null) {
                 for (int i = 0; i < widgetContainer.getChildCount(); i++) {
                     if (widgetContainer.getChildAt(i) instanceof RoundedWidgetView) {
-                        RoundedWidgetView appWidgetHostView =
-                                (RoundedWidgetView) widgetContainer.getChildAt(i);
+                        RoundedWidgetView appWidgetHostView = (RoundedWidgetView) widgetContainer.getChildAt(i);
                         if (appWidgetHostView.getAppWidgetId() == id) {
                             widgetContainer.removeViewAt(i);
                             DatabaseManager.getManager(this).removeWidget(id);
@@ -537,8 +527,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
     }
 
-    private void addWidgetToContainer(
-            RoundedWidgetView widgetView) {
+    private void addWidgetToContainer(RoundedWidgetView widgetView) {
         widgetContainer.addView(widgetView);
     }
 
@@ -597,7 +586,7 @@ public class LauncherActivity extends AppCompatActivity implements
 
     public void onAppAddEvent(AppAddEvent appAddEvent) {
         updateOrAddApp(appAddEvent.getPackageName(), appAddEvent.getUserHandle());
-        //DatabaseManager.getManager(this).saveLayouts(pages, mDock);
+        // DatabaseManager.getManager(this).saveLayouts(pages, mDock);
         if (moveTo != -1) {
             mHorizontalPager.setCurrentPage(moveTo);
             moveTo = -1;
@@ -635,8 +624,7 @@ public class LauncherActivity extends AppCompatActivity implements
             BlissFrameLayout view = prepareLauncherItem(launcherItem);
 
             int current = 0;
-            while ((current < pages.size() && pages.get(current).getChildCount()
-                    == mDeviceProfile.maxAppsPerPage)) {
+            while ((current < pages.size() && pages.get(current).getChildCount() == mDeviceProfile.maxAppsPerPage)) {
                 current++;
             }
 
@@ -646,8 +634,7 @@ public class LauncherActivity extends AppCompatActivity implements
                 dot.setImageDrawable(getDrawable(R.drawable.dot_off));
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         getResources().getDimensionPixelSize(R.dimen.dotSize),
-                        getResources().getDimensionPixelSize(R.dimen.dotSize)
-                );
+                        getResources().getDimensionPixelSize(R.dimen.dotSize));
                 dot.setLayoutParams(params);
                 mIndicator.addView(dot);
                 mHorizontalPager.addView(pages.get(current));
@@ -665,15 +652,13 @@ public class LauncherActivity extends AppCompatActivity implements
             for (int i = 0; i < mFolderAppsViewPager.getChildCount(); i++) {
                 GridLayout gridLayout = (GridLayout) mFolderAppsViewPager.getChildAt(i);
                 for (int j = 0; j < gridLayout.getChildCount(); j++) {
-                    BlissFrameLayout viewGroup =
-                            (BlissFrameLayout) gridLayout.getChildAt(j);
+                    BlissFrameLayout viewGroup = (BlissFrameLayout) gridLayout.getChildAt(j);
                     final LauncherItem existingItem = getAppDetails(viewGroup);
                     if (existingItem.itemType == Constants.ITEM_TYPE_SHORTCUT) {
                         ShortcutItem existingShortcutItem = (ShortcutItem) existingItem;
                         if (existingShortcutItem.id.equalsIgnoreCase(shortcutItem.id)) {
                             BlissFrameLayout blissFrameLayout = prepareLauncherItem(shortcutItem);
-                            GridLayout.LayoutParams iconLayoutParams =
-                                    new GridLayout.LayoutParams();
+                            GridLayout.LayoutParams iconLayoutParams = new GridLayout.LayoutParams();
                             iconLayoutParams.height = mDeviceProfile.cellHeightPx;
                             iconLayoutParams.width = mDeviceProfile.cellWidthPx;
                             gridLayout.removeViewAt(j);
@@ -686,21 +671,17 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         for (int i = 0; i < mDock.getChildCount(); i++) {
-            BlissFrameLayout viewGroup =
-                    (BlissFrameLayout) mDock.getChildAt(i);
+            BlissFrameLayout viewGroup = (BlissFrameLayout) mDock.getChildAt(i);
             LauncherItem launcherItem = getAppDetails(viewGroup);
             if (launcherItem.itemType == Constants.ITEM_TYPE_FOLDER) {
                 FolderItem folderItem = (FolderItem) launcherItem;
                 for (int k = 0; k < folderItem.items.size(); k++) {
                     if (folderItem.items.get(k).itemType == Constants.ITEM_TYPE_SHORTCUT) {
                         ShortcutItem existingShortcutItem = (ShortcutItem) folderItem.items.get(k);
-                        if (existingShortcutItem.id.equalsIgnoreCase(
-                                shortcutItem.id)) {
+                        if (existingShortcutItem.id.equalsIgnoreCase(shortcutItem.id)) {
                             folderItem.items.set(k, shortcutItem);
-                            folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this,
-                                    folderItem);
-                            BlissFrameLayout blissFrameLayout = prepareLauncherItem(
-                                    launcherItem);
+                            folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this, folderItem);
+                            BlissFrameLayout blissFrameLayout = prepareLauncherItem(launcherItem);
                             mDock.removeViewAt(i);
                             addAppToDock(blissFrameLayout, i);
                             return;
@@ -724,22 +705,17 @@ public class LauncherActivity extends AppCompatActivity implements
         for (int i = 0; i < pages.size(); i++) {
             GridLayout gridLayout = pages.get(i);
             for (int j = 0; j < gridLayout.getChildCount(); j++) {
-                BlissFrameLayout viewGroup =
-                        (BlissFrameLayout) gridLayout.getChildAt(j);
+                BlissFrameLayout viewGroup = (BlissFrameLayout) gridLayout.getChildAt(j);
                 LauncherItem launcherItem = getAppDetails(viewGroup);
                 if (launcherItem.itemType == Constants.ITEM_TYPE_FOLDER) {
                     FolderItem folderItem = (FolderItem) launcherItem;
                     for (int k = 0; k < folderItem.items.size(); k++) {
                         if (folderItem.items.get(k).itemType == Constants.ITEM_TYPE_SHORTCUT) {
-                            ShortcutItem existingShortcutItem =
-                                    (ShortcutItem) folderItem.items.get(k);
-                            if (existingShortcutItem.id.equalsIgnoreCase(
-                                    shortcutItem.id)) {
+                            ShortcutItem existingShortcutItem = (ShortcutItem) folderItem.items.get(k);
+                            if (existingShortcutItem.id.equalsIgnoreCase(shortcutItem.id)) {
                                 folderItem.items.set(k, shortcutItem);
-                                folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this,
-                                        folderItem);
-                                BlissFrameLayout blissFrameLayout = prepareLauncherItem(
-                                        launcherItem);
+                                folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this, folderItem);
+                                BlissFrameLayout blissFrameLayout = prepareLauncherItem(launcherItem);
                                 gridLayout.removeViewAt(j);
                                 addAppToGrid(gridLayout, blissFrameLayout, j);
                                 moveTo = i + 1;
@@ -795,7 +771,8 @@ public class LauncherActivity extends AppCompatActivity implements
                 for (LauncherItem item : folderItem.items) {
                     if (item.itemType == Constants.ITEM_TYPE_APPLICATION) {
                         ApplicationItem applicationItem = (ApplicationItem) item;
-                        if (applicationItem.packageName.equalsIgnoreCase(packageName) && applicationItem.user.isSameUser(userHandle)) {
+                        if (applicationItem.packageName.equalsIgnoreCase(packageName)
+                                && applicationItem.user.isSameUser(userHandle)) {
                             folderItem.items.remove(applicationItem);
                         }
                     } else if (item.itemType == Constants.ITEM_TYPE_SHORTCUT) {
@@ -808,7 +785,8 @@ public class LauncherActivity extends AppCompatActivity implements
                 updateFolderInGrid(mDock, folderItem, j);
             } else if (appItem.itemType == Constants.ITEM_TYPE_APPLICATION) {
                 ApplicationItem applicationItem = (ApplicationItem) appItem;
-                if (applicationItem.packageName.equalsIgnoreCase(packageName) && applicationItem.user.isSameUser(userHandle)) {
+                if (applicationItem.packageName.equalsIgnoreCase(packageName)
+                        && applicationItem.user.isSameUser(userHandle)) {
                     mDock.removeViewAt(j);
                 }
             } else if (appItem.itemType == Constants.ITEM_TYPE_SHORTCUT) {
@@ -828,7 +806,8 @@ public class LauncherActivity extends AppCompatActivity implements
                     for (LauncherItem item : folderItem.items) {
                         if (item.itemType == Constants.ITEM_TYPE_APPLICATION) {
                             ApplicationItem applicationItem = (ApplicationItem) item;
-                            if (applicationItem.packageName.equalsIgnoreCase(packageName) && applicationItem.user.isSameUser(userHandle)) {
+                            if (applicationItem.packageName.equalsIgnoreCase(packageName)
+                                    && applicationItem.user.isSameUser(userHandle)) {
                                 folderItem.items.remove(applicationItem);
                             }
                         } else if (item.itemType == Constants.ITEM_TYPE_SHORTCUT) {
@@ -851,7 +830,8 @@ public class LauncherActivity extends AppCompatActivity implements
                     }
                 } else if (launcherItem.itemType == Constants.ITEM_TYPE_APPLICATION) {
                     ApplicationItem applicationItem = (ApplicationItem) launcherItem;
-                    if (applicationItem.packageName.equalsIgnoreCase(packageName) && applicationItem.user.isSameUser(userHandle)) {
+                    if (applicationItem.packageName.equalsIgnoreCase(packageName)
+                            && applicationItem.user.isSameUser(userHandle)) {
                         grid.removeViewAt(j);
                         if (grid.getChildCount() == 0) {
                             pages.remove(i);
@@ -885,8 +865,7 @@ public class LauncherActivity extends AppCompatActivity implements
     private void updateFolder() {
         mFolderAppsViewPager.getAdapter().notifyDataSetChanged();
         if (activeFolder.items.size() == 0) {
-            ((ViewGroup) activeFolderView.getParent()).removeView
-                    (activeFolderView);
+            ((ViewGroup) activeFolderView.getParent()).removeView(activeFolderView);
             hideFolderWindowContainer();
         } else {
             if (activeFolder.items.size() == 1) {
@@ -898,32 +877,25 @@ public class LauncherActivity extends AppCompatActivity implements
                 if (folderFromDock) {
                     addAppToDock(view, mDock.indexOfChild(activeFolderView));
                 } else {
-                    GridLayout gridLayout = pages.get
-                            (getCurrentAppsPageNumber());
-                    addAppToGrid(gridLayout, view,
-                            gridLayout.indexOfChild(activeFolderView));
+                    GridLayout gridLayout = pages.get(getCurrentAppsPageNumber());
+                    addAppToGrid(gridLayout, view, gridLayout.indexOfChild(activeFolderView));
                 }
 
-                ((ViewGroup) activeFolderView.getParent()).removeView(
-                        activeFolderView);
+                ((ViewGroup) activeFolderView.getParent()).removeView(activeFolderView);
                 hideFolderWindowContainer();
             } else {
                 updateIcon(activeFolderView, activeFolder,
-                        new GraphicsUtil(this).generateFolderIcon(this,
-                                activeFolder),
-                        folderFromDock);
+                        new GraphicsUtil(this).generateFolderIcon(this, activeFolder), folderFromDock);
                 hideFolderWindowContainer();
             }
         }
     }
 
-    private void updateFolderInGrid(GridLayout grid, FolderItem folderItem,
-                                    int folderIndex) {
+    private void updateFolderInGrid(GridLayout grid, FolderItem folderItem, int folderIndex) {
         if (folderItem.items.size() == 0) {
             grid.removeViewAt(folderIndex);
         } else {
-            folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this,
-                    folderItem);
+            folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this, folderItem);
             BlissFrameLayout blissFrameLayout = prepareLauncherItem(folderItem);
             grid.removeViewAt(folderIndex);
             if (grid instanceof DockGridLayout) {
@@ -946,16 +918,14 @@ public class LauncherActivity extends AppCompatActivity implements
             for (int i = 0; i < mFolderAppsViewPager.getChildCount(); i++) {
                 GridLayout gridLayout = (GridLayout) mFolderAppsViewPager.getChildAt(i);
                 for (int j = 0; j < gridLayout.getChildCount(); j++) {
-                    BlissFrameLayout viewGroup =
-                            (BlissFrameLayout) gridLayout.getChildAt(j);
-                    final LauncherItem existingItem =
-                            getAppDetails(viewGroup);
+                    BlissFrameLayout viewGroup = (BlissFrameLayout) gridLayout.getChildAt(j);
+                    final LauncherItem existingItem = getAppDetails(viewGroup);
                     if (existingItem.itemType == Constants.ITEM_TYPE_APPLICATION) {
                         ApplicationItem existingAppItem = (ApplicationItem) existingItem;
-                        if (existingAppItem.packageName.equalsIgnoreCase(packageName) && existingAppItem.user.isSameUser(userHandle)) {
+                        if (existingAppItem.packageName.equalsIgnoreCase(packageName)
+                                && existingAppItem.user.isSameUser(userHandle)) {
                             BlissFrameLayout blissFrameLayout = prepareLauncherItem(updatedAppItem);
-                            GridLayout.LayoutParams iconLayoutParams =
-                                    new GridLayout.LayoutParams();
+                            GridLayout.LayoutParams iconLayoutParams = new GridLayout.LayoutParams();
                             iconLayoutParams.height = mDeviceProfile.cellHeightPx;
                             iconLayoutParams.width = mDeviceProfile.cellWidthPx;
                             gridLayout.removeViewAt(j);
@@ -969,21 +939,18 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         for (int i = 0; i < mDock.getChildCount(); i++) {
-            BlissFrameLayout viewGroup =
-                    (BlissFrameLayout) mDock.getChildAt(i);
+            BlissFrameLayout viewGroup = (BlissFrameLayout) mDock.getChildAt(i);
             LauncherItem existingAppItem = getAppDetails(viewGroup);
             if (existingAppItem.itemType == Constants.ITEM_TYPE_FOLDER) {
                 FolderItem folderItem = (FolderItem) existingAppItem;
                 for (int k = 0; k < folderItem.items.size(); k++) {
                     if (folderItem.items.get(k).itemType == Constants.ITEM_TYPE_APPLICATION) {
                         ApplicationItem applicationItem = (ApplicationItem) folderItem.items.get(k);
-                        if (applicationItem.packageName.equalsIgnoreCase(
-                                packageName) && applicationItem.user.isSameUser(userHandle)) {
+                        if (applicationItem.packageName.equalsIgnoreCase(packageName)
+                                && applicationItem.user.isSameUser(userHandle)) {
                             folderItem.items.set(k, updatedAppItem);
-                            folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this,
-                                    folderItem);
-                            BlissFrameLayout blissFrameLayout = prepareLauncherItem(
-                                    existingAppItem);
+                            folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this, folderItem);
+                            BlissFrameLayout blissFrameLayout = prepareLauncherItem(existingAppItem);
                             mDock.removeViewAt(i);
                             addAppToDock(blissFrameLayout, i);
                             return;
@@ -1008,22 +975,18 @@ public class LauncherActivity extends AppCompatActivity implements
         for (int i = 0; i < pages.size(); i++) {
             GridLayout gridLayout = pages.get(i);
             for (int j = 0; j < gridLayout.getChildCount(); j++) {
-                BlissFrameLayout viewGroup =
-                        (BlissFrameLayout) gridLayout.getChildAt(j);
+                BlissFrameLayout viewGroup = (BlissFrameLayout) gridLayout.getChildAt(j);
                 LauncherItem existingAppItem = getAppDetails(viewGroup);
                 if (existingAppItem.itemType == Constants.ITEM_TYPE_FOLDER) {
                     FolderItem folderItem = (FolderItem) existingAppItem;
                     for (int k = 0; k < folderItem.items.size(); k++) {
                         if (folderItem.items.get(k).itemType == Constants.ITEM_TYPE_APPLICATION) {
-                            ApplicationItem applicationItem =
-                                    (ApplicationItem) folderItem.items.get(k);
-                            if (applicationItem.packageName.equalsIgnoreCase(
-                                    packageName) && applicationItem.user.isSameUser(userHandle)) {
+                            ApplicationItem applicationItem = (ApplicationItem) folderItem.items.get(k);
+                            if (applicationItem.packageName.equalsIgnoreCase(packageName)
+                                    && applicationItem.user.isSameUser(userHandle)) {
                                 folderItem.items.set(k, updatedAppItem);
-                                folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this,
-                                        folderItem);
-                                BlissFrameLayout blissFrameLayout = prepareLauncherItem(
-                                        existingAppItem);
+                                folderItem.icon = new GraphicsUtil(this).generateFolderIcon(this, folderItem);
+                                BlissFrameLayout blissFrameLayout = prepareLauncherItem(existingAppItem);
                                 gridLayout.removeViewAt(j);
                                 addAppToGrid(gridLayout, blissFrameLayout, j);
                                 moveTo = i + 1;
@@ -1072,27 +1035,26 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void createOrUpdateBadgeCount() {
-        getCompositeDisposable().add(
-                NotificationRepository.getNotificationRepository().getNotifications().subscribeWith(
-                        new DisposableObserver<Set<String>>() {
-                            @Override
-                            public void onNext(Set<String> packages) {
-                                mAppsWithNotifications = packages;
-                                updateBadges(mAppsWithNotifications);
-                            }
+        getCompositeDisposable().add(NotificationRepository.getNotificationRepository().getNotifications()
+                .subscribeWith(new DisposableObserver<Set<String>>() {
+                    @Override
+                    public void onNext(Set<String> packages) {
+                        mAppsWithNotifications = packages;
+                        updateBadges(mAppsWithNotifications);
+                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Toast.makeText(LauncherActivity.this, getString(R.string.toast_recreating_launcher),
-                                        Toast.LENGTH_SHORT).show();
-                                e.printStackTrace();
-                                recreate();
-                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(LauncherActivity.this, getString(R.string.toast_recreating_launcher),
+                                Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                        recreate();
+                    }
 
-                            @Override
-                            public void onComplete() {
-                            }
-                        }));
+                    @Override
+                    public void onComplete() {
+                    }
+                }));
     }
 
     private void updateBadges(Set<String> appsWithNotifications) {
@@ -1100,8 +1062,7 @@ public class LauncherActivity extends AppCompatActivity implements
             for (int i = 0; i < mFolderAppsViewPager.getChildCount(); i++) {
                 GridLayout gridLayout = (GridLayout) mFolderAppsViewPager.getChildAt(i);
                 for (int j = 0; j < gridLayout.getChildCount(); j++) {
-                    BlissFrameLayout viewGroup =
-                            (BlissFrameLayout) gridLayout.getChildAt(j);
+                    BlissFrameLayout viewGroup = (BlissFrameLayout) gridLayout.getChildAt(j);
                     final LauncherItem appItem = getAppDetails(viewGroup);
                     if (appItem.itemType != Constants.ITEM_TYPE_SHORTCUT) {
                         updateBadgeToApp(viewGroup, appItem, appsWithNotifications, true);
@@ -1112,8 +1073,7 @@ public class LauncherActivity extends AppCompatActivity implements
         for (int i = 0; i < pages.size(); i++) {
             GridLayout gridLayout = pages.get(i);
             for (int j = 0; j < gridLayout.getChildCount(); j++) {
-                BlissFrameLayout viewGroup =
-                        (BlissFrameLayout) gridLayout.getChildAt(j);
+                BlissFrameLayout viewGroup = (BlissFrameLayout) gridLayout.getChildAt(j);
                 final LauncherItem appItem = getAppDetails(viewGroup);
                 if (appItem.itemType != Constants.ITEM_TYPE_SHORTCUT) {
                     updateBadgeToApp(viewGroup, appItem, appsWithNotifications, true);
@@ -1122,8 +1082,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         for (int i = 0; i < mDock.getChildCount(); i++) {
-            BlissFrameLayout viewGroup =
-                    (BlissFrameLayout) mDock.getChildAt(i);
+            BlissFrameLayout viewGroup = (BlissFrameLayout) mDock.getChildAt(i);
             final LauncherItem appItem = getAppDetails(viewGroup);
             if (appItem.itemType != Constants.ITEM_TYPE_SHORTCUT) {
                 updateBadgeToApp(viewGroup, appItem, appsWithNotifications, false);
@@ -1131,12 +1090,11 @@ public class LauncherActivity extends AppCompatActivity implements
         }
     }
 
-    private void updateBadgeToApp(BlissFrameLayout viewGroup, LauncherItem appItem,
-                                  Set<String> appsWithNotifications, boolean withText) {
+    private void updateBadgeToApp(BlissFrameLayout viewGroup, LauncherItem appItem, Set<String> appsWithNotifications,
+            boolean withText) {
         if (appItem != null) {
             if (appItem.itemType == Constants.ITEM_TYPE_FOLDER) {
-                viewGroup.applyBadge(checkHasApp((FolderItem) appItem, appsWithNotifications),
-                        withText);
+                viewGroup.applyBadge(checkHasApp((FolderItem) appItem, appsWithNotifications), withText);
             } else {
                 ApplicationItem applicationItem = (ApplicationItem) appItem;
                 String pkgName = applicationItem.packageName;
@@ -1158,12 +1116,11 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     /**
-     * Adds a listener to the folder title.
-     * When clicked, the TextView transforms into an EditText.
-     * When the user changes the title and presses the DONE button,
-     * the EditText becomes a TextView again.
-     * This logic was necessary because on API 24, permanently having
-     * an EditText in the widgetsPage was breaking the drag/drop functionality.
+     * Adds a listener to the folder title. When clicked, the TextView transforms
+     * into an EditText. When the user changes the title and presses the DONE
+     * button, the EditText becomes a TextView again. This logic was necessary
+     * because on API 24, permanently having an EditText in the widgetsPage was
+     * breaking the drag/drop functionality.
      */
     private void createFolderTitleListener() {
         mFolderTitleInput.setOnFocusChangeListener((v, hasFocus) -> {
@@ -1183,15 +1140,13 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(
-                Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         assert inputMethodManager != null;
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public void showKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(
-                Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         assert inputMethodManager != null;
         inputMethodManager.showSoftInput(view, 0);
     }
@@ -1206,8 +1161,8 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     /**
-     * Adds a scroll listener to the mHorizontalPager in order to keep the currentPageNumber
-     * updated
+     * Adds a scroll listener to the mHorizontalPager in order to keep the
+     * currentPageNumber updated
      */
     private void createPageChangeListener() {
         mHorizontalPager.addOnScrollListener(new HorizontalPager.OnScrollListener() {
@@ -1216,8 +1171,10 @@ public class LauncherActivity extends AppCompatActivity implements
             @Override
             public void onScroll(int scrollX) {
                 float progress = (float) scrollX / mDeviceProfile.availableWidthPx;
-                if (progress >= 0.999) progress = 1;
-                if (progress <= 0.001) progress = 0;
+                if (progress >= 0.999)
+                    progress = 1;
+                if (progress <= 0.001)
+                    progress = 0;
                 int dockHeight = mDock.getHeight() + mIndicator.getHeight();
                 float dockTranslationY = (1 - progress) * dockHeight;
                 mDock.setTranslationY(dockTranslationY);
@@ -1245,8 +1202,7 @@ public class LauncherActivity extends AppCompatActivity implements
                     if (currentPageNumber == 0) {
                         refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
                         if (Preferences.weatherRefreshIntervalInMs(LauncherActivity.this) == 0) {
-                            Intent intent = new Intent(LauncherActivity.this,
-                                    WeatherUpdateService.class);
+                            Intent intent = new Intent(LauncherActivity.this, WeatherUpdateService.class);
                             intent.setAction(WeatherUpdateService.ACTION_FORCE_UPDATE);
                             startService(intent);
                         }
@@ -1280,12 +1236,9 @@ public class LauncherActivity extends AppCompatActivity implements
         openUsageAccessSettingsTv.setVisibility(GONE);
         suggestedAppsGridLayout.setVisibility(VISIBLE);
 
-        List<ApplicationItem> suggestedApps = usageStats.stream()
-                .map(UsageStats::getPackageName)
+        List<ApplicationItem> suggestedApps = usageStats.stream().map(UsageStats::getPackageName)
                 .map(packageName -> AppUtils.createAppItem(this, packageName, new UserHandle()))
-                .filter(Objects::nonNull)
-                .limit(4)
-                .collect(Collectors.toList());
+                .filter(Objects::nonNull).limit(4).collect(Collectors.toList());
 
         if (!forceRefresh && suggestedApps.equals(mSuggestedApps)) {
             // no changes, skip update
@@ -1293,8 +1246,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         suggestedAppsGridLayout.removeAllViews();
-        suggestedApps.stream()
-                .map(this::prepareSuggestedApp)
+        suggestedApps.stream().map(this::prepareSuggestedApp)
                 .forEach(view -> addAppToGrid(suggestedAppsGridLayout, view));
         mSuggestedApps = suggestedApps;
 
@@ -1305,8 +1257,7 @@ public class LauncherActivity extends AppCompatActivity implements
     /**
      * Populates the pages and the mDock for the first time.
      */
-    private void createUI(
-            List<LauncherItem> launcherItems) {
+    private void createUI(List<LauncherItem> launcherItems) {
         mHorizontalPager.setUiCreated(false);
         mDock.setEnabled(false);
 
@@ -1350,7 +1301,7 @@ public class LauncherActivity extends AppCompatActivity implements
         currentPageNumber = 0;
 
         mHorizontalPager.setUiCreated(true);
-        //DatabaseManager.getManager(this).saveLayouts(pages, mDock);
+        // DatabaseManager.getManager(this).saveLayouts(pages, mDock);
         mDock.setEnabled(true);
         setUpSwipeSearchContainer();
     }
@@ -1360,8 +1311,7 @@ public class LauncherActivity extends AppCompatActivity implements
         GridLayout grid = (GridLayout) getLayoutInflater().inflate(R.layout.apps_page, null);
         grid.setRowCount(mDeviceProfile.numRows);
         grid.setLayoutTransition(getDefaultLayoutTransition());
-        grid.setPadding(mDeviceProfile.iconDrawablePaddingPx / 2,
-                (int) (Utilities.pxFromDp(8, this)),
+        grid.setPadding(mDeviceProfile.iconDrawablePaddingPx / 2, (int) (Utilities.pxFromDp(8, this)),
                 mDeviceProfile.iconDrawablePaddingPx / 2, 0);
 
         // If a user taps outside (background / space) stop wobbling
@@ -1373,18 +1323,17 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void createWidgetsPage() {
-        widgetsPage = (InsettableFrameLayout) getLayoutInflater().inflate(R.layout.widgets_page,
-                mHorizontalPager, false);
+        widgetsPage = (InsettableFrameLayout) getLayoutInflater().inflate(R.layout.widgets_page, mHorizontalPager,
+                false);
         widgetContainer = widgetsPage.findViewById(R.id.widget_container);
-        /*widgetsPage.setPadding(0,
-                (int) (Utilities.pxFromDp(8, this)),
-                0, 0);*/
+        /*
+         * widgetsPage.setPadding(0, (int) (Utilities.pxFromDp(8, this)), 0, 0);
+         */
         mHorizontalPager.addView(widgetsPage, 0);
         widgetsPage.setOnDragListener(null);
         ScrollView scrollView = widgetsPage.findViewById(R.id.widgets_scroll_container);
         scrollView.setOnTouchListener((v, event) -> {
-            if (widgetsPage.findViewById(R.id.widget_resizer_container).getVisibility()
-                    == VISIBLE) {
+            if (widgetsPage.findViewById(R.id.widget_resizer_container).getVisibility() == VISIBLE) {
                 hideWidgetResizeContainer();
             }
             return false;
@@ -1396,14 +1345,12 @@ public class LauncherActivity extends AppCompatActivity implements
 
         // Prepare app suggestions view
         // [[BEGIN]]
-        widgetsPage.findViewById(R.id.openUsageAccessSettings).setOnClickListener(
-                view -> startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)));
+        widgetsPage.findViewById(R.id.openUsageAccessSettings)
+                .setOnClickListener(view -> startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)));
 
         // divided by 2 because of left and right padding.
-        int padding =
-                (int) (mDeviceProfile.availableWidthPx / 2 - Utilities.pxFromDp(8, this)
-                        - 2
-                        * mDeviceProfile.cellWidthPx);
+        int padding = (int) (mDeviceProfile.availableWidthPx / 2 - Utilities.pxFromDp(8, this)
+                - 2 * mDeviceProfile.cellWidthPx);
         widgetsPage.findViewById(R.id.suggestedAppGrid).setPadding(padding, 0, padding, 0);
         // [[END]]
 
@@ -1438,25 +1385,17 @@ public class LauncherActivity extends AppCompatActivity implements
         RecyclerView suggestionRecyclerView = widgetsPage.findViewById(R.id.suggestionRecyclerView);
         AutoCompleteAdapter suggestionAdapter = new AutoCompleteAdapter(this);
         suggestionRecyclerView.setHasFixedSize(true);
-        suggestionRecyclerView.setLayoutManager(
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         suggestionRecyclerView.setAdapter(suggestionAdapter);
-        getCompositeDisposable().add(RxTextView.textChanges(mSearchInput)
-                .debounce(300, TimeUnit.MILLISECONDS)
-                .map(CharSequence::toString)
-                .distinctUntilChanged()
-                .switchMap(charSequence -> {
+        getCompositeDisposable().add(RxTextView.textChanges(mSearchInput).debounce(300, TimeUnit.MILLISECONDS)
+                .map(CharSequence::toString).distinctUntilChanged().switchMap(charSequence -> {
                     if (charSequence != null && charSequence.length() > 0) {
                         return searchForQuery(charSequence);
                     } else {
-                        return Observable.just(
-                                new SuggestionsResult(charSequence));
+                        return Observable.just(new SuggestionsResult(charSequence));
                     }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(
-                        new SearchInputDisposableObserver(this, suggestionAdapter, widgetsPage)));
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new SearchInputDisposableObserver(this, suggestionAdapter, widgetsPage)));
 
         mSearchInput.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -1477,24 +1416,21 @@ public class LauncherActivity extends AppCompatActivity implements
         // [[END]]
 
         // Prepare edit widgets button
-        findViewById(R.id.edit_widgets_button).setOnClickListener(
-                view -> startActivity(new Intent(this, WidgetsActivity.class)));
+        findViewById(R.id.edit_widgets_button)
+                .setOnClickListener(view -> startActivity(new Intent(this, WidgetsActivity.class)));
 
         if (WeatherUtils.isWeatherServiceAvailable(this)) {
             startService(new Intent(this, WeatherSourceListenerService.class));
             startService(new Intent(this, DeviceStatusService.class));
         }
 
-
         if (!Preferences.useCustomWeatherLocation(this)) {
             if (!WeatherPreferences.hasLocationPermission(this)) {
                 String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-                requestPermissions(permissions,
-                        WeatherPreferences.LOCATION_PERMISSION_REQUEST_CODE);
+                requestPermissions(permissions, WeatherPreferences.LOCATION_PERMISSION_REQUEST_CODE);
             } else {
                 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-                        && Preferences.getEnableLocation(this)) {
+                if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER) && Preferences.getEnableLocation(this)) {
                     showLocationEnableDialog();
                     Preferences.setEnableLocation(this);
                 } else {
@@ -1503,30 +1439,30 @@ public class LauncherActivity extends AppCompatActivity implements
                 }
             }
         } else {
-            startService(new Intent(this, WeatherUpdateService.class)
-                    .setAction(WeatherUpdateService.ACTION_FORCE_UPDATE));
+            startService(
+                    new Intent(this, WeatherUpdateService.class).setAction(WeatherUpdateService.ACTION_FORCE_UPDATE));
         }
         // [[END]]
 
         int[] widgetIds = mAppWidgetHost.getAppWidgetIds();
         getCompositeDisposable().add(DatabaseManager.getManager(this).getWidgets(widgetIds)
                 .subscribeOn(Schedulers.from(AppExecutors.getInstance().diskIO()))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::bindWidgets));
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(this::bindWidgets));
     }
 
     private void bindWidgets(List<WidgetItem> widgets) {
         for (WidgetItem widget : widgets) {
             AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(widget.id);
-            if (appWidgetInfo == null) continue;
+            if (appWidgetInfo == null)
+                continue;
 
-            RoundedWidgetView hostView = (RoundedWidgetView) mAppWidgetHost.createView(
-                    getApplicationContext(), widget.id,
-                    appWidgetInfo);
+            RoundedWidgetView hostView = (RoundedWidgetView) mAppWidgetHost.createView(getApplicationContext(),
+                    widget.id, appWidgetInfo);
             hostView.setAppWidget(widget.id, appWidgetInfo);
 
             RoundedWidgetView widgetView = WidgetViewBuilder.create(this, hostView);
-            if (widgetView == null) continue;
+            if (widgetView == null)
+                continue;
             if (widget.height != 0) {
                 int minHeight = hostView.getAppWidgetInfo().minResizeHeight;
                 int maxHeight = mDeviceProfile.availableHeightPx * 3 / 4;
@@ -1539,10 +1475,9 @@ public class LauncherActivity extends AppCompatActivity implements
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+            @NonNull int[] grantResults) {
         if (requestCode == WeatherPreferences.LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We only get here if user tried to enable the preference,
                 // hence safe to turn it on after permission is granted
                 LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -1555,8 +1490,7 @@ public class LauncherActivity extends AppCompatActivity implements
                 }
             }
         } else if (requestCode == STORAGE_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 BlurWallpaperProvider.Companion.getInstance(getApplicationContext()).updateAsync();
             }
         }
@@ -1568,13 +1502,11 @@ public class LauncherActivity extends AppCompatActivity implements
         builder.setTitle(R.string.weather_retrieve_location_dialog_title);
         builder.setMessage(R.string.weather_retrieve_location_dialog_message);
         builder.setCancelable(false);
-        builder.setPositiveButton(R.string.weather_retrieve_location_dialog_enable_button,
-                (dialog1, whichButton) -> {
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    intent.setFlags(
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivityForResult(intent, REQUEST_LOCATION_SOURCE_SETTING);
-                });
+        builder.setPositiveButton(R.string.weather_retrieve_location_dialog_enable_button, (dialog1, whichButton) -> {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivityForResult(intent, REQUEST_LOCATION_SOURCE_SETTING);
+        });
         builder.setNegativeButton(R.string.cancel, null);
         enableLocationDialog = builder.create();
         enableLocationDialog.show();
@@ -1585,8 +1517,7 @@ public class LauncherActivity extends AppCompatActivity implements
         if (requestCode == REQUEST_LOCATION_SOURCE_SETTING) {
             LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                Toast.makeText(this, getString(R.string.toast_custom_location),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_custom_location), Toast.LENGTH_SHORT).show();
             } else {
                 startService(new Intent(this, WeatherUpdateService.class)
                         .setAction(WeatherUpdateService.ACTION_FORCE_UPDATE));
@@ -1596,20 +1527,16 @@ public class LauncherActivity extends AppCompatActivity implements
         }
     }
 
-    private ObservableSource<SuggestionsResult> searchForQuery(
-            CharSequence charSequence) {
-        Observable<SuggestionsResult> launcherItems = searchForLauncherItems(
-                charSequence.toString()).subscribeOn(Schedulers.io());
-        Observable<SuggestionsResult> networkItems = searchForNetworkItems(
-                charSequence).subscribeOn(Schedulers.io());
+    private ObservableSource<SuggestionsResult> searchForQuery(CharSequence charSequence) {
+        Observable<SuggestionsResult> launcherItems = searchForLauncherItems(charSequence.toString())
+                .subscribeOn(Schedulers.io());
+        Observable<SuggestionsResult> networkItems = searchForNetworkItems(charSequence).subscribeOn(Schedulers.io());
         return launcherItems.mergeWith(networkItems);
     }
 
-    private Observable<SuggestionsResult> searchForLauncherItems(
-            CharSequence charSequence) {
+    private Observable<SuggestionsResult> searchForLauncherItems(CharSequence charSequence) {
         String query = Utilities.stripCaseAndAccents(charSequence.toString());
-        SuggestionsResult suggestionsResult = new SuggestionsResult(
-                query);
+        SuggestionsResult suggestionsResult = new SuggestionsResult(query);
         List<LauncherItem> launcherItems = new ArrayList<>();
         pages.parallelStream().forEach(gridLayout -> {
             for (int i = 0; i < gridLayout.getChildCount(); i++) {
@@ -1643,26 +1570,23 @@ public class LauncherActivity extends AppCompatActivity implements
             }
         }
 
-        launcherItems.sort(Comparator.comparing(launcherItem ->
-                launcherItem.title.toString().toLowerCase().indexOf(query)
-        ));
+        launcherItems
+                .sort(Comparator.comparing(launcherItem -> launcherItem.title.toString().toLowerCase().indexOf(query)));
 
         if (launcherItems.size() > 4) {
             suggestionsResult.setLauncherItems(launcherItems.subList(0, 4));
         } else {
             suggestionsResult.setLauncherItems(launcherItems);
         }
-        return Observable.just(suggestionsResult)
-                .onErrorReturn(throwable -> {
-                    suggestionsResult.setLauncherItems(new ArrayList<>());
-                    return suggestionsResult;
-                });
+        return Observable.just(suggestionsResult).onErrorReturn(throwable -> {
+            suggestionsResult.setLauncherItems(new ArrayList<>());
+            return suggestionsResult;
+        });
     }
 
     private Observable<SuggestionsResult> searchForNetworkItems(CharSequence charSequence) {
         String query = charSequence.toString().toLowerCase(Locale.getDefault()).trim();
-        SuggestionProvider suggestionProvider = new SearchSuggestionUtil().getSuggestionProvider(
-                this);
+        SuggestionProvider suggestionProvider = new SearchSuggestionUtil().getSuggestionProvider(this);
         return suggestionProvider.query(query).toObservable();
     }
 
@@ -1675,8 +1599,7 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     private void runSearch(String query) {
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-                new SearchSuggestionUtil().getUriForQuery(this, query));
+        Intent intent = new Intent(Intent.ACTION_VIEW, new SearchSuggestionUtil().getUriForQuery(this, query));
         startActivity(intent);
     }
 
@@ -1697,18 +1620,17 @@ public class LauncherActivity extends AppCompatActivity implements
         view.findViewById(R.id.app_label).setVisibility(View.VISIBLE);
         view.setLayoutParams(iconLayoutParams);
         view.setWithText(true);
-        if (index == EMPTY_LOCATION_DRAG || index == LauncherItem.INVALID_CELL
-                || index > page.getChildCount()) {
+        if (index == EMPTY_LOCATION_DRAG || index == LauncherItem.INVALID_CELL || index > page.getChildCount()) {
             page.addView(view);
         } else {
             page.addView(view, index);
         }
-        //DatabaseManager.getManager(this).saveLayouts(pages, mDock);
+        // DatabaseManager.getManager(this).saveLayouts(pages, mDock);
     }
 
     /**
-     * Adds networkItems to the mDock making sure that the GridLayout's parameters are
-     * not violated.
+     * Adds networkItems to the mDock making sure that the GridLayout's parameters
+     * are not violated.
      */
     private void addAppToDock(BlissFrameLayout view, int index) {
         view.findViewById(R.id.app_label).setVisibility(GONE);
@@ -1720,8 +1642,7 @@ public class LauncherActivity extends AppCompatActivity implements
         iconLayoutParams.setGravity(Gravity.CENTER);
         view.setLayoutParams(iconLayoutParams);
         view.setWithText(false);
-        if (index == LauncherItem.INVALID_CELL || index == EMPTY_LOCATION_DRAG
-                || index > mDock.getChildCount()) {
+        if (index == LauncherItem.INVALID_CELL || index == EMPTY_LOCATION_DRAG || index > mDock.getChildCount()) {
             mDock.addView(view);
         } else {
             mDock.addView(view, index);
@@ -1729,16 +1650,14 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     /**
-     * Converts an AppItem into a View object that can be rendered inside
-     * the pages and the mDock.
+     * Converts an AppItem into a View object that can be rendered inside the pages
+     * and the mDock.
      * <p>
      * The View object also has all the required listeners attached to it.
      */
     @SuppressLint({"InflateParams", "ClickableViewAccessibility"})
     private BlissFrameLayout prepareLauncherItem(final LauncherItem launcherItem) {
-        final BlissFrameLayout iconView = (BlissFrameLayout) getLayoutInflater().inflate(
-                R.layout.app_view,
-                null);
+        final BlissFrameLayout iconView = (BlissFrameLayout) getLayoutInflater().inflate(R.layout.app_view, null);
         iconView.setLauncherItem(launcherItem);
         final SquareFrameLayout icon = iconView.findViewById(R.id.app_icon);
         if (launcherItem.itemType == Constants.ITEM_TYPE_FOLDER) {
@@ -1770,12 +1689,10 @@ public class LauncherActivity extends AppCompatActivity implements
                         iconPressedAt = System.currentTimeMillis();
                     }
                 } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
-                    if (longPressed || (!mLongClickStartsDrag
-                            && (System.currentTimeMillis() - iconPressedAt) > 150)) {
+                    if (longPressed || (!mLongClickStartsDrag && (System.currentTimeMillis() - iconPressedAt) > 150)) {
                         longPressed = false;
                         movingApp = iconView;
-                        dragShadowBuilder = new BlissDragShadowBuilder(
-                                icon, (event.getX() < 0 ? 0 : event.getX()),
+                        dragShadowBuilder = new BlissDragShadowBuilder(icon, (event.getX() < 0 ? 0 : event.getX()),
                                 (event.getY() < 0 ? 0 : event.getY()));
                         icon.startDragAndDrop(null, dragShadowBuilder, iconView, 0);
                         if (iconView.getParent().getParent() instanceof HorizontalPager) {
@@ -1818,15 +1735,12 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     public BlissFrameLayout prepareSuggestedApp(final LauncherItem launcherItem) {
-        final BlissFrameLayout v = (BlissFrameLayout) getLayoutInflater().inflate(
-                R.layout.app_view,
-                null);
+        final BlissFrameLayout v = (BlissFrameLayout) getLayoutInflater().inflate(R.layout.app_view, null);
         v.setLauncherItem(launcherItem);
         final SquareFrameLayout icon = v.findViewById(R.id.app_icon);
 
         if (launcherItem.itemType == Constants.ITEM_TYPE_APPLICATION) {
-            v.applyBadge(mAppsWithNotifications.contains(
-                    ((ApplicationItem) launcherItem).packageName), true);
+            v.applyBadge(mAppsWithNotifications.contains(((ApplicationItem) launcherItem).packageName), true);
         }
         icon.setOnClickListener(view -> startActivitySafely(this, launcherItem, view));
         return v;
@@ -1851,8 +1765,8 @@ public class LauncherActivity extends AppCompatActivity implements
                 if (user == null || user.equals(Process.myUserHandle())) {
                     context.startActivity(intent);
                 } else {
-                    ((LauncherApps) getSystemService(LAUNCHER_APPS_SERVICE))
-                            .startMainActivity(intent.getComponent(), user, intent.getSourceBounds(), null);
+                    ((LauncherApps) getSystemService(LAUNCHER_APPS_SERVICE)).startMainActivity(intent.getComponent(),
+                            user, intent.getSourceBounds(), null);
                 }
             }
         }
@@ -1866,16 +1780,14 @@ public class LauncherActivity extends AppCompatActivity implements
                 // Temporarily disable deathPenalty on all default checks. For eg, shortcuts
                 // containing file Uri's would cause a crash as penaltyDeathOnFileUriExposure
                 // is enabled by default on NYC.
-                StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll()
-                        .penaltyLog().build());
+                StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
 
                 if (appItem.itemType == Constants.ITEM_TYPE_SHORTCUT) {
                     if (Utilities.ATLEAST_OREO) {
                         String id = appItem.id;
                         String packageName = intent.getPackage();
-                        DeepShortcutManager.getInstance(context).startShortcut(
-                                packageName, id, intent.getSourceBounds(), null,
-                                Process.myUserHandle());
+                        DeepShortcutManager.getInstance(context).startShortcut(packageName, id,
+                                intent.getSourceBounds(), null, Process.myUserHandle());
                     } else {
                         context.startActivity(intent);
                     }
@@ -1891,12 +1803,9 @@ public class LauncherActivity extends AppCompatActivity implements
             // Due to legacy reasons, direct call shortcuts require Launchers to have the
             // corresponding permission. Show the appropriate permission prompt if that
             // is the case.
-            if (intent.getComponent() == null
-                    && Intent.ACTION_CALL.equals(intent.getAction())
-                    && context.checkSelfPermission(Manifest.permission.CALL_PHONE) !=
-                    PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CALL_PHONE},
-                        REQUEST_PERMISSION_CALL_PHONE);
+            if (intent.getComponent() == null && Intent.ACTION_CALL.equals(intent.getAction()) && context
+                    .checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PERMISSION_CALL_PHONE);
             } else {
                 // No idea why this was thrown.
                 throw e;
@@ -1943,20 +1852,17 @@ public class LauncherActivity extends AppCompatActivity implements
         }
     }
 
-    private void makeAppWobble(BlissFrameLayout blissFrameLayout, boolean shouldPlayAnimation,
-                               int i) {
+    private void makeAppWobble(BlissFrameLayout blissFrameLayout, boolean shouldPlayAnimation, int i) {
         UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
         Bundle restrictions = userManager.getUserRestrictions();
-        boolean uninstallDisabled = restrictions.getBoolean(UserManager.DISALLOW_APPS_CONTROL,
-                false)
+        boolean uninstallDisabled = restrictions.getBoolean(UserManager.DISALLOW_APPS_CONTROL, false)
                 || restrictions.getBoolean(UserManager.DISALLOW_UNINSTALL_APPS, false);
         if (shouldPlayAnimation) {
             if (blissFrameLayout.getAnimation() == null) {
                 ImageView imageView = blissFrameLayout.findViewById(R.id.uninstall_app);
                 if (imageView == null) {
                     if (!uninstallDisabled) {
-                        new Handler(Looper.getMainLooper()).post(
-                                () -> addUninstallIcon(blissFrameLayout));
+                        new Handler(Looper.getMainLooper()).post(() -> addUninstallIcon(blissFrameLayout));
                     }
                 }
 
@@ -1968,8 +1874,7 @@ public class LauncherActivity extends AppCompatActivity implements
             }
         } else {
             blissFrameLayout.clearAnimation();
-            new Handler(Looper.getMainLooper()).post(
-                    () -> removeUninstallIcon(blissFrameLayout));
+            new Handler(Looper.getMainLooper()).post(() -> removeUninstallIcon(blissFrameLayout));
         }
     }
 
@@ -2001,14 +1906,16 @@ public class LauncherActivity extends AppCompatActivity implements
         SquareFrameLayout appIcon = blissFrameLayout.findViewById(R.id.app_icon);
         int size = mDeviceProfile.uninstallIconSizePx;
         int topPadding = (appIcon.getTop() - mDeviceProfile.uninstallIconSizePx / 2
-                + mDeviceProfile.uninstallIconPadding > 0) ?
-                appIcon.getTop() - mDeviceProfile.uninstallIconSizePx / 2
-                        + mDeviceProfile.uninstallIconPadding : 0;
+                + mDeviceProfile.uninstallIconPadding > 0)
+                        ? appIcon.getTop() - mDeviceProfile.uninstallIconSizePx / 2
+                                + mDeviceProfile.uninstallIconPadding
+                        : 0;
         int bottomPadding = topPadding;
         int rightPadding = (appIcon.getLeft() - mDeviceProfile.uninstallIconSizePx / 2
-                + mDeviceProfile.uninstallIconPadding > 0) ?
-                appIcon.getLeft() - mDeviceProfile.uninstallIconSizePx / 2
-                        + mDeviceProfile.uninstallIconPadding : 0;
+                + mDeviceProfile.uninstallIconPadding > 0)
+                        ? appIcon.getLeft() - mDeviceProfile.uninstallIconSizePx / 2
+                                + mDeviceProfile.uninstallIconPadding
+                        : 0;
         int leftPadding = rightPadding;
 
         ImageView imageView = new ImageView(this);
@@ -2027,14 +1934,13 @@ public class LauncherActivity extends AppCompatActivity implements
                 } else {
                     Uri packageUri = Uri.fromParts("package", componentName.getPackageName(),
                             componentName.getClassName());
-                    Intent i = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri)
-                            .putExtra(Intent.EXTRA_USER, launcherItem.user.getRealHandle());
+                    Intent i = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri).putExtra(Intent.EXTRA_USER,
+                            launcherItem.user.getRealHandle());
                     startActivity(i);
                 }
             } else if (launcherItem.itemType == Constants.ITEM_TYPE_SHORTCUT) {
                 AlertDialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom))
-                        .setTitle(launcherItem.title)
-                        .setMessage(R.string.uninstall_shortcut_dialog)
+                        .setTitle(launcherItem.title).setMessage(R.string.uninstall_shortcut_dialog)
                         .setPositiveButton(R.string.ok, (dialog1, which) -> {
                             ShortcutItem shortcut = (ShortcutItem) launcherItem;
                             if (shortcut.packageName != null) {
@@ -2044,24 +1950,24 @@ public class LauncherActivity extends AppCompatActivity implements
                                     removeShortcutView(shortcut, blissFrameLayout);
                                 }
                             } else {
-                                // Null package name generally comes for nougat shortcuts so don't unpin here, just directly delete it.
+                                // Null package name generally comes for nougat shortcuts so don't unpin here,
+                                // just directly delete it.
                                 deleteShortcutFromProvider(shortcut.id);
                                 removeShortcutView(shortcut, blissFrameLayout);
                             }
 
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .setIcon(launcherItem.icon)
-                        .create();
+                        }).setNegativeButton(R.string.cancel, null).setIcon(launcherItem.icon).create();
                 dialog.setOnShowListener(arg0 -> {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_blue));
-                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.color_blue));
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setTextColor(getResources().getColor(R.color.color_blue));
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                            .setTextColor(getResources().getColor(R.color.color_blue));
                 });
                 dialog.show();
             }
         });
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                size + 2 * rightPadding, size + 2 * topPadding);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size + 2 * rightPadding,
+                size + 2 * topPadding);
         layoutParams.gravity = Gravity.END | Gravity.TOP;
         blissFrameLayout.addView(imageView, layoutParams);
     }
@@ -2080,8 +1986,7 @@ public class LauncherActivity extends AppCompatActivity implements
             blissFrameLayout.clearAnimation();
             ((ViewGroup) blissFrameLayout.getParent()).removeView(blissFrameLayout);
             if (activeFolder.items.size() == 0) {
-                ((ViewGroup) activeFolderView.getParent()).removeView
-                        (activeFolderView);
+                ((ViewGroup) activeFolderView.getParent()).removeView(activeFolderView);
                 hideFolderWindowContainer();
             } else if (activeFolder.items.size() == 1) {
                 LauncherItem item = activeFolder.items.get(0);
@@ -2092,19 +1997,15 @@ public class LauncherActivity extends AppCompatActivity implements
                 if (folderFromDock) {
                     addAppToDock(view, mDock.indexOfChild(activeFolderView));
                 } else {
-                    GridLayout gridLayout = pages.get
-                            (getCurrentAppsPageNumber());
-                    addAppToGrid(gridLayout, view,
-                            gridLayout.indexOfChild(activeFolderView));
+                    GridLayout gridLayout = pages.get(getCurrentAppsPageNumber());
+                    addAppToGrid(gridLayout, view, gridLayout.indexOfChild(activeFolderView));
                 }
                 activeFolderView.clearAnimation();
-                ((ViewGroup) activeFolderView.getParent()).removeView(
-                        activeFolderView);
+                ((ViewGroup) activeFolderView.getParent()).removeView(activeFolderView);
                 hideFolderWindowContainer();
             } else {
                 updateIcon(activeFolderView, activeFolder,
-                        new GraphicsUtil(this).generateFolderIcon(this, activeFolder),
-                        folderFromDock);
+                        new GraphicsUtil(this).generateFolderIcon(this, activeFolder), folderFromDock);
                 hideFolderWindowContainer();
             }
         } else {
@@ -2114,12 +2015,15 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     /**
-     * Creates drag listeners for the mDock and pages, which are responsible for almost
-     * all the drag and drop functionality present in this app.
+     * Creates drag listeners for the mDock and pages, which are responsible for
+     * almost all the drag and drop functionality present in this app.
      */
     private void createDragListener() {
-        /*mHorizontalPager.setOnDragListener(new SystemDragDriver(workspaceEventListener));
-        mDock.setOnDragListener(new SystemDragDriver(dockEventListener));*/
+        /*
+         * mHorizontalPager.setOnDragListener(new
+         * SystemDragDriver(workspaceEventListener)); mDock.setOnDragListener(new
+         * SystemDragDriver(dockEventListener));
+         */
         mDock.setOnDragListener(new View.OnDragListener() {
             public float cX;
             public float cY;
@@ -2162,13 +2066,11 @@ public class LauncherActivity extends AppCompatActivity implements
                     if (index == EMPTY_LOCATION_DRAG) {
                         discardCollidingApp();
                     } else {
-                        BlissFrameLayout latestCollidingApp =
-                                (BlissFrameLayout) mDock.getChildAt(index);
+                        BlissFrameLayout latestCollidingApp = (BlissFrameLayout) mDock.getChildAt(index);
                         if (collidingApp != latestCollidingApp) {
                             if (collidingApp != null) {
                                 makeAppCold(collidingApp,
-                                        !(collidingApp.getParent().getParent() instanceof
-                                                HorizontalPager));
+                                        !(collidingApp.getParent().getParent() instanceof HorizontalPager));
                             }
                             collidingApp = latestCollidingApp;
                             folderInterest = false;
@@ -2188,15 +2090,13 @@ public class LauncherActivity extends AppCompatActivity implements
                                 makeAppHot(collidingApp);
                             } else {
                                 View app = collidingApp;
-                                makeAppCold(app,
-                                        !(app.getParent().getParent() instanceof HorizontalPager));
+                                makeAppCold(app, !(app.getParent().getParent() instanceof HorizontalPager));
                             }
                         }
                     }
 
                     if (!folderInterest && !mDockReorderAlarm.alarmPending()) {
-                        DockReorderAlarmListener dockReorderAlarmListener =
-                                new DockReorderAlarmListener(index);
+                        DockReorderAlarmListener dockReorderAlarmListener = new DockReorderAlarmListener(index);
                         mDockReorderAlarm.setOnAlarmListener(dockReorderAlarmListener);
                         mDockReorderAlarm.setAlarm(REORDER_TIMEOUT);
                     }
@@ -2210,8 +2110,7 @@ public class LauncherActivity extends AppCompatActivity implements
                         if (!folderInterest) {
                             if (movingApp.getParent() == null) {
                                 if (mDock.getChildCount() >= mDeviceProfile.numColumns) {
-                                    Toast.makeText(LauncherActivity.this,
-                                            getString(R.string.toast_dock_full),
+                                    Toast.makeText(LauncherActivity.this, getString(R.string.toast_dock_full),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     addAppToDock(movingApp, EMPTY_LOCATION_DRAG);
@@ -2238,15 +2137,13 @@ public class LauncherActivity extends AppCompatActivity implements
                         int right = left + mFolderAppsViewPager.getWidth();
                         int bottom = top + mFolderAppsViewPager.getHeight();
 
-                        if (!(left < right && top < bottom && cX >= left
-                                && cX < right && cY >= top && cY < bottom)) {
+                        if (!(left < right && top < bottom && cX >= left && cX < right && cY >= top && cY < bottom)) {
                             removeAppFromFolder();
                         } else {
                             movingApp.setVisibility(View.VISIBLE);
                             int currentItem = mFolderAppsViewPager.getCurrentItem();
-                            makeAppWobble(movingApp, true,
-                                    ((GridLayout) mFolderAppsViewPager.getChildAt(
-                                            currentItem)).indexOfChild(movingApp));
+                            makeAppWobble(movingApp, true, ((GridLayout) mFolderAppsViewPager.getChildAt(currentItem))
+                                    .indexOfChild(movingApp));
                         }
                     }
                     return true;
@@ -2270,8 +2167,7 @@ public class LauncherActivity extends AppCompatActivity implements
                     }
                 } else if (dragEvent.getAction() == DragEvent.ACTION_DRAG_LOCATION) {
                     cX = dragEvent.getX() - dragShadowBuilder.xOffset;
-                    cY = mHorizontalPager.getY() + dragEvent.getY()
-                            - dragShadowBuilder.yOffset;
+                    cY = mHorizontalPager.getY() + dragEvent.getY() - dragShadowBuilder.yOffset;
 
                     // Don't offer rearrange functionality when app is being dragged
                     // out of folder window
@@ -2297,11 +2193,8 @@ public class LauncherActivity extends AppCompatActivity implements
                             ImageView dot = new ImageView(LauncherActivity.this);
                             dot.setImageDrawable(getDrawable(R.drawable.dot_off));
                             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                    getResources().getDimensionPixelSize(
-                                            R.dimen.dotSize),
-                                    getResources().getDimensionPixelSize(
-                                            R.dimen.dotSize)
-                            );
+                                    getResources().getDimensionPixelSize(R.dimen.dotSize),
+                                    getResources().getDimensionPixelSize(R.dimen.dotSize));
                             dot.setLayoutParams(params);
                             mIndicator.addView(dot);
                             mHorizontalPager.addView(layout);
@@ -2313,8 +2206,7 @@ public class LauncherActivity extends AppCompatActivity implements
                         if (getCurrentAppsPageNumber() - 1 >= 0) {
                             mHorizontalPager.scrollLeft(300);
                         } else if (getCurrentAppsPageNumber() + 1 == pages.size() - 2
-                                && getGridFromPage(pages.get(pages.size() - 1)).getChildCount()
-                                <= 0) {
+                                && getGridFromPage(pages.get(pages.size() - 1)).getChildCount() <= 0) {
                             mIndicator.removeViewAt(pages.size());
                             mHorizontalPager.removeViewAt(pages.size());
                             pages.remove(pages.size() - 1);
@@ -2336,8 +2228,7 @@ public class LauncherActivity extends AppCompatActivity implements
                             if (collidingApp != latestCollidingApp) {
                                 if (collidingApp != null) {
                                     makeAppCold(collidingApp,
-                                            !(collidingApp.getParent().getParent() instanceof
-                                                    HorizontalPager));
+                                            !(collidingApp.getParent().getParent() instanceof HorizontalPager));
                                 }
                                 collidingApp = (BlissFrameLayout) latestCollidingApp;
                                 folderInterest = false;
@@ -2347,8 +2238,7 @@ public class LauncherActivity extends AppCompatActivity implements
                                 folderInterest = false;
                             } else {
                                 latestFolderInterest = checkIfFolderInterest(
-                                        getGridFromPage(pages.get(getCurrentAppsPageNumber())),
-                                        index, cX, cY);
+                                        getGridFromPage(pages.get(getCurrentAppsPageNumber())), index, cX, cY);
 
                                 if (latestFolderInterest != folderInterest) {
                                     folderInterest = latestFolderInterest;
@@ -2359,15 +2249,14 @@ public class LauncherActivity extends AppCompatActivity implements
                                     makeAppHot(collidingApp);
                                 } else {
                                     makeAppCold(collidingApp,
-                                            !(collidingApp.getParent().getParent() instanceof
-                                                    HorizontalPager));
+                                            !(collidingApp.getParent().getParent() instanceof HorizontalPager));
                                 }
                             }
                         }
 
                         if (!folderInterest && !mReorderAlarm.alarmPending()) {
-                            ReorderAlarmListener reorderAlarmListener = new ReorderAlarmListener(
-                                    page, (ViewGroup) movingApp.getParent(), index);
+                            ReorderAlarmListener reorderAlarmListener = new ReorderAlarmListener(page,
+                                    (ViewGroup) movingApp.getParent(), index);
                             mReorderAlarm.setOnAlarmListener(reorderAlarmListener);
                             mReorderAlarm.setAlarm(REORDER_TIMEOUT);
                         }
@@ -2381,8 +2270,7 @@ public class LauncherActivity extends AppCompatActivity implements
                         GridLayout gridLayout = pages.get(getCurrentAppsPageNumber());
                         if (!folderInterest) {
                             if (movingApp.getParent() == null) {
-                                if (gridLayout.getChildCount()
-                                        < mDeviceProfile.maxAppsPerPage) {
+                                if (gridLayout.getChildCount() < mDeviceProfile.maxAppsPerPage) {
                                     addAppToGrid(gridLayout, movingApp);
                                 }
                             }
@@ -2399,8 +2287,7 @@ public class LauncherActivity extends AppCompatActivity implements
                         }
                     } else {
                         cX = dragEvent.getX() - dragShadowBuilder.xOffset;
-                        cY = mHorizontalPager.getY() + dragEvent.getY()
-                                - dragShadowBuilder.yOffset;
+                        cY = mHorizontalPager.getY() + dragEvent.getY() - dragShadowBuilder.yOffset;
 
                         // Drop functionality when the folder window is visible
                         int[] topLeftCorner = new int[2];
@@ -2410,17 +2297,14 @@ public class LauncherActivity extends AppCompatActivity implements
                         int right = left + mFolderAppsViewPager.getWidth();
                         int bottom = top + mFolderAppsViewPager.getHeight();
 
-                        if (!(left < right && top < bottom && cX >= left
-                                && cX < right && cY >= top && cY < bottom)) {
+                        if (!(left < right && top < bottom && cX >= left && cX < right && cY >= top && cY < bottom)) {
                             removeAppFromFolder();
                         } else {
                             movingApp.setVisibility(View.VISIBLE);
                             int currentItem = mFolderAppsViewPager.getCurrentItem();
-                            GridLayout gridLayout = (GridLayout) mFolderAppsViewPager.getChildAt(
-                                    currentItem);
+                            GridLayout gridLayout = (GridLayout) mFolderAppsViewPager.getChildAt(currentItem);
                             if (gridLayout != null) {
-                                makeAppWobble(movingApp, true,
-                                        gridLayout.indexOfChild(movingApp));
+                                makeAppWobble(movingApp, true, gridLayout.indexOfChild(movingApp));
                             }
                         }
                     }
@@ -2435,13 +2319,11 @@ public class LauncherActivity extends AppCompatActivity implements
                     if (!dragEvent.getResult()) {
                         if (mFolderWindowContainer.getVisibility() == View.VISIBLE) {
                             int currentItem = mFolderAppsViewPager.getCurrentItem();
-                            makeAppWobble(movingApp, true,
-                                    ((GridLayout) mFolderAppsViewPager.getChildAt(
-                                            currentItem)).indexOfChild(movingApp));
+                            makeAppWobble(movingApp, true, ((GridLayout) mFolderAppsViewPager.getChildAt(currentItem))
+                                    .indexOfChild(movingApp));
                         } else if (movingApp.getParent().getParent() instanceof HorizontalPager) {
                             GridLayout gridLayout = pages.get(getCurrentAppsPageNumber());
-                            makeAppWobble(movingApp, true,
-                                    gridLayout.indexOfChild(movingApp));
+                            makeAppWobble(movingApp, true, gridLayout.indexOfChild(movingApp));
                         } else {
                             makeAppWobble(movingApp, true, mDock.indexOfChild(movingApp));
                         }
@@ -2505,21 +2387,18 @@ public class LauncherActivity extends AppCompatActivity implements
      * Remove app from the folder by dragging out of the folder view.
      */
     private void removeAppFromFolder() {
-        if (pages.get(getCurrentAppsPageNumber()).getChildCount()
-                >= mDeviceProfile.maxAppsPerPage) {
+        if (pages.get(getCurrentAppsPageNumber()).getChildCount() >= mDeviceProfile.maxAppsPerPage) {
             Toast.makeText(this, getString(R.string.toast_no_room), Toast.LENGTH_SHORT).show();
             movingApp.setVisibility(View.VISIBLE);
             int currentItem = mFolderAppsViewPager.getCurrentItem();
             makeAppWobble(movingApp, true,
-                    ((GridLayout) mFolderAppsViewPager.getChildAt(
-                            currentItem)).indexOfChild(movingApp));
+                    ((GridLayout) mFolderAppsViewPager.getChildAt(currentItem)).indexOfChild(movingApp));
         } else {
             LauncherItem app = getAppDetails(movingApp);
             activeFolder.items.remove(app);
             mFolderAppsViewPager.getAdapter().notifyDataSetChanged();
             assert app != null;
-            app.container =
-                    folderFromDock ? Constants.CONTAINER_HOTSEAT : Constants.CONTAINER_DESKTOP;
+            app.container = folderFromDock ? Constants.CONTAINER_HOTSEAT : Constants.CONTAINER_DESKTOP;
             app.screenId = folderFromDock ? -1 : currentPageNumber;
 
             if (activeFolder.items.size() == 0) {
@@ -2545,9 +2424,7 @@ public class LauncherActivity extends AppCompatActivity implements
                     LauncherItem item = activeFolder.items.get(0);
                     activeFolder.items.remove(item);
                     mFolderAppsViewPager.getAdapter().notifyDataSetChanged();
-                    item.container =
-                            folderFromDock ? Constants.CONTAINER_HOTSEAT
-                                    : Constants.CONTAINER_DESKTOP;
+                    item.container = folderFromDock ? Constants.CONTAINER_HOTSEAT : Constants.CONTAINER_DESKTOP;
                     item.screenId = folderFromDock ? -1 : currentPageNumber;
                     BlissFrameLayout view = prepareLauncherItem(item);
                     if (folderFromDock) {
@@ -2569,10 +2446,8 @@ public class LauncherActivity extends AppCompatActivity implements
                     DatabaseManager.getManager(this).removeLauncherItem(activeFolder.id);
                 } else {
                     updateIcon(activeFolderView, activeFolder,
-                            new GraphicsUtil(this).generateFolderIcon(this, activeFolder),
-                            folderFromDock);
-                    activeFolderView.applyBadge(checkHasApp(activeFolder, mAppsWithNotifications),
-                            !folderFromDock);
+                            new GraphicsUtil(this).generateFolderIcon(this, activeFolder), folderFromDock);
+                    activeFolderView.applyBadge(checkHasApp(activeFolder, mAppsWithNotifications), !folderFromDock);
                 }
                 if (movingApp.getParent() != null) {
                     ((ViewGroup) movingApp.getParent()).removeView(movingApp);
@@ -2589,20 +2464,20 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     /**
-     * Returns an app to normal if the user doesn't express move/folder-creation interests.
+     * Returns an app to normal if the user doesn't express move/folder-creation
+     * interests.
      */
     private void discardCollidingApp() {
         if (collidingApp != null) {
-            makeAppCold(collidingApp,
-                    !(collidingApp.getParent().getParent() instanceof HorizontalPager));
+            makeAppCold(collidingApp, !(collidingApp.getParent().getParent() instanceof HorizontalPager));
             collidingApp = null;
             folderInterest = false;
         }
     }
 
     /**
-     * Creates/updates a folder using the tags associated with the app being dragged,
-     * and the target app.
+     * Creates/updates a folder using the tags associated with the app being
+     * dragged, and the target app.
      */
     private void createOrUpdateFolder(boolean fromDock) {
         int index;
@@ -2612,8 +2487,7 @@ public class LauncherActivity extends AppCompatActivity implements
         if (fromDock) {
             index = mDock.indexOfChild(collidingApp);
         } else {
-            index = getGridFromPage(pages.get(getCurrentAppsPageNumber())).indexOfChild(
-                    collidingApp);
+            index = getGridFromPage(pages.get(getCurrentAppsPageNumber())).indexOfChild(collidingApp);
         }
 
         LauncherItem app1 = getAppDetails(collidingApp);
@@ -2625,12 +2499,9 @@ public class LauncherActivity extends AppCompatActivity implements
             app2.screenId = -1;
             app2.cell = folderItem.items.size();
             folderItem.items.add(app2);
-            updateIcon(collidingApp, app1,
-                    new GraphicsUtil(this).generateFolderIcon(this, folderItem),
-                    folderFromDock);
+            updateIcon(collidingApp, app1, new GraphicsUtil(this).generateFolderIcon(this, folderItem), folderFromDock);
             collidingApp.applyBadge(checkHasApp(folderItem, mAppsWithNotifications), !fromDock);
-            makeAppWobble(collidingApp, true,
-                    index);
+            makeAppWobble(collidingApp, true, index);
         } else {
             FolderItem folder = new FolderItem();
             folder.title = getString(R.string.untitled);
@@ -2644,8 +2515,7 @@ public class LauncherActivity extends AppCompatActivity implements
             folder.items.add(app1);
             app2.cell = folder.items.size();
             folder.items.add(app2);
-            Drawable folderIcon = new GraphicsUtil(this).generateFolderIcon(this,
-                    app1.icon, app2.icon);
+            Drawable folderIcon = new GraphicsUtil(this).generateFolderIcon(this, app1.icon, app2.icon);
             folder.icon = folderIcon;
             BlissFrameLayout folderView = prepareLauncherItem(folder);
             makeAppWobble(collidingApp, false, index);
@@ -2665,16 +2535,16 @@ public class LauncherActivity extends AppCompatActivity implements
         makeAppCold(collidingApp, fromDock);
         makeAppCold(movingApp, fromDock);
 
-        //DatabaseManager.getManager(LauncherActivity.this).saveLayouts(pages, mDock);
+        // DatabaseManager.getManager(LauncherActivity.this).saveLayouts(pages, mDock);
     }
 
-    private void updateIcon(BlissFrameLayout appView, LauncherItem app, Drawable drawable,
-                            boolean folderFromDock) {
+    private void updateIcon(BlissFrameLayout appView, LauncherItem app, Drawable drawable, boolean folderFromDock) {
         app.icon = drawable;
         List<Object> tags = (List<Object>) appView.getTag();
         SquareImageView iv = (SquareImageView) tags.get(0);
         iv.setImageDrawable(drawable);
-        //appView.applyBadge(checkHasApp(app, mAppsWithNotifications), !folderFromDock);
+        // appView.applyBadge(checkHasApp(app, mAppsWithNotifications),
+        // !folderFromDock);
     }
 
     /**
@@ -2718,8 +2588,8 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     /**
-     * Checks if the user wants to create a folder based on the distance
-     * between the dragged app and the dragged-over app
+     * Checks if the user wants to create a folder based on the distance between the
+     * dragged app and the dragged-over app
      */
     private boolean checkIfFolderInterest(ViewGroup view, int index, float x, float y) {
         View v = view.getChildAt(index).findViewById(R.id.app_icon);
@@ -2749,15 +2619,12 @@ public class LauncherActivity extends AppCompatActivity implements
         float minDistance = Float.MAX_VALUE;
         int index = EMPTY_LOCATION_DRAG;
 
-
         for (int i = 0; i < page.getChildCount(); i++) {
             View v = page.getChildAt(i).findViewById(R.id.app_icon);
             Rect r = new Rect();
             v.getGlobalVisibleRect(r);
-            Rect r2 = new Rect((int) (x - mDeviceProfile.iconSizePx / 2),
-                    (int) (y - mDeviceProfile.iconSizePx / 2),
-                    (int) (x + mDeviceProfile.iconSizePx / 2),
-                    (int) (y + mDeviceProfile.iconSizePx / 2));
+            Rect r2 = new Rect((int) (x - mDeviceProfile.iconSizePx / 2), (int) (y - mDeviceProfile.iconSizePx / 2),
+                    (int) (x + mDeviceProfile.iconSizePx / 2), (int) (y + mDeviceProfile.iconSizePx / 2));
             if (Rect.intersects(r, r2)) {
                 float vx = r.left + (float) (r.right - r.left) / 2;
                 float vy = r.top + (float) (r.bottom - r.top) / 2;
@@ -2782,14 +2649,12 @@ public class LauncherActivity extends AppCompatActivity implements
         transition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0);
         transition.addTransitionListener(new LayoutTransition.TransitionListener() {
             @Override
-            public void startTransition(LayoutTransition layoutTransition,
-                                        ViewGroup viewGroup, View view, int i) {
+            public void startTransition(LayoutTransition layoutTransition, ViewGroup viewGroup, View view, int i) {
                 dragDropEnabled = false;
             }
 
             @Override
-            public void endTransition(LayoutTransition layoutTransition,
-                                      ViewGroup viewGroup, View view, int i) {
+            public void endTransition(LayoutTransition layoutTransition, ViewGroup viewGroup, View view, int i) {
                 dragDropEnabled = true;
             }
         });
@@ -2804,8 +2669,8 @@ public class LauncherActivity extends AppCompatActivity implements
             mIndicator.removeAllViews();
         }
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                mDeviceProfile.pageIndicatorSizePx, mDeviceProfile.pageIndicatorSizePx);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDeviceProfile.pageIndicatorSizePx,
+                mDeviceProfile.pageIndicatorSizePx);
 
         for (int i = 0; i < pages.size() + 1; i++) {
             ImageView dot = new ImageView(this);
@@ -2818,12 +2683,10 @@ public class LauncherActivity extends AppCompatActivity implements
 
     private void updateIndicator() {
         if (mIndicator.getChildAt(activeDot) != null) {
-            ((ImageView) mIndicator.getChildAt(activeDot)).setImageResource(
-                    R.drawable.dot_off);
+            ((ImageView) mIndicator.getChildAt(activeDot)).setImageResource(R.drawable.dot_off);
         }
         if (mIndicator.getChildAt(currentPageNumber) != null) {
-            ((ImageView) mIndicator.getChildAt(currentPageNumber)).setImageResource(
-                    R.drawable.dot_on);
+            ((ImageView) mIndicator.getChildAt(currentPageNumber)).setImageResource(R.drawable.dot_on);
             activeDot = currentPageNumber;
         }
     }
@@ -2856,14 +2719,12 @@ public class LauncherActivity extends AppCompatActivity implements
         // bounds, since that's the origin for the positioning animation
         // properties (X, Y).
         v.getGlobalVisibleRect(startBounds);
-        findViewById(R.id.workspace)
-                .getGlobalVisibleRect(finalBounds, globalOffset);
+        findViewById(R.id.workspace).getGlobalVisibleRect(finalBounds, globalOffset);
         startBounds.offset(-globalOffset.x, -globalOffset.y);
         finalBounds.offset(-globalOffset.x, -globalOffset.y);
 
         float startScale;
-        if ((float) finalBounds.width() / finalBounds.height()
-                > (float) startBounds.width() / startBounds.height()) {
+        if ((float) finalBounds.width() / finalBounds.height() > (float) startBounds.width() / startBounds.height()) {
             // Extend start bounds horizontally
             startScale = (float) startBounds.height() / finalBounds.height();
             float startWidth = startScale * finalBounds.width();
@@ -2882,17 +2743,16 @@ public class LauncherActivity extends AppCompatActivity implements
         // Construct and run the parallel animation of the four translation and
         // scale properties (X, Y, SCALE_X, and SCALE_Y).
         AnimatorSet set = new AnimatorSet();
-        /*ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 18);
-        valueAnimator.addUpdateListener(animation ->
-                BlurWallpaperProvider.getInstance(this).blur((Integer) animation.getAnimatedValue()));*/
-        set.play(ObjectAnimator.ofFloat(mFolderWindowContainer, View.X,
-                startBounds.left, finalBounds.left))
-                .with(ObjectAnimator.ofFloat(mFolderWindowContainer, View.Y,
-                        startBounds.top, finalBounds.top))
-                .with(ObjectAnimator.ofFloat(mFolderWindowContainer, View.SCALE_X,
-                        startScale, 1f))
-                .with(ObjectAnimator.ofFloat(mFolderWindowContainer,
-                        View.SCALE_Y, startScale, 1f))
+        /*
+         * ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 18);
+         * valueAnimator.addUpdateListener(animation ->
+         * BlurWallpaperProvider.getInstance(this).blur((Integer)
+         * animation.getAnimatedValue()));
+         */
+        set.play(ObjectAnimator.ofFloat(mFolderWindowContainer, View.X, startBounds.left, finalBounds.left))
+                .with(ObjectAnimator.ofFloat(mFolderWindowContainer, View.Y, startBounds.top, finalBounds.top))
+                .with(ObjectAnimator.ofFloat(mFolderWindowContainer, View.SCALE_X, startScale, 1f))
+                .with(ObjectAnimator.ofFloat(mFolderWindowContainer, View.SCALE_Y, startScale, 1f))
                 .with(ObjectAnimator.ofFloat(blurLayer, View.ALPHA, 1f))
                 .with(ObjectAnimator.ofFloat(mHorizontalPager, View.ALPHA, 0f))
                 .with(ObjectAnimator.ofFloat(mIndicator, View.ALPHA, 0f))
@@ -2910,7 +2770,7 @@ public class LauncherActivity extends AppCompatActivity implements
                 // is the center of the view).
                 mFolderWindowContainer.setPivotX(0f);
                 mFolderWindowContainer.setPivotY(0f);
-                //BlurWallpaperProvider.getInstance(LauncherActivity.this).clear();
+                // BlurWallpaperProvider.getInstance(LauncherActivity.this).clear();
             }
 
             @Override
@@ -2940,12 +2800,11 @@ public class LauncherActivity extends AppCompatActivity implements
         mFolderTitleInput.setCursorVisible(false);
 
         mFolderAppsViewPager.setAdapter(new FolderAppsPagerAdapter(this, app.items));
-        mFolderAppsViewPager.getLayoutParams().width =
-                mDeviceProfile.cellWidthPx * 3 + mDeviceProfile.iconDrawablePaddingPx;
-        mFolderAppsViewPager.getLayoutParams().height =
-                mDeviceProfile.cellHeightPx * 3 + mDeviceProfile.iconDrawablePaddingPx;
-        ((CircleIndicator) mLauncherView.findViewById(R.id.indicator)).setViewPager(
-                mFolderAppsViewPager);
+        mFolderAppsViewPager.getLayoutParams().width = mDeviceProfile.cellWidthPx * 3
+                + mDeviceProfile.iconDrawablePaddingPx;
+        mFolderAppsViewPager.getLayoutParams().height = mDeviceProfile.cellHeightPx * 3
+                + mDeviceProfile.iconDrawablePaddingPx;
+        ((CircleIndicator) mLauncherView.findViewById(R.id.indicator)).setViewPager(mFolderAppsViewPager);
 
     }
 
@@ -2972,25 +2831,21 @@ public class LauncherActivity extends AppCompatActivity implements
         // Animate the four positioning/sizing properties in parallel,
         // back to their original values.
         AnimatorSet set = new AnimatorSet();
-        /*ValueAnimator valueAnimator = ValueAnimator.ofInt(18, 0);
-        valueAnimator.addUpdateListener(animation ->
-                BlurWallpaperProvider.getInstance(this).blurWithLauncherView(mergedView, (Integer) animation.getAnimatedValue()));*/
-        set.play(ObjectAnimator
-                .ofFloat(mFolderWindowContainer, View.X, startBounds.left))
-                .with(ObjectAnimator
-                        .ofFloat(mFolderWindowContainer,
-                                View.Y, startBounds.top))
-                .with(ObjectAnimator
-                        .ofFloat(mFolderWindowContainer,
-                                View.SCALE_X, startScaleFinal))
-                .with(ObjectAnimator
-                        .ofFloat(mFolderWindowContainer,
-                                View.SCALE_Y, startScaleFinal))
+        /*
+         * ValueAnimator valueAnimator = ValueAnimator.ofInt(18, 0);
+         * valueAnimator.addUpdateListener(animation ->
+         * BlurWallpaperProvider.getInstance(this).blurWithLauncherView(mergedView,
+         * (Integer) animation.getAnimatedValue()));
+         */
+        set.play(ObjectAnimator.ofFloat(mFolderWindowContainer, View.X, startBounds.left))
+                .with(ObjectAnimator.ofFloat(mFolderWindowContainer, View.Y, startBounds.top))
+                .with(ObjectAnimator.ofFloat(mFolderWindowContainer, View.SCALE_X, startScaleFinal))
+                .with(ObjectAnimator.ofFloat(mFolderWindowContainer, View.SCALE_Y, startScaleFinal))
                 .with(ObjectAnimator.ofFloat(blurLayer, View.ALPHA, 0f))
                 .with(ObjectAnimator.ofFloat(mHorizontalPager, View.ALPHA, 1f))
                 .with(ObjectAnimator.ofFloat(mIndicator, View.ALPHA, 1f))
                 .with(ObjectAnimator.ofFloat(mDock, View.ALPHA, 1f));
-        //.with(valueAnimator);
+        // .with(valueAnimator);
         set.setDuration(300);
         set.setInterpolator(new LinearInterpolator());
         set.addListener(new AnimatorListenerAdapter() {
@@ -3029,14 +2884,12 @@ public class LauncherActivity extends AppCompatActivity implements
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        final boolean alreadyOnHome = hasWindowFocus() &&
-                ((intent.getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
-                        != Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        final boolean alreadyOnHome = hasWindowFocus() && ((intent.getFlags()
+                & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 
-        boolean shouldMoveToDefaultScreen =
-                alreadyOnHome && swipeSearchContainer.getVisibility() != VISIBLE && !isWobbling
-                        && mFolderWindowContainer.getVisibility() != View.VISIBLE
-                        && (activeRoundedWidgetView == null || !activeRoundedWidgetView.isWidgetActivated());
+        boolean shouldMoveToDefaultScreen = alreadyOnHome && swipeSearchContainer.getVisibility() != VISIBLE
+                && !isWobbling && mFolderWindowContainer.getVisibility() != View.VISIBLE
+                && (activeRoundedWidgetView == null || !activeRoundedWidgetView.isWidgetActivated());
 
         if (alreadyOnHome) {
             returnToHomeScreen();
@@ -3087,78 +2940,63 @@ public class LauncherActivity extends AppCompatActivity implements
         set.setDuration(animationDuration);
         set.setInterpolator(new LinearInterpolator());
         set.addListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
-                                super.onAnimationCancel(animation);
-                                currentAnimator = null;
-                                swipeSearchContainer.setVisibility(GONE);
-                                blurLayer.setAlpha(0f);
-                                mHorizontalPager.setVisibility(VISIBLE);
-                                mDock.setVisibility(VISIBLE);
-                                mIndicator.setVisibility(VISIBLE);
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                super.onAnimationCancel(animation);
+                currentAnimator = null;
+                swipeSearchContainer.setVisibility(GONE);
+                blurLayer.setAlpha(0f);
+                mHorizontalPager.setVisibility(VISIBLE);
+                mDock.setVisibility(VISIBLE);
+                mIndicator.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                currentAnimator = null;
+
+                blurLayer.setAlpha(1f);
+                mHorizontalPager.setVisibility(GONE);
+                mDock.setVisibility(GONE);
+                mIndicator.setVisibility(GONE);
+
+                BlissInput searchEditText = swipeSearchContainer.findViewById(R.id.search_input);
+                ImageView clearSuggestions = swipeSearchContainer.findViewById(R.id.clearSuggestionImageView);
+                searchDisposableObserver = RxTextView.textChanges(searchEditText).debounce(300, TimeUnit.MILLISECONDS)
+                        .map(CharSequence::toString).distinctUntilChanged().switchMap(charSequence -> {
+                            if (charSequence != null && charSequence.length() > 0) {
+                                LauncherActivity.this.runOnUiThread(() -> clearSuggestions.setVisibility(VISIBLE));
+                                return LauncherActivity.this.searchForQuery(charSequence);
+                            } else {
+                                LauncherActivity.this.runOnUiThread(() -> clearSuggestions.setVisibility(GONE));
+                                return Observable.just(new SuggestionsResult(charSequence));
                             }
-
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                currentAnimator = null;
-
-                                blurLayer.setAlpha(1f);
-                                mHorizontalPager.setVisibility(GONE);
-                                mDock.setVisibility(GONE);
-                                mIndicator.setVisibility(GONE);
-
-                                BlissInput searchEditText = swipeSearchContainer.findViewById(
-                                        R.id.search_input);
-                                ImageView clearSuggestions = swipeSearchContainer.findViewById(
-                                        R.id.clearSuggestionImageView);
-                                searchDisposableObserver = RxTextView.textChanges(searchEditText)
-                                        .debounce(300, TimeUnit.MILLISECONDS)
-                                        .map(CharSequence::toString)
-                                        .distinctUntilChanged()
-                                        .switchMap(charSequence -> {
-                                            if (charSequence != null && charSequence.length() > 0) {
-                                                LauncherActivity.this.runOnUiThread(
-                                                        () -> clearSuggestions.setVisibility(VISIBLE));
-                                                return LauncherActivity.this.searchForQuery(charSequence);
-                                            } else {
-                                                LauncherActivity.this.runOnUiThread(
-                                                        () -> clearSuggestions.setVisibility(GONE));
-                                                return Observable.just(
-                                                        new SuggestionsResult(charSequence));
-                                            }
-                                        })
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribeWith(
-                                                new SearchInputDisposableObserver(LauncherActivity.this,
-                                                        ((RecyclerView) swipeSearchContainer.findViewById(
-                                                                R.id.suggestionRecyclerView)).getAdapter(),
-                                                        swipeSearchContainer));
-                                searchEditText.requestFocus();
-                                refreshSuggestedApps(swipeSearchContainer, true);
-                            }
-                        }
-        );
+                        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new SearchInputDisposableObserver(LauncherActivity.this,
+                                ((RecyclerView) swipeSearchContainer.findViewById(R.id.suggestionRecyclerView))
+                                        .getAdapter(),
+                                swipeSearchContainer));
+                searchEditText.requestFocus();
+                refreshSuggestedApps(swipeSearchContainer, true);
+            }
+        });
         set.start();
         currentAnimator = set;
     }
 
     private void setUpSwipeSearchContainer() {
         BlissInput searchEditText = swipeSearchContainer.findViewById(R.id.search_input);
-        ImageView clearSuggestions = swipeSearchContainer.findViewById(
-                R.id.clearSuggestionImageView);
+        ImageView clearSuggestions = swipeSearchContainer.findViewById(R.id.clearSuggestionImageView);
         clearSuggestions.setOnClickListener(v -> {
             searchEditText.setText("");
             searchEditText.clearFocus();
         });
 
-        RecyclerView suggestionRecyclerView = swipeSearchContainer.findViewById(
-                R.id.suggestionRecyclerView);
+        RecyclerView suggestionRecyclerView = swipeSearchContainer.findViewById(R.id.suggestionRecyclerView);
         AutoCompleteAdapter networkSuggestionAdapter = new AutoCompleteAdapter(this);
         suggestionRecyclerView.setAdapter(networkSuggestionAdapter);
-        suggestionRecyclerView.setLayoutManager(
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        suggestionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         searchEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -3186,8 +3024,7 @@ public class LauncherActivity extends AppCompatActivity implements
             currentAnimator.cancel();
         }
         AnimatorSet set = new AnimatorSet();
-        set.play(ObjectAnimator.ofFloat(swipeSearchContainer, View.TRANSLATION_Y,
-                -swipeSearchContainer.getHeight()))
+        set.play(ObjectAnimator.ofFloat(swipeSearchContainer, View.TRANSLATION_Y, -swipeSearchContainer.getHeight()))
                 .with(ObjectAnimator.ofFloat(mHorizontalPager, View.ALPHA, 1f))
                 .with(ObjectAnimator.ofFloat(mIndicator, View.ALPHA, 1f))
                 .with(ObjectAnimator.ofFloat(mDock, View.ALPHA, 1f))
@@ -3195,51 +3032,46 @@ public class LauncherActivity extends AppCompatActivity implements
         set.setDuration(300);
         set.setInterpolator(new LinearInterpolator());
         set.addListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-                                super.onAnimationStart(animation);
-                                mHorizontalPager.setVisibility(VISIBLE);
-                                mDock.setVisibility(VISIBLE);
-                                mIndicator.setVisibility(VISIBLE);
-                                //BlurWallpaperProvider.getInstance(LauncherActivity.this).clear();
-                            }
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mHorizontalPager.setVisibility(VISIBLE);
+                mDock.setVisibility(VISIBLE);
+                mIndicator.setVisibility(VISIBLE);
+                // BlurWallpaperProvider.getInstance(LauncherActivity.this).clear();
+            }
 
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
-                                super.onAnimationCancel(animation);
-                                currentAnimator = null;
-                                swipeSearchContainer.setVisibility(VISIBLE);
-                                blurLayer.setAlpha(1f);
-                                mHorizontalPager.setVisibility(GONE);
-                                mDock.setVisibility(GONE);
-                                mIndicator.setVisibility(GONE);
-                            }
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                super.onAnimationCancel(animation);
+                currentAnimator = null;
+                swipeSearchContainer.setVisibility(VISIBLE);
+                blurLayer.setAlpha(1f);
+                mHorizontalPager.setVisibility(GONE);
+                mDock.setVisibility(GONE);
+                mIndicator.setVisibility(GONE);
+            }
 
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                currentAnimator = null;
-                                swipeSearchContainer.setVisibility(GONE);
-                                blurLayer.setAlpha(0f);
-                                if (searchDisposableObserver != null
-                                        && !searchDisposableObserver.isDisposed()) {
-                                    searchDisposableObserver.dispose();
-                                }
-                                ((BlissInput) swipeSearchContainer.findViewById(R.id.search_input)).setText(
-                                        "");
-                                swipeSearchContainer.findViewById(
-                                        R.id.search_input).clearFocus();
-                            }
-                        }
-        );
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                currentAnimator = null;
+                swipeSearchContainer.setVisibility(GONE);
+                blurLayer.setAlpha(0f);
+                if (searchDisposableObserver != null && !searchDisposableObserver.isDisposed()) {
+                    searchDisposableObserver.dispose();
+                }
+                ((BlissInput) swipeSearchContainer.findViewById(R.id.search_input)).setText("");
+                swipeSearchContainer.findViewById(R.id.search_input).clearFocus();
+            }
+        });
         set.start();
         currentAnimator = set;
     }
 
     @Override
     public void onSwipeStart() {
-        swipeSearchContainer.setTranslationY(
-                BlissLauncher.getApplication(this).getDeviceProfile().availableHeightPx);
+        swipeSearchContainer.setTranslationY(BlissLauncher.getApplication(this).getDeviceProfile().availableHeightPx);
         swipeSearchContainer.setVisibility(GONE);
         showSwipeSearch = false;
     }
@@ -3277,8 +3109,7 @@ public class LauncherActivity extends AppCompatActivity implements
     }
 
     public void showWidgetResizeContainer(RoundedWidgetView roundedWidgetView) {
-        RelativeLayout widgetResizeContainer = widgetsPage.findViewById(
-                R.id.widget_resizer_container);
+        RelativeLayout widgetResizeContainer = widgetsPage.findViewById(R.id.widget_resizer_container);
         if (widgetResizeContainer.getVisibility() != VISIBLE) {
             activeRoundedWidgetView = roundedWidgetView;
 
@@ -3293,34 +3124,33 @@ public class LauncherActivity extends AppCompatActivity implements
             });
 
             AnimatorSet set = new AnimatorSet();
-            set.play(ObjectAnimator.ofFloat(widgetResizeContainer, View.TRANSLATION_Y,
-                    Utilities.pxFromDp(48, this), 0));
+            set.play(
+                    ObjectAnimator.ofFloat(widgetResizeContainer, View.TRANSLATION_Y, Utilities.pxFromDp(48, this), 0));
             set.setDuration(200);
             set.setInterpolator(new LinearInterpolator());
             set.addListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-                                    super.onAnimationStart(animation);
-                                    widgetResizeContainer.setVisibility(VISIBLE);
-                                }
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    widgetResizeContainer.setVisibility(VISIBLE);
+                }
 
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-                                    super.onAnimationCancel(animation);
-                                    currentAnimator = null;
-                                    widgetResizeContainer.setVisibility(GONE);
-                                    roundedWidgetView.removeBorder();
-                                }
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    super.onAnimationCancel(animation);
+                    currentAnimator = null;
+                    widgetResizeContainer.setVisibility(GONE);
+                    roundedWidgetView.removeBorder();
+                }
 
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-                                    currentAnimator = null;
-                                    prepareWidgetResizeSeekBar(seekBar);
-                                    roundedWidgetView.addBorder();
-                                }
-                            }
-            );
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    currentAnimator = null;
+                    prepareWidgetResizeSeekBar(seekBar);
+                    roundedWidgetView.addBorder();
+                }
+            });
             set.start();
             currentAnimator = set;
         }
@@ -3340,16 +3170,14 @@ public class LauncherActivity extends AppCompatActivity implements
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int newHeight = minHeight + (normalisedDifference * progress);
-                LinearLayout.LayoutParams layoutParams =
-                        (LinearLayout.LayoutParams) activeRoundedWidgetView.getLayoutParams();
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) activeRoundedWidgetView
+                        .getLayoutParams();
                 layoutParams.height = newHeight;
                 activeRoundedWidgetView.setLayoutParams(layoutParams);
 
                 Bundle newOps = new Bundle();
-                newOps.putInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH,
-                        mDeviceProfile.getMaxWidgetWidth());
-                newOps.putInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH,
-                        mDeviceProfile.getMaxWidgetWidth());
+                newOps.putInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, mDeviceProfile.getMaxWidgetWidth());
+                newOps.putInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH, mDeviceProfile.getMaxWidgetWidth());
                 newOps.putInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, newHeight);
                 newOps.putInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, newHeight);
                 activeRoundedWidgetView.updateAppWidgetOptions(newOps);
@@ -3363,49 +3191,45 @@ public class LauncherActivity extends AppCompatActivity implements
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                DatabaseManager.getManager(LauncherActivity.this).saveWidgetHeight(
-                        activeRoundedWidgetView.getAppWidgetId(), seekBar.getProgress());
+                DatabaseManager.getManager(LauncherActivity.this)
+                        .saveWidgetHeight(activeRoundedWidgetView.getAppWidgetId(), seekBar.getProgress());
             }
         });
 
     }
 
     public void hideWidgetResizeContainer() {
-        RelativeLayout widgetResizeContainer = widgetsPage.findViewById(
-                R.id.widget_resizer_container);
+        RelativeLayout widgetResizeContainer = widgetsPage.findViewById(R.id.widget_resizer_container);
         if (widgetResizeContainer.getVisibility() == VISIBLE) {
             if (currentAnimator != null) {
                 currentAnimator.cancel();
             }
             AnimatorSet set = new AnimatorSet();
-            set.play(ObjectAnimator.ofFloat(widgetResizeContainer, View.TRANSLATION_Y,
-                    Utilities.pxFromDp(48, this)));
+            set.play(ObjectAnimator.ofFloat(widgetResizeContainer, View.TRANSLATION_Y, Utilities.pxFromDp(48, this)));
             set.setDuration(200);
             set.setInterpolator(new LinearInterpolator());
             set.addListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-                                    super.onAnimationStart(animation);
-                                    ((SeekBar) widgetsPage.findViewById(
-                                            R.id.widget_resizer_seekbar)).setOnSeekBarChangeListener(null);
-                                }
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    ((SeekBar) widgetsPage.findViewById(R.id.widget_resizer_seekbar)).setOnSeekBarChangeListener(null);
+                }
 
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-                                    super.onAnimationCancel(animation);
-                                    currentAnimator = null;
-                                    widgetResizeContainer.setVisibility(VISIBLE);
-                                }
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    super.onAnimationCancel(animation);
+                    currentAnimator = null;
+                    widgetResizeContainer.setVisibility(VISIBLE);
+                }
 
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-                                    currentAnimator = null;
-                                    widgetResizeContainer.setVisibility(GONE);
-                                    activeRoundedWidgetView.removeBorder();
-                                }
-                            }
-            );
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    currentAnimator = null;
+                    widgetResizeContainer.setVisibility(GONE);
+                    activeRoundedWidgetView.removeBorder();
+                }
+            });
             set.start();
             currentAnimator = set;
         }
@@ -3413,7 +3237,8 @@ public class LauncherActivity extends AppCompatActivity implements
 
     public void forceReload() {
         allAppsDisplayed = false;
-        BlissLauncher.getApplication(this).getAppProvider().getAppsRepository().updateAppsRelay(Collections.emptyList());
+        BlissLauncher.getApplication(this).getAppProvider().getAppsRepository()
+                .updateAppsRelay(Collections.emptyList());
     }
 
     @Override
@@ -3443,14 +3268,12 @@ public class LauncherActivity extends AppCompatActivity implements
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            GridLayout viewGroup = (GridLayout) LayoutInflater.from(mContext).inflate(
-                    R.layout.apps_page, container, false);
+            GridLayout viewGroup = (GridLayout) LayoutInflater.from(mContext).inflate(R.layout.apps_page, container,
+                    false);
             viewGroup.setRowCount(3);
             viewGroup.setColumnCount(3);
-            viewGroup.setPadding(mDeviceProfile.iconDrawablePaddingPx / 2,
-                    mDeviceProfile.iconDrawablePaddingPx / 2,
-                    mDeviceProfile.iconDrawablePaddingPx / 2,
-                    mDeviceProfile.iconDrawablePaddingPx / 2);
+            viewGroup.setPadding(mDeviceProfile.iconDrawablePaddingPx / 2, mDeviceProfile.iconDrawablePaddingPx / 2,
+                    mDeviceProfile.iconDrawablePaddingPx / 2, mDeviceProfile.iconDrawablePaddingPx / 2);
             int i = 0;
             while (9 * position + i < mFolderAppItems.size() && i < 9) {
                 LauncherItem appItem = mFolderAppItems.get(9 * position + i);
@@ -3478,8 +3301,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void destroyItem(@NonNull ViewGroup container, int position,
-                                @NonNull Object object) {
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             container.removeView((View) object);
         }
     }
@@ -3517,8 +3339,7 @@ public class LauncherActivity extends AppCompatActivity implements
         }
 
         public void onAlarm(Alarm alarm) {
-            if (mDock.getChildCount() < mDeviceProfile.numColumns
-                    || parentPage == -99) {
+            if (mDock.getChildCount() < mDeviceProfile.numColumns || parentPage == -99) {
                 if (movingApp.getParent() != null) {
                     ((ViewGroup) movingApp.getParent()).removeView(movingApp);
                 }

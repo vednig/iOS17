@@ -10,19 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import foundation.e.blisslauncher.R;
+import foundation.e.blisslauncher.features.launcher.LauncherActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import foundation.e.blisslauncher.R;
-import foundation.e.blisslauncher.features.launcher.LauncherActivity;
-
-public class AutoCompleteAdapter extends
-        RecyclerView.Adapter<AutoCompleteAdapter.AutoCompleteViewHolder> {
+public class AutoCompleteAdapter extends RecyclerView.Adapter<AutoCompleteAdapter.AutoCompleteViewHolder> {
     private List<String> mItems = new ArrayList<>();
     private final OnSuggestionClickListener mOnSuggestionClickListener;
     private final LayoutInflater mInflater;
@@ -36,26 +32,22 @@ public class AutoCompleteAdapter extends
 
     @NonNull
     @Override
-    public AutoCompleteAdapter.AutoCompleteViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-            int viewType) {
+    public AutoCompleteAdapter.AutoCompleteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_suggestion, parent, false);
         AutoCompleteViewHolder holder = new AutoCompleteViewHolder(view);
-        view.setOnClickListener(
-                v -> mOnSuggestionClickListener.onClick(mItems.get(holder.getAdapterPosition())));
+        view.setOnClickListener(v -> mOnSuggestionClickListener.onClick(mItems.get(holder.getAdapterPosition())));
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AutoCompleteAdapter.AutoCompleteViewHolder holder,
-            int position) {
+    public void onBindViewHolder(@NonNull AutoCompleteAdapter.AutoCompleteViewHolder holder, int position) {
         String suggestion = mItems.get(position);
         if (mQueryText != null) {
             SpannableStringBuilder spannable = new SpannableStringBuilder(suggestion);
             String lcSuggestion = suggestion.toLowerCase(Locale.getDefault());
             int queryTextPos = lcSuggestion.indexOf(mQueryText);
             while (queryTextPos >= 0) {
-                spannable.setSpan(new StyleSpan(Typeface.BOLD),
-                        queryTextPos, queryTextPos + mQueryText.length(),
+                spannable.setSpan(new StyleSpan(Typeface.BOLD), queryTextPos, queryTextPos + mQueryText.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 queryTextPos = lcSuggestion.indexOf(mQueryText, queryTextPos + mQueryText.length());
             }

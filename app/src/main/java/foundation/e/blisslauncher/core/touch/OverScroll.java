@@ -1,17 +1,16 @@
 package foundation.e.blisslauncher.core.touch;
 
-/**
- * Utility methods for overscroll damping and related effect.
- */
+/** Utility methods for overscroll damping and related effect. */
 public class OverScroll {
 
     private static final float OVERSCROLL_DAMP_FACTOR = 0.07f;
 
     /**
-     * This curve determines how the effect of scrolling over the limits of the page diminishes
-     * as the user pulls further and further from the bounds
+     * This curve determines how the effect of scrolling over the limits of the page
+     * diminishes as the user pulls further and further from the bounds
      *
-     * @param f The percentage of how much the user has overscrolled.
+     * @param f
+     *            The percentage of how much the user has overscrolled.
      * @return A transformed percentage based on the influence curve.
      */
     private static float overScrollInfluenceCurve(float f) {
@@ -20,12 +19,15 @@ public class OverScroll {
     }
 
     /**
-     * @param amount The original amount overscrolled.
-     * @param max The maximum amount that the View can overscroll.
+     * @param amount
+     *            The original amount overscrolled.
+     * @param max
+     *            The maximum amount that the View can overscroll.
      * @return The dampened overscroll amount.
      */
     public static int dampedScroll(float amount, int max) {
-        if (Float.compare(amount, 0) == 0) return 0;
+        if (Float.compare(amount, 0) == 0)
+            return 0;
 
         float f = amount / max;
         f = f / (Math.abs(f)) * (overScrollInfluenceCurve(Math.abs(f)));

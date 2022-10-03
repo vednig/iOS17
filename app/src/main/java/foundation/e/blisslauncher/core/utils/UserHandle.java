@@ -20,7 +20,8 @@ import android.os.Build;
 import android.os.Process;
 
 /**
- * Wrapper class for `android.os.UserHandle` that works with all Android versions
+ * Wrapper class for `android.os.UserHandle` that works with all Android
+ * versions
  */
 public class UserHandle {
     private final long serial;
@@ -81,7 +82,7 @@ public class UserHandle {
         return (serial == this.serial);
     }
 
-    public boolean isSameUser(UserHandle userHandle){
+    public boolean isSameUser(UserHandle userHandle) {
         return userHandle.serial == this.serial;
     }
 }

@@ -2,9 +2,7 @@ package foundation.e.blisslauncher.core.executors;
 
 import android.os.Handler;
 import android.os.Looper;
-
 import androidx.annotation.NonNull;
-
 import java.util.List;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +14,7 @@ public class MainThreadExecutor extends AbstractExecutorService {
     public MainThreadExecutor() {
         mHandler = new Handler(Looper.getMainLooper());
     }
+
     @Override
     public void shutdown() {
         throw new UnsupportedOperationException();

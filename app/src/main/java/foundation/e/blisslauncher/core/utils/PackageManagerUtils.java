@@ -45,8 +45,7 @@ public final class PackageManagerUtils {
      * @param flags
      * @return true if the package is enabled
      */
-    public static boolean isAppEnabled(final Context context,
-            final String packageName, final int flags) {
+    public static boolean isAppEnabled(final Context context, final String packageName, final int flags) {
         final ApplicationInfo info = getApplicationInfo(context, packageName, flags);
         return info != null && info.enabled;
     }
@@ -63,8 +62,8 @@ public final class PackageManagerUtils {
     }
 
     /**
-     * Check if a package can possibly be on the SDCard
-     * This is just a workaround and doesn't guarantee that the app is on SD card
+     * Check if a package can possibly be on the SDCard This is just a workaround
+     * and doesn't guarantee that the app is on SD card
      *
      * @param context
      * @param packageName
@@ -103,8 +102,7 @@ public final class PackageManagerUtils {
      * @param flags
      * @return null if the package cannot be found or the ApplicationInfo is null
      */
-    public static ApplicationInfo getApplicationInfo(final Context context,
-            final String packageName, final int flags) {
+    public static ApplicationInfo getApplicationInfo(final Context context, final String packageName, final int flags) {
         final PackageManager packageManager = context.getPackageManager();
         ApplicationInfo info;
         try {

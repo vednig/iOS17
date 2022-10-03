@@ -27,21 +27,20 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.util.Log;
-
+import foundation.e.blisslauncher.core.Utilities;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import foundation.e.blisslauncher.core.Utilities;
-
 /**
- * Performs operations related to deep shortcuts, such as querying for them, pinning them, etc.
+ * Performs operations related to deep shortcuts, such as querying for them,
+ * pinning them, etc.
  */
 public class DeepShortcutManager {
     private static final String TAG = "DeepShortcutManager";
 
-    private static final int FLAG_GET_ALL = ShortcutQuery.FLAG_MATCH_DYNAMIC
-            | ShortcutQuery.FLAG_MATCH_MANIFEST | ShortcutQuery.FLAG_MATCH_PINNED;
+    private static final int FLAG_GET_ALL = ShortcutQuery.FLAG_MATCH_DYNAMIC | ShortcutQuery.FLAG_MATCH_MANIFEST
+            | ShortcutQuery.FLAG_MATCH_PINNED;
 
     private static DeepShortcutManager sInstance;
     private static final Object sInstanceLock = new Object();
@@ -73,27 +72,27 @@ public class DeepShortcutManager {
     /**
      * Queries for the shortcuts with the package name and provided ids.
      *
-     * This method is intended to get the full details for shortcuts when they are added or updated,
-     * because we only get "key" fields in onShortcutsChanged().
+     * <p>
+     * This method is intended to get the full details for shortcuts when they are
+     * added or updated, because we only get "key" fields in onShortcutsChanged().
      */
-    public List<ShortcutInfoCompat> queryForFullDetails(String packageName,
-            List<String> shortcutIds, UserHandle user) {
+    public List<ShortcutInfoCompat> queryForFullDetails(String packageName, List<String> shortcutIds, UserHandle user) {
         return query(FLAG_GET_ALL, packageName, null, shortcutIds, user);
     }
 
     /**
-     * Gets all the manifest and dynamic shortcuts associated with the given package and user,
-     * to be displayed in the shortcuts container on long press.
+     * Gets all the manifest and dynamic shortcuts associated with the given package
+     * and user, to be displayed in the shortcuts container on long press.
      */
-    public List<ShortcutInfoCompat> queryForShortcutsContainer(ComponentName activity,
-            List<String> ids, UserHandle user) {
-        return query(ShortcutQuery.FLAG_MATCH_MANIFEST | ShortcutQuery.FLAG_MATCH_DYNAMIC,
-                activity.getPackageName(), activity, ids, user);
+    public List<ShortcutInfoCompat> queryForShortcutsContainer(ComponentName activity, List<String> ids,
+            UserHandle user) {
+        return query(ShortcutQuery.FLAG_MATCH_MANIFEST | ShortcutQuery.FLAG_MATCH_DYNAMIC, activity.getPackageName(),
+                activity, ids, user);
     }
 
     /**
-     * Removes the given shortcut from the current list of pinned shortcuts.
-     * (Runs on background thread)
+     * Removes the given shortcut from the current list of pinned shortcuts. (Runs
+     * on background thread)
      */
     @TargetApi(25)
     public void unpinShortcut(final ShortcutKey key) {
@@ -106,7 +105,7 @@ public class DeepShortcutManager {
             try {
                 mLauncherApps.pinShortcuts(packageName, pinnedIds, user);
                 mWasLastCallSuccess = true;
-            } catch (SecurityException |IllegalStateException e) {
+            } catch (SecurityException | IllegalStateException e) {
                 Log.w(TAG, "Failed to unpin shortcut", e);
                 mWasLastCallSuccess = false;
             }
@@ -114,8 +113,8 @@ public class DeepShortcutManager {
     }
 
     /**
-     * Adds the given shortcut to the current list of pinned shortcuts.
-     * (Runs on background thread)
+     * Adds the given shortcut to the current list of pinned shortcuts. (Runs on
+     * background thread)
      */
     @TargetApi(25)
     public void pinShortcut(final ShortcutKey key) {
@@ -128,8 +127,8 @@ public class DeepShortcutManager {
             try {
                 mLauncherApps.pinShortcuts(packageName, pinnedIds, user);
                 mWasLastCallSuccess = true;
-                Log.d(TAG, "pinShortcut called: "+key);
-            } catch (SecurityException |IllegalStateException e) {
+                Log.d(TAG, "pinShortcut called: " + key);
+            } catch (SecurityException | IllegalStateException e) {
                 Log.w(TAG, "Failed to pin shortcut", e);
                 mWasLastCallSuccess = false;
             }
@@ -137,14 +136,13 @@ public class DeepShortcutManager {
     }
 
     @TargetApi(25)
-    public void startShortcut(String packageName, String id, Rect sourceBounds,
-          Bundle startActivityOptions, UserHandle user) {
+    public void startShortcut(String packageName, String id, Rect sourceBounds, Bundle startActivityOptions,
+            UserHandle user) {
         if (Utilities.ATLEAST_NOUGAT_MR1) {
             try {
-                mLauncherApps.startShortcut(packageName, id, sourceBounds,
-                        startActivityOptions, user);
+                mLauncherApps.startShortcut(packageName, id, sourceBounds, startActivityOptions, user);
                 mWasLastCallSuccess = true;
-            } catch (SecurityException |IllegalStateException e) {
+            } catch (SecurityException | IllegalStateException e) {
                 Log.e(TAG, "Failed to start shortcut", e);
                 mWasLastCallSuccess = false;
             }
@@ -155,11 +153,10 @@ public class DeepShortcutManager {
     public Drawable getShortcutIconDrawable(ShortcutInfoCompat shortcutInfo, int density) {
         if (Utilities.ATLEAST_NOUGAT_MR1) {
             try {
-                Drawable icon = mLauncherApps.getShortcutIconDrawable(
-                        shortcutInfo.getShortcutInfo(), density);
+                Drawable icon = mLauncherApps.getShortcutIconDrawable(shortcutInfo.getShortcutInfo(), density);
                 mWasLastCallSuccess = true;
                 return icon;
-            } catch (SecurityException |IllegalStateException e) {
+            } catch (SecurityException | IllegalStateException e) {
                 Log.e(TAG, "Failed to get shortcut icon", e);
                 mWasLastCallSuccess = false;
             }
@@ -168,8 +165,10 @@ public class DeepShortcutManager {
     }
 
     /**
-     * Returns the id's of pinned shortcuts associated with the given package and user.
+     * Returns the id's of pinned shortcuts associated with the given package and
+     * user.
      *
+     * <p>
      * If packageName is null, returns all pinned shortcuts regardless of package.
      */
     public List<ShortcutInfoCompat> queryForPinnedShortcuts(String packageName, UserHandle user) {
@@ -190,13 +189,15 @@ public class DeepShortcutManager {
 
     /**
      * Query the system server for all the shortcuts matching the given parameters.
-     * If packageName == null, we query for all shortcuts with the passed flags, regardless of app.
+     * If packageName == null, we query for all shortcuts with the passed flags,
+     * regardless of app.
      *
+     * <p>
      * TODO: Use the cache to optimize this so we don't make an RPC every time.
      */
     @TargetApi(25)
-    private List<ShortcutInfoCompat> query(int flags, String packageName,
-            ComponentName activity, List<String> shortcutIds, UserHandle user) {
+    private List<ShortcutInfoCompat> query(int flags, String packageName, ComponentName activity,
+            List<String> shortcutIds, UserHandle user) {
         if (Utilities.ATLEAST_NOUGAT_MR1) {
             ShortcutQuery q = new ShortcutQuery();
             q.setQueryFlags(flags);
@@ -231,7 +232,7 @@ public class DeepShortcutManager {
         if (Utilities.ATLEAST_NOUGAT_MR1) {
             try {
                 return mLauncherApps.hasShortcutHostPermission();
-            } catch (SecurityException |IllegalStateException e) {
+            } catch (SecurityException | IllegalStateException e) {
                 Log.e(TAG, "Failed to make shortcut manager call", e);
             }
         }
