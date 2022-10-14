@@ -57,7 +57,7 @@
                     android:stateListAnimator="@null"
                     android:fontFamily="sans-serif-medium"
                     android:textAllCaps="false"
-                    android:textColor="#BD000000"
+                    android:textColor="@color/on_surface_high_emphasis"
                     android:text="@string/edit" />
             </foundation.e.blisslauncher.core.customviews.BlurLayout>
         </foundation.e.blisslauncher.core.customviews.InsettableLinearLayout>

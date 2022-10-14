@@ -181,4 +181,7 @@ dependencies {
     // Testing dependencies
     testImplementation(libs.bundles.testing.unit)
     testImplementation(libs.bundles.testing.android)
+
+    // elib
+    implementation(libs.elib)
 }
