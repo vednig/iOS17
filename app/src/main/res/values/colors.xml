@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">@color/e_accent_light</color>
 
     <color name="app_label_color">#ffffff</color>
     <color name="dockColor">#4D000000</color>
@@ -23,15 +23,15 @@
     <color name="list_selector_focused">#cc33b5e5</color>
     <color name="list_selector_activated">#4d33b5e5</color>
     <color name="white">#FFFFFF</color>
-    <color name="color_blue">#0088ED</color>
+    <color name="color_blue">@color/colorAccent</color>
 
-    <color name="widget_background_color">#4d666666</color>
-    <color name="search_widget_background_color">#a1f0f0f0</color>
+    <color name="widget_background_color">@color/e_launcher_widget_background</color>
+    <color name="search_widget_background_color">@color/e_launcher_search_background</color>
 
-    <color name="on_surface_high_emphasis">#de000000</color>
-    <color name="on_surface_medium_emphasis">#99000000</color>
-    <color name="folder_preview_background_color">#4dcbcbcb</color>
+    <color name="on_surface_high_emphasis">@color/e_primary_text_color_dark</color>
+    <color name="on_surface_medium_emphasis">@color/e_secondary_text_color_dark</color>
+    <color name="folder_preview_background_color">#1A202020</color>
     <color name="dock_background_color">#26ffffff</color>
 
-    <color name="accent_color">#0086FF</color>
+    <color name="accent_color">@color/colorAccent</color>
 </resources>

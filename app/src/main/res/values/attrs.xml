@@ -25,7 +25,6 @@
         <!-- numHotseatIcons defaults to numColumns, if not specified -->
         <attr name="numHotseatIcons" format="integer" />
 
-        <attr name="iconSize" format="float" />
         <attr name="iconTextSize" format="float" />
         <!-- hotseatIconSize defaults to iconSize, if not specified -->
         <attr name="hotseatIconSize" format="float" />

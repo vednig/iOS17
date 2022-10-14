@@ -3,10 +3,24 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:navigationBarColor">@color/e_action_bar_light</item>
+        <item name="android:statusBarColor">@color/e_action_bar_light</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:windowBackground">@color/e_background_light</item>
+        <item name="android:switchStyle">@style/Switch</item>
     </style>
-
+    <style name="ActionBar" parent="android:Widget.Material.ActionBar.Solid">
+        <item name="android:background">@color/e_action_bar_light</item>
+        <item name="android:titleTextStyle">@style/ActionBar.Title</item>
+    </style>
+     <style name="ActionBar.Title" parent="android:TextAppearance.Material.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/e_primary_text_color_light</item>
+    </style>
     <style name="BaseHomeScreenTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
@@ -23,13 +37,15 @@
 
     <style name="HomeScreenTheme" parent="BaseHomeScreenTheme">
         <item name="isWorkspaceDarkText">false</item>
-        <item name="workspaceTextColor">@color/app_label_color</item>
+        <item name="workspaceTextColor">@color/on_surface_high_emphasis</item>
         <item name="dotOnColor">@color/dot_on_color</item>
         <item name="dotOffColor">@color/dot_off_color</item>
-        <item name="widgetPrimaryTextColor">#DEFFFFFF</item>
-        <item name="widgetSecondaryTextColor">#99FFFFFF</item>
+        <item name="widgetPrimaryTextColor">@color/on_surface_high_emphasis</item>
+        <item name="widgetSecondaryTextColor">@color/on_surface_medium_emphasis</item>
         <item name="widgetSettingsIconColor">?widgetPrimaryTextColor</item>
-        <item name="widgetSearchIconColor">#DEFFFFFF</item>
+        <item name="widgetSearchIconColor">@color/on_surface_high_emphasis</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="HomeScreenTheme.DarkText" parent="BaseHomeScreenTheme">
@@ -41,6 +57,8 @@
         <item name="widgetSecondaryTextColor">#61000000</item>
         <item name="widgetSettingsIconColor">#61000000</item>
         <item name="widgetSearchIconColor">#BD000000</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="label_shadow">
@@ -67,7 +85,12 @@
     </style>
 
     <style name="SearchBar">
-        <item name="android:colorAccent">#DE000000</item>
-        <item name="android:colorControlActivated">#DE000000</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorControlActivated">@color/colorAccent</item>
+    </style>
+    <style name="Switch" parent="android:Widget.Material.CompoundButton.Switch">
+        <item name="android:track">@drawable/e_switch_track</item>
+        <item name="android:thumb">@drawable/e_switch_thumb</item>
+
     </style>
 </resources>

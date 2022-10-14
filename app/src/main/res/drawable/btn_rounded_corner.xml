@@ -4,7 +4,7 @@
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
             <corners android:radius="20dp"/>
-            <solid android:color="#80FFFFFF" />
+            <solid android:color="@color/e_launcher_search_background" />
         </shape>
     </item>
 </ripple>
