@@ -60,7 +60,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     private boolean mAllowLongPress;
     private DockGridLayout mDock;
 
-    private Set<OnScrollListener> mListeners = new HashSet<>();
+    private final Set<OnScrollListener> mListeners = new HashSet<>();
     private boolean mIsUiCreated;
     private GestureDetectorCompat gestureDetectorCompat;
     private Rect insets;
@@ -143,7 +143,6 @@ public class HorizontalPager extends ViewGroup implements Insettable {
                 scrollTo(x, y);
             }
             postInvalidateOnAnimation();
-            return;
         }
     }
 
@@ -343,11 +342,10 @@ public class HorizontalPager extends ViewGroup implements Insettable {
         boolean yMoved = yDiff > mTouchSlop;
 
         if (xMoved || yMoved) {
-
             if (yMoved && (y - mLastMotionY) > 0 && yDiff > xDiff && inThresholdRegion() && currentPage != 0) {
                 mTouchState = TOUCH_STATE_VERTICAL_SCROLLING;
                 ((OnSwipeDownListener) getContext()).onSwipeStart();
-            } else if (xMoved && yDiff < xDiff) {
+            } else if (xMoved && yDiff < xDiff && inThresholdRegion()) {
                 // Scroll if the user moved far enough along the X axis
                 mTouchState = TOUCH_STATE_HORIZONTAL_SCROLLING;
                 enableChildrenCache();
@@ -363,12 +361,12 @@ public class HorizontalPager extends ViewGroup implements Insettable {
                     currentScreen.cancelLongPress();
                 }
             }
+
         }
     }
 
     private boolean inThresholdRegion() {
-        return (mLastMotionRawY
-                / BlissLauncher.getApplication(getContext()).getDeviceProfile().availableHeightPx) > (float) 1 / 5;
+        return mLastMotionRawY < BlissLauncher.getApplication(getContext()).getDeviceProfile().availableHeightPx;
     }
 
     void enableChildrenCache() {
@@ -384,7 +382,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     public boolean onTouchEvent(MotionEvent ev) {
         /*
          * if (gestureDetectorCompat.onTouchEvent(ev)) { return true; } else {
-         * 
+         *
          * }
          */
         if (mVelocityTracker == null) {
