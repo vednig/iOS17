@@ -133,4 +133,14 @@
     <string name="weather_15">Sneeuwstorm</string>
     <string name="icon_badging_service_title">Toon meldingspunten</string>
     <string name="widget_is_not_resizable">Widget grootte kan niet gewijzigd worden</string>
+    <string name="app_name_maps">Maps</string>
+    <string name="toast_no_room">Geen plaats meer op deze pagina</string>
+    <string name="toast_dock_full">Dock is al vol</string>
+    <string name="toast_cannot_uninstall">Kan deze app niet de-installeren</string>
+    <string name="toast_package_unavailable">Pakket niet beschikbaar or gedeactiveerd</string>
+    <string name="toast_recreating_launcher">Opnieuw instellen Launcher</string>
+    <string name="toast_shortcut_added">Snelkoppeling toegevoegd</string>
+    <string name="toast_failed">Achtergrond vervagen mislukt</string>
+    <string name="toast_custom_location">Stel een locatie in voor de Weer opties.</string>
+    <string name="toast_permission_denied">Toestemming geweigerd</string>
 </resources>
