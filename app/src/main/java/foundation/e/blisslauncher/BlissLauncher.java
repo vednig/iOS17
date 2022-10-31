@@ -8,6 +8,7 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
+
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.IconsHandler;
 import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider;
@@ -43,6 +44,7 @@ public class BlissLauncher extends Application {
             }
         };
         getContentResolver().registerContentObserver(NOTIFICATION_BADGING_URI, false, notificationSettingsObserver);
+
     }
 
     private void onNotificationSettingsChanged() {

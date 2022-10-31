@@ -88,6 +88,7 @@
     <string name="weather_tap_to_select_source">Tap to select one</string>
     <!-- Weather - Update frequency -->
     <string name="weather_refresh_manual">Manual</string>
+    <string name="weather_refresh_15min">15 minutes</string>
     <string name="weather_refresh_30min">30 minutes</string>
     <string name="weather_refresh_60min">60 minutes</string>
     <string name="weather_refresh_2hrs">2 hours</string>

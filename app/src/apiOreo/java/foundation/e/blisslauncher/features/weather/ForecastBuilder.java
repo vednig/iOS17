@@ -141,6 +141,7 @@ public class ForecastBuilder {
             return;
         }
 
+        smallPanel.setVisibility(View.VISIBLE);
         TimeZone MyTimezone = TimeZone.getDefault();
         Calendar calendar = new GregorianCalendar(MyTimezone);
         int weatherTempUnit = w.getTemperatureUnit();

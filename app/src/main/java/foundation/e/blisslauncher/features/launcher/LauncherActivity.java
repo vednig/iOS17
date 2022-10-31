@@ -1201,12 +1201,6 @@ public class LauncherActivity extends AppCompatActivity
                     currentPageNumber = page;
                     if (currentPageNumber == 0) {
                         refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
-                        if (Preferences.weatherRefreshIntervalInMs(LauncherActivity.this) == 0) {
-                            Intent intent = new Intent(LauncherActivity.this, WeatherUpdateService.class);
-                            intent.setAction(WeatherUpdateService.ACTION_FORCE_UPDATE);
-                            startService(intent);
-                        }
-
                         mInsetsController.hide(WindowInsetsCompat.Type.statusBars());
                     } else {
                         mInsetsController.show(WindowInsetsCompat.Type.statusBars());

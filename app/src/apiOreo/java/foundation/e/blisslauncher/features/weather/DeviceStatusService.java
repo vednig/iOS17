@@ -34,14 +34,6 @@ public class DeviceStatusService extends Service {
                 } else {
                     context.stopService(i);
                 }
-            } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
-                if (D)
-                    Log.d(TAG, "onDisplayOff: Cancel pending update");
-                WeatherUpdateService.cancelUpdates(context);
-            } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
-                if (D)
-                    Log.d(TAG, "onDisplayOn: Reschedule update");
-                WeatherUpdateService.scheduleNextUpdate(context, false);
             }
         }
     };

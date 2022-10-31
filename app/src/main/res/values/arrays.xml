@@ -18,6 +18,7 @@
 <resources>
     <string-array name="weather_interval_entries" translatable="false">
         <item>@string/weather_refresh_manual</item>
+        <item>@string/weather_refresh_15min</item>
         <item>@string/weather_refresh_30min</item>
         <item>@string/weather_refresh_60min</item>
         <item>@string/weather_refresh_2hrs</item>
@@ -28,6 +29,7 @@
 
     <string-array name="weather_interval_values" translatable="false">
         <item>0</item>
+        <item>15</item>
         <item>30</item>
         <item>60</item>
         <item>120</item>
