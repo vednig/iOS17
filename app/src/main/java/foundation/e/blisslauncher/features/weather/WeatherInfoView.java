@@ -5,22 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.features.launcher.LauncherActivity;
+import foundation.e.blisslauncher.features.weather.worker.ForceWeatherRequestWorker;
 
 public class WeatherInfoView extends LinearLayout {
 
     private View mWeatherPanel;
     private View mWeatherSetupTextView;
+    private Context mContext;
 
     private final BroadcastReceiver mWeatherReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!intent.getBooleanExtra(WeatherUpdateService.EXTRA_UPDATE_CANCELLED, false)) {
+            if (WeatherUpdateService.ACTION_UPDATE_FINISHED.equals(intent.getAction())) {
                 updateWeatherPanel();
             }
         }
@@ -34,6 +37,7 @@ public class WeatherInfoView extends LinearLayout {
 
     public WeatherInfoView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
     }
 
     @Override
@@ -49,8 +53,9 @@ public class WeatherInfoView extends LinearLayout {
             }
         });
         findViewById(R.id.weather_setting_imageview).setOnClickListener(v -> startWeatherPreferences());
-        findViewById(R.id.weather_refresh_imageview)
-                .setOnClickListener(v -> WeatherUpdateService.scheduleNextUpdate(getContext(), true));
+        findViewById(R.id.weather_refresh_imageview).setOnClickListener(v -> {
+            ForceWeatherRequestWorker.start(mContext);
+        });
     }
 
     @Override
@@ -73,6 +78,7 @@ public class WeatherInfoView extends LinearLayout {
 
     private void updateWeatherPanel() {
         if (Preferences.getCachedWeatherInfo(getContext()) == null) {
+            Log.i("Weather", "getCacheWeatherInfo is null");
             mWeatherSetupTextView.setVisibility(VISIBLE);
             mWeatherPanel.setVisibility(GONE);
             mWeatherSetupTextView.setOnClickListener(v -> startWeatherPreferences());

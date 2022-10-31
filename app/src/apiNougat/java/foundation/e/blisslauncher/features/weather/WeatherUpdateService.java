@@ -399,11 +399,7 @@ public class WeatherUpdateService extends Service {
             finishedIntent.putExtra(EXTRA_UPDATE_CANCELLED, updateCancelled);
             mContext.sendBroadcast(finishedIntent);
 
-            if (D)
-                Log.d(TAG, "RELEASING WAKELOCK");
-            mWakeLock.release();
             mIsProcessingWeatherUpdate = false;
-            mContext.stopService(new Intent(mContext, WeatherUpdateService.class));
         }
 
         @Override

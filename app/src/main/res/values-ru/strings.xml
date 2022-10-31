@@ -119,6 +119,7 @@
     <string name="weather_refresh_2hrs">2 часа</string>
     <string name="weather_refresh_60min">60 минут</string>
     <string name="weather_refresh_30min">30 минут</string>
+    <string name="weather_refresh_15min">15 минут</string>
     <string name="weather_refresh_manual">Вручную</string>
     <string name="weather_tap_to_select_source">Нажми, чтобы выбрать один</string>
     <string name="weather_source_not_selected">Не выбран источник погоды</string>

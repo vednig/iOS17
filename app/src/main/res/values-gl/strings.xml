@@ -60,6 +60,7 @@
     <string name="weather_refresh_2hrs">2 horas</string>
     <string name="weather_refresh_60min">60 minutos</string>
     <string name="weather_refresh_30min">30 minutos</string>
+    <string name="weather_refresh_15min">15 minutos</string>
     <string name="weather_refresh_manual">Manual</string>
     <string name="weather_tap_to_select_source">Prema para seleccionar un</string>
     <string name="weather_source_not_selected">Ningún servizo de meteoroloxía seleccionado</string>

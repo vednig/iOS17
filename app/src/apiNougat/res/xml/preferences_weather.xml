@@ -31,7 +31,7 @@
         <ListPreference
             android:key="weather_refresh_interval"
             android:dependency="weather_source"
-            android:defaultValue="60"
+            android:defaultValue="15"
             android:summary="%s"
             android:entries="@array/weather_interval_entries"
             android:entryValues="@array/weather_interval_values"

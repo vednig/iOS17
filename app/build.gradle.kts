@@ -72,11 +72,6 @@ android {
 
     flavorDimensions.add("api")
     productFlavors {
-        create("apiNougat") {
-            dimension = "api"
-            minSdk = 24
-        }
-
         create("apiOreo") {
             dimension = "api"
             minSdk = 26
@@ -138,7 +133,6 @@ android {
 }
 
 dependencies {
-    "apiNougatImplementation"("org.cyanogenmod:platform.sdk:6.0")
     "apiOreoImplementation"(files("libs/lineage-sdk-oreo.jar"))
     "apiQImplementation"(files("libs/lineage-sdk-q.jar"))
     "apiRImplementation"(files("libs/lineage-sdk-r.jar"))
@@ -184,4 +178,7 @@ dependencies {
 
     // elib
     implementation(libs.elib)
+
+    // workmanager
+    implementation(libs.workmanager)
 }

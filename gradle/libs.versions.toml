@@ -62,6 +62,7 @@ tools-desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 timber = "com.jakewharton.timber:timber:4.7.1"
 restriction-bypass = "com.github.ChickenHook:RestrictionBypass:2.2"
 elib = "foundation.e:elib:0.0.1-alpha11"
+workmanager = "androidx.work:work-runtime:2.7.1"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
