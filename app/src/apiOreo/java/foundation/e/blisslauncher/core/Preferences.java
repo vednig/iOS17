@@ -42,6 +42,8 @@ public class Preferences {
 
     private static final String NOTIFICATION_ACCESS = "notification_access";
 
+    private static final String NOTIFICATION_INFO = "notification_info";
+
     private static final String ENABLE_LOCATION = "enable_location";
 
     private static final String ACTION_USAGE = "foundation.e.blisslauncher.ACTION_USAGE";
@@ -336,6 +338,14 @@ public class Preferences {
 
     public static void setNotToAskForNotificationAccess(Context context) {
         getPrefs(context).edit().putBoolean(NOTIFICATION_ACCESS, false).apply();
+    }
+
+    public static void setNotToShowNotificationDialog(Context context) {
+        getPrefs(context).edit().putBoolean(NOTIFICATION_INFO, false).apply();
+    }
+
+    public static boolean shouldShowNotificationDialog(Context context) {
+        return getPrefs(context).getBoolean(NOTIFICATION_INFO, true);
     }
 
     public static int getCurrentMigrationVersion(Context context) {
