@@ -155,6 +155,7 @@
     <string name="permdesc_uninstall_shortcut">Allows an app to remove
         shortcuts without user intervention.
     </string>
+    <string name="perm_required">Permission required</string>
     <string name="place_automatically">Add automatically</string>
     <string name="action_add_to_workspace">Add to Home Screen</string>
     <string name="tap_to_setup_usageaccess">Tap to setup App Suggestions</string>
@@ -178,4 +179,7 @@
     <string name="toast_dock_full">Dock is already full</string>
     <string name="toast_no_room">No more room in page</string>
     <string name="app_name_maps">Maps</string>
+    <string name="notification_badge_warning">To see notification dots on the app icons you need to grant notification access to the launcher.</string>
+    <string name="grant">Grant</string>
+    <string name="ignore">Ignore</string>
 </resources>

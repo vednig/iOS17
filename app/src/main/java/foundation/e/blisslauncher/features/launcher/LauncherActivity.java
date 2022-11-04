@@ -18,11 +18,13 @@ import android.app.WallpaperManager;
 import android.app.usage.UsageStats;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -92,7 +94,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import foundation.e.blisslauncher.BlissLauncher;
-import foundation.e.blisslauncher.BuildConfig;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Alarm;
 import foundation.e.blisslauncher.core.DeviceProfile;
@@ -172,6 +173,14 @@ public class LauncherActivity extends AppCompatActivity
     private static final int REQUEST_LOCATION_SOURCE_SETTING = 267;
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 586;
     public static final String ACTION_LAUNCHER_RESUME = "foundation.e.blisslauncher.LauncherActivity.LAUNCHER_RESUME";
+    public static final String EXTRA_FRAGMENT_ARG_KEY = ":settings:fragment_args_key";
+    public static final String EXTRA_SHOW_FRAGMENT_ARGS = ":settings:show_fragment_args";
+    public static final String NOTIFICATION_SETTING = "enabled_notification_listeners";
+
+    private ContentResolver contentResolver;
+    private String permissionString;
+    private BroadcastReceiver unlockReceiver;
+    private ComponentName notificationComponentName;
 
     public static boolean longPressed;
     private final Alarm mReorderAlarm = new Alarm();
@@ -273,6 +282,24 @@ public class LauncherActivity extends AppCompatActivity
             setTheme(themeRes);
         }
 
+        contentResolver = getContentResolver();
+        permissionString = Settings.Secure.getString(contentResolver, NOTIFICATION_SETTING);
+        notificationComponentName = new ComponentName(this, NotificationService.class);
+
+        // Broadcast receiver to handle notification badges permission when screen is
+        // unlocked
+        unlockReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                final String action = intent.getAction();
+
+                if (Intent.ACTION_USER_PRESENT.equalsIgnoreCase(action)
+                        && Preferences.shouldShowNotificationDialog(context)) {
+                    showNotifPermissionDeniedDialog();
+                }
+            }
+        };
+
         oldConfig = new Configuration(getResources().getConfiguration());
         mDeviceProfile = BlissLauncher.getApplication(this).getDeviceProfile();
 
@@ -291,28 +318,7 @@ public class LauncherActivity extends AppCompatActivity
 
         mProgressBar.setVisibility(View.VISIBLE);
 
-        if (Preferences.shouldAskForNotificationAccess(this)) {
-            ContentResolver cr = getContentResolver();
-            String setting = "enabled_notification_listeners";
-            String permissionString = Settings.Secure.getString(cr, setting);
-            if (permissionString == null || !permissionString.contains(getPackageName())) {
-                if (BuildConfig.DEBUG) {
-                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-                } else if (!Preferences.shouldAskForNotificationAccess(this)) {
-                    ComponentName cn = new ComponentName(this, NotificationService.class);
-                    if (permissionString == null) {
-                        permissionString = "";
-                    } else {
-                        permissionString += ":";
-                    }
-                    permissionString += cn.flattenToString();
-                    boolean success = Settings.Secure.putString(cr, setting, permissionString);
-                    if (success) {
-                        Preferences.setNotToAskForNotificationAccess(this);
-                    }
-                }
-            }
-        }
+        registerUnlockBroadcastReceiver();
 
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -340,6 +346,12 @@ public class LauncherActivity extends AppCompatActivity
         mLightLayoutInflater = getLayoutInflater().cloneInContext(lightContext);
 
         mInsetsController = new WindowInsetsControllerCompat(getWindow(), mLauncherView);
+    }
+
+    public void registerUnlockBroadcastReceiver() {
+        IntentFilter unlockFilter = new IntentFilter();
+        unlockFilter.addAction(Intent.ACTION_USER_PRESENT);
+        this.registerReceiver(unlockReceiver, unlockFilter);
     }
 
     public View getRootView() {
@@ -488,6 +500,23 @@ public class LauncherActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (!Preferences.shouldAskForNotificationAccess(this)) {
+            if (Preferences.shouldShowNotificationDialog(this)) {
+                showNotifPermissionDeniedDialog();
+                if (unlockReceiver != null) {
+                    this.unregisterReceiver(unlockReceiver);
+                }
+            }
+
+            if (permissionString == null) {
+                permissionString = "";
+            } else {
+                permissionString += ":";
+            }
+
+            permissionString += notificationComponentName.flattenToString();
+        }
 
         if (mDepthManager != null) {
             mDepthManager.updateDepth();
@@ -1488,6 +1517,34 @@ public class LauncherActivity extends AppCompatActivity
                 BlurWallpaperProvider.Companion.getInstance(getApplicationContext()).updateAsync();
             }
         }
+    }
+
+    private void showNotifPermissionDeniedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.perm_required);
+        builder.setMessage(R.string.notification_badge_warning);
+        builder.setPositiveButton(R.string.grant, (dialog, button) -> {
+            Bundle showFragmentArgs = new Bundle();
+            showFragmentArgs.putString(EXTRA_FRAGMENT_ARG_KEY, notificationComponentName.flattenToString());
+            if (permissionString == null || !permissionString.contains(getPackageName())) {
+                dialog.dismiss();
+                // Show notification access setting and highlight launcher
+                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
+                        .putExtra(EXTRA_FRAGMENT_ARG_KEY, notificationComponentName.flattenToString())
+                        .putExtra(EXTRA_SHOW_FRAGMENT_ARGS, showFragmentArgs));
+                // Prevent the activity from being shown again
+                Preferences.setNotToAskForNotificationAccess(this);
+                Preferences.setNotToShowNotificationDialog(this);
+            }
+        });
+        builder.setNegativeButton(R.string.ignore, (dialog, button) -> {
+            Preferences.setNotToShowNotificationDialog(this);
+            dialog.dismiss();
+        });
+        builder.setCancelable(false);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void showLocationEnableDialog() {
