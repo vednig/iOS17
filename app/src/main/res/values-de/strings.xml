@@ -144,4 +144,8 @@
     <string name="toast_custom_location">Benutzerdefinierten Standort in den Einstellungen von Wetter festlegen.</string>
     <string name="toast_permission_denied">Berechtigung nicht erteilt</string>
     <string name="app_name_maps">Karten</string>
+    <string name="ignore">Ignorieren</string>
+    <string name="grant">Erlauben</string>
+    <string name="notification_badge_warning">Um die Benachrichtigungspünktchen auf dem App-Symbol zu sehen, muss der Launcher berechtigt sein, auf Benachrichtigungen zuzugreifen.</string>
+    <string name="perm_required">Berechtigung benötigt</string>
 </resources>
