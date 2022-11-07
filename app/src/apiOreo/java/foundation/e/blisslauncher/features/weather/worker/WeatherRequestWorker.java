@@ -39,17 +39,18 @@ public abstract class WeatherRequestWorker extends Worker {
     protected static void requestWeatherUpdate(Context context, Location location) {
         Log.i(TAG, "Requesting weather info for location: " + location);
         LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(context);
-        weatherManager.requestWeatherUpdate(location, (info, weatherInfo) -> notifyUi(context, weatherInfo));
+        weatherManager.requestWeatherUpdate(location, (status, weatherInfo) -> notifyUi(context, weatherInfo, status));
     }
 
     protected static void requestCustomWeatherUpdate(Context context, WeatherLocation location) {
         Log.i(TAG, "Requesting weather info for location: " + location);
         LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(context);
-        weatherManager.requestWeatherUpdate(location, (info, weatherInfo) -> notifyUi(context, weatherInfo));
+        weatherManager.requestWeatherUpdate(location, (status, weatherInfo) -> notifyUi(context, weatherInfo, status));
     }
 
-    protected static void notifyUi(@NonNull Context context, @Nullable WeatherInfo weatherInfo) {
+    protected static void notifyUi(@NonNull Context context, @Nullable WeatherInfo weatherInfo, int status) {
         if (weatherInfo == null) {
+            Log.i(TAG, "WeatherInfo is null. Status reported: " + status);
             return;
         }
 
