@@ -113,23 +113,6 @@ android {
     buildFeatures { viewBinding = true }
 
     lint { abortOnError = false }
-
-    sourceSets {
-        getByName("apiQ") {
-            java.srcDir("src/apiOreo/java")
-            res.srcDir("src/apiOreo/res")
-        }
-
-        getByName("apiR") {
-            java.srcDir("src/apiOreo/java")
-            res.srcDir("src/apiOreo/res")
-        }
-
-        getByName("apiS") {
-            java.srcDir("src/apiOreo/java")
-            res.srcDir("src/apiOreo/res")
-        }
-    }
 }
 
 dependencies {

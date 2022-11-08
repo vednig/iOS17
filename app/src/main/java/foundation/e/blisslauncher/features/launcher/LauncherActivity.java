@@ -167,6 +167,7 @@ public class LauncherActivity extends AppCompatActivity
             OnSwipeDownListener,
             WallpaperManagerCompat.OnColorsChangedListener {
 
+    private static final int WIDGET_PAGE = 0;
     public static final int REORDER_TIMEOUT = 350;
     private final static int EMPTY_LOCATION_DRAG = -999;
     private static final int REQUEST_PERMISSION_CALL_PHONE = 14;
@@ -1340,9 +1341,7 @@ public class LauncherActivity extends AppCompatActivity
                 mDeviceProfile.iconDrawablePaddingPx / 2, 0);
 
         // If a user taps outside (background / space) stop wobbling
-        grid.setOnClickListener(view -> {
-            handleWobbling(false);
-        });
+        grid.setOnClickListener(view -> handleWobbling(false));
 
         return grid;
     }

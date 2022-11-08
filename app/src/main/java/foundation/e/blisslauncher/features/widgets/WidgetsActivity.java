@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
+
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,9 +59,7 @@ public class WidgetsActivity extends Activity implements AddedWidgetsAdapter.OnA
 
         refreshRecyclerView();
 
-        findViewById(R.id.add_widget_button).setOnClickListener(view -> {
-            selectWidget();
-        });
+        findViewById(R.id.add_widget_button).setOnClickListener(view -> selectWidget());
     }
 
     @Override
