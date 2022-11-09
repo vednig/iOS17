@@ -7,6 +7,8 @@ import android.net.Uri;
 
 public class SearchSuggestionUtil {
 
+    private static final String SPOT_URL = "https://spot.murena.io/";
+
     public SuggestionProvider getSuggestionProvider(Context context) {
         String defaultSearchEngine = defaultSearchEngine(context);
         if (defaultSearchEngine != null && defaultSearchEngine.length() > 0) {
@@ -30,10 +32,10 @@ public class SearchSuggestionUtil {
             } else if (defaultSearchEngine.contains("duckduckgo")) {
                 return Uri.parse("https://duckduckgo.com/?q=" + query);
             } else {
-                return Uri.parse("https://spot.ecloud.global/?q=" + query);
+                return Uri.parse(SPOT_URL + "?q=" + query);
             }
         } else {
-            return Uri.parse("https://spot.ecloud.global/?q=" + query);
+            return Uri.parse(SPOT_URL + "?q=" + query);
         }
     }
 
