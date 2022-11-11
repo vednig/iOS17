@@ -72,6 +72,7 @@ public class AppProvider {
     private static final String PDF_VIEWER_PACKAGE = "foundation.e.pdfviewer";
     private static final String OPENKEYCHAIN_PACKAGE = "org.sufficientlysecure.keychain";
     private static final String LIBREOFFICE_PACKAGE = "org.documentfoundation.libreoffice";
+    private static final String LIBREOFFICE_PACKAGE2 = "org.example.libreoffice";
     private static final String SIM_TOOLKIT = "com.android.stk";
 
     public static HashSet<String> DISABLED_PACKAGES = new HashSet<>();
@@ -84,6 +85,7 @@ public class AppProvider {
         DISABLED_PACKAGES.add(PDF_VIEWER_PACKAGE);
         DISABLED_PACKAGES.add(OPENKEYCHAIN_PACKAGE);
         DISABLED_PACKAGES.add(LIBREOFFICE_PACKAGE);
+        DISABLED_PACKAGES.add(LIBREOFFICE_PACKAGE2);
         DISABLED_PACKAGES.add(SIM_TOOLKIT);
     }
 
