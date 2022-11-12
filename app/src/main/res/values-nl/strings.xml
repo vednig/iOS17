@@ -144,4 +144,8 @@
     <string name="toast_failed">Achtergrond vervagen mislukt</string>
     <string name="toast_custom_location">Stel een locatie in voor de Weer opties.</string>
     <string name="toast_permission_denied">Toestemming geweigerd</string>
+    <string name="ignore">Negeer</string>
+    <string name="grant">Toestaan</string>
+    <string name="notification_badge_warning">Om notificatie bolletjes op app iconen te zien moet je launcher notificatie toegang geven.</string>
+    <string name="perm_required">Toestemming vereist</string>
 </resources>
