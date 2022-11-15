@@ -43,6 +43,7 @@
         <item name="widgetPrimaryTextColor">@color/on_surface_high_emphasis</item>
         <item name="widgetSecondaryTextColor">@color/on_surface_medium_emphasis</item>
         <item name="widgetSettingsIconColor">?widgetPrimaryTextColor</item>
+        <item name="widgetRefreshIconColor">?widgetPrimaryTextColor</item>
         <item name="widgetSearchIconColor">@color/on_surface_high_emphasis</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorAccent">@color/colorAccent</item>
@@ -56,6 +57,7 @@
         <item name="widgetPrimaryTextColor">#99000000</item>
         <item name="widgetSecondaryTextColor">#61000000</item>
         <item name="widgetSettingsIconColor">#61000000</item>
+        <item name="widgetRefreshIconColor">#61000000</item>
         <item name="widgetSearchIconColor">#BD000000</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorAccent">@color/colorAccent</item>

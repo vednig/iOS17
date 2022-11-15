@@ -161,7 +161,4 @@ dependencies {
 
     // elib
     implementation(libs.elib)
-
-    // workmanager
-    implementation(libs.workmanager)
 }

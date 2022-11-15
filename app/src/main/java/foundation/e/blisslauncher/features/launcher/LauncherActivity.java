@@ -629,6 +629,7 @@ public class LauncherActivity extends AppCompatActivity
         forceRefreshSuggestedApps = true;
         removePackageFromLauncher(appRemoveEvent.getPackageName(), appRemoveEvent.getUserHandle());
         DatabaseManager.getManager(this).saveLayouts(pages, mDock);
+        rebindAllWidgets();
     }
 
     public void onAppChangeEvent(AppChangeEvent appChangeEvent) {
@@ -1468,10 +1469,21 @@ public class LauncherActivity extends AppCompatActivity
         }
         // [[END]]
 
+        rebindWidgetHost();
+    }
+
+    private void rebindWidgetHost() {
         int[] widgetIds = mAppWidgetHost.getAppWidgetIds();
         getCompositeDisposable().add(DatabaseManager.getManager(this).getWidgets(widgetIds)
                 .subscribeOn(Schedulers.from(AppExecutors.getInstance().diskIO()))
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(this::bindWidgets));
+    }
+
+    public void rebindAllWidgets() {
+        if (widgetsPage != null) {
+            widgetContainer.removeAllViewsInLayout();
+            rebindWidgetHost();
+        }
     }
 
     private void bindWidgets(List<WidgetItem> widgets) {

@@ -48,6 +48,7 @@
     <attr name="widgetPrimaryTextColor" format="color" />
     <attr name="widgetSecondaryTextColor" format="color" />
     <attr name="widgetSettingsIconColor" format="color" />
+    <attr name="widgetRefreshIconColor" format="color" />
     <attr name="widgetSearchIconColor" format="color" />
     <attr name="searchBarTheme" format="reference" />
 
