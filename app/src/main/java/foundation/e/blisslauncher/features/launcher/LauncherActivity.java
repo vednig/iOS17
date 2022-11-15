@@ -9,8 +9,10 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -70,6 +72,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -1198,6 +1201,8 @@ public class LauncherActivity extends AppCompatActivity
      * currentPageNumber updated
      */
     private void createPageChangeListener() {
+        ValueAnimator navbarAnimator = createNavbarColorAnimator();
+
         mHorizontalPager.addOnScrollListener(new HorizontalPager.OnScrollListener() {
             boolean isViewScrolling = true;
 
@@ -1232,10 +1237,13 @@ public class LauncherActivity extends AppCompatActivity
 
                 if (currentPageNumber != page) {
                     currentPageNumber = page;
-                    if (currentPageNumber == 0) {
+                    navbarAnimator.cancel();
+                    if (currentPageNumber == WIDGET_PAGE) {
+                        navbarAnimator.start();
                         refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
                         mInsetsController.hide(WindowInsetsCompat.Type.statusBars());
                     } else {
+                        navbarAnimator.reverse();
                         mInsetsController.show(WindowInsetsCompat.Type.statusBars());
                     }
 
@@ -1244,6 +1252,23 @@ public class LauncherActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    private ValueAnimator createNavbarColorAnimator() {
+        int navColor = getWindow().getNavigationBarColor();
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), navColor,
+                ColorUtils.setAlphaComponent(navColor, 160));
+
+        colorAnimation.setDuration(400);
+        colorAnimation.setInterpolator(new LinearInterpolator());
+        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                getWindow().setNavigationBarColor((int) animator.getAnimatedValue());
+            }
+        });
+
+        return colorAnimation;
     }
 
     public void refreshSuggestedApps(ViewGroup viewGroup, boolean forceRefresh) {
