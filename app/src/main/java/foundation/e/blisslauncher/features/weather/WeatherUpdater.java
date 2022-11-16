@@ -27,6 +27,8 @@ import lineageos.weather.WeatherLocation;
 public class WeatherUpdater {
 
     private static final String TAG = "WeatherUpdater";
+    private static final long FORCE_REQUEST_PERIOD_IN_MS = 60000L;
+
     private final LocationManager mLocationManager;
     private final WeakReference<Context> mWeakContext;
     private Location mGpsLocation;
@@ -61,13 +63,27 @@ public class WeatherUpdater {
     }
 
     public void forceWeatherRequest() {
-        Log.i(TAG, "Forcing weather request");
-        updateWeather();
+        if (canForceWeatherRequest()) {
+            updateWeather();
+        }
+    }
+
+    private boolean canForceWeatherRequest() {
+        Context context = mWeakContext.get();
+        long elapsedTime = Math.abs(SystemClock.elapsedRealtime() - Preferences.getForceRequestLastTry(context));
+        boolean isRequestAllowed = elapsedTime >= FORCE_REQUEST_PERIOD_IN_MS;
+        if (isRequestAllowed) {
+            Preferences.setForceRequestLastTry(context, SystemClock.elapsedRealtime());
+        } else {
+            Log.w(TAG, "Cannot force weather update too frequently. Period is " + FORCE_REQUEST_PERIOD_IN_MS + "ms.");
+        }
+
+        return isRequestAllowed;
     }
 
     private void updateWeather() {
+        Log.i(TAG, "Updating weather");
         Context context = mWeakContext.get();
-        Preferences.setLastWeatherUpdateTimestamp(context, SystemClock.elapsedRealtime());
 
         if (Preferences.useCustomWeatherLocation(context)) {
             requestCustomWeatherUpdate(context, Preferences.getCustomWeatherLocation(context));
