@@ -36,6 +36,7 @@ public class Constants {
 
     // other shared pref entries
     public static final String WEATHER_LAST_UPDATE = "last_weather_update";
+    public static final String WEATHER_LAST_TRY = "last_weather_try";
     public static final String WEATHER_DATA = "weather_data";
 
     // First run is used to hide the initial no-weather message for a better OOBE

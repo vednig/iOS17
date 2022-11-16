@@ -12,7 +12,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.features.launcher.LauncherActivity;
-import foundation.e.blisslauncher.features.weather.worker.ForceWeatherRequestWorker;
 
 public class WeatherInfoView extends LinearLayout {
 
@@ -54,7 +53,7 @@ public class WeatherInfoView extends LinearLayout {
         });
         findViewById(R.id.weather_setting_imageview).setOnClickListener(v -> startWeatherPreferences());
         findViewById(R.id.weather_refresh_imageview).setOnClickListener(v -> {
-            ForceWeatherRequestWorker.start(mContext);
+            WeatherUpdater.getInstance(mContext).forceWeatherRequest();
         });
     }
 
