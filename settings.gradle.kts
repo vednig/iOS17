@@ -5,7 +5,6 @@ pluginManagement {
         includeBuild("build-logic")
         gradlePluginPortal()
         google()
-        maven("https://maven.fabric.io/public")
         mavenCentral()
         jcenter()
     }
@@ -15,7 +14,6 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
-        maven("https://maven.fabric.io/public")
         mavenCentral()
         jcenter()
         maven("https://gitlab.e.foundation/api/v4/groups/9/-/packages/maven")

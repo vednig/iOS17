@@ -72,12 +72,6 @@ android {
 
     flavorDimensions.add("api")
     productFlavors {
-        create("apiOreo") {
-            dimension = "api"
-            minSdk = 26
-            targetSdk = 28
-        }
-
         create("apiQ") {
             dimension = "api"
             minSdk = 29
@@ -116,7 +110,6 @@ android {
 }
 
 dependencies {
-    "apiOreoImplementation"(files("libs/lineage-sdk-oreo.jar"))
     "apiQImplementation"(files("libs/lineage-sdk-q.jar"))
     "apiRImplementation"(files("libs/lineage-sdk-r.jar"))
     "apiSImplementation"(files("libs/e-ui-sdk-s.jar"))
