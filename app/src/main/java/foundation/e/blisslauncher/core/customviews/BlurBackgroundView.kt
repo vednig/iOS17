@@ -6,8 +6,8 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
+import foundation.e.blisslauncher.core.blur.BlurDrawable
 import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider
-import foundation.e.blisslauncher.core.blur.ShaderBlurDrawable
 import foundation.e.blisslauncher.core.runOnMainThread
 
 class BlurBackgroundView(context: Context, attrs: AttributeSet?) :
@@ -15,7 +15,7 @@ class BlurBackgroundView(context: Context, attrs: AttributeSet?) :
 
     private val blurWallpaperProvider by lazy { BlurWallpaperProvider.getInstance(context) }
 
-    private var fullBlurDrawable: ShaderBlurDrawable? = null
+    private var fullBlurDrawable: BlurDrawable? = null
     private var blurAlpha = 255
 
     private val blurDrawableCallback by lazy {
@@ -62,10 +62,12 @@ class BlurBackgroundView(context: Context, attrs: AttributeSet?) :
         }
     }
 
-    private fun createFullBlurDrawable() {
+    private fun createFullBlurDrawable(
+        config: BlurWallpaperProvider.BlurConfig = BlurWallpaperProvider.blurConfigBackground
+    ) {
         fullBlurDrawable?.let { if (isAttachedToWindow) it.stopListening() }
         fullBlurDrawable =
-            blurWallpaperProvider.createDrawable().apply {
+            blurWallpaperProvider.createBlurDrawable(config).apply {
                 callback = blurDrawableCallback
                 setBounds(left, top, right, bottom)
                 if (isAttachedToWindow) startListening()

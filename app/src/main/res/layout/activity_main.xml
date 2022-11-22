@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <foundation.e.blisslauncher.core.customviews.InsettableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/workspace"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -46,14 +46,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:visibility="gone"
-        android:focusable="true">
+        android:focusable="true"
+        android:visibility="gone">
 
         <foundation.e.blisslauncher.core.customviews.BlissInput
             android:id="@+id/folder_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/folder_apps_background"
+            android:layout_above="@+id/folder_bg_blur"
             android:layout_centerHorizontal="true"
             android:background="@null"
             android:imeOptions="actionDone"
@@ -62,32 +62,42 @@
             android:paddingBottom="16dp"
             android:text="@string/untitled"
             android:textAlignment="center"
-            android:textCursorDrawable="@drawable/folder_title_text_cursor"
             android:textColor="?workspaceTextColor"
+            android:textCursorDrawable="@drawable/folder_title_text_cursor"
             android:textSize="18sp" />
 
-        <LinearLayout
-            android:id="@+id/folder_apps_background"
+        <foundation.e.blisslauncher.core.customviews.BlurLayout
+            android:id="@+id/folder_bg_blur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/folder_window"
-            android:orientation="vertical">
+            app:blurCornerRadius="12dp"
+            app:blurOverlayColor="@color/blur_overlay"
+            app:blurOverlayOffset="2000">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/folder_apps"
+            <LinearLayout
+                android:id="@+id/folder_apps_background"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/folder_window"
+                android:orientation="vertical">
 
-            <me.relex.circleindicator.CircleIndicator
-                android:id="@+id/indicator"
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:paddingBottom="4dp"
-                app:ci_drawable="@drawable/dot_on"
-                app:ci_drawable_unselected="@drawable/dot_off" />
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/folder_apps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        </LinearLayout>
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:paddingBottom="4dp"
+                    app:ci_drawable="@drawable/dot_on"
+                    app:ci_drawable_unselected="@drawable/dot_off" />
+
+            </LinearLayout>
+        </foundation.e.blisslauncher.core.customviews.BlurLayout>
 
     </RelativeLayout>
 
