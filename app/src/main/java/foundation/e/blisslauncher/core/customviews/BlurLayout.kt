@@ -5,11 +5,12 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate
+import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider
 
 open class BlurLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
     FrameLayout(context, attrs) {
 
-    private val delegate = BlurViewDelegate(this, attrs)
+    private val delegate = BlurViewDelegate(this, BlurWallpaperProvider.blurConfigWidget, attrs)
 
     init {
         setWillNotDraw(false)

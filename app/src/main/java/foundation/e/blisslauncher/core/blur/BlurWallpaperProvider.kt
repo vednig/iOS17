@@ -30,11 +30,10 @@ class BlurWallpaperProvider(val context: Context) {
     private val listeners = ArrayList<Listener>()
     private val displayMetrics = DisplayMetrics()
 
-    var wallpapers: Pair<Bitmap, Bitmap>? = null
+    var wallpapers: BlurSizes? = null
         private set(value) {
             if (field != value) {
-                field?.first?.recycle()
-                field?.second?.recycle()
+                field?.recycle()
                 field = value
             }
         }
@@ -51,7 +50,7 @@ class BlurWallpaperProvider(val context: Context) {
     private val mUpdateRunnable = Runnable { updateWallpaper() }
 
     private val wallpaperFilter = BlurWallpaperFilter(context)
-    private var applyTask: WallpaperFilter.ApplyTask<Pair<Bitmap, Bitmap>>? = null
+    private var applyTask: WallpaperFilter.ApplyTask<BlurSizes>? = null
 
     private var updatePending = false
 
@@ -186,13 +185,16 @@ class BlurWallpaperProvider(val context: Context) {
                 navigationBarHeight = context.getResources().getDimensionPixelSize(resourceId);
             }
         }*/
-        val y: Int
-        y =
+        val y: Int =
             if (scaledWallpaper.height > height) {
                 (scaledWallpaper.height - height) / 2
             } else 0
 
-        return Bitmap.createBitmap(scaledWallpaper, 0, y, width, height - navigationBarHeight)
+        val newBitmap =
+            Bitmap.createBitmap(scaledWallpaper, 0, y, width, height - navigationBarHeight)
+        wallpaper.recycle()
+        scaledWallpaper.recycle()
+        return newBitmap
     }
 
     fun addListener(listener: Listener) {
@@ -203,13 +205,7 @@ class BlurWallpaperProvider(val context: Context) {
         listeners.remove(listener)
     }
 
-    fun createDrawable(): ShaderBlurDrawable {
-        return ShaderBlurDrawable(this)
-    }
-
-    fun createBlurDrawable(): BlurDrawable {
-        return BlurDrawable(this)
-    }
+    fun createBlurDrawable(config: BlurConfig = blurConfigDock) = BlurDrawable(this, config)
 
     interface Listener {
         fun onWallpaperChanged() {}
@@ -222,10 +218,34 @@ class BlurWallpaperProvider(val context: Context) {
         sInstance = null
     }*/
 
+    data class BlurSizes(
+        val background: Bitmap,
+        val dock: Bitmap,
+        val appGroup: Bitmap,
+        val widget: Bitmap
+    ) {
+        fun recycle() {
+            background.recycle()
+            dock.recycle()
+            appGroup.recycle()
+            widget.recycle()
+        }
+    }
+
+    data class BlurConfig(val getDrawable: (BlurSizes) -> Bitmap, val scale: Int, val radius: Int)
+
     companion object :
         SingletonHolder<BlurWallpaperProvider, Context>(
             ensureOnMainThread(useApplicationContext(::BlurWallpaperProvider))
         ) {
+
+        val blurConfigBackground = BlurConfig({ it.background }, 2, 8)
+
+        val blurConfigDock = BlurConfig({ it.dock }, 1, 2)
+
+        val blurConfigAppGroup = BlurConfig({ it.appGroup }, 6, 8)
+
+        val blurConfigWidget = BlurConfig({ it.widget }, 6, 10)
 
         var isEnabled: Boolean = false
         private var sEnabledFlag: Int = 0

@@ -6,8 +6,11 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate;
+import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider;
 
 /** Created by falcon on 9/3/18. */
 public class SquareFrameLayout extends FrameLayout {
@@ -33,12 +36,13 @@ public class SquareFrameLayout extends FrameLayout {
 
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
-        int size = width < height ? width : height;
+        int size = Math.min(width, height);
         setMeasuredDimension(size, size);
     }
 
     public void enableBlur() {
-        mBlurDelegate = new BlurViewDelegate(this, null);
+        mBlurDelegate = new BlurViewDelegate(this, BlurWallpaperProvider.Companion.getBlurConfigAppGroup(), null);
+        mBlurDelegate.setOverlayColor(getContext().getColor(R.color.blur_overlay));
         setWillNotDraw(false);
     }
 

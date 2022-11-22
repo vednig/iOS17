@@ -10,8 +10,11 @@ import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 
-class BlurDrawable internal constructor(private val blurWallpaperProvider: BlurWallpaperProvider) :
-    Drawable(), BlurWallpaperProvider.Listener {
+class BlurDrawable
+internal constructor(
+    private val blurWallpaperProvider: BlurWallpaperProvider,
+    private val config: BlurWallpaperProvider.BlurConfig = BlurWallpaperProvider.blurConfigWidget
+) : Drawable(), BlurWallpaperProvider.Listener {
 
     private var blurAlpha = 255
     private val blurPaint = Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG)
@@ -33,7 +36,9 @@ class BlurDrawable internal constructor(private val blurWallpaperProvider: BlurW
         val height = blurBounds.bottom.toInt() - blurBounds.top.toInt()
         if (width <= 0 || height <= 0) return
         if (blurAlpha == 0) return
-        blurBitmap = blurWallpaperProvider.wallpapers?.second
+        val wallpapers = blurWallpaperProvider.wallpapers
+        blurBitmap = wallpapers?.let { config.getDrawable(it) }
+        val scale = config.scale.toFloat()
 
         if (blurBitmap == null) {
             blurBitmap = blurWallpaperProvider.placeholder
@@ -43,9 +48,12 @@ class BlurDrawable internal constructor(private val blurWallpaperProvider: BlurW
         val top = blurBounds.top + offsetY
         val right = blurBounds.right + offsetX
         val bottom = blurBounds.bottom + offsetY
+        val count = canvas.save()
         canvas.translate(-left, -top)
-        canvas.drawRect(left, top, right, bottom, blurPaint)
-        canvas.translate(left, top)
+        canvas.clipRect(left, top, right, bottom)
+        canvas.scale(scale, scale, 0f, 0f)
+        canvas.drawPaint(blurPaint)
+        canvas.restoreToCount(count)
     }
 
     override fun setAlpha(alpha: Int) {

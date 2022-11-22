@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate;
+import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider;
 import foundation.e.blisslauncher.features.widgets.CheckLongPressHelper;
 
 public class RoundedWidgetView extends AppWidgetHostView {
@@ -40,7 +41,7 @@ public class RoundedWidgetView extends AppWidgetHostView {
         this.cornerRadius = context.getResources().getDimensionPixelSize(R.dimen.corner_radius);
         mLongPressHelper = new CheckLongPressHelper(this);
         if (blurBackground) {
-            mBlurDelegate = new BlurViewDelegate(this, null);
+            mBlurDelegate = new BlurViewDelegate(this, BlurWallpaperProvider.Companion.getBlurConfigWidget(), null);
             mBlurDelegate.setBlurCornerRadius(cornerRadius);
             setWillNotDraw(false);
             setOutlineProvider(mBlurDelegate.getOutlineProvider());

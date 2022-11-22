@@ -14,8 +14,11 @@ import foundation.e.blisslauncher.R
 import foundation.e.blisslauncher.core.customviews.HorizontalPager
 import foundation.e.blisslauncher.core.utils.OffsetParent
 
-class BlurViewDelegate(private val view: View, attrs: AttributeSet? = null) :
-    View.OnAttachStateChangeListener, BlurWallpaperProvider.Listener {
+class BlurViewDelegate(
+    private val view: View,
+    private val config: BlurWallpaperProvider.BlurConfig,
+    attrs: AttributeSet? = null
+) : View.OnAttachStateChangeListener, BlurWallpaperProvider.Listener {
 
     private val context = view.context
     private val blurWallpaperProvider by lazy { BlurWallpaperProvider.getInstance(context) }
@@ -62,6 +65,7 @@ class BlurViewDelegate(private val view: View, attrs: AttributeSet? = null) :
         }
 
     var blurCornerRadius = 0f
+    var overlayOffset = 70f
     val outlineProvider =
         object : ViewOutlineProvider() {
             override fun getOutline(view: View, outline: Outline) {
@@ -74,9 +78,10 @@ class BlurViewDelegate(private val view: View, attrs: AttributeSet? = null) :
             field = value
             overlayPaint.color = value
         }
+
     private val overlayPaint =
         Paint(Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG).apply {
-            blendMode = BlendMode.OVERLAY
+            blendMode = BlendMode.MULTIPLY
         }
 
     init {
@@ -87,6 +92,7 @@ class BlurViewDelegate(private val view: View, attrs: AttributeSet? = null) :
             val a = context.obtainStyledAttributes(attrs, R.styleable.BlurLayout)
             blurCornerRadius = a.getDimension(R.styleable.BlurLayout_blurCornerRadius, 0f)
             overlayColor = a.getColor(R.styleable.BlurLayout_blurOverlayColor, 0)
+            overlayOffset = a.getInt(R.styleable.BlurLayout_blurOverlayOffset, 70).toFloat()
             a.recycle()
         }
     }
@@ -118,11 +124,13 @@ class BlurViewDelegate(private val view: View, attrs: AttributeSet? = null) :
             this.draw(canvas)
         }
         if (overlayColor != 0) {
-            canvas.drawRect(
-                view.left.toFloat(),
-                view.top.toFloat(),
+            canvas.drawRoundRect(
+                view.left.toFloat() - overlayOffset,
+                view.top.toFloat() - overlayOffset,
                 view.right.toFloat(),
                 view.bottom.toFloat(),
+                view.x,
+                view.y,
                 overlayPaint
             )
         }
@@ -131,7 +139,7 @@ class BlurViewDelegate(private val view: View, attrs: AttributeSet? = null) :
     private fun createFullBlurDrawable() {
         fullBlurDrawable?.let { if (view.isAttachedToWindow) it.stopListening() }
         fullBlurDrawable =
-            blurWallpaperProvider.createBlurDrawable().apply {
+            blurWallpaperProvider.createBlurDrawable(config).apply {
                 callback = blurDrawableCallback
                 setBounds(view.left, view.top, view.right, view.bottom)
                 if (view.isAttachedToWindow) startListening()

@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.widget.GridLayout
 import foundation.e.blisslauncher.BlissLauncher
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate
+import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider
 import foundation.e.blisslauncher.core.utils.OffsetParent
 
 class DockGridLayout
@@ -21,7 +22,7 @@ constructor(private val mContext: Context, attrs: AttributeSet? = null, defStyle
     override val offsetY: Float
         get() = translationY
 
-    private val blurDelegate = BlurViewDelegate(this, attrs)
+    private val blurDelegate = BlurViewDelegate(this, BlurWallpaperProvider.blurConfigDock, attrs)
 
     init {
         setWillNotDraw(false)

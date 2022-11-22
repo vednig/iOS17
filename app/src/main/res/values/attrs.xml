@@ -39,6 +39,7 @@
     <declare-styleable name="BlurLayout">
         <attr name="blurCornerRadius" format="dimension" />
         <attr name="blurOverlayColor" format="color" />
+        <attr name="blurOverlayOffset" format="integer" />
     </declare-styleable>
 
     <attr name="isWorkspaceDarkText" format="boolean" />
