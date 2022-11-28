@@ -27,10 +27,13 @@ import lineageos.weather.WeatherLocation;
 public class WeatherUpdater {
 
     private static final String TAG = "WeatherUpdater";
+    private static final long DEFAULT_FORCE_REQUEST_PERIOD_IN_MS = 60000L;
+
     private final LocationManager mLocationManager;
     private final WeakReference<Context> mWeakContext;
     private Location mGpsLocation;
     private Location mNetworkLocation;
+    private long mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
 
     private static WeatherUpdater mInstance = null;
 
@@ -52,33 +55,55 @@ public class WeatherUpdater {
         long refreshPeriod = Preferences.weatherRefreshIntervalInMs(context);
         long elapsedTime = Math.abs(SystemClock.elapsedRealtime() - Preferences.lastWeatherUpdateTimestamp(context));
 
-        Log.i(TAG, "elapsedTime=" + elapsedTime + " vs refreshPeriod=" + refreshPeriod);
-
-        boolean isRequestAllowed = refreshPeriod != 0 && elapsedTime >= refreshPeriod;
-        if (isRequestAllowed) {
-            updateWeather();
+        boolean isPeriodicRequestAllowed = refreshPeriod != 0 && elapsedTime >= refreshPeriod;
+        if (isPeriodicRequestAllowed) {
+            forceWeatherRequest();
         }
     }
 
     public void forceWeatherRequest() {
-        Log.i(TAG, "Forcing weather request");
-        updateWeather();
+        if (canForceWeatherRequest()) {
+            updateWeather();
+            increaseForceRequestPeriod();
+        }
+    }
+
+    private boolean canForceWeatherRequest() {
+        Context context = mWeakContext.get();
+
+        long elapsedTime = Math.abs(SystemClock.elapsedRealtime() - Preferences.getForceRequestLastTry(context));
+
+        boolean isRequestAllowed = elapsedTime >= mForceRequestPeriodInMs;
+
+        if (isRequestAllowed) {
+            Preferences.setForceRequestLastTry(context, SystemClock.elapsedRealtime());
+        }
+
+        return isRequestAllowed;
     }
 
     private void updateWeather() {
+        Log.i(TAG, "Updating weather");
         Context context = mWeakContext.get();
-        Preferences.setLastWeatherUpdateTimestamp(context, SystemClock.elapsedRealtime());
 
         if (Preferences.useCustomWeatherLocation(context)) {
-            requestCustomWeatherUpdate(context, Preferences.getCustomWeatherLocation(context));
+            requestCustomWeatherUpdate(Preferences.getCustomWeatherLocation(context));
         } else {
-            fetchNewLocation(context);
+            fetchNewLocation();
+        }
+    }
+
+    private void increaseForceRequestPeriod() {
+        mForceRequestPeriodInMs = mForceRequestPeriodInMs * 2;
+
+        if (mForceRequestPeriodInMs > Preferences.weatherRefreshIntervalInMs(mWeakContext.get())) {
+            mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
         }
     }
 
     @SuppressLint("MissingPermission")
-    private void fetchNewLocation(@NonNull Context context) {
-        if (hasMissingPermissions(context)) {
+    private void fetchNewLocation() {
+        if (hasMissingPermissions()) {
             Log.e(TAG, "Could not fetch location for missing permission");
             return;
         }
@@ -90,28 +115,32 @@ public class WeatherUpdater {
                 Executors.newFixedThreadPool(1), this::onNewLocationFetched);
     }
 
-    protected static boolean hasMissingPermissions(@NonNull Context context) {
+    protected boolean hasMissingPermissions() {
+        Context context = mWeakContext.get();
+
         return ActivityCompat.checkSelfPermission(context,
                 permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context,
                         permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
     }
 
-    protected static void requestWeatherUpdate(@NonNull Context context, @NonNull Location location) {
-
+    protected void requestWeatherUpdate(@NonNull Location location) {
         Log.i(TAG, "Requesting weather info for location: " + location);
+        Context context = mWeakContext.get();
         LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(context);
         weatherManager.requestWeatherUpdate(location, (status, weatherInfo) -> notifyUi(context, weatherInfo, status));
     }
 
-    protected static void requestCustomWeatherUpdate(@NonNull Context context, @Nullable WeatherLocation location) {
+    protected void requestCustomWeatherUpdate(@Nullable WeatherLocation location) {
         Log.i(TAG, "Requesting weather info for location: " + location);
+        Context context = mWeakContext.get();
         LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(context);
         weatherManager.requestWeatherUpdate(location, (status, weatherInfo) -> notifyUi(context, weatherInfo, status));
     }
 
     private synchronized void onNewLocationFetched(@Nullable Location location) {
         if (location == null) {
+            Log.w(TAG, "Could not fetch any location");
             return;
         }
 
@@ -123,10 +152,10 @@ public class WeatherUpdater {
             mNetworkLocation = location;
         }
 
-        requestWeatherUpdate(mWeakContext.get(), getMostRecentLocation());
+        requestWeatherUpdate(getMostRecentLocation());
     }
 
-    protected static void notifyUi(@NonNull Context context, @Nullable WeatherInfo weatherInfo, int status) {
+    private void notifyUi(@NonNull Context context, @Nullable WeatherInfo weatherInfo, int status) {
 
         if (weatherInfo == null) {
             Log.i(TAG, "WeatherInfo is null. Status reported: " + status);
@@ -139,6 +168,7 @@ public class WeatherUpdater {
         Preferences.setLastWeatherUpdateTimestamp(context, now);
         Intent updateIntent = new Intent(WeatherUpdateService.ACTION_UPDATE_FINISHED);
         LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
+        mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
     }
 
     private Location getMostRecentLocation() {
