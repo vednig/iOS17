@@ -27,7 +27,7 @@ import lineageos.weather.WeatherLocation;
 public class WeatherUpdater {
 
     private static final String TAG = "WeatherUpdater";
-    private static final long DEFAULT_FORCE_REQUEST_PERIOD_IN_MS = 60000L;
+    private static final long DEFAULT_FORCE_REQUEST_PERIOD_IN_MS = 10L * 1000L;
 
     private final LocationManager mLocationManager;
     private final WeakReference<Context> mWeakContext;

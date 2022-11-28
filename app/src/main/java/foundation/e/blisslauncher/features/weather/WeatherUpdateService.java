@@ -16,7 +16,7 @@ public class WeatherUpdateService extends Service {
     public static final String ACTION_FORCE_UPDATE = "org.indin.blisslauncher.action.FORCE_WEATHER_UPDATE";
     public static final String ACTION_UPDATE_FINISHED = "org.indin.blisslauncher.action.WEATHER_UPDATE_FINISHED";
 
-    private static final long UPDATE_PERIOD_IN_MS = 10L * 1000L;
+    private static final long UPDATE_PERIOD_IN_MS = 5L * 1000L;
 
     private HandlerThread mHandlerThread;
     private Handler mHandler;
