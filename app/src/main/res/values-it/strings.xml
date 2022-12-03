@@ -132,7 +132,7 @@
     <string name="widgets">Widget</string>
     <string name="add_widget">Aggiungi widget</string>
     <string name="choose_widget">Scegli widget</string>
-    <string name="app_name_maps">Mappe</string>
+    <string name="app_name_maps">Maps</string>
     <string name="toast_no_room">Non c\'è più spazio nella pagina</string>
     <string name="toast_dock_full">Dock già pieno</string>
     <string name="toast_cannot_uninstall">Non posso disinstallare questa app</string>
@@ -143,4 +143,9 @@
     <string name="toast_custom_location">Imposta una posizione predefinita nelle impostazioni meteo.</string>
     <string name="toast_permission_denied">Autorizzazione rifiutata</string>
     <string name="widget_is_not_resizable">Il widget non è riscalabile</string>
+    <string name="ignore">Ignora</string>
+    <string name="grant">Consenti</string>
+    <string name="notification_badge_warning">Per poter vedere il numero delle notifiche sulle icone delle App, devi concedere al launcher l\'accesso alle notifiche.</string>
+    <string name="perm_required">Permesso richiesto</string>
+    <string name="weather_refresh_15min">15 minuti</string>
 </resources>
