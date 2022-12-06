@@ -16,13 +16,27 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.location.LocationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 
+import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
 import lineageos.weather.LineageWeatherManager;
 import lineageos.weather.WeatherInfo;
 import lineageos.weather.WeatherLocation;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class WeatherUpdater {
 
@@ -153,6 +167,10 @@ public class WeatherUpdater {
         }
 
         requestWeatherUpdate(getMostRecentLocation());
+
+        if (!Preferences.useCustomWeatherLocation(mWeakContext.get())) {
+            reverseGeocodeLocation(getMostRecentLocation());
+        }
     }
 
     private void notifyUi(@NonNull Context context, @Nullable WeatherInfo weatherInfo, int status) {
@@ -163,6 +181,7 @@ public class WeatherUpdater {
         }
 
         Log.i(TAG, "WeatherInfo=" + weatherInfo);
+
         long now = SystemClock.elapsedRealtime();
         Preferences.setCachedWeatherInfo(context, now, weatherInfo);
         Preferences.setLastWeatherUpdateTimestamp(context, now);
@@ -188,4 +207,66 @@ public class WeatherUpdater {
         long networkTime = mNetworkLocation.getTime();
         return gpsTime >= networkTime ? mGpsLocation : mNetworkLocation;
     }
+
+    private void reverseGeocodeLocation(@NonNull Location location) {
+        Log.i(TAG, "Reverse geocoding location " + location);
+
+        final String url = "https://api.openweathermap.org/geo/1.0/reverse?lat=" + location.getLatitude() + "&lon="
+                + location.getLongitude() + "&limit=1&appid=" + mWeakContext.get().getString(R.string.default_key);
+
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(mReverseGeocodeCallback);
+    }
+
+    private void onReverseGeocoded(@NonNull Response response) {
+        final ResponseBody body = response.body();
+        if (body == null) {
+            Log.w(TAG, "Reverse geocoding response is empty");
+            return;
+        }
+
+        JsonObject locales;
+        try {
+            final String json = body.string();
+            final JsonArray array = new JsonParser().parse(json).getAsJsonArray();
+            locales = array.get(0).getAsJsonObject().getAsJsonObject("local_names");
+        } catch (IOException | IllegalStateException | JsonSyntaxException exception) {
+            Log.e(TAG, "Exception caught", exception);
+            return;
+        }
+
+        if (locales == null) {
+            Log.e(TAG, "Could not get locales");
+            return;
+        }
+
+        String countryCode = Locale.getDefault().getCountry().toLowerCase(Locale.ROOT);
+        if (!locales.has(countryCode)) {
+            countryCode = locales.get("en").getAsString();
+        }
+
+        final String city = locales.get(countryCode).getAsString();
+        notifyUi(city);
+    }
+
+    private void notifyUi(@NonNull String city) {
+        Context context = mWeakContext.get();
+        Preferences.setCachedCity(context, city);
+        final Intent intent = new Intent(WeatherUpdateService.ACTION_UPDATE_CITY_FINISHED);
+        intent.putExtra(WeatherUpdateService.EXTRA_UPDATE_CITY_KEY, city);
+        LocalBroadcastManager.getInstance(mWeakContext.get()).sendBroadcast(intent);
+    }
+
+    private final Callback mReverseGeocodeCallback = new Callback() {
+        @Override
+        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+            Log.e(TAG, "Could not reverse geocode location", e);
+        }
+
+        @Override
+        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            onReverseGeocoded(response);
+        }
+    };
 }
