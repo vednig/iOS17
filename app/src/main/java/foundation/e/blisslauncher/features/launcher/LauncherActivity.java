@@ -3325,6 +3325,14 @@ public class LauncherActivity extends AppCompatActivity
     }
 
     public void forceReload() {
+        /**
+         * Return to homescreen if [forceReload] is called to prevent the icons from
+         * applying wrong dimensions
+         */
+        if (mFolderWindowContainer.getVisibility() == View.VISIBLE) {
+            returnToHomeScreen();
+        }
+
         allAppsDisplayed = false;
         BlissLauncher.getApplication(this).getAppProvider().getAppsRepository()
                 .updateAppsRelay(Collections.emptyList());
