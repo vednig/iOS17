@@ -4,21 +4,28 @@ axCore = "1.2.0-alpha03"
 axAppcompat = "1.4.1"
 axTest = "1.2.0"
 dagger = "2.24"
+espresso = "3.5.0"
 kotlin = "1.7.10"
 okhttp = "4.1.0"
 refine = "3.1.1"
 retrofit = "2.6.1"
 room = "2.2.0-beta01"
 spotless = "6.11.0"
+uiautomator = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "axCore" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "axAppcompat" }
+androidx-benchmark-junit = "androidx.benchmark:benchmark-macro-junit4:1.1.1"
 androidx-recyclerview = "androidx.recyclerview:recyclerview:1.1.0-beta03"
+androidx-profileinstaller = "androidx.profileinstaller:profileinstaller:1.2.1"
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "axTest" }
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "axTest" }
+androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
+androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+androidx-test-junit = "androidx.test.ext:junit:1.1.4"
 androidx-localbroadcast = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
 apache-commons = "org.apache.commons:commons-lang3:3.12.0"
 
@@ -59,6 +66,7 @@ mockk = "io.mockk:mockk:1.9.3"
 mockito-core = "org.mockito:mockito-core:2.19.0"
 robolectric = "org.robolectric:robolectric:4.3"
 tools-desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
+tools-leakcanary = "com.squareup.leakcanary:leakcanary-android:2.10"
 timber = "com.jakewharton.timber:timber:4.7.1"
 restriction-bypass = "com.github.ChickenHook:RestrictionBypass:2.2"
 elib = "foundation.e:elib:0.0.1-alpha11"
@@ -66,6 +74,7 @@ elib = "foundation.e:elib:0.0.1-alpha11"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
 benmanes-versions = "com.github.ben-manes.versions:0.25.0"
 google-services = "com.google.gms.google-services:4.3.0"
 refine = { id = "dev.rikka.tools.refine", version.ref = "refine" }

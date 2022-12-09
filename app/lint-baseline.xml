@@ -1,0 +1,2088 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.3.1" type="baseline" client="gradle" dependencies="false" name="AGP (7.3.1)" variant="all" version="7.3.1">
+
+    <issue
+        id="MissingSuperCall"
+        message="Overriding method should call `super.onRequestPermissionsResult`"
+        errorLine1="    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="1538"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="CustomViewStyleable"
+        message="By convention, the declare-styleable (`InsettableFrameLayout_Layout`) for a layout parameter class (`LayoutParams`) is expected to be the surrounding class (`InsettableLinearLayout`) plus &quot;`_Layout`&quot;, e.g. `InsettableLinearLayout_Layout`. (Various editor features rely on this convention.)"
+        errorLine1="            TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.InsettableFrameLayout_Layout);"
+        errorLine2="                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/InsettableLinearLayout.java"
+            line="88"
+            column="60"/>
+    </issue>
+
+    <issue
+        id="CustomViewStyleable"
+        message="By convention, the declare-styleable (`InsettableFrameLayout_Layout`) for a layout parameter class (`LayoutParams`) is expected to be the surrounding class (`InsettableRelativeLayout`) plus &quot;`_Layout`&quot;, e.g. `InsettableRelativeLayout_Layout`. (Various editor features rely on this convention.)"
+        errorLine1="            TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.InsettableFrameLayout_Layout);"
+        errorLine2="                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/InsettableRelativeLayout.java"
+            line="69"
+            column="60"/>
+    </issue>
+
+    <issue
+        id="CustomViewStyleable"
+        message="By convention, the declare-styleable (`InsettableFrameLayout_Layout`) for a layout parameter class (`LayoutParams`) is expected to be the surrounding class (`InsettableScrollLayout`) plus &quot;`_Layout`&quot;, e.g. `InsettableScrollLayout_Layout`. (Various editor features rely on this convention.)"
+        errorLine1="            TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.InsettableFrameLayout_Layout);"
+        errorLine2="                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/InsettableScrollLayout.java"
+            line="77"
+            column="60"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="                .sort(Comparator.comparing(launcherItem -> launcherItem.title.toString().toLowerCase().indexOf(query)));"
+        errorLine2="                                                                                         ~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="1663"
+            column="90"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="            defaultSearchEngine = defaultSearchEngine.toLowerCase();"
+        errorLine2="                                                      ~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/suggestions/SearchSuggestionUtil.java"
+            line="15"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="            defaultSearchEngine = defaultSearchEngine.toLowerCase();"
+        errorLine2="                                                      ~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/suggestions/SearchSuggestionUtil.java"
+            line="29"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="        return StringUtils.stripAccents(input.toLowerCase());"
+        errorLine2="                                              ~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/Utilities.java"
+            line="219"
+            column="47"/>
+    </issue>
+
+    <issue
+        id="DiscouragedPrivateApi"
+        message="Reflective access to setConfiguration, which is not part of the public SDK and therefore likely to change in future Android releases"
+        errorLine1="            AssetManager.class.getDeclaredMethod(&quot;setConfiguration&quot;, int.class, int.class, String.class, int.class,"
+        errorLine2="            ^">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/utils/ResourceUtils.java"
+            line="60"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="InternalInsetResource"
+        message="Using internal inset dimension resource `status_bar_height` is not supported"
+        errorLine1="        int resourceId = res.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;);"
+        errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/DeviceProfile.java"
+            line="170"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="InternalInsetResource"
+        message="Using internal inset dimension resource `status_bar_height` is not supported"
+        errorLine1="        int resourceId = res.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;);"
+        errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/DeviceProfile.java"
+            line="372"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="PrivateApi"
+        message="Accessing internal APIs via reflection is not supported and may not work on all devices or in the future"
+        errorLine1="            Class clazz = Class.forName(&quot;android.os.SystemProperties&quot;);"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/Utilities.java"
+            line="187"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="SimpleDateFormat"
+        message="To get local formatting use `getDateInstance()`, `getDateTimeInstance()`, or `getTimeInstance()`, or use `new SimpleDateFormat(String template, Locale locale)` with for example `Locale.US` for ASCII dates."
+        errorLine1="        SimpleDateFormat month_date = new SimpleDateFormat(&quot;MMM&quot;);"
+        errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/Utilities.java"
+            line="105"
+            column="39"/>
+    </issue>
+
+    <issue
+        id="InflateParams"
+        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
+        errorLine1="        final BlissFrameLayout v = (BlissFrameLayout) getLayoutInflater().inflate(R.layout.app_view, null);"
+        errorLine2="                                                                                                     ~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="1827"
+            column="102"/>
+    </issue>
+
+    <issue
+        id="LockedOrientationActivity"
+        message="Expecting `android:screenOrientation=&quot;unspecified&quot;` or `&quot;fullSensor&quot;` for this activity so the user can use the application in any orientation and provide a great experience on Chrome OS devices"
+        errorLine1="            android:screenOrientation=&quot;portrait&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="68"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `AppCompatResources.getDrawable()`"
+        errorLine1="                        applicationItem.icon = getContext().getDrawable(R.drawable.default_icon);"
+        errorLine2="                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/AppProvider.java"
+            line="297"
+            column="48"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `ResourcesCompat.getDrawable()`"
+        errorLine1="        setFace(r.getDrawable(drawableRes));"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/CustomAnalogClock.java"
+            line="76"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `ResourcesCompat.getDrawable()`"
+        errorLine1="        mHour = r.getDrawable(hourHandRes);"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/HandsOverlay.java"
+            line="50"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `ResourcesCompat.getDrawable()`"
+        errorLine1="        mMinute = r.getDrawable(minuteHandRes);"
+        errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/HandsOverlay.java"
+            line="51"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `ResourcesCompat.getDrawable()`"
+        errorLine1="        mSecond = r.getDrawable(minuteHandRes);"
+        errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/HandsOverlay.java"
+            line="52"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `ResourcesCompat.getDrawable()`"
+        errorLine1="                    Drawable preview = previewResId != 0 ? res.getDrawable(previewResId) : null;"
+        errorLine2="                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/weather/IconSelectionPreference.java"
+            line="254"
+            column="60"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `ResourcesCompat.getDrawable()`"
+        errorLine1="                    return getBadgedIcon(iconPackres.getDrawable(id), activityInfo.getUser());"
+        errorLine2="                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/IconsHandler.java"
+            line="160"
+            column="42"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `AppCompatResources.getDrawable()`"
+        errorLine1="                dot.setImageDrawable(getDrawable(R.drawable.dot_off));"
+        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="670"
+            column="38"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `AppCompatResources.getDrawable()`"
+        errorLine1="                            dot.setImageDrawable(getDrawable(R.drawable.dot_off));"
+        errorLine2="                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="2283"
+            column="50"/>
+    </issue>
+
+    <issue
+        id="UseCompatLoadingForDrawables"
+        message="Use `AppCompatResources.getDrawable()`"
+        errorLine1="            dot.setImageDrawable(getDrawable(R.drawable.dot_off));"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="2766"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="UseCompatTextViewDrawableXml"
+        message="Use `app:drawableStartCompat` instead of `android:drawableStart`"
+        errorLine1="        android:drawableStart=&quot;@drawable/ic_search_white_alpha_24dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_suggestion.xml"
+            line="17"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseCompatTextViewDrawableXml"
+        message="Use `app:drawableBottomCompat` instead of `android:drawableBottom`"
+        errorLine1="        android:drawableBottom=&quot;@android:drawable/divider_horizontal_dark&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_weather_forecast.xml"
+            line="15"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UseCompatTextViewDrawableXml"
+        message="Use `app:drawableTopCompat` instead of `android:drawableTop`"
+        errorLine1="            android:drawableTop=&quot;@drawable/ic_minus_white_16dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/widgets_page.xml"
+            line="85"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseCompatTextViewDrawableXml"
+        message="Use `app:drawableTopCompat` instead of `android:drawableTop`"
+        errorLine1="            android:drawableTop=&quot;@drawable/ic_add_white_16dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/widgets_page.xml"
+            line="107"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="Typos"
+        message="&quot;ok&quot; is usually capitalized as &quot;OK&quot;"
+        errorLine1="    &lt;string name=&quot;ok&quot;>ok&lt;/string>"
+        errorLine2="                      ^">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="170"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="IntentFilterExportedReceiver"
+        message="As of Android 12, `android:exported` must be set; use `true` to make the activity \&#xA;available to other apps, and `false` otherwise. For launcher activities, this should be set to `true`."
+        errorLine1="        &lt;activity"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="62"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="IntentFilterExportedReceiver"
+        message="As of Android 12, `android:exported` must be set; use `true` to make the activity \&#xA;available to other apps, and `false` otherwise."
+        errorLine1="        &lt;activity"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="82"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="IntentFilterExportedReceiver"
+        message="As of Android 12, `android:exported` must be set; use `true` to make the activity \&#xA;available to other apps, and `false` otherwise."
+        errorLine1="        &lt;service"
+        errorLine2="         ~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="120"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="IntentFilterExportedReceiver"
+        message="As of Android 12, `android:exported` must be set; use `true` to make the activity \&#xA;available to other apps, and `false` otherwise."
+        errorLine1="        &lt;receiver"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="136"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="IntentFilterExportedReceiver"
+        message="As of Android 12, `android:exported` must be set; use `true` to make the activity \&#xA;available to other apps, and `false` otherwise."
+        errorLine1="        &lt;receiver"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="146"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged();"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/widgets/AddedWidgetsAdapter.java"
+            line="63"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged();"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/suggestions/AutoCompleteAdapter.java"
+            line="69"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged();"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/widgets/WidgetPickerAdapter.java"
+            line="62"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="Recycle"
+        message="This `Cursor` should be freed up after use with `#close()`"
+        errorLine1="        Cursor cursor = contentResolver.query(uri, null, null, null, null);"
+        errorLine2="                                        ~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/suggestions/SearchSuggestionUtil.java"
+            line="45"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 26"
+        errorLine1="@TargetApi(Build.VERSION_CODES.O)"
+        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/AddItemActivity.java"
+            line="10"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 29"
+        errorLine1="            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/AppProvider.java"
+            line="387"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 25"
+        errorLine1="    @TargetApi(25)"
+        errorLine2="    ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/DeepShortcutManager.java"
+            line="97"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 25"
+        errorLine1="    @TargetApi(25)"
+        errorLine2="    ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/DeepShortcutManager.java"
+            line="119"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 25"
+        errorLine1="    @TargetApi(25)"
+        errorLine2="    ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/DeepShortcutManager.java"
+            line="138"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 25"
+        errorLine1="    @TargetApi(25)"
+        errorLine2="    ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/DeepShortcutManager.java"
+            line="152"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 25"
+        errorLine1="    @TargetApi(25)"
+        errorLine2="    ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/DeepShortcutManager.java"
+            line="198"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 25"
+        errorLine1="    @TargetApi(25)"
+        errorLine2="    ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/DeepShortcutManager.java"
+            line="230"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 24"
+        errorLine1="@TargetApi(Build.VERSION_CODES.N)"
+        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/FixedScaleDrawable.java"
+            line="16"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 29"
+        errorLine1="        if (Build.VERSION.SDK_INT > 28) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/migrate/Migration.java"
+            line="35"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 29"
+        errorLine1="        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/weather/PermissionRequestActivity.java"
+            line="34"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 24"
+        errorLine1="@TargetApi(Build.VERSION_CODES.N)"
+        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/ShortcutCache.java"
+            line="30"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 24"
+        errorLine1="@TargetApi(Build.VERSION_CODES.N)"
+        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/ShortcutInfoCompat.java"
+            line="30"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 24"
+        errorLine1="    @TargetApi(Build.VERSION_CODES.N)"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/shortcuts/ShortcutInfoCompat.java"
+            line="41"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 17"
+        errorLine1="    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/utils/UserHandle.java"
+            line="34"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 17"
+        errorLine1="    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/utils/UserHandle.java"
+            line="48"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 23"
+        errorLine1="@TargetApi(Build.VERSION_CODES.M)"
+        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/UserManagerCompatVM.java"
+            line="8"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 24"
+        errorLine1="@TargetApi(Build.VERSION_CODES.N)"
+        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/UserManagerCompatVN.java"
+            line="8"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 25"
+        errorLine1="@TargetApi(Build.VERSION_CODES.N_MR1)"
+        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/UserManagerCompatVNMr1.java"
+            line="7"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 29"
+        errorLine1="    public static final boolean ATLEAST_OREO = Build.VERSION.SDK_INT >= 26;"
+        errorLine2="                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/Utilities.java"
+            line="40"
+            column="48"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 29"
+        errorLine1="    public static final boolean ATLEAST_NOUGAT_MR1 = Build.VERSION.SDK_INT >= 25;"
+        errorLine2="                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/Utilities.java"
+            line="42"
+            column="54"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 29"
+        errorLine1="    public static final boolean ATLEAST_NOUGAT = Build.VERSION.SDK_INT >= 24;"
+        errorLine2="                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/Utilities.java"
+            line="44"
+            column="50"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 29"
+        errorLine1="    public static final boolean ATLEAST_MARSHMALLOW = Build.VERSION.SDK_INT >= 23;"
+        errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/Utilities.java"
+            line="46"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="This folder configuration (`v26`) is unnecessary; `minSdkVersion` is 29. Merge all the resources in this folder into `values`.">
+        <location
+            file="src/main/res/values-v26"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields (static reference to `AppProvider` which has field `mContext` pointing to `Context`); this is a memory leak"
+        errorLine1="    private static AppProvider sInstance;"
+        errorLine2="            ~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/AppProvider.java"
+            line="94"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="StaticFieldLeak"
+        message="Do not place Android context classes in static fields (static reference to `DatabaseManager` which has field `mContext` pointing to `Context`); this is a memory leak"
+        errorLine1="    private static volatile DatabaseManager INSTANCE;"
+        errorLine2="            ~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/database/DatabaseManager.java"
+            line="25"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@drawable/calendar` with a theme that also paints a background (inferred theme is `@style/AppTheme`)"
+        errorLine1="    android:background=&quot;@drawable/calendar&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/calendar_icon.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="18"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="29"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="40"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="51"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="62"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="73"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="84"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="95"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="106"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="117"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant"
+        errorLine1="        &lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/drawable/widget_resize_thumb_handle.xml"
+            line="127"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="IconDipSize"
+        message="The image `ic_minus.png` varies significantly in its density-independent (dip) size across the various density versions: drawable-hdpi\ic_minus.png: 36x36 dp (54x54 px), drawable-xxhdpi\ic_minus.png: 24x24 dp (72x72 px)">
+        <location
+            file="src/main/res/drawable-xxhdpi/ic_minus.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/ic_minus.png"/>
+    </issue>
+
+    <issue
+        id="IconDensities"
+        message="Missing the following drawables in `drawable-hdpi`: calendar.png, calendar_bottom.png, calendar_top.png, clock.png, crop_hours.png... (9 more)">
+        <location
+            file="src/main/res/drawable-hdpi"/>
+    </issue>
+
+    <issue
+        id="IconDensities"
+        message="Missing the following drawables in `drawable-mdpi`: calendar.png, calendar_bottom.png, calendar_top.png, clock.png, crop_hours.png... (59 more)">
+        <location
+            file="src/main/res/drawable-mdpi"/>
+    </issue>
+
+    <issue
+        id="IconDensities"
+        message="Missing the following drawables in `drawable-xhdpi`: calendar.png, calendar_bottom.png, calendar_top.png, clock.png, crop_hours.png... (10 more)">
+        <location
+            file="src/main/res/drawable-xhdpi"/>
+    </issue>
+
+    <issue
+        id="IconDensities"
+        message="Missing the following drawables in `drawable-xxhdpi`: ic_unlink.png, widget_resize_frame_holo.9.png, widget_resize_handle_bottom.png, widget_resize_handle_top.png">
+        <location
+            file="src/main/res/drawable-xxhdpi"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_11.png, weather_12.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_12.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_11.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_11.png, weather_12.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_12.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_11.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_11.png, weather_12.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_12.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_11.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_11.png, weather_12.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_12.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_11.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_0.png, weather_1.png, weather_2.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_2.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_1.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_0.png, weather_1.png, weather_2.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_2.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_1.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_0.png, weather_1.png, weather_2.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_2.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_1.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_0.png, weather_1.png, weather_2.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_2.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_1.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_19.png, weather_22.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_22.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_19.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_19.png, weather_22.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_22.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_19.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_19.png, weather_22.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_22.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_19.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_19.png, weather_22.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_22.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_19.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_23.png, weather_24.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_24.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_23.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_23.png, weather_24.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_24.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_23.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_23.png, weather_24.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_24.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_23.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_23.png, weather_24.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_24.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_23.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_28.png, weather_30.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_30.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_28.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_28.png, weather_30.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_30.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_28.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_28.png, weather_30.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_30.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_28.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_28.png, weather_30.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_30.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_28.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_31.png, weather_33.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_33.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_31.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_31.png, weather_33.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_33.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_31.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_31.png, weather_33.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_33.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_31.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_31.png, weather_33.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_33.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_31.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_32.png, weather_34.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_34.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_32.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_32.png, weather_34.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_34.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_32.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_32.png, weather_34.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_34.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_32.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_32.png, weather_34.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_34.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_32.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_37.png, weather_39.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_39.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_37.png, weather_39.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_39.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_37.png, weather_39.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_39.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_37.png, weather_39.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_39.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_16.png, weather_41.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_41.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_16.png, weather_41.png, weather_43.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_43.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_41.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_16.png, weather_41.png, weather_43.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_43.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_41.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_16.png, weather_41.png, weather_43.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_43.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_41.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_27.png, weather_29.png, weather_44.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_44.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_29.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_27.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_27.png, weather_29.png, weather_44.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_44.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_29.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_27.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_27.png, weather_29.png, weather_44.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_44.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_29.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_27.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_27.png, weather_29.png, weather_44.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_44.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_29.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_27.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_3.png, weather_4.png, weather_45.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_45.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_4.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_3.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_3.png, weather_4.png, weather_45.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_45.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_4.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_3.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_3.png, weather_4.png, weather_45.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_45.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_4.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_3.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_3.png, weather_4.png, weather_45.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_45.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_4.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_3.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_13.png, weather_14.png, weather_46.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_46.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_14.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_13.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_13.png, weather_14.png, weather_46.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_46.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_14.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_13.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_13.png, weather_14.png, weather_46.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_46.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_14.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_13.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_13.png, weather_14.png, weather_46.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_46.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_14.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_13.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_38.png, weather_47.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_47.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_38.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_38.png, weather_47.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_47.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_38.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_38.png, weather_47.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_47.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_38.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_38.png, weather_47.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_47.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_38.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_18.png, weather_5.png, weather_6.png, weather_7.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_7.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_6.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_5.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_18.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_18.png, weather_5.png, weather_6.png, weather_7.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_7.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_6.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_5.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_18.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_18.png, weather_5.png, weather_6.png, weather_7.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_7.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_6.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_5.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_18.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_18.png, weather_5.png, weather_6.png, weather_7.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_7.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_6.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_5.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_18.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_0.png, weather_color_1.png, weather_color_2.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_color_2.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_color_1.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_color_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_0.png, weather_color_1.png, weather_color_2.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_2.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_1.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_0.png, weather_color_1.png, weather_color_2.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_2.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_1.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_0.png, weather_color_1.png, weather_color_2.png">
+        <location
+            file="src/main/res/drawable-xxxhdpi/weather_color_2.png"/>
+        <location
+            file="src/main/res/drawable-xxxhdpi/weather_color_1.png"/>
+        <location
+            file="src/main/res/drawable-xxxhdpi/weather_color_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_37.png, weather_color_38.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_color_38.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_color_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_37.png, weather_color_38.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_38.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_37.png, weather_color_38.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_38.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_37.png, weather_color_38.png">
+        <location
+            file="src/main/res/drawable-xxxhdpi/weather_color_38.png"/>
+        <location
+            file="src/main/res/drawable-xxxhdpi/weather_color_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_41.png, weather_color_43.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_43.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_41.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_41.png, weather_color_43.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_43.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_41.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_45.png, weather_color_47.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_color_47.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_color_45.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_45.png, weather_color_47.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_47.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_color_45.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_45.png, weather_color_47.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_47.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_color_45.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_color_45.png, weather_color_47.png">
+        <location
+            file="src/main/res/drawable-xxxhdpi/weather_color_47.png"/>
+        <location
+            file="src/main/res/drawable-xxxhdpi/weather_color_45.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_23.png, weather_vclouds_24.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_24.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_23.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_23.png, weather_vclouds_24.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_24.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_23.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_23.png, weather_vclouds_24.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_24.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_23.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_23.png, weather_vclouds_24.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_24.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_23.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_37.png, weather_vclouds_38.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_38.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_37.png, weather_vclouds_38.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_38.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_37.png, weather_vclouds_38.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_38.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_37.png, weather_vclouds_38.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_38.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_37.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_0.png, weather_vclouds_1.png, weather_vclouds_17.png, weather_vclouds_2.png, weather_vclouds_3.png, weather_vclouds_35.png, weather_vclouds_4.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_4.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_35.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_3.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_2.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_17.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_1.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_0.png, weather_vclouds_1.png, weather_vclouds_17.png, weather_vclouds_2.png, weather_vclouds_3.png, weather_vclouds_35.png, weather_vclouds_4.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_4.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_35.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_3.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_2.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_17.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_1.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_0.png, weather_vclouds_1.png, weather_vclouds_17.png, weather_vclouds_2.png, weather_vclouds_3.png, weather_vclouds_35.png, weather_vclouds_4.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_4.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_35.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_3.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_2.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_17.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_1.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_0.png, weather_vclouds_1.png, weather_vclouds_17.png, weather_vclouds_2.png, weather_vclouds_3.png, weather_vclouds_35.png, weather_vclouds_4.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_4.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_35.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_3.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_2.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_17.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_1.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_0.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_12.png, weather_vclouds_40.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_40.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_12.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_12.png, weather_vclouds_40.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_40.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_12.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_12.png, weather_vclouds_40.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_40.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_12.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_12.png, weather_vclouds_40.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_40.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_12.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_16.png, weather_vclouds_42.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_42.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_16.png, weather_vclouds_42.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_42.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_16.png, weather_vclouds_42.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_42.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_16.png, weather_vclouds_42.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_42.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_16.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_15.png, weather_vclouds_43.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_43.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_15.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_15.png, weather_vclouds_43.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_43.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_15.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_15.png, weather_vclouds_43.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_43.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_15.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_15.png, weather_vclouds_43.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_43.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_15.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_44.png, weather_vclouds_na.png">
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_na.png"/>
+        <location
+            file="src/main/res/drawable-hdpi/weather_vclouds_44.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_44.png, weather_vclouds_na.png">
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_na.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/weather_vclouds_44.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_44.png, weather_vclouds_na.png">
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_na.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/weather_vclouds_44.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicates"
+        message="The following unrelated icon files have identical contents: weather_vclouds_44.png, weather_vclouds_na.png">
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_na.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/weather_vclouds_44.png"/>
+    </issue>
+
+    <issue
+        id="ViewConstructor"
+        message="Custom view `AppWidgetResizeFrame` is missing constructor used by tools: `(Context)` or `(Context,AttributeSet)` or `(Context,AttributeSet,int)`"
+        errorLine1="public class AppWidgetResizeFrame extends FrameLayout {"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/AppWidgetResizeFrame.java"
+            line="12"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ViewConstructor"
+        message="Custom view `RoundedWidgetView` is missing constructor used by tools: `(Context)` or `(Context,AttributeSet)` or `(Context,AttributeSet,int)`"
+        errorLine1="public class RoundedWidgetView extends AppWidgetHostView {"
+        errorLine2="             ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/RoundedWidgetView.java"
+            line="20"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ButtonCase"
+        message="The standard Android way to capitalize ok is &quot;OK&quot; (tip: use `@android:string/ok` instead)"
+        errorLine1="    &lt;string name=&quot;ok&quot;>ok&lt;/string>"
+        errorLine2="                      ~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="170"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view ``ScrollView`` has `setOnTouchListener` called on it but does not override `performClick`"
+        errorLine1="        scrollView.setOnTouchListener((v, event) -> {"
+        errorLine2="        ^">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="1385"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`onTouch` lambda should call `View#performClick` when a click is detected"
+        errorLine1="        scrollView.setOnTouchListener((v, event) -> {"
+        errorLine2="                                      ^">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="1385"
+            column="39"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view ``SeekBar`` has `setOnTouchListener` called on it but does not override `performClick`"
+        errorLine1="            seekBar.setOnTouchListener((v, event) -> {"
+        errorLine2="            ^">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="3210"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`onTouch` lambda should call `View#performClick` when a click is detected"
+        errorLine1="            seekBar.setOnTouchListener((v, event) -> {"
+        errorLine2="                                       ^">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/features/launcher/LauncherActivity.java"
+            line="3210"
+            column="40"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view `RoundedWidgetView` overrides `onTouchEvent` but not `performClick`"
+        errorLine1="    public boolean onTouchEvent(MotionEvent event) {"
+        errorLine2="                   ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/RoundedWidgetView.java"
+            line="91"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`onTouch` should call `View#performClick` when a click is detected"
+        errorLine1="            public boolean onTouch(View v, MotionEvent event) {"
+        errorLine2="                           ~~~~~~~">
+        <location
+            file="src/main/java/foundation/e/blisslauncher/core/customviews/Workspace.java"
+            line="31"
+            column="28"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_added_widget.xml"
+            line="11"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_added_widget.xml"
+            line="28"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_all_widget.xml"
+            line="11"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageView"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/layout_search_suggestion.xml"
+            line="37"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/layout_weather_info.xml"
+            line="32"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/layout_widget_host_container.xml"
+            line="6"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/layout_widget_host_container.xml"
+            line="13"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/layout_widget_host_container.xml"
+            line="20"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Min&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Min&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/widgets_page.xml"
+            line="86"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Max&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Max&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/widgets_page.xml"
+            line="108"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toLeftOf` with `android:layout_toStartOf=&quot;@id/max_label&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_toLeftOf=&quot;@id/max_label&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/widgets_page.xml"
+            line="96"
+            column="13"/>
+    </issue>
+
+</issues>

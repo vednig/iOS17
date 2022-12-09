@@ -53,6 +53,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <profileable android:shell="true" />
 
         <!--
         Main launcher activity. When extending only change the name, and keep all the

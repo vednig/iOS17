@@ -23,9 +23,9 @@ if (localPropsFile.exists()) {
 }
 
 val appendDebugSuffix = (localProps.getProperty("appendDebugSuffix") ?: "true").toBoolean()
-val keyStorePath = localProps.getProperty("keyStorePath") ?: "/keystore/debug.keystore"
+val keyStorePath = localProps.getProperty("keyStorePath") ?: "/keystore/platform.keystore"
 val keyStorePassword = localProps.getProperty("keyStorePassword") ?: "android"
-val signingKeyAlias = localProps.getProperty("keyAlias") ?: "androiddebugkey"
+val signingKeyAlias = localProps.getProperty("keyAlias") ?: "platform"
 val signingKeyPassword = localProps.getProperty("keyPassword") ?: "android"
 
 android {
@@ -58,6 +58,12 @@ android {
                 applicationIdSuffix = ".debug"
             }
             signingConfig = signingConfigs.getByName("debug")
+        }
+
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
         }
     }
 
@@ -106,7 +112,15 @@ android {
 
     buildFeatures { viewBinding = true }
 
-    lint { abortOnError = false }
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
+        warningsAsErrors = true
+        disable.add("PluralsCandidate")
+        disable.add("MissingTranslation")
+        disable.add("UnusedResources")
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 dependencies {
@@ -147,6 +161,8 @@ dependencies {
     implementation(libs.restriction.bypass)
     debugImplementation(libs.debug.db)
     coreLibraryDesugaring(libs.tools.desugar)
+    implementation(libs.androidx.profileinstaller)
+    debugImplementation(libs.tools.leakcanary)
 
     // Testing dependencies
     testImplementation(libs.bundles.testing.unit)

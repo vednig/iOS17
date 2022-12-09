@@ -1,6 +1,7 @@
 image: "registry.gitlab.e.foundation/e/os/docker-android-apps-cicd:latest"
 
 stages:
+- check
 - build
 
 before_script:
@@ -12,10 +13,20 @@ cache:
   paths:
   - .gradle/
 
+spotless:
+  stage: check
+  script:
+    - ./gradlew spotlessCheck
+
+lint:
+  stage: check
+  script:
+    - ./gradlew lint
+
 build:
   stage: build
   script:
-  - ./gradlew build
+    - ./gradlew assembleRelease
   artifacts:
     paths:
     - app/build/outputs/apk
