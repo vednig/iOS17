@@ -1,17 +1,17 @@
 image: "registry.gitlab.e.foundation/e/os/docker-android-apps-cicd:latest"
 
 stages:
-- check
-- build
+  - check
+  - build
 
 before_script:
-- export GRADLE_USER_HOME=$(pwd)/.gradle
-- chmod +x ./gradlew
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - chmod +x ./gradlew
 
 cache:
   key: ${CI_PROJECT_ID}
   paths:
-  - .gradle/
+    - .gradle/
 
 spotless:
   stage: check
@@ -23,10 +23,17 @@ lint:
   script:
     - ./gradlew lint
 
+test:
+  stage: build
+  script:
+    - ./gradlew test
+  needs: ["spotless", "lint"]
+
 build:
   stage: build
   script:
     - ./gradlew assembleRelease
+  needs: ["spotless", "lint"]
   artifacts:
     paths:
-    - app/build/outputs/apk
+      - app/build/outputs/apk
