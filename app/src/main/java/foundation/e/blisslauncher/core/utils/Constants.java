@@ -39,6 +39,8 @@ public class Constants {
     public static final String FORCE_WEATHER_LAST_TRY = "last_weather_try";
     public static final String WEATHER_DATA = "weather_data";
 
+    public static final String CACHED_CITY = "cached_city";
+
     // First run is used to hide the initial no-weather message for a better OOBE
     public static final String WEATHER_FIRST_UPDATE = "weather_first_update";
 

@@ -9,6 +9,8 @@
     </string>
     <string name="unknown">Unknown</string>
     <string name="cancel">Cancel</string>
+    <string name="default_key">DEFAULT_OWM_KEY</string>
+
     <!-- Weather - Weather codes -->
     <string name="weather_0">Tornado</string>
     <string name="weather_1">Tropical Storm</string>
