@@ -242,8 +242,8 @@ public class Preferences {
         editor.apply();
     }
 
-    public static String getCachedCity(Context context) {
-        return getPrefs(context).getString(Constants.CACHED_CITY, "Unknown");
+    public static String getCachedCity(Context context, String fallbackCity) {
+        return getPrefs(context).getString(Constants.CACHED_CITY, fallbackCity);
     }
 
     public static long lastWeatherUpdateTimestamp(Context context) {
