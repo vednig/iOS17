@@ -73,7 +73,7 @@ public class ForecastBuilder {
 
         // City
         TextView textCity = weatherPanel.findViewById(R.id.weather_city);
-        textCity.setText(Preferences.getCachedCity(context));
+        textCity.setText(Preferences.getCachedCity(context, w.getCity()));
 
         // Weather Condition
         TextView weatherCondition = weatherPanel.findViewById(R.id.weather_condition);
