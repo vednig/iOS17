@@ -144,4 +144,8 @@
     <string name="widget_is_not_resizable">Le widget n\'est pas redimensionnable</string>
     <string name="app_name_maps">Cartes</string>
     <string name="toast_failed">Echec de la mise en place du fond d\'écran flouté</string>
+    <string name="ignore">Ignorer</string>
+    <string name="grant">Autoriser</string>
+    <string name="notification_badge_warning">Pour voir les pastilles de notification sur les icônes d\'applications, le lanceur doit avoir l\'autorisation d\'accéder aux notifications.</string>
+    <string name="perm_required">Autorisation requise</string>
 </resources>
