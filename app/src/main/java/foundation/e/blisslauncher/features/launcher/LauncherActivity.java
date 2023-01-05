@@ -1236,14 +1236,16 @@ public class LauncherActivity extends AppCompatActivity
                 blurLayer.setAlpha((page == 0 || mFolderWindowContainer.getVisibility() == VISIBLE) ? 1f : 0f);
 
                 if (currentPageNumber != page) {
+                    int prevPage = currentPageNumber;
                     currentPageNumber = page;
                     navbarAnimator.cancel();
                     if (currentPageNumber == WIDGET_PAGE) {
                         navbarAnimator.start();
                         refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
                         mInsetsController.hide(WindowInsetsCompat.Type.statusBars());
-                    } else {
+                    } else if (prevPage == WIDGET_PAGE && currentPageNumber == 1) {
                         navbarAnimator.reverse();
+                    } else {
                         mInsetsController.show(WindowInsetsCompat.Type.statusBars());
                     }
 
