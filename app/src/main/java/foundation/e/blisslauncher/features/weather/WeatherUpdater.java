@@ -17,6 +17,7 @@ import androidx.core.location.LocationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -243,10 +244,20 @@ public class WeatherUpdater {
 
         String countryCode = Locale.getDefault().getCountry().toLowerCase(Locale.ROOT);
         if (!locales.has(countryCode)) {
-            countryCode = locales.get("en").getAsString();
+            final JsonElement jsonElement = locales.get("en");
+            if (jsonElement == null) {
+                return;
+            }
+
+            countryCode = jsonElement.getAsString();
         }
 
-        final String city = locales.get(countryCode).getAsString();
+        final JsonElement jsonElement = locales.get(countryCode);
+        if (jsonElement == null) {
+            return;
+        }
+
+        final String city = jsonElement.getAsString();
         notifyUi(city);
     }
 
