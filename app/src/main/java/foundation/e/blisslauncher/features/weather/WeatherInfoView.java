@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
@@ -25,8 +27,17 @@ public class WeatherInfoView extends LinearLayout {
             if (WeatherUpdateService.ACTION_UPDATE_FINISHED.equals(intent.getAction())) {
                 updateWeatherPanel();
             }
+
+            if (WeatherUpdateService.ACTION_UPDATE_CITY_FINISHED.equals(intent.getAction())) {
+                final TextView textCity = mWeatherPanel.findViewById(R.id.weather_city);
+                final String city = intent.getStringExtra(WeatherUpdateService.EXTRA_UPDATE_CITY_KEY);
+                if (city != null && !city.trim().isEmpty()) {
+                    textCity.setText(city);
+                }
+            }
         }
     };
+
     private final BroadcastReceiver mResumeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -61,8 +72,12 @@ public class WeatherInfoView extends LinearLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
-        broadcastManager.registerReceiver(mWeatherReceiver,
-                new IntentFilter(WeatherUpdateService.ACTION_UPDATE_FINISHED));
+        final IntentFilter intentFilter = new IntentFilter();
+
+        intentFilter.addAction(WeatherUpdateService.ACTION_UPDATE_FINISHED);
+        intentFilter.addAction(WeatherUpdateService.ACTION_UPDATE_CITY_FINISHED);
+
+        broadcastManager.registerReceiver(mWeatherReceiver, intentFilter);
         broadcastManager.registerReceiver(mResumeReceiver, new IntentFilter(LauncherActivity.ACTION_LAUNCHER_RESUME));
         updateWeatherPanel();
     }

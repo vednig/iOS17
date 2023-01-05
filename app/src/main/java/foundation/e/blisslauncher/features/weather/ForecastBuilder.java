@@ -72,8 +72,8 @@ public class ForecastBuilder {
                 w.getConditionCode(), WeatherIconUtils.getNextHigherDensity(context)));
 
         // City
-        TextView city = weatherPanel.findViewById(R.id.weather_city);
-        city.setText(w.getCity());
+        TextView textCity = weatherPanel.findViewById(R.id.weather_city);
+        textCity.setText(Preferences.getCachedCity(context, w.getCity()));
 
         // Weather Condition
         TextView weatherCondition = weatherPanel.findViewById(R.id.weather_condition);

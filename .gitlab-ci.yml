@@ -37,3 +37,5 @@ build:
   artifacts:
     paths:
       - app/build/outputs/apk
+  before_script:
+    - sed -i 's/DEFAULT_OWM_KEY/'${DEFAULT_OWM_KEY}'/g' app/src/main/res/values/strings.xml

@@ -236,6 +236,16 @@ public class Preferences {
         editor.apply();
     }
 
+    public static void setCachedCity(Context context, String city) {
+        SharedPreferences.Editor editor = getPrefs(context).edit();
+        editor.putString(Constants.CACHED_CITY, city);
+        editor.apply();
+    }
+
+    public static String getCachedCity(Context context, String fallbackCity) {
+        return getPrefs(context).getString(Constants.CACHED_CITY, fallbackCity);
+    }
+
     public static long lastWeatherUpdateTimestamp(Context context) {
         return getPrefs(context).getLong(Constants.WEATHER_LAST_UPDATE, 0);
     }
