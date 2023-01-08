@@ -148,4 +148,5 @@
     <string name="toast_permission_denied">Доступ запрещен</string>
     <string name="widget_is_not_resizable">Виджет не изменяет размер</string>
     <string name="perm_required">Требуется разрешение</string>
+    <string name="default_key">DEFAULT_OWM_KEY</string>
 </resources>
