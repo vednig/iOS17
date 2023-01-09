@@ -1244,6 +1244,7 @@ public class LauncherActivity extends AppCompatActivity
                         refreshSuggestedApps(widgetsPage, forceRefreshSuggestedApps);
                         mInsetsController.hide(WindowInsetsCompat.Type.statusBars());
                     } else if (prevPage == WIDGET_PAGE && currentPageNumber == 1) {
+                        mInsetsController.show(WindowInsetsCompat.Type.statusBars());
                         navbarAnimator.reverse();
                     } else {
                         mInsetsController.show(WindowInsetsCompat.Type.statusBars());
