@@ -40,7 +40,6 @@ class SpotlessPlugin : Plugin<Project> {
                 targetExclude("**/build/", ".idea/")
                 trimTrailingWhitespace()
                 indentWithSpaces()
-                endWithNewline()
             }
         }
     }
