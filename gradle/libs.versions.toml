@@ -70,6 +70,7 @@ tools-leakcanary = "com.squareup.leakcanary:leakcanary-android:2.10"
 timber = "com.jakewharton.timber:timber:4.7.1"
 restriction-bypass = "com.github.ChickenHook:RestrictionBypass:2.2"
 elib = "foundation.e:elib:0.0.1-alpha11"
+telemetry = "foundation.e.lib:telemetry:0.0.3-alpha"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

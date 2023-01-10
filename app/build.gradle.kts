@@ -12,7 +12,7 @@ plugins {
 
 // Manifest version information
 val versionMajor = 1
-val versionMinor = 7
+val versionMinor = 8
 val versionPatch = 0
 
 val localProps = Properties()
@@ -65,6 +65,10 @@ android {
             matchingFallbacks += listOf("release")
             isDebuggable = false
         }
+
+        configureEach {
+            buildConfigField("String", "SENTRY_DSN", "\"${System.getenv("SENTRY_DSN")}\"")
+        }
     }
 
     signingConfigs {
@@ -110,7 +114,10 @@ android {
 
     kotlinOptions { jvmTarget = "1.8" }
 
-    buildFeatures { viewBinding = true }
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 
     lint {
         abortOnError = false
@@ -170,4 +177,5 @@ dependencies {
 
     // elib
     implementation(libs.elib)
+    implementation(libs.telemetry)
 }

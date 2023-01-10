@@ -15,6 +15,7 @@ import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider;
 import foundation.e.blisslauncher.core.customviews.WidgetHost;
 import foundation.e.blisslauncher.features.launcher.AppProvider;
 import foundation.e.blisslauncher.features.notification.NotificationService;
+import foundation.e.lib.telemetry.Telemetry;
 
 public class BlissLauncher extends Application {
     public static final Uri NOTIFICATION_BADGING_URI = Settings.Secure.getUriFor("notification_badging");
@@ -45,6 +46,7 @@ public class BlissLauncher extends Application {
         };
         getContentResolver().registerContentObserver(NOTIFICATION_BADGING_URI, false, notificationSettingsObserver);
 
+        Telemetry.INSTANCE.init(BuildConfig.SENTRY_DSN, this);
     }
 
     private void onNotificationSettingsChanged() {
