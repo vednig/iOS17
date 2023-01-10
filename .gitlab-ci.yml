@@ -1,5 +1,8 @@
 image: "registry.gitlab.e.foundation/e/os/docker-android-apps-cicd:latest"
 
+variables:
+  SENTRY_DSN: "${SENTRY_DSN}"
+
 stages:
   - check
   - build
@@ -27,13 +30,13 @@ test:
   stage: build
   script:
     - ./gradlew test
-  needs: ["spotless", "lint"]
+  needs: [ "spotless", "lint" ]
 
 build:
   stage: build
   script:
     - ./gradlew assembleRelease
-  needs: ["spotless", "lint"]
+  needs: [ "spotless", "lint" ]
   artifacts:
     paths:
       - app/build/outputs/apk
