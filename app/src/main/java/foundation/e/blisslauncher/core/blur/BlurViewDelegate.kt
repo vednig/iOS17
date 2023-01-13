@@ -65,7 +65,7 @@ class BlurViewDelegate(
         }
 
     var blurCornerRadius = 0f
-    var overlayOffset = 70f
+
     val outlineProvider =
         object : ViewOutlineProvider() {
             override fun getOutline(view: View, outline: Outline) {
@@ -92,7 +92,6 @@ class BlurViewDelegate(
             val a = context.obtainStyledAttributes(attrs, R.styleable.BlurLayout)
             blurCornerRadius = a.getDimension(R.styleable.BlurLayout_blurCornerRadius, 0f)
             overlayColor = a.getColor(R.styleable.BlurLayout_blurOverlayColor, 0)
-            overlayOffset = a.getInt(R.styleable.BlurLayout_blurOverlayOffset, 70).toFloat()
             a.recycle()
         }
     }
@@ -125,8 +124,8 @@ class BlurViewDelegate(
         }
         if (overlayColor != 0) {
             canvas.drawRoundRect(
-                view.left.toFloat() - overlayOffset,
-                view.top.toFloat() - overlayOffset,
+                view.left.toFloat(),
+                view.top.toFloat(),
                 view.right.toFloat(),
                 view.bottom.toFloat(),
                 view.x,
