@@ -7,7 +7,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.blur.BlurViewDelegate;
 import foundation.e.blisslauncher.core.blur.BlurWallpaperProvider;
@@ -42,7 +41,6 @@ public class SquareFrameLayout extends FrameLayout {
 
     public void enableBlur() {
         mBlurDelegate = new BlurViewDelegate(this, BlurWallpaperProvider.Companion.getBlurConfigAppGroup(), null);
-        mBlurDelegate.setOverlayColor(getContext().getColor(R.color.blur_overlay));
         setWillNotDraw(false);
     }
 

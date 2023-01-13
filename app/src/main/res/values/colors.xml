@@ -34,5 +34,4 @@
     <color name="dock_background_color">#26ffffff</color>
 
     <color name="accent_color">@color/colorAccent</color>
-    <color name="blur_overlay">#38202020</color>
 </resources>
