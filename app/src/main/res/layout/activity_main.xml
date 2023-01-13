@@ -71,9 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            app:blurCornerRadius="12dp"
-            app:blurOverlayColor="@color/blur_overlay"
-            app:blurOverlayOffset="2000">
+            app:blurCornerRadius="12dp">
 
             <LinearLayout
                 android:id="@+id/folder_apps_background"

@@ -212,12 +212,6 @@ class BlurWallpaperProvider(val context: Context) {
         fun onEnabledChanged() {}
     }
 
-    /*fun clear() {
-        listener = null
-        cancelPreTask(true)
-        sInstance = null
-    }*/
-
     data class BlurSizes(
         val background: Bitmap,
         val dock: Bitmap,
@@ -241,7 +235,7 @@ class BlurWallpaperProvider(val context: Context) {
 
         val blurConfigBackground = BlurConfig({ it.background }, 2, 8)
 
-        val blurConfigDock = BlurConfig({ it.dock }, 1, 2)
+        val blurConfigDock = BlurConfig({ it.dock }, 2, 2)
 
         val blurConfigAppGroup = BlurConfig({ it.appGroup }, 6, 8)
 
