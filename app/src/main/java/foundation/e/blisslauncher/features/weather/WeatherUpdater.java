@@ -147,6 +147,11 @@ public class WeatherUpdater {
     }
 
     protected void requestCustomWeatherUpdate(@Nullable WeatherLocation location) {
+        if (location == null) {
+            Log.w(TAG, "Custom location is null. Cannot request weather");
+            return;
+        }
+
         Log.i(TAG, "Requesting weather info for location: " + location);
         Context context = mWeakContext.get();
         LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(context);
