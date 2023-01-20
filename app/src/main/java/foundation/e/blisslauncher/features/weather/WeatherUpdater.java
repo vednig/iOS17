@@ -176,6 +176,8 @@ public class WeatherUpdater {
 
         if (!Preferences.useCustomWeatherLocation(mWeakContext.get())) {
             reverseGeocodeLocation(getMostRecentLocation());
+        } else {
+            Log.w(TAG, "Do not reverse geocode location. User is using a custom location.");
         }
     }
 
@@ -233,32 +235,36 @@ public class WeatherUpdater {
         }
 
         JsonObject locales;
+        JsonObject root;
+        String defaultCityName;
         try {
             final String json = body.string();
             final JsonArray array = new JsonParser().parse(json).getAsJsonArray();
-            locales = array.get(0).getAsJsonObject().getAsJsonObject("local_names");
+
+            root = array.get(0).getAsJsonObject();
+            locales = root.getAsJsonObject("local_names");
+            defaultCityName = root.get("name").getAsString();
         } catch (IOException | IllegalStateException | JsonSyntaxException exception) {
             Log.e(TAG, "Exception caught", exception);
             return;
         }
 
+        if (defaultCityName == null) {
+            Log.e(TAG, "Could not get default city name");
+            return;
+        }
+
         if (locales == null) {
             Log.e(TAG, "Could not get locales");
+            notifyUi(defaultCityName);
             return;
         }
 
         String countryCode = Locale.getDefault().getCountry().toLowerCase(Locale.ROOT);
-        if (!locales.has(countryCode)) {
-            final JsonElement jsonElement = locales.get("en");
-            if (jsonElement == null) {
-                return;
-            }
-
-            countryCode = jsonElement.getAsString();
-        }
-
         final JsonElement jsonElement = locales.get(countryCode);
         if (jsonElement == null) {
+            Log.e(TAG, "Could not get city name in country code: " + countryCode);
+            notifyUi(defaultCityName);
             return;
         }
 
