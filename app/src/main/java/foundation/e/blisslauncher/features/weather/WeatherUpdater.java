@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.SystemClock;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +37,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import timber.log.Timber;
 
 public class WeatherUpdater {
 
@@ -98,7 +98,7 @@ public class WeatherUpdater {
     }
 
     private void updateWeather() {
-        Log.i(TAG, "Updating weather");
+        Timber.tag(TAG).i("Updating weather");
         Context context = mWeakContext.get();
 
         if (Preferences.useCustomWeatherLocation(context)) {
@@ -119,7 +119,7 @@ public class WeatherUpdater {
     @SuppressLint("MissingPermission")
     private void fetchNewLocation() {
         if (hasMissingPermissions()) {
-            Log.e(TAG, "Could not fetch location for missing permission");
+            Timber.tag(TAG).e("Could not fetch location for missing permission");
             return;
         }
 
@@ -140,7 +140,7 @@ public class WeatherUpdater {
     }
 
     protected void requestWeatherUpdate(@NonNull Location location) {
-        Log.i(TAG, "Requesting weather info for location: " + location);
+        Timber.tag(TAG).i("Requesting weather info for location: %s", location);
         Context context = mWeakContext.get();
         LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(context);
         weatherManager.requestWeatherUpdate(location, (status, weatherInfo) -> notifyUi(context, weatherInfo, status));
@@ -148,11 +148,11 @@ public class WeatherUpdater {
 
     protected void requestCustomWeatherUpdate(@Nullable WeatherLocation location) {
         if (location == null) {
-            Log.w(TAG, "Custom location is null. Cannot request weather");
+            Timber.tag(TAG).w("Custom location is null. Cannot request weather");
             return;
         }
 
-        Log.i(TAG, "Requesting weather info for location: " + location);
+        Timber.tag(TAG).i("Requesting weather info for location: %s", location);
         Context context = mWeakContext.get();
         LineageWeatherManager weatherManager = LineageWeatherManager.getInstance(context);
         weatherManager.requestWeatherUpdate(location, (status, weatherInfo) -> notifyUi(context, weatherInfo, status));
@@ -160,11 +160,11 @@ public class WeatherUpdater {
 
     private synchronized void onNewLocationFetched(@Nullable Location location) {
         if (location == null) {
-            Log.w(TAG, "Could not fetch any location");
+            Timber.tag(TAG).w("Could not fetch any location");
             return;
         }
 
-        Log.i(TAG, "New location fetched:" + location);
+        Timber.tag(TAG).i("New location fetched:%s", location);
 
         if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
             mGpsLocation = location;
@@ -182,11 +182,11 @@ public class WeatherUpdater {
     private void notifyUi(@NonNull Context context, @Nullable WeatherInfo weatherInfo, int status) {
 
         if (weatherInfo == null) {
-            Log.i(TAG, "WeatherInfo is null. Status reported: " + status);
+            Timber.tag(TAG).i("WeatherInfo is null. Status reported: %s", status);
             return;
         }
 
-        Log.i(TAG, "WeatherInfo=" + weatherInfo);
+        Timber.tag(TAG).i("WeatherInfo=%s", weatherInfo);
 
         long now = SystemClock.elapsedRealtime();
         Preferences.setCachedWeatherInfo(context, now, weatherInfo);
@@ -215,7 +215,7 @@ public class WeatherUpdater {
     }
 
     private void reverseGeocodeLocation(@NonNull Location location) {
-        Log.i(TAG, "Reverse geocoding location " + location);
+        Timber.tag(TAG).i("Reverse geocoding location %s", location);
 
         final String url = "https://api.openweathermap.org/geo/1.0/reverse?lat=" + location.getLatitude() + "&lon="
                 + location.getLongitude() + "&limit=1&appid=" + mWeakContext.get().getString(R.string.default_key);
@@ -228,7 +228,7 @@ public class WeatherUpdater {
     private void onReverseGeocoded(@NonNull Response response) {
         final ResponseBody body = response.body();
         if (body == null) {
-            Log.w(TAG, "Reverse geocoding response is empty");
+            Timber.tag(TAG).w("Reverse geocoding response is empty");
             return;
         }
 
@@ -238,12 +238,12 @@ public class WeatherUpdater {
             final JsonArray array = new JsonParser().parse(json).getAsJsonArray();
             locales = array.get(0).getAsJsonObject().getAsJsonObject("local_names");
         } catch (IOException | IllegalStateException | JsonSyntaxException exception) {
-            Log.e(TAG, "Exception caught", exception);
+            Timber.tag(TAG).e(exception, "Exception caught");
             return;
         }
 
         if (locales == null) {
-            Log.e(TAG, "Could not get locales");
+            Timber.tag(TAG).e("Could not get locales");
             return;
         }
 
@@ -277,7 +277,7 @@ public class WeatherUpdater {
     private final Callback mReverseGeocodeCallback = new Callback() {
         @Override
         public void onFailure(@NonNull Call call, @NonNull IOException e) {
-            Log.e(TAG, "Could not reverse geocode location", e);
+            Timber.tag(TAG).e(e, "Could not reverse geocode location");
         }
 
         @Override

@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.IBinder;
-import android.util.Log;
 import foundation.e.blisslauncher.core.utils.Constants;
+import timber.log.Timber;
 
 public class DeviceStatusService extends Service {
 
@@ -26,7 +26,7 @@ public class DeviceStatusService extends Service {
                 boolean hasConnection = !intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
                 if (D)
-                    Log.d(TAG, "Got connectivity change, has connection: " + hasConnection);
+                    Timber.tag(TAG).d("Got connectivity change, has connection: " + hasConnection);
 
                 Intent i = new Intent(context, WeatherUpdateService.class);
                 if (hasConnection) {
@@ -50,14 +50,14 @@ public class DeviceStatusService extends Service {
     @Override
     public void onDestroy() {
         if (D)
-            Log.d(TAG, "Stopping service");
+            Timber.tag(TAG).d("Stopping service");
         unregisterReceiver(mDeviceStatusListenerReceiver);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (D)
-            Log.d(TAG, "Starting service");
+            Timber.tag(TAG).d("Starting service");
         return START_STICKY;
     }
 

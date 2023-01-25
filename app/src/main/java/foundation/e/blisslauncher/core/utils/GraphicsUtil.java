@@ -23,11 +23,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.database.model.FolderItem;
+import timber.log.Timber;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ public class GraphicsUtil {
         int width = appIconWidth;
         int height = width; // Square icons
 
-        Log.i(TAG, "generateFolderIcon: " + width + "*" + height);
+        Timber.tag(TAG).i("generateFolderIcon: " + width + "*" + height);
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
@@ -207,7 +208,7 @@ public class GraphicsUtil {
 
             return color;
         } else {
-            Log.i(TAG, "getDominantColor: white");
+            Timber.tag(TAG).i("getDominantColor: white");
             return Color.WHITE;
         }
     }

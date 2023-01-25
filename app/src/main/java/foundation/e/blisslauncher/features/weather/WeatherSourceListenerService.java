@@ -4,10 +4,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.core.utils.Constants;
 import lineageos.weather.LineageWeatherManager;
+import timber.log.Timber;
 
 public class WeatherSourceListenerService extends Service
         implements
@@ -21,7 +21,7 @@ public class WeatherSourceListenerService extends Service
     @Override
     public void onWeatherServiceProviderChanged(String providerLabel) {
         if (D)
-            Log.d(TAG, "Weather Source changed " + providerLabel);
+            Timber.tag(TAG).d("Weather Source changed %s", providerLabel);
         Preferences.setWeatherSource(mContext, providerLabel);
         Preferences.setCachedWeatherInfo(mContext, 0, null);
         // The data contained in WeatherLocation is tightly coupled to the weather
@@ -47,7 +47,7 @@ public class WeatherSourceListenerService extends Service
         weatherManager.registerWeatherServiceProviderChangeListener(this);
         mRegistered = true;
         if (D)
-            Log.d(TAG, "Listener registered");
+            Timber.tag(TAG).d("Listener registered");
     }
 
     @Override

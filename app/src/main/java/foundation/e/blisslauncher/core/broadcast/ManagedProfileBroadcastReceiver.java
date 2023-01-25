@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.UserHandle;
-import android.util.Log;
 
 import foundation.e.blisslauncher.core.events.EventRelay;
 import foundation.e.blisslauncher.core.events.ForceReloadEvent;
+import timber.log.Timber;
 
 public class ManagedProfileBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("PROFILE", "onReceive: " + intent.getAction());
+        Timber.tag("PROFILE").i("onReceive: " + intent.getAction());
         final String action = intent.getAction();
         if (Intent.ACTION_MANAGED_PROFILE_ADDED.equals(action)
                 || Intent.ACTION_MANAGED_PROFILE_REMOVED.equals(action)) {

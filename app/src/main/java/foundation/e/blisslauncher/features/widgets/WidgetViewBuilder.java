@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import foundation.e.blisslauncher.BlissLauncher;
@@ -12,6 +11,7 @@ import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.customviews.RoundedWidgetView;
 import foundation.e.blisslauncher.core.utils.ThemesKt;
 import foundation.e.blisslauncher.features.launcher.LauncherActivity;
+import timber.log.Timber;
 
 public class WidgetViewBuilder {
 
@@ -38,7 +38,7 @@ public class WidgetViewBuilder {
                     & AppWidgetProviderInfo.RESIZE_VERTICAL) == AppWidgetProviderInfo.RESIZE_VERTICAL) {
                 launcherActivity.showWidgetResizeContainer(roundedWidgetView);
             } else {
-                Log.i(TAG, launcherActivity.getString(R.string.widget_is_not_resizable));
+                Timber.tag(TAG).i(launcherActivity.getString(R.string.widget_is_not_resizable));
             }
             return true;
         });

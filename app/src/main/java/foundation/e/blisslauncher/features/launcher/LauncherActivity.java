@@ -46,7 +46,6 @@ import android.os.UserManager;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.DragEvent;
 import android.view.Gravity;
@@ -163,6 +162,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import me.relex.circleindicator.CircleIndicator;
+import timber.log.Timber;
 
 public class LauncherActivity extends AppCompatActivity
         implements
@@ -2067,7 +2067,7 @@ public class LauncherActivity extends AppCompatActivity
     private void deleteShortcutFromProvider(String id) {
         ContentResolver resolver = getContentResolver();
         int count = resolver.delete(Uri.parse("content://foundation.e.pwaplayer.provider/pwa"), null, new String[]{id});
-        Log.d("LauncherActivity", "Items deleted from pwa provider: " + count);
+        Timber.tag("LauncherActivity").d("Items deleted from pwa provider: " + count);
     }
 
     private void removeShortcutView(ShortcutItem shortcutItem, BlissFrameLayout blissFrameLayout) {
