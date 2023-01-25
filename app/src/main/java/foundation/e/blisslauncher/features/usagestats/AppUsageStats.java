@@ -7,13 +7,13 @@ import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.Toast;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
+import timber.log.Timber;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +51,7 @@ public class AppUsageStats {
         }
 
         if (aggregatedStats.size() == 0 && Preferences.shouldOpenUsageAccess(mContext)) {
-            Log.i(TAG, "The user may not allow the access to apps usage. ");
+            Timber.tag(TAG).i("The user may not allow the access to apps usage. ");
             Toast.makeText(mContext, mContext.getString(R.string.explanation_access_to_appusage_is_not_enabled),
                     Toast.LENGTH_LONG).show();
             mContext.startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
@@ -59,7 +59,7 @@ public class AppUsageStats {
         } else {
             Set<Map.Entry<String, UsageStats>> set = aggregatedStats.entrySet();
             List<Map.Entry<String, UsageStats>> list = new ArrayList<>(set);
-            Collections.sort(list, (o1, o2) -> Long.compare(o2.getValue().getTotalTimeInForeground(),
+            list.sort((o1, o2) -> Long.compare(o2.getValue().getTotalTimeInForeground(),
                     o1.getValue().getTotalTimeInForeground()));
             for (Map.Entry<String, UsageStats> stringUsageStatsEntry : list) {
                 usageStats.add(stringUsageStatsEntry.getValue());

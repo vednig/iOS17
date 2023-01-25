@@ -4,13 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Process;
-import android.util.Log;
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.core.events.AppAddEvent;
 import foundation.e.blisslauncher.core.events.AppChangeEvent;
 import foundation.e.blisslauncher.core.events.AppRemoveEvent;
 import foundation.e.blisslauncher.core.events.EventRelay;
 import foundation.e.blisslauncher.core.utils.UserHandle;
+import timber.log.Timber;
 
 public class PackageAddedRemovedHandler extends BroadcastReceiver {
 
@@ -21,7 +21,7 @@ public class PackageAddedRemovedHandler extends BroadcastReceiver {
         if (!Process.myUserHandle().equals(user.getRealHandle())) {
             return;
         }
-        Log.d(TAG, "handleEvent() called with: ctx = [" + ctx + "], action = [" + action + "], packageName = ["
+        Timber.tag(TAG).d("handleEvent() called with: ctx = [" + ctx + "], action = [" + action + "], packageName = ["
                 + packageName + "], user = [" + user + "], replacing = [" + replacing + "]");
         // Insert into history new packages (not updated ones)
         if ("android.intent.action.PACKAGE_ADDED".equals(action) && !replacing) {

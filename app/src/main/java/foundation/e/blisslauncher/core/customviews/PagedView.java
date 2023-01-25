@@ -24,7 +24,6 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -43,6 +42,8 @@ import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Utilities;
 import foundation.e.blisslauncher.core.customviews.pageindicators.PageIndicator;
 import foundation.e.blisslauncher.core.touch.OverScroll;
+import timber.log.Timber;
+
 import java.util.ArrayList;
 
 /**
@@ -496,7 +497,7 @@ public abstract class PagedView<T extends View & PageIndicator> extends ViewGrou
         // The children are given the same width and height as the workspace
         // unless they were set to WRAP_CONTENT
         if (DEBUG)
-            Log.d(TAG, "PagedView.onMeasure(): " + widthSize + ", " + heightSize);
+            Timber.tag(TAG).d("PagedView.onMeasure(): " + widthSize + ", " + heightSize);
 
         int myWidthSpec = MeasureSpec.makeMeasureSpec(widthSize - mInsets.left - mInsets.right, MeasureSpec.EXACTLY);
         int myHeightSpec = MeasureSpec.makeMeasureSpec(heightSize - mInsets.top - mInsets.bottom, MeasureSpec.EXACTLY);
@@ -524,7 +525,7 @@ public abstract class PagedView<T extends View & PageIndicator> extends ViewGrou
         }
 
         if (DEBUG)
-            Log.d(TAG, "PagedView.onLayout()");
+            Timber.tag(TAG).d("PagedView.onLayout()");
 
         if (getPageScrolls(mPageScrolls, true, SIMPLE_SCROLL_LOGIC)) {
             pageScrollChanged = true;

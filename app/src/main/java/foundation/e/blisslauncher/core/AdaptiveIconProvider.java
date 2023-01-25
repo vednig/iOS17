@@ -6,7 +6,6 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -14,6 +13,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import foundation.e.blisslauncher.core.customviews.AdaptiveIconDrawableCompat;
 import foundation.e.blisslauncher.core.utils.ResourceUtils;
+import timber.log.Timber;
 
 /**
  * Created by falcon on 19/4/18.
@@ -51,19 +51,19 @@ public class AdaptiveIconProvider {
                 String matcher = "application";
                 while ((eventType = manifestParser.nextToken()) != XmlPullParser.END_DOCUMENT) {
                     if (eventType == XmlPullParser.START_TAG && manifestParser.getName().equals(matcher)) {
-                        Log.d(TAG, "Manifest Parser Count: " + manifestParser.getAttributeCount());
+                        Timber.tag(TAG).d("Manifest Parser Count: %s", manifestParser.getAttributeCount());
 
                         for (int i = 0; i < manifestParser.getAttributeCount(); i++) {
-                            Log.d(TAG, "Icon parser: " + manifestParser.getAttributeName(i));
+                            Timber.tag(TAG).d("Icon parser: %s", manifestParser.getAttributeName(i));
                             if (manifestParser.getAttributeName(i).equalsIgnoreCase("icon")) {
                                 iconId = Integer.parseInt(manifestParser.getAttributeValue(i).substring(1));
-                                Log.d(TAG, "Iconid:" + iconId);
+                                Timber.tag(TAG).d("Iconid:%s", iconId);
                                 break;
                             }
                         }
                         if (iconId != 0) {
                             iconName = resources.getResourceName(iconId);
-                            Log.d("AdaptiveIcon", "Iconname: " + iconName);
+                            Timber.tag("AdaptiveIcon").d("Iconname: %s", iconName);
                             if (iconName.contains("/")) {
                                 iconName = iconName.split("/")[1];
                             }
@@ -104,7 +104,8 @@ public class AdaptiveIconProvider {
             if (parser != null) {
                 int event;
                 while ((event = parser.getEventType()) != XmlPullParser.END_DOCUMENT) {
-                    Log.i(TAG, packageName + ":parserName: " + parser.getName() + " " + parser.getAttributeCount());
+                    Timber.tag(TAG)
+                            .i(packageName + ":parserName: " + parser.getName() + " " + parser.getAttributeCount());
                     if (event == XmlPullParser.START_TAG) {
                         switch (parser.getName()) {
                             case "background" :
@@ -140,8 +141,8 @@ public class AdaptiveIconProvider {
             }
 
             if (backgroundRes != -1) {
-                Log.d(TAG, "BackgroundRes: " + backgroundRes);
-                Log.d(TAG, "BackgroundResName: " + resources.getResourceName(backgroundRes));
+                Timber.tag(TAG).d("BackgroundRes: %s", backgroundRes);
+                Timber.tag(TAG).d("BackgroundResName: %s", resources.getResourceName(backgroundRes));
                 try {
                     background = ResourcesCompat.getDrawable(resources, backgroundRes, theme);
                 } catch (Resources.NotFoundException e) {

@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -28,6 +27,7 @@ import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.features.launcher.DetectSwipeGestureListener;
 import foundation.e.blisslauncher.features.launcher.LauncherActivity;
 import foundation.e.blisslauncher.features.launcher.OnSwipeDownListener;
+import timber.log.Timber;
 
 public class HorizontalPager extends ViewGroup implements Insettable {
     private static final String TAG = "HorizontalPager";
@@ -283,7 +283,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
          */
         final int action = ev.getAction();
         if ((action == MotionEvent.ACTION_MOVE) && (mTouchState != TOUCH_STATE_REST)) {
-            Log.d(TAG, "onInterceptTouchEvent::shortcut=true");
+            Timber.tag(TAG).d("onInterceptTouchEvent::shortcut=true");
             return true;
         }
 
@@ -561,7 +561,7 @@ public class HorizontalPager extends ViewGroup implements Insettable {
         for (int index = 0; index < childCount; ++index) {
             View child = getChildAt(index);
             if (child instanceof Insettable) {
-                Log.d(TAG, "child is instance of insettable");
+                Timber.tag(TAG).d("child is instance of insettable");
                 ((Insettable) child).setInsets(insets);
             }
         }
@@ -570,9 +570,9 @@ public class HorizontalPager extends ViewGroup implements Insettable {
     @Override
     public void onViewAdded(View child) {
         super.onViewAdded(child);
-        Log.d(TAG, "onViewAdded() called with: child = [" + child + "]");
+        Timber.tag(TAG).d("onViewAdded() called with: child = [" + child + "]");
         if (child instanceof Insettable) {
-            Log.d(TAG, "child is instance of insettable");
+            Timber.tag(TAG).d("child is instance of insettable");
             ((Insettable) child).setInsets(insets);
         }
     }

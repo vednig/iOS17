@@ -11,12 +11,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.Toast;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import foundation.e.blisslauncher.R;
+import timber.log.Timber;
+
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -127,11 +128,11 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
                 Resources packageResources = mPackageManager.getResourcesForApplication(info.provider.getPackageName());
                 icon = packageResources.getDrawableForDensity(info.icon, iconDensity);
             } catch (PackageManager.NameNotFoundException e) {
-                Log.w(TAG, "Can't load icon drawable 0x" + Integer.toHexString(info.icon) + " for provider: "
+                Timber.tag(TAG).w("Can't load icon drawable 0x" + Integer.toHexString(info.icon) + " for provider: "
                         + info.provider);
             }
             if (icon == null) {
-                Log.w(TAG, "Can't load icon drawable 0x" + Integer.toHexString(info.icon) + " for provider: "
+                Timber.tag(TAG).w("Can't load icon drawable 0x" + Integer.toHexString(info.icon) + " for provider: "
                         + info.provider);
             }
         }
@@ -191,8 +192,8 @@ public class WidgetPicker extends Activity implements WidgetPickerAdapter.OnClic
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode
-                + "], data = [" + data + "]");
+        Timber.tag(TAG).d("onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = ["
+                + resultCode + "], data = [" + data + "]");
         if (requestCode == REQUEST_BIND_APPWIDGET) {
             int appWidgetId = data != null ? data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1) : -1;
             if (resultCode == RESULT_OK) {

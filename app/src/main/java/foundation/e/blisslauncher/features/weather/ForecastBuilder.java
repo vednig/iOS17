@@ -8,7 +8,6 @@ import static lineageos.providers.WeatherContract.WeatherColumns.WindSpeedUnit.M
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +22,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import lineageos.weather.WeatherInfo;
 import lineageos.weather.util.WeatherUtils;
+import timber.log.Timber;
 
 public class ForecastBuilder {
 
@@ -41,7 +41,7 @@ public class ForecastBuilder {
     @SuppressLint("InflateParams")
     public static void buildLargePanel(Context context, View weatherPanel, WeatherInfo w) {
         if (weatherPanel == null) {
-            Log.d(TAG, "Invalid view passed");
+            Timber.tag(TAG).d("Invalid view passed");
             return;
         }
 
@@ -133,7 +133,7 @@ public class ForecastBuilder {
     @SuppressLint("InflateParams")
     private static void buildSmallPanel(Context context, LinearLayout smallPanel, WeatherInfo w) {
         if (smallPanel == null) {
-            Log.d(TAG, "Invalid view passed");
+            Timber.tag(TAG).d("Invalid view passed");
             return;
         }
 

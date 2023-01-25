@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
+
+import timber.log.Timber;
 
 public class Utilities {
 
@@ -69,7 +70,7 @@ public class Utilities {
             out.close();
             return out.toByteArray();
         } catch (IOException e) {
-            Log.w(TAG, "Could not write bitmap");
+            Timber.tag(TAG).w("Could not write bitmap");
             return null;
         }
     }
@@ -191,7 +192,7 @@ public class Utilities {
                 return value;
             }
         } catch (Exception e) {
-            Log.d(TAG, "Unable to read system properties");
+            Timber.tag(TAG).d("Unable to read system properties");
         }
         return defaultValue;
     }

@@ -166,6 +166,7 @@ dependencies {
     implementation(libs.greenrobot.eventbus)
     implementation(libs.circleindicator)
     implementation(libs.restriction.bypass)
+    implementation(libs.tools.timber)
     debugImplementation(libs.debug.db)
     coreLibraryDesugaring(libs.tools.desugar)
     implementation(libs.androidx.profileinstaller)

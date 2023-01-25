@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.preference.EditTextPreference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import lineageos.weather.LineageWeatherManager;
 import lineageos.weather.WeatherLocation;
+import timber.log.Timber;
 
 public class CustomLocationPreference extends EditTextPreference
         implements
@@ -142,7 +142,7 @@ public class CustomLocationPreference extends EditTextPreference
     public void onLookupCityRequestCompleted(int status, final List<WeatherLocation> locations) {
         mHandler.post(() -> {
             final Context context = getContext();
-            Log.i(TAG, "onLookupCityRequestCompleted: " + status + " " + (locations == null));
+            Timber.tag(TAG).i("onLookupCityRequestCompleted: " + status + " " + (locations == null));
             if (locations == null || locations.isEmpty()) {
                 Toast.makeText(context, context.getString(R.string.weather_retrieve_location_dialog_title),
                         Toast.LENGTH_SHORT).show();

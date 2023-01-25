@@ -20,12 +20,12 @@ import android.app.WallpaperManager
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import foundation.e.blisslauncher.core.utils.SingletonHolder
 import foundation.e.blisslauncher.core.utils.ensureOnMainThread
 import foundation.e.blisslauncher.core.utils.useApplicationContext
 import foundation.e.blisslauncher.core.wallpaper.WallpaperColorsCompat.Companion.HINT_SUPPORTS_DARK_THEME
 import java.lang.reflect.Method
+import timber.log.Timber
 
 class WallpaperManagerCompat(val context: Context) {
 
@@ -48,7 +48,7 @@ class WallpaperManagerCompat(val context: Context) {
         try {
             wcColorHintsMethod = WallpaperColors::class.java.getDeclaredMethod("getColorHints")
         } catch (exc: Exception) {
-            Log.e(TAG, "getColorHints not available", exc)
+            Timber.tag(TAG).e(exc, "getColorHints not available")
         }
         wallpaperManager.addOnColorsChangedListener(
             { colors, which ->
@@ -72,7 +72,7 @@ class WallpaperManagerCompat(val context: Context) {
             try {
                 hints = it.invoke(wallpaperColors) as Int
             } catch (e: Exception) {
-                Log.e(TAG, "error calling color hints", e)
+                Timber.tag(TAG).e(e, "error calling color hints")
             }
         }
         this.wallpaperColors = WallpaperColorsCompat(wallpaperColors.primaryColor.toArgb(), hints)

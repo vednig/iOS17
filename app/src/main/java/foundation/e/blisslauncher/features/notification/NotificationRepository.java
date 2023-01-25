@@ -2,12 +2,13 @@ package foundation.e.blisslauncher.features.notification;
 
 import android.app.Notification;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import timber.log.Timber;
 
 /** Created by Amit Kumar Email : mr.doc10jl96@gmail.com */
 public class NotificationRepository {
@@ -29,7 +30,7 @@ public class NotificationRepository {
     }
 
     public void updateNotification(List<StatusBarNotification> list) {
-        Log.d(TAG, "updateNotification() called with: list = [" + list.size() + "]");
+        Timber.tag(TAG).d("updateNotification() called with: list = [" + list.size() + "]");
         Set<String> notificationSet = new HashSet<>();
         for (StatusBarNotification statusBarNotification : list) {
             Notification notification = statusBarNotification.getNotification();

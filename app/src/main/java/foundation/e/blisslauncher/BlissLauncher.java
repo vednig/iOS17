@@ -8,6 +8,10 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.IconsHandler;
@@ -16,6 +20,7 @@ import foundation.e.blisslauncher.core.customviews.WidgetHost;
 import foundation.e.blisslauncher.features.launcher.AppProvider;
 import foundation.e.blisslauncher.features.notification.NotificationService;
 import foundation.e.lib.telemetry.Telemetry;
+import timber.log.Timber;
 
 public class BlissLauncher extends Application {
     public static final Uri NOTIFICATION_BADGING_URI = Settings.Secure.getUriFor("notification_badging");
@@ -46,7 +51,18 @@ public class BlissLauncher extends Application {
         };
         getContentResolver().registerContentObserver(NOTIFICATION_BADGING_URI, false, notificationSettingsObserver);
 
-        Telemetry.INSTANCE.init(BuildConfig.SENTRY_DSN, this);
+        if (!BuildConfig.DEBUG) {
+            Telemetry.INSTANCE.init(BuildConfig.SENTRY_DSN, this);
+            Timber.plant(new Timber.Tree() {
+                @Override
+                protected void log(int priority, @Nullable String tag, @NonNull String message, @Nullable Throwable t) {
+                    Telemetry.INSTANCE.reportMessage(tag + ": " + message);
+                    Log.println(priority, tag, message);
+                }
+            });
+        } else {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     private void onNotificationSettingsChanged() {

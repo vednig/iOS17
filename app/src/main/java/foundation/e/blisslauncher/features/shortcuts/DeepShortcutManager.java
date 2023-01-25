@@ -26,8 +26,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.UserHandle;
-import android.util.Log;
 import foundation.e.blisslauncher.core.Utilities;
+import timber.log.Timber;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -106,7 +107,7 @@ public class DeepShortcutManager {
                 mLauncherApps.pinShortcuts(packageName, pinnedIds, user);
                 mWasLastCallSuccess = true;
             } catch (SecurityException | IllegalStateException e) {
-                Log.w(TAG, "Failed to unpin shortcut", e);
+                Timber.tag(TAG).w(e, "Failed to unpin shortcut");
                 mWasLastCallSuccess = false;
             }
         }
@@ -127,9 +128,9 @@ public class DeepShortcutManager {
             try {
                 mLauncherApps.pinShortcuts(packageName, pinnedIds, user);
                 mWasLastCallSuccess = true;
-                Log.d(TAG, "pinShortcut called: " + key);
+                Timber.tag(TAG).d("pinShortcut called: " + key);
             } catch (SecurityException | IllegalStateException e) {
-                Log.w(TAG, "Failed to pin shortcut", e);
+                Timber.tag(TAG).w(e, "Failed to pin shortcut");
                 mWasLastCallSuccess = false;
             }
         }
@@ -143,7 +144,7 @@ public class DeepShortcutManager {
                 mLauncherApps.startShortcut(packageName, id, sourceBounds, startActivityOptions, user);
                 mWasLastCallSuccess = true;
             } catch (SecurityException | IllegalStateException e) {
-                Log.e(TAG, "Failed to start shortcut", e);
+                Timber.tag(TAG).e(e, "Failed to start shortcut");
                 mWasLastCallSuccess = false;
             }
         }
@@ -157,7 +158,7 @@ public class DeepShortcutManager {
                 mWasLastCallSuccess = true;
                 return icon;
             } catch (SecurityException | IllegalStateException e) {
-                Log.e(TAG, "Failed to get shortcut icon", e);
+                Timber.tag(TAG).e(e, "Failed to get shortcut icon");
                 mWasLastCallSuccess = false;
             }
         }
@@ -211,7 +212,7 @@ public class DeepShortcutManager {
                 shortcutInfos = mLauncherApps.getShortcuts(q, user);
                 mWasLastCallSuccess = true;
             } catch (SecurityException | IllegalStateException e) {
-                Log.e(TAG, "Failed to query for shortcuts", e);
+                Timber.tag(TAG).e(e, "Failed to query for shortcuts");
                 mWasLastCallSuccess = false;
             }
             if (shortcutInfos == null) {
@@ -233,7 +234,7 @@ public class DeepShortcutManager {
             try {
                 return mLauncherApps.hasShortcutHostPermission();
             } catch (SecurityException | IllegalStateException e) {
-                Log.e(TAG, "Failed to make shortcut manager call", e);
+                Timber.tag(TAG).e(e, "Failed to make shortcut manager call");
             }
         }
         return false;
