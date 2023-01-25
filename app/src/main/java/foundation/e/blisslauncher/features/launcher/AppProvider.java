@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Process;
 import android.os.UserManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.util.LongSparseArray;
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
@@ -37,8 +36,11 @@ import foundation.e.blisslauncher.features.launcher.tasks.LoadDatabaseTask;
 import foundation.e.blisslauncher.features.launcher.tasks.LoadShortcutTask;
 import foundation.e.blisslauncher.features.shortcuts.DeepShortcutManager;
 import foundation.e.blisslauncher.features.shortcuts.ShortcutInfoCompat;
+import timber.log.Timber;
+
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -145,8 +147,8 @@ public class AppProvider {
 
             @Override
             public void onPackagesAvailable(String[] packageNames, android.os.UserHandle user, boolean replacing) {
-                Log.d(TAG, "onPackagesAvailable() called with: packageNames = [" + packageNames + "], user = [" + user
-                        + "], replacing = [" + replacing + "]");
+                Timber.tag(TAG).d("onPackagesAvailable() called with: packageNames = [" + Arrays.toString(packageNames)
+                        + "], user = [" + user + "], replacing = [" + replacing + "]");
                 for (String packageName : packageNames) {
                     PackageAddedRemovedHandler.handleEvent(mContext, "android.intent.action.MEDIA_MOUNTED", packageName,
                             new UserHandle(manager.getSerialNumberForUser(user), user), false);
@@ -155,23 +157,23 @@ public class AppProvider {
 
             @Override
             public void onPackagesUnavailable(String[] packageNames, android.os.UserHandle user, boolean replacing) {
-                Log.d(TAG, "onPackagesUnavailable() called with: packageNames = [" + packageNames + "], user = [" + user
-                        + "], replacing = [" + replacing + "]");
+                Timber.tag(TAG).d("onPackagesUnavailable() called with: packageNames = ["
+                        + Arrays.toString(packageNames) + "], user = [" + user + "], replacing = [" + replacing + "]");
                 PackageAddedRemovedHandler.handleEvent(mContext, "android.intent.action.MEDIA_UNMOUNTED", null,
                         new UserHandle(manager.getSerialNumberForUser(user), user), false);
             }
 
             @Override
             public void onPackagesSuspended(String[] packageNames, android.os.UserHandle user) {
-                Log.d(TAG, "onPackagesSuspended() called with: packageNames = [" + packageNames + "], user = [" + user
-                        + "]");
+                Timber.tag(TAG).d("onPackagesSuspended() called with: packageNames = [" + Arrays.toString(packageNames)
+                        + "], user = [" + user + "]");
             }
 
             @Override
             public void onPackagesUnsuspended(String[] packageNames, android.os.UserHandle user) {
                 super.onPackagesUnsuspended(packageNames, user);
-                Log.d(TAG, "onPackagesUnsuspended() called with: packageNames = [" + packageNames + "], user = [" + user
-                        + "]");
+                Timber.tag(TAG).d("onPackagesUnsuspended() called with: packageNames = ["
+                        + Arrays.toString(packageNames) + "], user = [" + user + "]");
             }
         });
 
@@ -195,7 +197,7 @@ public class AppProvider {
     }
 
     public synchronized void reload(boolean force) {
-        Log.d(TAG, "reload() called");
+        Timber.tag(TAG).d("reload() called");
 
         isSdCardReady = Utilities.isBootCompleted();
 
@@ -213,42 +215,42 @@ public class AppProvider {
     }
 
     private synchronized void initializeAppLoading(LoadAppsTask loader) {
-        Log.d(TAG, "initializeAppLoading() called with: loader = [" + loader + "]");
+        Timber.tag(TAG).d("initializeAppLoading() called with: loader = [" + loader + "]");
         appsLoaded = false;
         loader.setAppProvider(this);
         loader.executeOnExecutor(AppExecutors.getInstance().appIO());
     }
 
     private synchronized void initializeShortcutsLoading(LoadShortcutTask loader) {
-        Log.d(TAG, "initializeShortcutsLoading() called with: loader = [" + loader + "]");
+        Timber.tag(TAG).d("initializeShortcutsLoading() called with: loader = [" + loader + "]");
         shortcutsLoaded = false;
         loader.setAppProvider(this);
         loader.executeOnExecutor(AppExecutors.getInstance().shortcutIO());
     }
 
     private synchronized void initializeDatabaseLoading(LoadDatabaseTask loader) {
-        Log.d(TAG, "initializeDatabaseLoading() called with: loader = [" + loader + "]");
+        Timber.tag(TAG).d("initializeDatabaseLoading() called with: loader = [" + loader + "]");
         databaseLoaded = false;
         loader.setAppProvider(this);
         loader.executeOnExecutor(AppExecutors.getInstance().diskIO());
     }
 
     public synchronized void loadAppsOver(Map<String, ApplicationItem> appItemsPair) {
-        Log.d(TAG, "loadAppsOver() called " + mStopped);
+        Timber.tag(TAG).d("loadAppsOver() called %s", mStopped);
         mApplicationItems = appItemsPair;
         appsLoaded = true;
         handleAllProviderLoaded();
     }
 
     public synchronized void loadShortcutsOver(Map<String, ShortcutInfoCompat> shortcuts) {
-        Log.d(TAG, "loadShortcutsOver() called with: shortcuts = [" + shortcuts + "]" + mStopped);
+        Timber.tag(TAG).d("loadShortcutsOver() called with: shortcuts = [" + shortcuts + "]" + mStopped);
         mShortcutInfoCompats = shortcuts;
         shortcutsLoaded = true;
         handleAllProviderLoaded();
     }
 
     public synchronized void loadDatabaseOver(List<LauncherItem> databaseItems) {
-        Log.d(TAG, "loadDatabaseOver() called with: databaseItems = [" + Thread.currentThread().getName() + "]"
+        Timber.tag(TAG).d("loadDatabaseOver() called with: databaseItems = [" + Thread.currentThread().getName() + "]"
                 + mStopped);
         this.mDatabaseItems = databaseItems;
         databaseLoaded = true;
@@ -267,15 +269,15 @@ public class AppProvider {
     }
 
     private List<LauncherItem> prepareLauncherItems() {
-        Log.d(TAG, "prepareLauncherItems() called");
+        Timber.tag(TAG).d("prepareLauncherItems() called");
 
         /** Indices of folder in {@link #mLauncherItems}. */
         LongSparseArray<Integer> foldersIndex = new LongSparseArray<>();
         List<LauncherItem> mLauncherItems = new ArrayList<>();
         Collection<ApplicationItem> applicationItems = mApplicationItems.values();
 
-        Log.i(TAG, "Total number of apps: " + applicationItems.size());
-        Log.i(TAG, "Total number of items in database: " + mDatabaseItems.size());
+        Timber.tag(TAG).i("Total number of apps: %s", applicationItems.size());
+        Timber.tag(TAG).i("Total number of items in database: %s", mDatabaseItems.size());
         for (LauncherItem databaseItem : mDatabaseItems) {
             if (databaseItem.itemType == Constants.ITEM_TYPE_APPLICATION) {
                 ApplicationItem applicationItem = mApplicationItems.get(databaseItem.id);
@@ -283,9 +285,9 @@ public class AppProvider {
                     UserHandle userHandle = new UserHandle();
                     if ((isAppOnSdcard(databaseItem.packageName, userHandle) || !isSdCardReady)
                             && !DISABLED_PACKAGES.contains(databaseItem.packageName)) {
-                        Log.d(TAG, "Missing package: " + databaseItem.packageName);
-                        Log.d(TAG, "Is App on Sdcard " + isAppOnSdcard(databaseItem.packageName, userHandle));
-                        Log.d(TAG, "Is Sdcard ready " + isSdCardReady);
+                        Timber.tag(TAG).d("Missing package: %s", databaseItem.packageName);
+                        Timber.tag(TAG).d("Is App on Sdcard %s", isAppOnSdcard(databaseItem.packageName, userHandle));
+                        Timber.tag(TAG).d("Is Sdcard ready %s", isSdCardReady);
 
                         pendingPackages.addToList(userHandle, databaseItem.packageName);
                         applicationItem = new ApplicationItem();
@@ -315,7 +317,7 @@ public class AppProvider {
                         FolderItem folderItem = (FolderItem) mLauncherItems.get(index);
                         folderItem.items.add(applicationItem);
                     } else {
-                        Log.e("AppProvider", "folder not found for item: " + applicationItem.id);
+                        Timber.tag("AppProvider").e("folder not found for item: %s", applicationItem.id);
                     }
                 }
             } else if (databaseItem.itemType == Constants.ITEM_TYPE_SHORTCUT) {
@@ -419,7 +421,7 @@ public class AppProvider {
     private ShortcutItem prepareShortcutForOreo(LauncherItem databaseItem) {
         ShortcutInfoCompat info = mShortcutInfoCompats.get(databaseItem.id);
         if (info == null) {
-            Log.d(TAG, "prepareShortcutForOreo() called with: databaseItem = [" + databaseItem + "]");
+            Timber.tag(TAG).d("prepareShortcutForOreo() called with: databaseItem = [" + databaseItem + "]");
             return null;
         }
 
@@ -466,7 +468,7 @@ public class AppProvider {
             }
         }
 
-        Collections.sort(mLauncherItems, (app1, app2) -> {
+        mLauncherItems.sort((app1, app2) -> {
             Collator collator = Collator.getInstance();
             return collator.compare(app1.title.toString(), app2.title.toString());
         });

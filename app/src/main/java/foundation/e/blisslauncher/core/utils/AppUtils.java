@@ -25,13 +25,14 @@ import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.UserManager;
-import android.util.Log;
 import androidx.annotation.Nullable;
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.IconsHandler;
 import foundation.e.blisslauncher.core.database.model.ApplicationItem;
 import foundation.e.blisslauncher.features.launcher.AppProvider;
+import timber.log.Timber;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class AppUtils {
         // Handle multi-profile support introduced in Android 5 (#542)
         for (android.os.UserHandle profile : manager.getUserProfiles()) {
             UserHandle user = new UserHandle(manager.getSerialNumberForUser(profile), profile);
-            Log.i(TAG, "totalAppsBefore: " + sLauncherApps.getActivityList(null, profile).size());
+            Timber.tag(TAG).i("totalAppsBefore: %s", sLauncherApps.getActivityList(null, profile).size());
             List<LauncherActivityInfo> infos = sLauncherApps.getActivityList(null, profile);
             for (LauncherActivityInfo activityInfo : infos) {
                 ApplicationInfo appInfo = activityInfo.getApplicationInfo();
@@ -80,7 +81,7 @@ public class AppUtils {
                 appArrayMap.put(applicationItem.id, applicationItem);
             }
         }
-        Log.i(TAG, "Total Apps Loaded: " + appArrayMap.size());
+        Timber.tag(TAG).i("Total Apps Loaded: %s", appArrayMap.size());
         return appArrayMap;
     }
 

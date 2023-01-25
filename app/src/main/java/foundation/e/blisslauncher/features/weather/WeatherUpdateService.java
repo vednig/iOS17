@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import timber.log.Timber;
 
 public class WeatherUpdateService extends Service {
     private static final String TAG = "WeatherUpdateService";
@@ -27,7 +28,7 @@ public class WeatherUpdateService extends Service {
     @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
-        Log.d(TAG, "onCreate");
+        Timber.tag(TAG).d("onCreate");
 
         mHandlerThread = new HandlerThread("WeatherUpdateServiceHandler");
         mHandlerThread.start();

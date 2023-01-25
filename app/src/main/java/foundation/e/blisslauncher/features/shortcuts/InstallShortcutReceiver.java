@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.os.UserManager;
-import android.util.Log;
 import foundation.e.blisslauncher.BlissLauncher;
 import foundation.e.blisslauncher.core.IconsHandler;
 import foundation.e.blisslauncher.core.Utilities;
@@ -17,6 +16,8 @@ import foundation.e.blisslauncher.core.events.EventRelay;
 import foundation.e.blisslauncher.core.events.ShortcutAddEvent;
 import foundation.e.blisslauncher.core.utils.Constants;
 import foundation.e.blisslauncher.core.utils.UserHandle;
+import timber.log.Timber;
+
 import java.io.ByteArrayOutputStream;
 
 public class InstallShortcutReceiver extends BroadcastReceiver {
@@ -56,11 +57,11 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
     }
 
     public static void queueShortcut(ShortcutInfoCompat info, Context context) {
-        Log.d(TAG, "queueShortcut() called with: info = [" + info + "], context = [" + context + "]");
+        Timber.tag(TAG).d("queueShortcut() called with: info = [" + info + "], context = [" + context + "]");
         UserManager userManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
         ShortcutItem shortcutItem = new ShortcutItem();
         shortcutItem.id = info.getId();
-        Log.i(TAG, "queueShortcut: " + shortcutItem.id);
+        Timber.tag(TAG).i("queueShortcut: " + shortcutItem.id);
         shortcutItem.user = new UserHandle(userManager.getSerialNumberForUser(info.getUserHandle()),
                 info.getUserHandle());
         shortcutItem.packageName = info.getPackage();
@@ -86,7 +87,7 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         if (intent == null) {
             // If the intent is null, we can't construct a valid ShortcutInfo, so we return
             // null
-            Log.e(TAG, "Can't construct ShortcutInfo with null intent");
+            Timber.tag(TAG).e("Can't construct ShortcutInfo with null intent");
             return null;
         }
 

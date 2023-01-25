@@ -17,13 +17,13 @@ import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.core.utils.Constants;
 import lineageos.weather.LineageWeatherManager;
+import timber.log.Timber;
 
 public class WeatherPreferences extends PreferenceActivity
         implements
@@ -183,7 +183,7 @@ public class WeatherPreferences extends PreferenceActivity
         }
 
         if (Constants.DEBUG) {
-            Log.v(TAG, "Preference " + key + " changed, need update " + needWeatherUpdate + " force update "
+            Timber.tag(TAG).v("Preference " + key + " changed, need update " + needWeatherUpdate + " force update "
                     + forceWeatherUpdate);
         }
 

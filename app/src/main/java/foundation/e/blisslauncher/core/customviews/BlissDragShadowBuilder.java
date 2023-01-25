@@ -2,8 +2,9 @@ package foundation.e.blisslauncher.core.customviews;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.View;
+
+import timber.log.Timber;
 
 /** Created by falcon on 15/2/18. */
 public class BlissDragShadowBuilder extends View.DragShadowBuilder {
@@ -26,12 +27,12 @@ public class BlissDragShadowBuilder extends View.DragShadowBuilder {
         mX = (int) x;
         mY = (int) y;
 
-        Log.i(TAG, "Touchpoint: " + mX + " " + mY);
+        Timber.tag(TAG).i("Touchpoint: " + mX + " " + mY);
 
         xOffset = mX - v.getWidth() / 2;
         yOffset = (mY - v.getHeight() / 2);
 
-        Log.i(TAG, "Offset: " + xOffset + " " + yOffset);
+        Timber.tag(TAG).i("Offset: " + xOffset + " " + yOffset);
     }
 
     // Defines a callback that sends the drag shadow dimensions and touch point back

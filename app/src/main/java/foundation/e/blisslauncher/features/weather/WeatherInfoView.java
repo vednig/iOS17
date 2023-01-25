@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
 import foundation.e.blisslauncher.features.launcher.LauncherActivity;
+import timber.log.Timber;
 
 public class WeatherInfoView extends LinearLayout {
 
@@ -92,7 +92,7 @@ public class WeatherInfoView extends LinearLayout {
 
     private void updateWeatherPanel() {
         if (Preferences.getCachedWeatherInfo(getContext()) == null) {
-            Log.i("Weather", "getCacheWeatherInfo is null");
+            Timber.tag("Weather").i("getCacheWeatherInfo is null");
             mWeatherSetupTextView.setVisibility(VISIBLE);
             mWeatherPanel.setVisibility(GONE);
             mWeatherSetupTextView.setOnClickListener(v -> startWeatherPreferences());

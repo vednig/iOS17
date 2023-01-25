@@ -67,10 +67,11 @@ mockito-core = "org.mockito:mockito-core:2.19.0"
 robolectric = "org.robolectric:robolectric:4.3"
 tools-desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 tools-leakcanary = "com.squareup.leakcanary:leakcanary-android:2.10"
+tools-timber = "com.jakewharton.timber:timber:5.0.1"
 timber = "com.jakewharton.timber:timber:4.7.1"
 restriction-bypass = "com.github.ChickenHook:RestrictionBypass:2.2"
 elib = "foundation.e:elib:0.0.1-alpha11"
-telemetry = "foundation.e.lib:telemetry:0.0.3-alpha"
+telemetry = "foundation.e.lib:telemetry:0.0.4-alpha"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

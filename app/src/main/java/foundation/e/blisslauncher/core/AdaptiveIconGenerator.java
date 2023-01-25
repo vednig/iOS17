@@ -10,12 +10,12 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.util.SparseIntArray;
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 import foundation.e.blisslauncher.FixedScaleDrawable;
 import foundation.e.blisslauncher.core.customviews.AdaptiveIconDrawableCompat;
+import timber.log.Timber;
 
 public class AdaptiveIconGenerator {
 
@@ -60,7 +60,7 @@ public class AdaptiveIconGenerator {
         Drawable extractee = icon;
 
         if (extractee == null) {
-            Log.e("AdaptiveIconGenerator", "extractee is null, skipping.");
+            Timber.tag("AdaptiveIconGenerator").e("extractee is null, skipping.");
             onExitLoop();
             return;
         }

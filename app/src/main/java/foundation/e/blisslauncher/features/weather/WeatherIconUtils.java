@@ -12,9 +12,9 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.utils.Constants;
+import timber.log.Timber;
 
 public class WeatherIconUtils {
     private static final String TAG = "WeatherIconUtils";
@@ -97,12 +97,12 @@ public class WeatherIconUtils {
     public static Bitmap getBitmapFromResource(Resources res, int resId, int density) {
         if (density == 0) {
             if (D)
-                Log.d(TAG, "Decoding resource id = " + resId + " for default density");
+                Timber.tag(TAG).d("Decoding resource id = " + resId + " for default density");
             return BitmapFactory.decodeResource(res, resId);
         }
 
         if (D)
-            Log.d(TAG, "Decoding resource id = " + resId + " for density = " + density);
+            Timber.tag(TAG).d("Decoding resource id = " + resId + " for density = " + density);
         Drawable d = res.getDrawableForDensity(resId, density);
         if (d instanceof BitmapDrawable) {
             BitmapDrawable bd = (BitmapDrawable) d;

@@ -10,7 +10,6 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -23,6 +22,7 @@ import foundation.e.blisslauncher.core.utils.ensureOnMainThread
 import foundation.e.blisslauncher.core.utils.useApplicationContext
 import java.util.ArrayList
 import kotlin.math.max
+import timber.log.Timber
 
 class BlurWallpaperProvider(val context: Context) {
 
@@ -87,7 +87,7 @@ class BlurWallpaperProvider(val context: Context) {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Log.d("BWP", "NO permission granted")
+            Timber.tag("BWP").d("NO permission granted")
             return
         }
 
