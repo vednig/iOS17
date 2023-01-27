@@ -56,8 +56,10 @@ public class BlissLauncher extends Application {
             Timber.plant(new Timber.Tree() {
                 @Override
                 protected void log(int priority, @Nullable String tag, @NonNull String message, @Nullable Throwable t) {
-                    Telemetry.INSTANCE.reportMessage(tag + ": " + message);
                     Log.println(priority, tag, message);
+                    if (priority == Log.WARN || priority == Log.ERROR) {
+                        Telemetry.INSTANCE.reportMessage(tag + ": " + message);
+                    }
                 }
             });
         } else {
