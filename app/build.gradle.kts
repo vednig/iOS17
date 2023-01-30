@@ -178,5 +178,4 @@ dependencies {
 
     // elib
     implementation(libs.elib)
-    implementation(libs.telemetry)
 }
