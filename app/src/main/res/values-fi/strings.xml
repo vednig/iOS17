@@ -134,4 +134,18 @@
     <string name="app_suggestion">Ehdotukset</string>
     <string name="untitled">Nimetön</string>
     <string name="search">Hae</string>
+    <string name="ignore">Jätä huomiotta</string>
+    <string name="grant">Salli</string>
+    <string name="notification_badge_warning">Nähdäksesi ilmoituspisteet sovelluskuvakkeissa, sinun on myönnettävä ilmoitusoikeudet käynnistysohjelmalle.</string>
+    <string name="app_name_maps">Kartat</string>
+    <string name="toast_no_room">Sivulla ei ole enää tilaa</string>
+    <string name="toast_dock_full">Telakka on jo täynnä</string>
+    <string name="toast_cannot_uninstall">Tätä sovellusta ei voi poistaa</string>
+    <string name="toast_package_unavailable">Paketti ei ole käytettävissä tai poistettu käytöstä</string>
+    <string name="toast_recreating_launcher">Launcherin uudelleenluominen</string>
+    <string name="toast_shortcut_added">Pikakuvake lisätty</string>
+    <string name="toast_failed">Sumean taustakuvan asettaminen epäonnistui</string>
+    <string name="toast_custom_location">Aseta mukautettu sijainti sääasetuksissa.</string>
+    <string name="perm_required">Lupa vaaditaan</string>
+    <string name="toast_permission_denied">Lupa evätty</string>
 </resources>
