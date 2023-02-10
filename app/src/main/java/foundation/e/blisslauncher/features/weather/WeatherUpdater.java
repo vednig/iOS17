@@ -263,7 +263,7 @@ public class WeatherUpdater {
         String countryCode = Locale.getDefault().getCountry().toLowerCase(Locale.ROOT);
         final JsonElement jsonElement = locales.get(countryCode);
         if (jsonElement == null) {
-            Timber.tag(TAG).e("Could not get city name in country code: %s" + countryCode);
+            Timber.tag(TAG).e("Could not get city name in country code: %s", countryCode);
             notifyUi(defaultCityName);
             return;
         }
