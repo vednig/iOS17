@@ -120,7 +120,7 @@
     <string name="weather_3">Forti Temporali</string>
     <string name="weather_2">Uragano</string>
     <string name="weather_1">Tempesta Tropicale</string>
-    <string name="cancel">Cancella</string>
+    <string name="cancel">Annulla</string>
     <string name="unknown">Sconosciuto</string>
     <string name="explanation_access_to_appusage_is_not_enabled">Consenti l\'accesso ad appusage per vedere le app suggerite.</string>
     <string name="app_suggestion">PREFERITE</string>
