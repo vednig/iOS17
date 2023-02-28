@@ -56,7 +56,7 @@
     <string name="weather_15">Ventisca de nieve</string>
     <string name="weather_14">Lluvia de nieve ligera</string>
     <string name="weather_13">Ráfagas de nieve</string>
-    <string name="weather_12">Chubascos</string>
+    <string name="weather_12">Llovizna</string>
     <string name="weather_10">Lluvia congelada</string>
     <string name="weather_9">Llovizna</string>
     <string name="weather_8">Llovizna congelada</string>
@@ -81,7 +81,7 @@
     <string name="weather_31">Despejado</string>
     <string name="weather_11">Chubascos</string>
     <string name="unknown">Desconocido</string>
-    <string name="explanation_access_to_appusage_is_not_enabled">Active acceso a appusage para mostrar sugerencias de aplicaciones.</string>
+    <string name="explanation_access_to_appusage_is_not_enabled">Appusage necesita acceso para mostrar sugerencias de aplicaciones.</string>
     <string name="app_suggestion">Sugerencias</string>
     <string name="untitled">Sin título</string>
     <string name="weather_retrieve_location_dialog_title">No se pudo acceder la ubicación!</string>
@@ -148,4 +148,5 @@
     <string name="widget_is_not_resizable">Widget no redimensionable</string>
     <string name="perm_required">Permiso requerido</string>
     <string name="default_key">DEFAULT_OWM_KEY</string>
+    <string name="toast_dock_full">El puerto está lleno</string>
 </resources>
