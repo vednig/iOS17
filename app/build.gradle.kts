@@ -46,6 +46,8 @@ android {
         setProperty("archivesBaseName", "BlissLauncher-$versionName")
     }
 
+    buildFeatures { buildConfig = true }
+
     buildTypes {
         release {
             isMinifyEnabled = false
