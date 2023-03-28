@@ -8,10 +8,6 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.IconsHandler;
@@ -52,16 +48,7 @@ public class BlissLauncher extends Application {
         getContentResolver().registerContentObserver(NOTIFICATION_BADGING_URI, false, notificationSettingsObserver);
 
         if (!BuildConfig.DEBUG) {
-            Telemetry.INSTANCE.init(BuildConfig.SENTRY_DSN, this);
-            Timber.plant(new Timber.Tree() {
-                @Override
-                protected void log(int priority, @Nullable String tag, @NonNull String message, @Nullable Throwable t) {
-                    Log.println(priority, tag, message);
-                    if (priority == Log.WARN || priority == Log.ERROR) {
-                        Telemetry.INSTANCE.reportMessage(tag + ": " + message);
-                    }
-                }
-            });
+            Telemetry.init(BuildConfig.SENTRY_DSN, this, true);
         } else {
             Timber.plant(new Timber.DebugTree());
         }
