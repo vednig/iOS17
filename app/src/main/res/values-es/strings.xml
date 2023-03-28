@@ -68,7 +68,7 @@
     <string name="weather_1">Tormenta tropical</string>
     <string name="weather_0">Tornado</string>
     <string name="cancel">Cancelar</string>
-    <string name="search">Buscar</string>
+    <string name="search">Búsqueda</string>
     <string name="general_category">General</string>
     <string name="weather_S">S</string>
     <string name="weather_SE">SE</string>
@@ -81,7 +81,7 @@
     <string name="weather_31">Despejado</string>
     <string name="weather_11">Chubascos</string>
     <string name="unknown">Desconocido</string>
-    <string name="explanation_access_to_appusage_is_not_enabled">Appusage necesita acceso para mostrar sugerencias de aplicaciones.</string>
+    <string name="explanation_access_to_appusage_is_not_enabled">Appusage requiere permiso para mostrar sugerencias de aplicaciones.</string>
     <string name="app_suggestion">Sugerencias</string>
     <string name="untitled">Sin título</string>
     <string name="weather_retrieve_location_dialog_title">No se pudo acceder la ubicación!</string>
