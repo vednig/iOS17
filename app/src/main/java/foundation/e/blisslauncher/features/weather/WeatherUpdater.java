@@ -160,7 +160,7 @@ public class WeatherUpdater {
 
     private synchronized void onNewLocationFetched(@Nullable Location location) {
         if (location == null) {
-            Timber.tag(TAG).w("Could not fetch any location");
+            Timber.tag(TAG).i("Could not fetch any location");
             return;
         }
 
