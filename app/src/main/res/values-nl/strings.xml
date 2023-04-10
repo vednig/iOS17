@@ -148,4 +148,5 @@
     <string name="grant">Toestaan</string>
     <string name="notification_badge_warning">Om notificatie bolletjes op app iconen te zien moet je launcher notificatie toegang geven.</string>
     <string name="perm_required">Toestemming vereist</string>
+    <string name="default_key">DEFAULT_OWM_KEY</string>
 </resources>
