@@ -6,13 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.location.LocationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.JsonArray;
@@ -24,10 +24,12 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
-import java.util.concurrent.Executors;
 
 import foundation.e.blisslauncher.R;
 import foundation.e.blisslauncher.core.Preferences;
+import foundation.e.blisslauncher.features.weather.location.FusedLocationFetcher;
+import foundation.e.blisslauncher.features.weather.location.LocationFetcher;
+import foundation.e.blisslauncher.features.weather.location.NetworkGpsLocationFetcher;
 import lineageos.weather.LineageWeatherManager;
 import lineageos.weather.WeatherInfo;
 import lineageos.weather.WeatherLocation;
@@ -44,10 +46,7 @@ public class WeatherUpdater {
     private static final String TAG = "WeatherUpdater";
     private static final long DEFAULT_FORCE_REQUEST_PERIOD_IN_MS = 10L * 1000L;
 
-    private final LocationManager mLocationManager;
     private final WeakReference<Context> mWeakContext;
-    private Location mGpsLocation;
-    private Location mNetworkLocation;
     private long mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
 
     private static WeatherUpdater mInstance = null;
@@ -62,7 +61,6 @@ public class WeatherUpdater {
 
     private WeatherUpdater(@NonNull Context context) {
         mWeakContext = new WeakReference<>(context);
-        mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
     public void checkWeatherRequest() {
@@ -123,11 +121,11 @@ public class WeatherUpdater {
             return;
         }
 
-        LocationManagerCompat.getCurrentLocation(mLocationManager, LocationManager.GPS_PROVIDER, null,
-                Executors.newFixedThreadPool(1), this::onNewLocationFetched);
+        LocationFetcher locationFetcher = VERSION.SDK_INT >= VERSION_CODES.S
+                ? new FusedLocationFetcher(mWeakContext.get(), this::onNewLocationFetched)
+                : new NetworkGpsLocationFetcher(mWeakContext.get(), this::onNewLocationFetched);
 
-        LocationManagerCompat.getCurrentLocation(mLocationManager, LocationManager.NETWORK_PROVIDER, null,
-                Executors.newFixedThreadPool(1), this::onNewLocationFetched);
+        locationFetcher.fetchLocation();
     }
 
     protected boolean hasMissingPermissions() {
@@ -166,16 +164,10 @@ public class WeatherUpdater {
 
         Timber.tag(TAG).i("New location fetched:%s", location);
 
-        if (location.getProvider().equals(LocationManager.GPS_PROVIDER)) {
-            mGpsLocation = location;
-        } else if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
-            mNetworkLocation = location;
-        }
-
-        requestWeatherUpdate(getMostRecentLocation());
+        requestWeatherUpdate(location);
 
         if (!Preferences.useCustomWeatherLocation(mWeakContext.get())) {
-            reverseGeocodeLocation(getMostRecentLocation());
+            reverseGeocodeLocation(location);
         } else {
             Timber.tag(TAG).w("Do not reverse geocode location. User is using a custom location.");
         }
@@ -196,24 +188,6 @@ public class WeatherUpdater {
         Intent updateIntent = new Intent(WeatherUpdateService.ACTION_UPDATE_FINISHED);
         LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
         mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
-    }
-
-    private Location getMostRecentLocation() {
-        if (mNetworkLocation == null && mGpsLocation == null) {
-            throw new IllegalStateException();
-        }
-
-        if (mGpsLocation == null) {
-            return mNetworkLocation;
-        }
-
-        if (mNetworkLocation == null) {
-            return mGpsLocation;
-        }
-
-        long gpsTime = mGpsLocation.getTime();
-        long networkTime = mNetworkLocation.getTime();
-        return gpsTime >= networkTime ? mGpsLocation : mNetworkLocation;
     }
 
     private void reverseGeocodeLocation(@NonNull Location location) {
