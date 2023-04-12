@@ -19,7 +19,6 @@ public class WeatherInfoView extends LinearLayout {
 
     private View mWeatherPanel;
     private View mWeatherSetupTextView;
-    private Context mContext;
 
     private final BroadcastReceiver mWeatherReceiver = new BroadcastReceiver() {
         @Override
@@ -47,7 +46,6 @@ public class WeatherInfoView extends LinearLayout {
 
     public WeatherInfoView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
     }
 
     @Override
@@ -64,7 +62,7 @@ public class WeatherInfoView extends LinearLayout {
         });
         findViewById(R.id.weather_setting_imageview).setOnClickListener(v -> startWeatherPreferences());
         findViewById(R.id.weather_refresh_imageview).setOnClickListener(v -> {
-            WeatherUpdater.getInstance(mContext).forceWeatherRequest();
+            WeatherUpdater.getInstance(getContext().getApplicationContext()).forceWeatherRequest();
         });
     }
 
