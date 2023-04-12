@@ -9,6 +9,7 @@ import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.location.LocationManagerCompat;
 
 import java.util.concurrent.Executors;
@@ -29,7 +30,13 @@ public class FusedLocationFetcher extends LocationFetcher {
         }
     }
 
+    @RequiresApi(api = VERSION_CODES.S)
+    @SuppressLint("MissingPermission")
     private void onLocationFetched(@Nullable Location location) {
+        if (location == null) {
+            location = mLocationManager.getLastKnownLocation(LocationManager.FUSED_PROVIDER);
+        }
+
         mCallback.onNewLocation(location);
     }
 }
