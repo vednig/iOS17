@@ -224,12 +224,13 @@ public class WeatherUpdater {
         }
 
         if (defaultCityName == null) {
-            Timber.tag(TAG).e("Could not get default city name");
+            Timber.tag(TAG).w("Could not get default city name");
             return;
         }
 
         if (locales == null) {
-            Timber.tag(TAG).e("Could not get locales");
+            Timber.tag(TAG).i("Could not get locales. Fallbacking to default city name %s", defaultCityName);
+
             notifyUi(defaultCityName);
             return;
         }
@@ -237,7 +238,9 @@ public class WeatherUpdater {
         String countryCode = Locale.getDefault().getCountry().toLowerCase(Locale.ROOT);
         final JsonElement jsonElement = locales.get(countryCode);
         if (jsonElement == null) {
-            Timber.tag(TAG).e("Could not get city name in country code: %s", countryCode);
+            Timber.tag(TAG).i("Could not get city name in country code: %s. Fallbacking to default city name %s",
+                    countryCode, defaultCityName);
+
             notifyUi(defaultCityName);
             return;
         }
