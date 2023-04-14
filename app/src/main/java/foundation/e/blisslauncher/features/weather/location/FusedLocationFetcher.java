@@ -1,6 +1,5 @@
 package foundation.e.blisslauncher.features.weather.location;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
@@ -14,16 +13,23 @@ import androidx.core.location.LocationManagerCompat;
 
 import java.util.concurrent.Executors;
 
+import timber.log.Timber;
+
 public class FusedLocationFetcher extends LocationFetcher {
 
     public FusedLocationFetcher(@NonNull Context context, @NonNull Callback callback) {
-        mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        this.context = context;
         mCallback = callback;
+        mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override
-    @SuppressLint("MissingPermission")
     public void fetchLocation() {
+        if (!checkPermission()) {
+            Timber.w("Could not fetch location. Missing permission.");
+            return;
+        }
+
         if (VERSION.SDK_INT >= VERSION_CODES.S) {
             LocationManagerCompat.getCurrentLocation(mLocationManager, LocationManager.FUSED_PROVIDER, null,
                     Executors.newFixedThreadPool(1), this::onLocationFetched);
@@ -31,9 +37,8 @@ public class FusedLocationFetcher extends LocationFetcher {
     }
 
     @RequiresApi(api = VERSION_CODES.S)
-    @SuppressLint("MissingPermission")
     private void onLocationFetched(@Nullable Location location) {
-        if (location == null) {
+        if (location == null && checkPermission()) {
             location = mLocationManager.getLastKnownLocation(LocationManager.FUSED_PROVIDER);
         }
 

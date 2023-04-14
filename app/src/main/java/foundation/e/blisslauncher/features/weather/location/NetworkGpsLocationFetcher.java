@@ -1,6 +1,5 @@
 package foundation.e.blisslauncher.features.weather.location;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
@@ -11,19 +10,26 @@ import androidx.core.location.LocationManagerCompat;
 
 import java.util.concurrent.Executors;
 
+import timber.log.Timber;
+
 public class NetworkGpsLocationFetcher extends LocationFetcher {
 
     private Location gpsLocation;
     private Location networkLocation;
 
     public NetworkGpsLocationFetcher(@NonNull Context context, @NonNull Callback callback) {
+        this.context = context;
         mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         mCallback = callback;
     }
 
     @Override
-    @SuppressLint("MissingPermission")
     public void fetchLocation() {
+        if (!checkPermission()) {
+            Timber.w("Could not fetch location. Missing permission.");
+            return;
+        }
+
         LocationManagerCompat.getCurrentLocation(mLocationManager, LocationManager.GPS_PROVIDER, null,
                 Executors.newFixedThreadPool(1), this::onLocationFetched);
 
