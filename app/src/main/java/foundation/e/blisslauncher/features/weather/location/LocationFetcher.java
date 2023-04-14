@@ -11,8 +11,8 @@ import androidx.core.app.ActivityCompat;
 
 public abstract class LocationFetcher {
 
-    protected LocationManager mLocationManager;
-    protected Callback mCallback;
+    protected LocationManager locationManager;
+    protected Callback callback;
 
     protected Context context;
 

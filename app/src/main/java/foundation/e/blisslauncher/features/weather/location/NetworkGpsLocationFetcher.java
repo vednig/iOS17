@@ -19,8 +19,8 @@ public class NetworkGpsLocationFetcher extends LocationFetcher {
 
     public NetworkGpsLocationFetcher(@NonNull Context context, @NonNull Callback callback) {
         this.context = context;
-        mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        mCallback = callback;
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        this.callback = callback;
     }
 
     @Override
@@ -30,10 +30,10 @@ public class NetworkGpsLocationFetcher extends LocationFetcher {
             return;
         }
 
-        LocationManagerCompat.getCurrentLocation(mLocationManager, LocationManager.GPS_PROVIDER, null,
+        LocationManagerCompat.getCurrentLocation(locationManager, LocationManager.GPS_PROVIDER, null,
                 Executors.newFixedThreadPool(1), this::onLocationFetched);
 
-        LocationManagerCompat.getCurrentLocation(mLocationManager, LocationManager.NETWORK_PROVIDER, null,
+        LocationManagerCompat.getCurrentLocation(locationManager, LocationManager.NETWORK_PROVIDER, null,
                 Executors.newFixedThreadPool(1), this::onLocationFetched);
     }
 
@@ -49,7 +49,7 @@ public class NetworkGpsLocationFetcher extends LocationFetcher {
             networkLocation = location;
         }
 
-        mCallback.onNewLocation(getMostRecentLocation());
+        callback.onNewLocation(getMostRecentLocation());
     }
 
     private Location getMostRecentLocation() {

@@ -19,8 +19,8 @@ public class FusedLocationFetcher extends LocationFetcher {
 
     public FusedLocationFetcher(@NonNull Context context, @NonNull Callback callback) {
         this.context = context;
-        mCallback = callback;
-        mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        this.callback = callback;
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class FusedLocationFetcher extends LocationFetcher {
         }
 
         if (VERSION.SDK_INT >= VERSION_CODES.S) {
-            LocationManagerCompat.getCurrentLocation(mLocationManager, LocationManager.FUSED_PROVIDER, null,
+            LocationManagerCompat.getCurrentLocation(locationManager, LocationManager.FUSED_PROVIDER, null,
                     Executors.newFixedThreadPool(1), this::onLocationFetched);
         }
     }
@@ -39,9 +39,9 @@ public class FusedLocationFetcher extends LocationFetcher {
     @RequiresApi(api = VERSION_CODES.S)
     private void onLocationFetched(@Nullable Location location) {
         if (location == null && checkPermission()) {
-            location = mLocationManager.getLastKnownLocation(LocationManager.FUSED_PROVIDER);
+            location = locationManager.getLastKnownLocation(LocationManager.FUSED_PROVIDER);
         }
 
-        mCallback.onNewLocation(location);
+        callback.onNewLocation(location);
     }
 }
