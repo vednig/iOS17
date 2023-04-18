@@ -12,8 +12,8 @@ plugins {
 
 // Manifest version information
 val versionMajor = 1
-val versionMinor = 10
-val versionPatch = 2
+val versionMinor = 11
+val versionPatch = 0
 
 val localProps = Properties()
 val localPropsFile = project.rootProject.file("local.properties")
