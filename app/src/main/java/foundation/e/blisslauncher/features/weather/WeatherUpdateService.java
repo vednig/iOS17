@@ -34,7 +34,7 @@ public class WeatherUpdateService extends Service {
         mHandlerThread.start();
         mHandler = new Handler(mHandlerThread.getLooper());
 
-        mWeatherUpdater = WeatherUpdater.getInstance(this);
+        mWeatherUpdater = WeatherUpdater.getInstance(getApplicationContext());
 
         executePeriodicRequest();
     }
