@@ -49,9 +49,9 @@ public class BlissLauncher extends Application {
 
         if (!BuildConfig.DEBUG) {
             Telemetry.init(BuildConfig.SENTRY_DSN, this, true);
-        } else {
-            Timber.plant(new Timber.DebugTree());
         }
+
+        Timber.plant(new Timber.DebugTree());
     }
 
     private void onNotificationSettingsChanged() {
