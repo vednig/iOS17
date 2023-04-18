@@ -8,6 +8,10 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import foundation.e.blisslauncher.core.DeviceProfile;
 import foundation.e.blisslauncher.core.IconsHandler;
@@ -29,6 +33,18 @@ public class BlissLauncher extends Application {
     private static WidgetHost sAppWidgetHost;
     private static AppWidgetManager sAppWidgetManager;
 
+    private static class ReleaseTree extends Timber.Tree {
+
+        @Override
+        protected void log(int priority, @Nullable String tag, @NonNull String message, @Nullable Throwable throwable) {
+            if (priority < Log.INFO) {
+                return;
+            }
+
+            Log.println(priority, tag, message);
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -49,9 +65,10 @@ public class BlissLauncher extends Application {
 
         if (!BuildConfig.DEBUG) {
             Telemetry.init(BuildConfig.SENTRY_DSN, this, true);
+            Timber.plant(new ReleaseTree());
+        } else {
+            Timber.plant(new Timber.DebugTree());
         }
-
-        Timber.plant(new Timber.DebugTree());
     }
 
     private void onNotificationSettingsChanged() {
