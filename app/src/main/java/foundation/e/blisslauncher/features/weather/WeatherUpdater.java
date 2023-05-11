@@ -125,7 +125,11 @@ public class WeatherUpdater {
                 ? new FusedLocationFetcher(mWeakContext.get(), this::onNewLocationFetched)
                 : new NetworkGpsLocationFetcher(mWeakContext.get(), this::onNewLocationFetched);
 
-        locationFetcher.fetchLocation();
+        try {
+            locationFetcher.fetchLocation();
+        } catch (Exception exception) {
+            Timber.tag(TAG).w(exception, "Could not fetch location");
+        }
     }
 
     protected boolean hasMissingPermissions() {
