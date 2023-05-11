@@ -144,7 +144,7 @@ public class DeepShortcutManager {
                 mLauncherApps.startShortcut(packageName, id, sourceBounds, startActivityOptions, user);
                 mWasLastCallSuccess = true;
             } catch (SecurityException | IllegalStateException e) {
-                Timber.tag(TAG).e(e, "Failed to start shortcut");
+                Timber.tag(TAG).w(e, "Failed to start shortcut");
                 mWasLastCallSuccess = false;
             }
         }
@@ -158,7 +158,7 @@ public class DeepShortcutManager {
                 mWasLastCallSuccess = true;
                 return icon;
             } catch (SecurityException | IllegalStateException e) {
-                Timber.tag(TAG).e(e, "Failed to get shortcut icon");
+                Timber.tag(TAG).w(e, "Failed to get shortcut icon");
                 mWasLastCallSuccess = false;
             }
         }
@@ -212,7 +212,7 @@ public class DeepShortcutManager {
                 shortcutInfos = mLauncherApps.getShortcuts(q, user);
                 mWasLastCallSuccess = true;
             } catch (SecurityException | IllegalStateException e) {
-                Timber.tag(TAG).e(e, "Failed to query for shortcuts");
+                Timber.tag(TAG).w(e, "Failed to query for shortcuts");
                 mWasLastCallSuccess = false;
             }
             if (shortcutInfos == null) {
@@ -234,7 +234,7 @@ public class DeepShortcutManager {
             try {
                 return mLauncherApps.hasShortcutHostPermission();
             } catch (SecurityException | IllegalStateException e) {
-                Timber.tag(TAG).e(e, "Failed to make shortcut manager call");
+                Timber.tag(TAG).w(e, "Failed to make shortcut manager call");
             }
         }
         return false;
