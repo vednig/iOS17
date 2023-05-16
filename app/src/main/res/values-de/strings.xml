@@ -6,7 +6,7 @@
     <string name="tap_to_setup_usageaccess">Tippen, um App-Vorschläge einzurichten</string>
     <string name="action_add_to_workspace">Zum Startbildschirm hinzufügen</string>
     <string name="place_automatically">Automatisch hinzufügen</string>
-    <string name="permdesc_uninstall_shortcut">Erlaubt einer App Verknüpfungen ohne User-Interaktion zu entfernen.</string>
+    <string name="permdesc_uninstall_shortcut">Erlaubt einer App, Verknüpfungen ohne Benutzer-Interaktion zu entfernen.</string>
     <string name="permdesc_install_shortcut">Einer App erlauben, Verknüpfungen ohne Benutzereingriff zu erstellen.</string>
     <string name="permlab_uninstall_shortcut">Verknüpfungen entfernen</string>
     <string name="permlab_install_shortcut">Verknüpfungen installieren</string>
