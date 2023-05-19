@@ -7,7 +7,7 @@ object DefaultWidgets {
     val ecloudWidget =
         ComponentName("foundation.e.drive", "foundation.e.drive.widgets.EDriveWidget")
     val privacyWidget =
-        ComponentName("foundation.e.advancedprivacy", "foundation.e.privacycentralapp.Widget")
+        ComponentName("foundation.e.advancedprivacy", "foundation.e.advancedprivacy.Widget")
     val weatherWidget = WeatherAppWidgetProvider.COMPONENT_NAME
 
     val widgets = setOf(ecloudWidget, privacyWidget)
