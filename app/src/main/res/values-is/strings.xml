@@ -133,4 +133,20 @@
     <string name="uninstall_shortcut_dialog">Ert þú viss um að þú viljir fjarlægja þessa flýtileið\?</string>
     <string name="widget_is_not_resizable">Ekki hægt að breyta stærð viðmótshlutans</string>
     <string name="toast_no_room">Ekki meira pláss á síðunni</string>
+    <string name="explanation_access_to_appusage_is_not_enabled">Gefðu heimild fyrir \'appusage\' til að sjá tillögur frá forritum.</string>
+    <string name="default_key">DEFAULT_OWM_KEY</string>
+    <string name="weather_retrieve_location_dialog_message">Staðsetning í gegnum netkerfi ep óvirk.
+\n
+\nVirkjaðu þetta til að staðsetning virki með veðurviðmótinu.</string>
+    <string name="weather_alternate_icons_summary">Veldu til að víxla á milli sjálfgefinna (litaðra) og einlitaðra (hvítra) táknmynda</string>
+    <string name="weather_show_when_minimized_summary">Birta yfirlit um veður þegar viðmótshlutinn er smækkaður</string>
+    <string name="icon_set">Mynd stillts tákns</string>
+    <string name="toast_custom_location">Stilltu sérsniðna staðsetningu í veðurstillingunum.</string>
+    <string name="toast_failed">Mistókst áð setja móskaða bakgrunnsmynd</string>
+    <string name="toast_shortcut_added">Flýtileið var bætt við</string>
+    <string name="toast_recreating_launcher">Endurgeri ræsinn</string>
+    <string name="toast_dock_full">Bakkinn er þegar fullur</string>
+    <string name="toast_package_unavailable">Pakki ekki tiltækur eða óvirkur</string>
+    <string name="toast_cannot_uninstall">Get ekki fjarlægt þetta forrit</string>
+    <string name="notification_badge_warning">Til að sjá tilkynningapunkta á forritatáknum þarftu að veita ræsinum aðgang að tilkynningum.</string>
 </resources>
