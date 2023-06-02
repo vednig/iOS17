@@ -246,22 +246,6 @@ public class Preferences {
         return getPrefs(context).getString(Constants.CACHED_CITY, fallbackCity);
     }
 
-    public static long lastWeatherUpdateTimestamp(Context context) {
-        return getPrefs(context).getLong(Constants.WEATHER_LAST_UPDATE, 0);
-    }
-
-    public static void setLastWeatherUpdateTimestamp(Context context, long timestamp) {
-        getPrefs(context).edit().putLong(Constants.WEATHER_LAST_UPDATE, timestamp).apply();
-    }
-
-    public static void setForceRequestLastTry(Context context, long timestamp) {
-        getPrefs(context).edit().putLong(Constants.FORCE_WEATHER_LAST_TRY, timestamp).apply();
-    }
-
-    public static long getForceRequestLastTry(Context context) {
-        return getPrefs(context).getLong(Constants.FORCE_WEATHER_LAST_TRY, 0);
-    }
-
     public static WeatherInfo getCachedWeatherInfo(Context context) {
         final String cachedInfo = getPrefs(context).getString(Constants.WEATHER_DATA, null);
 

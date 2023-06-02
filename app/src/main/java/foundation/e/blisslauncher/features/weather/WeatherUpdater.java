@@ -49,6 +49,9 @@ public class WeatherUpdater {
     private final WeakReference<Context> mWeakContext;
     private long mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
 
+    private long mLastWeatherUpdateTimeStamp = 0;
+    private long mForceRequestLastTry = 0;
+
     private static WeatherUpdater mInstance = null;
 
     public static WeatherUpdater getInstance(@NonNull Context context) {
@@ -61,14 +64,12 @@ public class WeatherUpdater {
 
     private WeatherUpdater(@NonNull Context context) {
         mWeakContext = new WeakReference<>(context);
-        Preferences.setLastWeatherUpdateTimestamp(context, 0);
-        Preferences.setForceRequestLastTry(context, 0);
     }
 
     public void checkWeatherRequest() {
         Context context = mWeakContext.get();
         long refreshPeriod = Preferences.weatherRefreshIntervalInMs(context);
-        long elapsedTime = Math.abs(SystemClock.elapsedRealtime() - Preferences.lastWeatherUpdateTimestamp(context));
+        long elapsedTime = Math.abs(SystemClock.elapsedRealtime() - mLastWeatherUpdateTimeStamp);
 
         boolean isPeriodicRequestAllowed = refreshPeriod != 0 && elapsedTime >= refreshPeriod;
         if (isPeriodicRequestAllowed) {
@@ -84,14 +85,13 @@ public class WeatherUpdater {
     }
 
     private boolean canForceWeatherRequest() {
-        Context context = mWeakContext.get();
 
-        long elapsedTime = Math.abs(SystemClock.elapsedRealtime() - Preferences.getForceRequestLastTry(context));
-
+        long systemTime = SystemClock.elapsedRealtime();
+        long elapsedTime = Math.abs(systemTime - mForceRequestLastTry);
         boolean isRequestAllowed = elapsedTime >= mForceRequestPeriodInMs;
 
         if (isRequestAllowed) {
-            Preferences.setForceRequestLastTry(context, SystemClock.elapsedRealtime());
+            mForceRequestLastTry = systemTime;
         }
 
         return isRequestAllowed;
@@ -190,7 +190,7 @@ public class WeatherUpdater {
 
         long now = SystemClock.elapsedRealtime();
         Preferences.setCachedWeatherInfo(context, now, weatherInfo);
-        Preferences.setLastWeatherUpdateTimestamp(context, now);
+        mLastWeatherUpdateTimeStamp = now;
         Intent updateIntent = new Intent(WeatherUpdateService.ACTION_UPDATE_FINISHED);
         LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
         mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
