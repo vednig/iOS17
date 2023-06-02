@@ -61,6 +61,8 @@ public class WeatherUpdater {
 
     private WeatherUpdater(@NonNull Context context) {
         mWeakContext = new WeakReference<>(context);
+        Preferences.setLastWeatherUpdateTimestamp(context, 0);
+        Preferences.setForceRequestLastTry(context, 0);
     }
 
     public void checkWeatherRequest() {
