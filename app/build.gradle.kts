@@ -12,7 +12,7 @@ plugins {
 
 // Manifest version information
 val versionMajor = 1
-val versionMinor = 11
+val versionMinor = 13
 val versionPatch = 0
 
 val localProps = Properties()
