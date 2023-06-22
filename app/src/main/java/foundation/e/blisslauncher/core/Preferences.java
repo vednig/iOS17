@@ -54,6 +54,8 @@ public class Preferences {
     private static final String ADDED_ECLOUD_WIDGET = "added_ecloud_widget";
     private static final String ADDED_PRIVACY_WIDGET = "added_privacy_widget";
 
+    private static final String AP_MIGRATION_1 = "ap_migration_1";
+
     private Preferences() {
     }
 
@@ -388,6 +390,18 @@ public class Preferences {
 
     public static void setAddedPrivacyWidget(Context context) {
         getPrefs(context).edit().putBoolean(ADDED_PRIVACY_WIDGET, true).apply();
+    }
+
+    public static void setRemovedPrivacyWidget(Context context) {
+        getPrefs(context).edit().putBoolean(ADDED_PRIVACY_WIDGET, false).apply();
+    }
+
+    public static void setApMigration1Status(Context context, boolean status) {
+        getPrefs(context).edit().putBoolean(AP_MIGRATION_1, status).apply();
+    }
+
+    public static boolean getApMigration1Status(Context context) {
+        return getPrefs(context).getBoolean(AP_MIGRATION_1, false);
     }
 
     public static boolean getAddedPrivacyWidget(Context context) {
