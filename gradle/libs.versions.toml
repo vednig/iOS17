@@ -59,7 +59,7 @@ rx-relay = "com.jakewharton.rxrelay2:rxrelay:2.1.1"
 
 arch-core = "androidx.arch.core:core-testing:2.0.1"
 debug-db = "com.amitshekhar.android:debug-db:1.0.4"
-circleindicator = "me.relex:circleindicator:2.1.4"
+circleindicator = "me.relex:circleindicator:2.1.6"
 espresso-core = "androidx.test.espresso:espresso-core:3.2.0"
 junit = "junit:junit:4.12"
 mockk = "io.mockk:mockk:1.9.3"
