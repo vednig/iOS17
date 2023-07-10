@@ -44,13 +44,10 @@ import timber.log.Timber;
 public class WeatherUpdater {
 
     private static final String TAG = "WeatherUpdater";
-    private static final long DEFAULT_FORCE_REQUEST_PERIOD_IN_MS = 10L * 1000L;
 
     private final WeakReference<Context> mWeakContext;
-    private long mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
 
-    private long mLastWeatherUpdateTimeStamp = 0;
-    private long mForceRequestLastTry = 0;
+    private long mLastWeatherUpdateInMs = 0;
 
     private static WeatherUpdater mInstance = null;
 
@@ -68,36 +65,18 @@ public class WeatherUpdater {
 
     public void checkWeatherRequest() {
         Context context = mWeakContext.get();
-        long refreshPeriod = Preferences.weatherRefreshIntervalInMs(context);
-        long elapsedTime = Math.abs(SystemClock.elapsedRealtime() - mLastWeatherUpdateTimeStamp);
+        long refreshPeriodInMs = Preferences.weatherRefreshIntervalInMs(context);
+        long systemTimeInMs = SystemClock.elapsedRealtime();
+        long elapsedTimeInMs = Math.abs(systemTimeInMs - mLastWeatherUpdateInMs);
 
-        boolean isPeriodicRequestAllowed = refreshPeriod != 0 && elapsedTime >= refreshPeriod;
+        boolean isPeriodicRequestAllowed = refreshPeriodInMs != 0 && elapsedTimeInMs >= refreshPeriodInMs;
         if (isPeriodicRequestAllowed) {
-            forceWeatherRequest();
-        }
-    }
-
-    public void forceWeatherRequest() {
-        if (canForceWeatherRequest()) {
             updateWeather();
-            increaseForceRequestPeriod();
+            mLastWeatherUpdateInMs = systemTimeInMs;
         }
     }
 
-    private boolean canForceWeatherRequest() {
-
-        long systemTime = SystemClock.elapsedRealtime();
-        long elapsedTime = Math.abs(systemTime - mForceRequestLastTry);
-        boolean isRequestAllowed = elapsedTime >= mForceRequestPeriodInMs;
-
-        if (isRequestAllowed) {
-            mForceRequestLastTry = systemTime;
-        }
-
-        return isRequestAllowed;
-    }
-
-    private void updateWeather() {
+    public void updateWeather() {
         Timber.tag(TAG).i("Updating weather");
         Context context = mWeakContext.get();
 
@@ -105,14 +84,6 @@ public class WeatherUpdater {
             requestCustomWeatherUpdate(Preferences.getCustomWeatherLocation(context));
         } else {
             fetchNewLocation();
-        }
-    }
-
-    private void increaseForceRequestPeriod() {
-        mForceRequestPeriodInMs = mForceRequestPeriodInMs * 2;
-
-        if (mForceRequestPeriodInMs > Preferences.weatherRefreshIntervalInMs(mWeakContext.get())) {
-            mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
         }
     }
 
@@ -190,10 +161,8 @@ public class WeatherUpdater {
 
         long now = SystemClock.elapsedRealtime();
         Preferences.setCachedWeatherInfo(context, now, weatherInfo);
-        mLastWeatherUpdateTimeStamp = now;
         Intent updateIntent = new Intent(WeatherUpdateService.ACTION_UPDATE_FINISHED);
         LocalBroadcastManager.getInstance(context).sendBroadcast(updateIntent);
-        mForceRequestPeriodInMs = DEFAULT_FORCE_REQUEST_PERIOD_IN_MS;
     }
 
     private void reverseGeocodeLocation(@NonNull Location location) {

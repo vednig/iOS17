@@ -42,7 +42,7 @@ public class WeatherUpdateService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && ACTION_FORCE_UPDATE.equals(intent.getAction())) {
-            WeatherUpdater.getInstance(this).forceWeatherRequest();
+            WeatherUpdater.getInstance(this).updateWeather();
         }
 
         return START_STICKY;
