@@ -62,7 +62,7 @@ public class WeatherInfoView extends LinearLayout {
         });
         findViewById(R.id.weather_setting_imageview).setOnClickListener(v -> startWeatherPreferences());
         findViewById(R.id.weather_refresh_imageview).setOnClickListener(v -> {
-            WeatherUpdater.getInstance(getContext().getApplicationContext()).forceWeatherRequest();
+            WeatherUpdater.getInstance(getContext().getApplicationContext()).updateWeather();
         });
     }
 
