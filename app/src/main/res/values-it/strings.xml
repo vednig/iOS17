@@ -11,31 +11,31 @@
     <string name="permlab_uninstall_shortcut">disinstalla scorciatoie</string>
     <string name="permlab_install_shortcut">installa scorciatoie</string>
     <string name="icon_set">Immagine gruppo di icone</string>
-    <string name="weather_condition_image">Immagine Condizioni del Tempo</string>
-    <string name="weather_setting">Icona impostazione Tempo</string>
+    <string name="weather_condition_image">Immagine Condizioni Meteo</string>
+    <string name="weather_setting">Icona impostazione Meteo</string>
     <string name="dummy_weather_temp_min_max">42° / 28°</string>
     <string name="dummy_weather_temp">36°</string>
-    <string name="weather_tap_to_setup">Tocca per impostare il Tempo</string>
-    <string name="weather">Tempo</string>
+    <string name="weather_tap_to_setup">Tocca per impostare il Meteo</string>
+    <string name="weather">Meteo</string>
     <string name="icon_set_selection_get_more">Altre…</string>
-    <string name="weather_category">Schermata Tempo</string>
-    <string name="weather_source_not_selected">Sorgente del Tempo non selezionata</string>
+    <string name="weather_category">Schermata Meteo</string>
+    <string name="weather_source_not_selected">Sorgente Meteo non selezionata</string>
     <string name="weather_cannot_reach_provider">Al momento, %s è irraggiungibile</string>
     <string name="weather_0">Tornado</string>
     <string name="weather_icons_monochrome">Bianche</string>
     <string name="weather_icons_standard">A colori</string>
     <string name="weather_icon_set_title">Raccolta Icone</string>
     <string name="weather_select_location">Scegli la posizione</string>
-    <string name="weather_show_when_minimized_summary">Mosra le informazioni base sul tempo quando il widget è minimizzato</string>
+    <string name="weather_show_when_minimized_summary">Mosra le informazioni base sul meteo quando il widget è minimizzato</string>
     <string name="weather_show_when_minimized_title">Mostra quando minimizzato</string>
-    <string name="weather_alternate_icons_summary">Seleziona per scambiare le icone di default (Colori) con quelle in alternativa (Bianche)</string>
+    <string name="weather_alternate_icons_summary">Tocca per passare dalle icone di default (Colori) a quelle alternative (Bianche)</string>
     <string name="weather_alternate_icons_title">Utilizza icone a colori</string>
     <string name="weather_progress_title">Sto verificando la posizione</string>
-    <string name="weather_invert_lowhigh">Inverti le temperature basse/alte</string>
+    <string name="weather_invert_lowhigh">Inverti le temperature massime/minime</string>
     <string name="weather_retrieve_location_dialog_enable_button">Abilita</string>
     <string name="weather_retrieve_location_dialog_message">La geolocalizzazione via rete è disabilitata.
 \n
-\nAbilita la posizione per lavorare con il widget Meteo.</string>
+\nAbilita la posizione per attivare il widget Meteo.</string>
     <string name="weather_retrieve_location_dialog_title">Non riesco a recuperare la posizione!</string>
     <string name="weather_use_metric">(°C) su scala decimale</string>
     <string name="weather_refresh_interval">Intervallo di aggiornamento</string>
@@ -46,8 +46,8 @@
     <string name="weather_custom_location_dialog_title">Inserisci la posizione</string>
     <string name="weather_geolocated">Geolocalizzato usando la rete dati</string>
     <string name="weather_use_custom_location">Utilizza una posizione personalizzata</string>
-    <string name="weather_source_title">Sorgente del Tempo</string>
-    <string name="weather_enable">Mostra il Tempo</string>
+    <string name="weather_source_title">Sorgente Meteo</string>
+    <string name="weather_enable">Mostra il Meteo</string>
     <string name="weather_enabled">Abilitato</string>
     <string name="display_category">Schermo</string>
     <string name="general_category">Generale</string>
@@ -58,7 +58,7 @@
     <string name="weather_refresh_60min">60 minuti</string>
     <string name="weather_refresh_30min">30 minuti</string>
     <string name="weather_refresh_manual">Manuale</string>
-    <string name="weather_tap_to_select_source">Tocca per selezionarne uno</string>
+    <string name="weather_tap_to_select_source">Tocca per selezionarne una</string>
     <string name="weather_last_sync_just_now">Adesso</string>
     <string name="weather_refreshing">Sto Aggiornando</string>
     <string name="weather_tap_to_refresh">Tocca per aggiornare</string>
@@ -113,8 +113,8 @@
     <string name="weather_10">Pioggia Ghiacciata</string>
     <string name="weather_9">Pioggerella</string>
     <string name="weather_8">Pioggerella Ghiacchiata</string>
-    <string name="weather_7">neve e nevischio insieme</string>
-    <string name="weather_6">Pioggia e nevischio insieme</string>
+    <string name="weather_7">Neve e Nevischio insieme</string>
+    <string name="weather_6">Pioggia e Nevischio insieme</string>
     <string name="weather_5">Pioggia e Neve insieme</string>
     <string name="weather_4">Temporali</string>
     <string name="weather_3">Forti Temporali</string>
@@ -122,7 +122,7 @@
     <string name="weather_1">Tempesta Tropicale</string>
     <string name="cancel">Annulla</string>
     <string name="unknown">Sconosciuto</string>
-    <string name="explanation_access_to_appusage_is_not_enabled">Consenti l\'accesso ad appusage per vedere le app suggerite.</string>
+    <string name="explanation_access_to_appusage_is_not_enabled">Consenti l\'accesso ad appusage per mostrare le app preferite.</string>
     <string name="app_suggestion">PREFERITE</string>
     <string name="untitled">Senza titolo</string>
     <string name="search">Cerca</string>
@@ -130,7 +130,7 @@
     <string name="ok">ok</string>
     <string name="uninstall_shortcut_dialog">Vuoi disabilitare questa scorciatoia\?</string>
     <string name="widgets">Widget</string>
-    <string name="add_widget">Aggiungi widget</string>
+    <string name="add_widget">Aggiungi Widget</string>
     <string name="choose_widget">Scegli widget</string>
     <string name="app_name_maps">Maps</string>
     <string name="toast_no_room">Non c\'è più spazio nella pagina</string>
@@ -142,10 +142,11 @@
     <string name="toast_failed">Impossibile impostare lo sfondo blur</string>
     <string name="toast_custom_location">Imposta una posizione predefinita nelle impostazioni meteo.</string>
     <string name="toast_permission_denied">Autorizzazione rifiutata</string>
-    <string name="widget_is_not_resizable">Il widget non è riscalabile</string>
+    <string name="widget_is_not_resizable">Il Widget non è ridimensionabile</string>
     <string name="ignore">Ignora</string>
     <string name="grant">Consenti</string>
     <string name="notification_badge_warning">Per poter vedere il numero delle notifiche sulle icone delle App, devi concedere al launcher l\'accesso alle notifiche.</string>
     <string name="perm_required">Permesso richiesto</string>
     <string name="weather_refresh_15min">15 minuti</string>
+    <string name="default_key">CHIAVE_OWM_DI_DEFAULT</string>
 </resources>
