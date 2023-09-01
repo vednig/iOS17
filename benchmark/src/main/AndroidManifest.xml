@@ -2,6 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <queries>
-        <package android:name="foundation.e.blisslauncher" />
+        <package android:name="com.cloudx.ios17" />
     </queries>
 </manifest>

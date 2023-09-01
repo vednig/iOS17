@@ -1,4 +1,4 @@
-import foundation.e.blisslauncher.buildsrc.Versions
+import com.cloudx.ios17.buildsrc.Versions
 
 plugins {
     alias(libs.plugins.android.test)
@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "foundation.e.blisslauncher.benchmark"
+    namespace = "com.cloudx.ios17.benchmark"
     compileSdk = Versions.COMPILE_SDK
 
     compileOptions {

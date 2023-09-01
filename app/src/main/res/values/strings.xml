@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">BlissLauncher</string>
+    <string name="app_name" translatable="false">iOS 17 Preview</string>
     <string name="search">Search</string>
     <string name="untitled">Untitled</string>
     <string name="app_suggestion">Suggestions</string>

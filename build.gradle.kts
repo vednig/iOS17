@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.refine) apply false
     alias(libs.plugins.benmanes.versions) apply false
-    id("foundation.e.blisslauncher.spotless")
+    id("com.cloudx.ios17.spotless")
 }
 
 val clean by tasks.existing(Delete::class) { delete(rootProject.buildDir) }

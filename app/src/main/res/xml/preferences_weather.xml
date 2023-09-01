@@ -43,7 +43,7 @@
             android:title="@string/weather_use_custom_location"
             android:defaultValue="false" />
 
-        <foundation.e.blisslauncher.features.weather.CustomLocationPreference
+        <com.cloudx.ios17.features.weather.CustomLocationPreference
             android:key="weather_custom_location_city"
             android:dependency="weather_use_custom_location"
             android:dialogTitle="@string/weather_custom_location_dialog_title"
@@ -53,7 +53,7 @@
 
     <PreferenceCategory android:title="@string/display_category">
 
-        <foundation.e.blisslauncher.features.weather.IconSelectionPreference
+        <com.cloudx.ios17.features.weather.IconSelectionPreference
             android:key="weather_icons"
             android:title="@string/weather_icon_set_title"
             android:dialogTitle="@string/weather_icon_set_title"
