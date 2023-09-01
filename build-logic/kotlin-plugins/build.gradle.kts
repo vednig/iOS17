@@ -20,8 +20,8 @@ afterEvaluate {
 gradlePlugin {
     plugins {
         register("spotless") {
-            id = "foundation.e.blisslauncher.spotless"
-            implementationClass = "foundation.e.blisslauncher.gradle.SpotlessPlugin"
+            id = "com.cloudx.ios17.spotless"
+            implementationClass = "com.cloudx.ios17.gradle.SpotlessPlugin"
         }
     }
 }

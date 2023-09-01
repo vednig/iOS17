@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<foundation.e.blisslauncher.core.customviews.BlissFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cloudx.ios17.core.customviews.BlissFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,14 +12,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <foundation.e.blisslauncher.core.customviews.SquareFrameLayout
+        <com.cloudx.ios17.core.customviews.SquareFrameLayout
             android:id="@+id/app_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:hapticFeedbackEnabled="false">
 
-            <foundation.e.blisslauncher.core.customviews.SquareImageView
+            <com.cloudx.ios17.core.customviews.SquareImageView
                 android:id="@+id/icon_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -27,7 +27,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
 
-            <foundation.e.blisslauncher.core.customviews.CustomAnalogClock
+            <com.cloudx.ios17.core.customviews.CustomAnalogClock
                 android:id="@+id/icon_clock"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -39,7 +39,7 @@
                 layout="@layout/calendar_icon"
                 android:visibility="gone" />
 
-        </foundation.e.blisslauncher.core.customviews.SquareFrameLayout>
+        </com.cloudx.ios17.core.customviews.SquareFrameLayout>
 
         <TextView
             android:id="@+id/app_label"
@@ -55,4 +55,4 @@
 
     </LinearLayout>
 
-</foundation.e.blisslauncher.core.customviews.BlissFrameLayout>
+</com.cloudx.ios17.core.customviews.BlissFrameLayout>

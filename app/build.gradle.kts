@@ -1,6 +1,6 @@
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
-import foundation.e.blisslauncher.buildsrc.Versions
+import com.cloudx.ios17.buildsrc.Versions
 import java.util.*
 
 plugins {
@@ -12,7 +12,7 @@ plugins {
 
 // Manifest version information
 val versionMajor = 1
-val versionMinor = 14
+val versionMinor = 15
 val versionPatch = 0
 
 val localProps = Properties()
@@ -29,11 +29,11 @@ val signingKeyAlias = localProps.getProperty("keyAlias") ?: "platform"
 val signingKeyPassword = localProps.getProperty("keyPassword") ?: "android"
 
 android {
-    namespace = "foundation.e.blisslauncher"
+    namespace = "com.cloudx.ios17"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
-        applicationId = "foundation.e.blisslauncher"
+        applicationId = "com.cloudx.ios17"
         minSdk = Versions.MIN_SDK
         targetSdk = Versions.TARGET_SDK
 
@@ -86,19 +86,19 @@ android {
     productFlavors {
         create("apiQ") {
             dimension = "api"
-            minSdk = 29
+            minSdk = 27
             targetSdk = 29
         }
 
         create("apiR") {
             dimension = "api"
-            minSdk = 29
+            minSdk = 27
             targetSdk = 29
         }
 
         create("apiS") {
             dimension = "api"
-            minSdk = 29
+            minSdk = 27
             targetSdk = 29
         }
     }

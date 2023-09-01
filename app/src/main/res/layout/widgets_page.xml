@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<foundation.e.blisslauncher.core.customviews.InsettableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cloudx.ios17.core.customviews.InsettableFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true">
 
-    <foundation.e.blisslauncher.core.customviews.InsettableScrollLayout
+    <com.cloudx.ios17.core.customviews.InsettableScrollLayout
         android:id="@+id/widgets_scroll_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +15,7 @@
         android:scrollbars="none"
         tools:ignore="ContentDescription">
 
-        <foundation.e.blisslauncher.core.customviews.InsettableLinearLayout
+        <com.cloudx.ios17.core.customviews.InsettableLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -36,7 +36,7 @@
                     android:orientation="vertical" />
             </FrameLayout>
 
-            <foundation.e.blisslauncher.core.customviews.BlurLayout
+            <com.cloudx.ios17.core.customviews.BlurLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -59,9 +59,9 @@
                     android:textAllCaps="false"
                     android:textColor="@color/on_surface_high_emphasis"
                     android:text="@string/edit" />
-            </foundation.e.blisslauncher.core.customviews.BlurLayout>
-        </foundation.e.blisslauncher.core.customviews.InsettableLinearLayout>
-    </foundation.e.blisslauncher.core.customviews.InsettableScrollLayout>
+            </com.cloudx.ios17.core.customviews.BlurLayout>
+        </com.cloudx.ios17.core.customviews.InsettableLinearLayout>
+    </com.cloudx.ios17.core.customviews.InsettableScrollLayout>
 
     <RelativeLayout
         android:id="@+id/widget_resizer_container"
@@ -108,4 +108,4 @@
             android:text="Max"
             android:textColor="@color/white" />
     </RelativeLayout>
-</foundation.e.blisslauncher.core.customviews.InsettableFrameLayout>
+</com.cloudx.ios17.core.customviews.InsettableFrameLayout>

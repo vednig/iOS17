@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <foundation.e.blisslauncher.core.customviews.BlurLayout
+    <com.cloudx.ios17.core.customviews.BlurLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:blurCornerRadius="100dp">
@@ -17,7 +17,7 @@
             android:focusableInTouchMode="true"
             android:padding="8dp">
 
-            <foundation.e.blisslauncher.core.customviews.BlissInput
+            <com.cloudx.ios17.core.customviews.BlissInput
                 android:id="@+id/search_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,9 +43,9 @@
                 android:src="@drawable/ic_cancel_white_24dp"
                 android:visibility="gone" />
         </RelativeLayout>
-    </foundation.e.blisslauncher.core.customviews.BlurLayout>
+    </com.cloudx.ios17.core.customviews.BlurLayout>
 
-    <foundation.e.blisslauncher.core.customviews.BlurLayout
+    <com.cloudx.ios17.core.customviews.BlurLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -68,5 +68,5 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
-    </foundation.e.blisslauncher.core.customviews.BlurLayout>
+    </com.cloudx.ios17.core.customviews.BlurLayout>
 </LinearLayout>
